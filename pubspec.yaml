@@ -1,7 +1,7 @@
 name: xapptor_payments
 description: Module for payment processing.
 repository: https://github.com/Xapptor/xapptor_payments
-version: 0.0.1
+version: 0.0.2
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -13,14 +13,14 @@ dependencies:
 
   firebase_core: ^1.10.0
   firebase_auth: ^3.2.0
-  cloud_firestore: ^2.5.4
+  cloud_firestore: ^3.1.6
   firebase_storage: ^10.1.0
 
   file_picker: ^4.2.1
   fl_chart: ^0.40.2
   fluttericon: ^2.0.0
   intl: ^0.17.0
-  syncfusion_flutter_xlsio: ^19.3.48-beta
+  syncfusion_flutter_xlsio: ^19.4.42-beta
   in_app_purchase: ^1.0.9
   in_app_purchase_ios: ^0.1.4
   uuid: ^3.0.4
@@ -31,8 +31,18 @@ dependencies:
   
   xapptor_logic: ^0.0.2
   xapptor_router: ^0.0.2
-  xapptor_translation: ^0.0.2
-  xapptor_ui: ^0.0.2
+  xapptor_translation: ^0.0.3
+  xapptor_ui: ^0.0.3
+
+dependency_overrides:
+  xapptor_logic:
+    path: ../xapptor_logic
+  xapptor_router:
+    path: ../xapptor_router
+  xapptor_translation:
+    path: ../xapptor_translation
+  xapptor_ui:
+    path: ../xapptor_ui
   
 dev_dependencies:
   flutter_test:
