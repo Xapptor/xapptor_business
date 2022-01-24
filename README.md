@@ -1,6 +1,6 @@
-# **Xapptor Payments**
-[![pub package](https://img.shields.io/pub/v/xapptor_payments?color=blue)](https://pub.dartlang.org/packages/xapptor_payments)
-### Module for payment processing.
+# **Xapptor Business**
+[![pub package](https://img.shields.io/pub/v/xapptor_business?color=blue)](https://pub.dartlang.org/packages/xapptor_business)
+### Module for business analytics and payment processing.
 
 ## **Let's get started**
 
@@ -8,7 +8,7 @@
 ##### Add it to your package's pubspec.yaml file
 ```yml
 dependencies:
-    xapptor_payments: ^0.0.2
+    xapptor_business: ^0.0.3
 ```
 
 ### **2 - Install it**

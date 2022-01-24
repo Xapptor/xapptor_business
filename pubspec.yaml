@@ -1,7 +1,7 @@
-name: xapptor_payments
-description: Module for payment processing.
-repository: https://github.com/Xapptor/xapptor_payments
-version: 0.0.2
+name: xapptor_business
+description: Module for business analytics and payment processing.
+repository: https://github.com/Xapptor/xapptor_business
+version: 0.0.3
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
