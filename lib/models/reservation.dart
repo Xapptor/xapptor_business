@@ -1,9 +1,10 @@
 // Product model.
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xapptor_router/initial_values_routing.dart';
 
-class Product {
-  const Product({
+class Reservation {
+  const Reservation({
     required this.id,
     this.price_id = "",
     required this.name,
@@ -11,7 +12,8 @@ class Product {
     required this.price,
     required this.description,
     this.enabled = true,
-    this.inventory_quantity = 0,
+    required this.date_created,
+    required this.reservation_period,
   });
 
   final String id;
@@ -21,9 +23,10 @@ class Product {
   final int price;
   final String description;
   final bool enabled;
-  final int inventory_quantity;
+  final DateTime date_created;
+  final List<DateTime> reservation_period;
 
-  Product.from_snapshot(
+  Reservation.from_snapshot(
     String id,
     Map<String, dynamic> snapshot,
   )   : id = id,
@@ -36,24 +39,9 @@ class Product {
         price = snapshot['price'],
         enabled = snapshot['enabled'] ?? true,
         description = snapshot['description'] ?? "",
-        inventory_quantity = snapshot['inventory_quantity'] ?? 0;
-
-  Map<String, dynamic> to_json() {
-    return {
-      'name': name,
-      'image': image_src,
-      'price': price,
-      'description': description,
-    };
-  }
-}
-
-List<Map<String, dynamic>> product_list_to_json_list(List<Product> products) {
-  List<Map<String, dynamic>> json_list = [];
-
-  products.forEach((product) {
-    json_list.add(product.to_json());
-  });
-
-  return json_list;
+        date_created = (snapshot['date_created'] as Timestamp).toDate(),
+        reservation_period = [
+          (snapshot['reservation_period'][0] as Timestamp).toDate(),
+          (snapshot['reservation_period'][1] as Timestamp).toDate()
+        ];
 }

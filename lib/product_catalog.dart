@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:xapptor_logic/firebase_tasks.dart';
 import 'package:xapptor_logic/random_number_with_range.dart';
+import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_translation/translate.dart';
 import 'models/product.dart';
@@ -316,15 +316,24 @@ class _ProductCatalogState extends State<ProductCatalog> {
                             on_pressed: () async {
                               // Checking if coupon is valid.
 
-                              String coupon_id = coupon_controller.text;
+                              String coupon_id =
+                                  coupon_controller.text.isNotEmpty
+                                      ? coupon_controller.text
+                                      : " ";
+
                               coupon_controller.clear();
 
-                              await check_if_coupon_is_valid(
-                                coupon_id.isEmpty ? " " : coupon_id,
+                              String check_coupon_response =
+                                  await check_if_coupon_is_valid(
+                                coupon_id,
                                 context,
                                 widget.texts[6],
                                 widget.texts[7],
                               );
+
+                              if (check_coupon_response.isNotEmpty) {
+                                open_screen(check_coupon_response);
+                              }
                             },
                             border_radius: 1000,
                             splash_color: widget.text_color.withOpacity(0.3),
