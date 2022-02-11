@@ -758,32 +758,32 @@ LineChart main_line_chart({
   for (var sum_of_payment in sum_of_payments) {
     DateTime current_date = sum_of_payment["date"] as DateTime;
 
-    Duration date_diference = DateTime.now().difference(current_date);
+    Duration date_difference = DateTime.now().difference(current_date);
 
-    double date_diference_result = 0;
+    double date_difference_result = 0;
     switch (current_timeframe) {
       case TimeFrame.Day:
-        date_diference_result = date_diference.inHours.toDouble();
+        date_difference_result = date_difference.inHours.toDouble();
         break;
 
       case TimeFrame.Week:
-        date_diference_result = date_diference.inDays.toDouble();
+        date_difference_result = date_difference.inDays.toDouble();
         break;
 
       case TimeFrame.Month:
-        date_diference_result = date_diference.inDays.toDouble();
+        date_difference_result = date_difference.inDays.toDouble();
         break;
 
       case TimeFrame.Year:
-        date_diference_result = date_diference.inDays.toDouble() / 30;
+        date_difference_result = date_difference.inDays.toDouble() / 30;
         break;
 
       case TimeFrame.Beginning:
-        date_diference_result = date_diference.inDays.toDouble() / 365;
+        date_difference_result = date_difference.inDays.toDouble() / 365;
         break;
     }
 
-    double result = max_x - date_diference_result;
+    double result = max_x - date_difference_result;
 
     spots.add(
       FlSpot(
