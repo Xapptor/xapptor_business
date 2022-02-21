@@ -37,7 +37,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
     "Desde el inicio",
   ];
   String timeframe_value = timeframe_values[3];
-  TimeFrame current_timeframe = TimeFrame.Year;
+  TimeFrame current_timeframe = TimeFrame.year;
 
   List<VendingMachine> vending_machines = [];
   List<String> vending_machine_values = ["Máquinas"];
@@ -243,23 +243,23 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
             filtered_payment.date.year == sum_of_payments.last["date"].year;
 
         switch (current_timeframe) {
-          case TimeFrame.Day:
+          case TimeFrame.day:
             if (same_hour && same_day && same_month && same_year)
               payment_was_made_at_same_timeframe = true;
             break;
-          case TimeFrame.Week:
+          case TimeFrame.week:
             if (same_day && same_month && same_year)
               payment_was_made_at_same_timeframe = true;
             break;
-          case TimeFrame.Month:
+          case TimeFrame.month:
             if (same_day && same_month && same_year)
               payment_was_made_at_same_timeframe = true;
             break;
-          case TimeFrame.Year:
+          case TimeFrame.year:
             if (same_month && same_year)
               payment_was_made_at_same_timeframe = true;
             break;
-          case TimeFrame.Beginning:
+          case TimeFrame.beginning:
             if (same_year) payment_was_made_at_same_timeframe = true;
             break;
         }
@@ -461,19 +461,19 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                               switch (
                                   timeframe_values.indexOf(timeframe_value)) {
                                 case 0:
-                                  current_timeframe = TimeFrame.Day;
+                                  current_timeframe = TimeFrame.day;
                                   break;
                                 case 1:
-                                  current_timeframe = TimeFrame.Week;
+                                  current_timeframe = TimeFrame.week;
                                   break;
                                 case 2:
-                                  current_timeframe = TimeFrame.Month;
+                                  current_timeframe = TimeFrame.month;
                                   break;
                                 case 3:
-                                  current_timeframe = TimeFrame.Year;
+                                  current_timeframe = TimeFrame.year;
                                   break;
                                 case 4:
-                                  current_timeframe = TimeFrame.Beginning;
+                                  current_timeframe = TimeFrame.beginning;
                                   break;
                               }
                               get_filtered_payments();
@@ -732,7 +732,7 @@ LineChart main_line_chart({
       : 0;
 
   List<String> original_bottom_labels = get_bottom_labels(
-    max_x: current_timeframe != TimeFrame.Beginning ? max_x + 1 : max_x,
+    max_x: current_timeframe != TimeFrame.beginning ? max_x + 1 : max_x,
     timeframe: current_timeframe,
   );
 
@@ -762,23 +762,23 @@ LineChart main_line_chart({
 
     double date_difference_result = 0;
     switch (current_timeframe) {
-      case TimeFrame.Day:
+      case TimeFrame.day:
         date_difference_result = date_difference.inHours.toDouble();
         break;
 
-      case TimeFrame.Week:
+      case TimeFrame.week:
         date_difference_result = date_difference.inDays.toDouble();
         break;
 
-      case TimeFrame.Month:
+      case TimeFrame.month:
         date_difference_result = date_difference.inDays.toDouble();
         break;
 
-      case TimeFrame.Year:
+      case TimeFrame.year:
         date_difference_result = date_difference.inDays.toDouble() / 30;
         break;
 
-      case TimeFrame.Beginning:
+      case TimeFrame.beginning:
         date_difference_result = date_difference.inDays.toDouble() / 365;
         break;
     }
