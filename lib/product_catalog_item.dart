@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_router/initial_values_routing.dart';
+import 'initial_values.dart';
 import 'payment_webview.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'product_catalog.dart';
@@ -214,15 +215,22 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
 
         Map payments_doc_data = payments_doc.data()!;
 
-        String stripe_key = payments_doc_data["stripe"][
-            current_build_mode == BuildMode.release ? "secret" : "secret_test"];
+        String str_k = payments_doc_data["stripe"]
+            [current_build_mode == BuildMode.release ? "sct" : "sct_test"];
+
+        if (d_m_f_bu != null) {
+          str_k = d_m_f_bu!(
+            m: str_k,
+            k: e_k_bu,
+          );
+        }
 
         await http
             .post(
           Uri.parse("https://api.stripe.com/v1/checkout/sessions"),
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer $stripe_key",
+            "Authorization": "Bearer $str_k",
           },
           encoding: Encoding.getByName('utf-8'),
           body: {
