@@ -370,7 +370,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
         .replaceFirst(".", "_");
 
     FileDownloader.save(
-      base64_string: base64Encode(workbook.saveAsStream()),
+      src: base64Encode(workbook.saveAsStream()),
       file_name: file_name,
     );
 
