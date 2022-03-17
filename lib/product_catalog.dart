@@ -18,7 +18,7 @@ import 'product_catalog_item.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 
 class ProductCatalog extends StatefulWidget {
-  const ProductCatalog({
+  ProductCatalog({
     this.topbar_color,
     this.language_picker_items_text_color,
     required this.products,
@@ -37,7 +37,7 @@ class ProductCatalog extends StatefulWidget {
 
   final Color? topbar_color;
   final Color? language_picker_items_text_color;
-  final List<Product> products;
+  List<Product> products;
   final List<LinearGradient> linear_gradients;
   final List<String> texts;
   final Color background_color;

@@ -42,6 +42,6 @@ class Reservation {
         date_created = (snapshot['date_created'] as Timestamp).toDate(),
         reservation_period = [
           (snapshot['reservation_period'][0] as Timestamp).toDate(),
-          (snapshot['reservation_period'][1] as Timestamp).toDate()
+          (snapshot['reservation_period'][1] as Timestamp).toDate(),
         ];
 }
