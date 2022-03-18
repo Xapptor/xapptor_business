@@ -44,6 +44,7 @@ class HomeContainer extends StatefulWidget {
     required this.logo_path,
     this.logo_path_white,
     required this.main_button_color,
+    required this.update_payment_enabled,
   });
 
   final Color topbar_color;
@@ -64,6 +65,7 @@ class HomeContainer extends StatefulWidget {
   final String logo_path;
   final String? logo_path_white;
   final LinearGradient main_button_color;
+  final Function(bool new_value) update_payment_enabled;
 
   @override
   _HomeContainerState createState() => _HomeContainerState();
@@ -259,8 +261,10 @@ class _HomeContainerState extends State<HomeContainer> {
   }
 
   bool payment_enabled = false;
+
   check_payments() async {
     payment_enabled = await check_if_payments_are_enabled();
+    widget.update_payment_enabled(payment_enabled);
     setState(() {});
     if (payment_enabled) {
       get_products_for_product_catalog();
@@ -286,15 +290,6 @@ class _HomeContainerState extends State<HomeContainer> {
     double elevation = 3;
     double border_radius = 20;
 
-    if (!UniversalPlatform.isWeb || portrait) {
-      for (var i = 0; i < widget.cardholder_list_1.length; i++) {
-        widget.cardholder_list_1[i].is_focused = current_page_1 == i;
-      }
-      for (var i = 0; i < widget.cardholder_list_2.length; i++) {
-        widget.cardholder_list_2[i].is_focused = current_page_2 == i;
-      }
-    }
-
     return WillPopScope(
       onWillPop: () async => false,
       child: LoadingContainer(
@@ -319,8 +314,14 @@ class _HomeContainerState extends State<HomeContainer> {
                   heightFactor: 0.9,
                   child: WidgetsCarousel(
                     update_current_page: (current_page) {
-                      current_page_1 = current_page;
-                      setState(() {});
+                      if (!UniversalPlatform.isWeb || portrait) {
+                        widget.cardholder_list_1.forEach((element) {
+                          element.is_focused = false;
+                        });
+                        widget.cardholder_list_1[current_page].is_focused =
+                            true;
+                        setState(() {});
+                      }
                     },
                     auto_scroll: auto_scroll,
                     dot_colors_active: widget.dot_colors_active_1,
@@ -335,8 +336,14 @@ class _HomeContainerState extends State<HomeContainer> {
                   heightFactor: 0.9,
                   child: WidgetsCarousel(
                     update_current_page: (current_page) {
-                      current_page_2 = current_page;
-                      setState(() {});
+                      if (!UniversalPlatform.isWeb || portrait) {
+                        widget.cardholder_list_2.forEach((element) {
+                          element.is_focused = false;
+                        });
+                        widget.cardholder_list_2[current_page].is_focused =
+                            true;
+                        setState(() {});
+                      }
                     },
                     auto_scroll: auto_scroll,
                     dot_colors_active: widget.dot_colors_active_2,
