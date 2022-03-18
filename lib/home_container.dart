@@ -220,16 +220,17 @@ class _HomeContainerState extends State<HomeContainer> {
   check_login() {
     if (FirebaseAuth.instance.currentUser != null) {
       loading = false;
-      print("User is sign");
+      //print("User is sign");
       add_screens();
+      check_user_fields();
     } else {
       Timer(const Duration(milliseconds: 3000), () {
         loading = false;
         if (FirebaseAuth.instance.currentUser != null) {
-          print("User is sign");
+          //print("User is sign");
           add_screens();
         } else {
-          print("User is not sign");
+          //print("User is not sign");
           open_screen("login");
         }
       });
@@ -268,6 +269,49 @@ class _HomeContainerState extends State<HomeContainer> {
     setState(() {});
     if (payment_enabled) {
       get_products_for_product_catalog();
+    }
+  }
+
+  check_user_fields() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      User auth_user = FirebaseAuth.instance.currentUser!;
+      DocumentSnapshot user = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(auth_user.uid)
+          .get();
+
+      Map user_data = user.data() as Map;
+
+      String? firstname = user_data["firstname"];
+      String? lastname = user_data["lastname"];
+      Timestamp? birthday = user_data["birthday"];
+      int? gender_index = user_data["gender"];
+      String? country = user_data["country"];
+
+      if (firstname == null ||
+          lastname == null ||
+          birthday == null ||
+          gender_index == null ||
+          country == null) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("You need to complete your profile"),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("Ok"),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    open_screen("home/account");
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
   }
 
