@@ -6,7 +6,8 @@ import 'package:xapptor_logic/firebase_tasks.dart';
 import 'package:xapptor_logic/random_number_with_range.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_translation/language_picker.dart';
-import 'package:xapptor_translation/translate.dart';
+import 'package:xapptor_translation/model/text_list.dart';
+import 'package:xapptor_translation/translation_stream.dart';
 import 'models/product.dart';
 import 'payment_webview.dart';
 import 'package:xapptor_ui/values/ui.dart';
@@ -23,7 +24,7 @@ class ProductCatalog extends StatefulWidget {
     this.language_picker_items_text_color,
     required this.products,
     required this.linear_gradients,
-    required this.texts,
+    required this.translation_text_list_array,
     required this.background_color,
     required this.title_color,
     required this.subtitle_color,
@@ -39,7 +40,7 @@ class ProductCatalog extends StatefulWidget {
   final Color? language_picker_items_text_color;
   List<Product> products;
   final List<LinearGradient> linear_gradients;
-  final List<String> texts;
+  final TranslationTextListArray translation_text_list_array;
   final Color background_color;
   final Color title_color;
   final Color subtitle_color;
@@ -61,12 +62,22 @@ class _ProductCatalogState extends State<ProductCatalog> {
   late TranslationStream translation_stream;
   List<TranslationStream> translation_stream_list = [];
 
+  int source_language_index = 0;
+
+  update_source_language({
+    required int new_source_language_index,
+  }) {
+    source_language_index = new_source_language_index;
+    setState(() {});
+  }
+
   update_text_list({
     required int index,
     required String new_text,
     required int list_index,
   }) {
-    widget.texts[index] = new_text;
+    widget.translation_text_list_array.get(source_language_index)[index] =
+        new_text;
     setState(() {});
   }
 
@@ -86,10 +97,10 @@ class _ProductCatalogState extends State<ProductCatalog> {
     if (widget.topbar_color != null &&
         widget.language_picker_items_text_color != null) {
       translation_stream = TranslationStream(
-        text_list: widget.texts,
+        translation_text_list_array: widget.translation_text_list_array,
         update_text_list_function: update_text_list,
         list_index: 0,
-        active_translation: true,
+        source_language_index: source_language_index,
       );
       translation_stream_list = [translation_stream];
     }
@@ -251,7 +262,8 @@ class _ProductCatalogState extends State<ProductCatalog> {
               widthFactor: 1,
               child: Center(
                 child: Text(
-                  widget.texts[0],
+                  widget.translation_text_list_array
+                      .get(source_language_index)[0],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: widget.title_color,
@@ -266,7 +278,8 @@ class _ProductCatalogState extends State<ProductCatalog> {
             child: FractionallySizedBox(
               widthFactor: 0.7,
               child: Text(
-                widget.texts[1],
+                widget.translation_text_list_array
+                    .get(source_language_index)[1],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: widget.subtitle_color,
@@ -288,7 +301,8 @@ class _ProductCatalogState extends State<ProductCatalog> {
                             color: Colors.white,
                           ),
                           decoration: InputDecoration(
-                            labelText: widget.texts[4],
+                            labelText: widget.translation_text_list_array
+                                .get(source_language_index)[4],
                             labelStyle: TextStyle(
                               color: Colors.white,
                             ),
@@ -327,8 +341,10 @@ class _ProductCatalogState extends State<ProductCatalog> {
                                   await check_if_coupon_is_valid(
                                 coupon_id,
                                 context,
-                                widget.texts[6],
-                                widget.texts[7],
+                                widget.translation_text_list_array
+                                    .get(source_language_index)[6],
+                                widget.translation_text_list_array
+                                    .get(source_language_index)[7],
                               );
 
                               if (check_coupon_response.isNotEmpty) {
@@ -339,7 +355,8 @@ class _ProductCatalogState extends State<ProductCatalog> {
                             splash_color: widget.text_color.withOpacity(0.3),
                             child: Center(
                               child: Text(
-                                widget.texts[5],
+                                widget.translation_text_list_array
+                                    .get(source_language_index)[5],
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: widget.background_color,
@@ -390,7 +407,8 @@ class _ProductCatalogState extends State<ProductCatalog> {
                   child: ProductCatalogItem(
                     title: widget.products[index].name,
                     price: widget.products[index].price.toString(),
-                    buy_text: widget.texts[2],
+                    buy_text: widget.translation_text_list_array
+                        .get(source_language_index)[2],
                     icon: Icons.shutter_speed,
                     text_color: widget.text_color,
                     image_url: widget.products[index].image_src,
@@ -404,7 +422,8 @@ class _ProductCatalogState extends State<ProductCatalog> {
                       success_url: widget.success_url,
                       cancel_url: widget.cancel_url,
                     ),
-                    coming_soon_text: widget.texts[3],
+                    coming_soon_text: widget.translation_text_list_array
+                        .get(source_language_index)[3],
                     button_color: widget.button_color,
                     use_iap: widget.use_iap,
                   ),
@@ -436,6 +455,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                             translation_stream_list: translation_stream_list,
                             language_picker_items_text_color:
                                 widget.language_picker_items_text_color!,
+                            update_source_language: update_source_language,
                           )
                         : Container(),
                   ),

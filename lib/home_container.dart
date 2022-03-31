@@ -5,14 +5,14 @@ import 'package:xapptor_auth/user_info_view.dart';
 import 'package:xapptor_business/product_catalog.dart';
 import 'package:xapptor_logic/check_if_payments_are_enabled.dart';
 import 'package:xapptor_business/models/product.dart';
-import 'package:xapptor_translation/translate.dart';
+import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_auth/user_info_form_type.dart';
+import 'package:xapptor_auth/translation_text_values.dart';
 import 'package:xapptor_ui/screens/privacy_policy.dart';
 import 'package:xapptor_ui/widgets/card_holder.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_ui/widgets/loading.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
-import 'package:xapptor_ui/values/ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,6 +45,7 @@ class HomeContainer extends StatefulWidget {
     this.logo_path_white,
     required this.main_button_color,
     required this.update_payment_enabled,
+    required this.update_source_language,
   });
 
   final Color topbar_color;
@@ -66,6 +67,8 @@ class HomeContainer extends StatefulWidget {
   final String? logo_path_white;
   final LinearGradient main_button_color;
   final Function(bool new_value) update_payment_enabled;
+  final Function({required int new_source_language_index})
+      update_source_language;
 
   @override
   _HomeContainerState createState() => _HomeContainerState();
@@ -133,6 +136,7 @@ class _HomeContainerState extends State<HomeContainer> {
               child: LanguagePicker(
                 translation_stream_list: widget.translation_stream_list,
                 language_picker_items_text_color: widget.topbar_color,
+                update_source_language: widget.update_source_language,
               ),
             )
           : Container(),
@@ -176,9 +180,9 @@ class _HomeContainerState extends State<HomeContainer> {
       AppScreen(
         name: "home/account",
         child: UserInfoView(
-          text_list: account_values_english,
+          text_list: account_values,
           tc_and_pp_text: RichText(text: const TextSpan()),
-          gender_values: gender_values_english,
+          gender_values: gender_values,
           country_values: const [
             'United States',
             'Mexico',
