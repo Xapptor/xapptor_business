@@ -36,6 +36,7 @@ dependencies:
   xapptor_ui: ^0.0.3
 
 dependency_overrides:
+  font_awesome_flutter: ^10.1.0
   xapptor_auth:
     path: ../xapptor_auth
   xapptor_logic:

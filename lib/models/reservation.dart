@@ -25,4 +25,14 @@ class Reservation {
         date_created = (snapshot['date_created'] as Timestamp).toDate(),
         date_init = (snapshot['date_init'] as Timestamp).toDate(),
         date_end = (snapshot['date_end'] as Timestamp).toDate();
+
+  Map<String, dynamic> to_json() {
+    return {
+      'id': id,
+      'user_id': user_id,
+      'date_created': date_created,
+      'date_init': date_init,
+      'date_end': date_end,
+    };
+  }
 }
