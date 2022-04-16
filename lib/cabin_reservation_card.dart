@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/cabin_reservation.dart';
 import 'package:xapptor_logic/bool_to_text.dart';
 import 'models/cabin.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CabinReservationCard extends StatefulWidget {
   const CabinReservationCard({
@@ -17,6 +18,8 @@ class CabinReservationCard extends StatefulWidget {
     required this.register_reservation,
     required this.available_cabins,
     required this.cancel_button_callback,
+    required this.delete_button_callback,
+    required this.edit_button_callback,
   });
 
   final CabinReservation? reservation;
@@ -28,9 +31,11 @@ class CabinReservationCard extends StatefulWidget {
   final String reservation_period_label;
   final String selected_cabin;
   final Function update_selected_cabin;
-  final Function register_reservation;
+  final Function(String? reservation_id) register_reservation;
   final List<Cabin> available_cabins;
   final Function cancel_button_callback;
+  final Function(String reservation_id) delete_button_callback;
+  final Function(String reservation_id) edit_button_callback;
 
   @override
   _CabinReservationCardState createState() => _CabinReservationCardState();
@@ -54,305 +59,345 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
       description = widget.text_list[19];
     }
 
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: widget.main_color.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          GestureDetector(
-            onTap: () {
-              if (widget.reservation == null) {
-                widget.select_date_callback();
-              }
-            },
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: widget.main_color.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    widget.text_list[2],
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    widget.reservation_period_label,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: widget.main_color.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(10),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(
-                children: [
-                  Text(
-                    widget.text_list[3] + ": ",
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
+              GestureDetector(
+                onTap: () {
+                  if (widget.reservation == null) {
+                    widget.select_date_callback();
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: widget.main_color.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  SizedBox(width: 10),
-                  widget.reservation != null
-                      ? Text(
-                          widget.cabin.id,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.visible,
-                          maxLines: 10,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  child: Column(
+                    children: [
+                      Text(
+                        widget.text_list[2],
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        widget.reservation_period_label,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        widget.text_list[3] + ": ",
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      widget.reservation != null
+                          ? Text(
+                              widget.cabin.id,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.visible,
+                              maxLines: 10,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : DropdownButton<String>(
+                              items: widget.available_cabins
+                                  .map((cabin) => cabin.id)
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (new_value) {
+                                widget.update_selected_cabin(new_value!);
+                              },
+                              value: widget.selected_cabin,
+                            ),
+                      SizedBox(width: 10),
+                      Text(
+                        description,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.text_list[4] +
+                            ": " +
+                            widget.cabin.low_price.toString() +
+                            "  MXN",
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Text(
+                        widget.text_list[5] +
+                            ": " +
+                            widget.cabin.capacity.toString() +
+                            " " +
+                            widget.text_list[6],
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.text_list[8] +
+                            ": " +
+                            widget.cabin.get_beds_string(),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Text(
+                        widget.text_list[9] +
+                            ": " +
+                            widget.cabin.bathrooms.toString(),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.text_list[10] +
+                            ": " +
+                            bool_to_text(
+                              value: widget.cabin.kitchen,
+                              true_text: widget.text_list[15],
+                              false_text: widget.text_list[16],
+                            ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Text(
+                        widget.text_list[11] +
+                            ": " +
+                            bool_to_text(
+                              value: widget.cabin.sauna,
+                              true_text: widget.text_list[15],
+                              false_text: widget.text_list[16],
+                            ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.text_list[12] +
+                            ": " +
+                            bool_to_text(
+                              value: widget.cabin.livingroom,
+                              true_text: widget.text_list[15],
+                              false_text: widget.text_list[16],
+                            ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Text(
+                        widget.text_list[13] +
+                            ": " +
+                            bool_to_text(
+                              value: widget.cabin.chimney,
+                              true_text: widget.text_list[15],
+                              false_text: widget.text_list[16],
+                            ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Text(
+                        widget.text_list[14] +
+                            ": " +
+                            bool_to_text(
+                              value: widget.cabin.balcony,
+                              true_text: widget.text_list[15],
+                              false_text: widget.text_list[16],
+                            ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  widget.reservation == null
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.all(20),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  widget.cancel_button_callback();
+                                },
+                                child: Text(
+                                  widget.text_list[22],
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    widget.main_color,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.all(20),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  widget.register_reservation(
+                                      widget.reservation?.id);
+                                },
+                                child: Text(
+                                  widget.text_list[20],
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    widget.main_color,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         )
-                      : DropdownButton<String>(
-                          items: widget.available_cabins
-                              .map((cabin) => cabin.id)
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (new_value) {
-                            widget.update_selected_cabin(new_value!);
-                          },
-                          value: widget.selected_cabin,
-                        ),
-                  SizedBox(width: 10),
-                  Text(
-                    description,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                      : Container(),
                 ],
               ),
-              Row(
-                children: [
-                  Text(
-                    widget.text_list[4] +
-                        ": " +
-                        widget.cabin.low_price.toString() +
-                        "  MXN",
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Text(
-                    widget.text_list[5] +
-                        ": " +
-                        widget.cabin.capacity.toString() +
-                        " " +
-                        widget.text_list[6],
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    widget.text_list[8] + ": " + widget.cabin.get_beds_string(),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Text(
-                    widget.text_list[9] +
-                        ": " +
-                        widget.cabin.bathrooms.toString(),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    widget.text_list[10] +
-                        ": " +
-                        bool_to_text(
-                          value: widget.cabin.kitchen,
-                          true_text: widget.text_list[15],
-                          false_text: widget.text_list[16],
-                        ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Text(
-                    widget.text_list[11] +
-                        ": " +
-                        bool_to_text(
-                          value: widget.cabin.sauna,
-                          true_text: widget.text_list[15],
-                          false_text: widget.text_list[16],
-                        ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    widget.text_list[12] +
-                        ": " +
-                        bool_to_text(
-                          value: widget.cabin.livingroom,
-                          true_text: widget.text_list[15],
-                          false_text: widget.text_list[16],
-                        ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Text(
-                    widget.text_list[13] +
-                        ": " +
-                        bool_to_text(
-                          value: widget.cabin.chimney,
-                          true_text: widget.text_list[15],
-                          false_text: widget.text_list[16],
-                        ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Text(
-                    widget.text_list[14] +
-                        ": " +
-                        bool_to_text(
-                          value: widget.cabin.balcony,
-                          true_text: widget.text_list[15],
-                          false_text: widget.text_list[16],
-                        ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.visible,
-                    maxLines: 10,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              widget.reservation == null
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.all(20),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              widget.cancel_button_callback();
-                            },
-                            child: Text(
-                              widget.text_list[22],
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                widget.main_color,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.all(20),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              widget.register_reservation();
-                            },
-                            child: Text(
-                              widget.text_list[20],
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                widget.main_color,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(),
             ],
           ),
-        ],
-      ),
+        ),
+        Container(
+          alignment: Alignment.topCenter,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: IconButton(
+                  onPressed: () {
+                    widget.delete_button_callback(widget.reservation!.id);
+                  },
+                  icon: Icon(
+                    FontAwesomeIcons.trashCan,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+              Container(
+                child: IconButton(
+                  onPressed: () {
+                    widget.edit_button_callback(widget.reservation!.id);
+                  },
+                  icon: Icon(
+                    FontAwesomeIcons.penToSquare,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:xapptor_logic/is_portrait.dart';
+import 'package:xapptor_logic/get_range_of_dates.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_translation/model/text_list.dart';
 import 'package:xapptor_translation/translation_stream.dart';
@@ -58,6 +59,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           "Ok",
           "New Reservation",
           "Reservations",
+          "You don't have any active reservations",
         ],
       ),
       TranslationTextList(
@@ -89,6 +91,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           "Ok",
           "Nueva Reservación",
           "Reservaciones",
+          "No posees ninguna reservación activa",
         ],
       ),
     ],
@@ -156,6 +159,8 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   List<Cabin> available_cabins = [];
   String selected_cabin = "";
 
+  DateFormat label_date_formatter = DateFormat.yMMMMd('en_US');
+
   update_selected_cabin(String new_cabin) {
     selected_cabin = new_cabin;
     setState(() {});
@@ -174,6 +179,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   }
 
   get_reservations() async {
+    reservations.clear();
     var reservations_snap = await FirebaseFirestore.instance
         .collection("reservations")
         .where(
@@ -189,7 +195,6 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     if (reservations_snap.docs.length > 0) {
       reservations_snap.docs.forEach((snap) {
         reservations.add(CabinReservation.from_snapshot(snap.id, snap.data()));
-        print("Reservation: " + reservations.last.to_json().toString());
       });
     }
 
@@ -256,17 +261,15 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
       },
     );
     if (picked != null) {
-      DateFormat date_formatter = DateFormat.yMMMMd('en_US');
-
       setState(() {
         switch (selected_date_index) {
           case 0:
             selected_date_1 = picked;
-            date_label_1 = date_formatter.format(selected_date_1);
+            date_label_1 = label_date_formatter.format(selected_date_1);
             break;
           case 1:
             selected_date_2 = picked;
-            date_label_2 = date_formatter.format(selected_date_2);
+            date_label_2 = label_date_formatter.format(selected_date_2);
             break;
         }
 
@@ -281,10 +284,17 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           check_available_cabins();
         }
       });
+    } else {
+      cancel_button();
     }
   }
 
-  List<Cabin> check_available_cabins() {
+  List<Cabin> check_available_cabins({String? ignore_reservation_with_id}) {
+    available_cabins = cabins.toList();
+
+    available_cabins.sort((cabin_a, cabin_b) =>
+        int.parse(cabin_a.id).compareTo(int.parse(cabin_b.id)));
+
     List<DateTime> new_reservation_range_dates =
         get_range_of_dates(selected_date_1, selected_date_2);
 
@@ -303,7 +313,13 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
       reservation_range_dates.forEach((range_date) {
         new_reservation_range_dates.forEach((new_range_date) {
           if (check_if_dates_are_in_the_same_day(range_date, new_range_date)) {
-            unavailable_cabins.add(reservation.cabin_id);
+            if (ignore_reservation_with_id == null) {
+              unavailable_cabins.add(reservation.cabin_id);
+            } else {
+              if (ignore_reservation_with_id != reservation.id) {
+                unavailable_cabins.add(reservation.cabin_id);
+              }
+            }
           }
         });
       });
@@ -311,62 +327,55 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
 
     unavailable_cabins = unavailable_cabins.toSet().toList();
 
-    available_cabins = cabins.toList();
-
-    print(unavailable_cabins);
-
-    cabins.forEach((cabin) {
-      unavailable_cabins.forEach((unavailable_cabin) {
-        if (cabin.id == unavailable_cabin) {
-          int unavailable_cabin_index = cabins.indexOf(cabin);
-
-          print("unavailable_cabin_index: " +
-              available_cabins[unavailable_cabin_index].id);
-
-          available_cabins.removeAt(unavailable_cabin_index);
-        }
-      });
+    unavailable_cabins.forEach((unavailable_cabin) {
+      available_cabins.removeWhere((cabin) => cabin.id == unavailable_cabin);
     });
 
     if (available_cabins.length > 0) {
-      available_cabins
-          .sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
-
       selected_cabin = available_cabins.first.id;
     }
 
     setState(() {});
 
-    available_cabins.forEach((available_cabin) {
-      print(available_cabin.id);
-    });
-
     return available_cabins;
   }
 
-  List<DateTime> get_range_of_dates(DateTime date_1, DateTime date_2) {
-    int dates_difference_in_days =
-        selected_date_2.difference(selected_date_1).inDays;
-
-    List<DateTime> range_of_dates = [];
-
-    for (var i = 0; i <= dates_difference_in_days; i++) {
-      range_of_dates.add(
-        DateTime(
-          selected_date_1.year,
-          selected_date_1.month,
-          selected_date_1.day + i,
-        ),
-      );
-    }
-    return range_of_dates;
+  Cabin get_cabin_from_id(String id) {
+    return available_cabins.firstWhere((cabin) => cabin.id == id);
   }
 
-  Cabin get_cabin_from_index(String selected_text) {
-    return available_cabins.firstWhere((cabin) => cabin.id == selected_text);
+  cancel_button() {
+    date_label_1 = "";
+    date_label_2 = "";
+    show_creation_menu = false;
+    setState(() {});
   }
 
-  register_reservation() async {
+  delete_button(String reservation_id) async {
+    var reservations_snap = await FirebaseFirestore.instance
+        .collection("reservations")
+        .doc(reservation_id)
+        .delete()
+        .then((value) {
+      get_reservations();
+    });
+  }
+
+  edit_button(String reservation_id) async {
+    show_creation_menu = true;
+    CabinReservation current_reservation =
+        reservations.firstWhere((element) => element.id == reservation_id);
+
+    selected_date_1 = current_reservation.date_init;
+    date_label_1 = label_date_formatter.format(selected_date_1);
+
+    selected_date_2 = current_reservation.date_end;
+    date_label_2 = label_date_formatter.format(selected_date_1);
+
+    check_available_cabins(ignore_reservation_with_id: reservation_id);
+  }
+
+  register_reservation(String? reservation_id) async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -383,20 +392,39 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
             TextButton(
               child: Text(text_list.get(source_language_index)[23]),
               onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection("reservations")
-                    .doc()
-                    .set({
-                  "user_id": FirebaseAuth.instance.currentUser!.uid,
-                  "date_created": Timestamp.now(),
-                  "date_init": selected_date_1,
-                  "date_end": selected_date_2,
-                  "cabin_id": selected_cabin,
-                }).then((value) {
-                  Navigator.of(context).pop();
-                  show_creation_menu = false;
-                  setState(() {});
-                });
+                if (reservation_id != null) {
+                  await FirebaseFirestore.instance
+                      .collection("reservations")
+                      .doc(reservation_id)
+                      .update({
+                    "user_id": FirebaseAuth.instance.currentUser!.uid,
+                    "date_created": Timestamp.now(),
+                    "date_init": selected_date_1,
+                    "date_end": selected_date_2,
+                    "cabin_id": selected_cabin,
+                  }).then((value) {
+                    Navigator.of(context).pop();
+                    show_creation_menu = false;
+                    setState(() {});
+                    get_reservations();
+                  });
+                } else {
+                  await FirebaseFirestore.instance
+                      .collection("reservations")
+                      .doc()
+                      .set({
+                    "user_id": FirebaseAuth.instance.currentUser!.uid,
+                    "date_created": Timestamp.now(),
+                    "date_init": selected_date_1,
+                    "date_end": selected_date_2,
+                    "cabin_id": selected_cabin,
+                  }).then((value) {
+                    Navigator.of(context).pop();
+                    show_creation_menu = false;
+                    setState(() {});
+                    get_reservations();
+                  });
+                }
               },
             ),
           ],
@@ -505,42 +533,69 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         child: !show_creation_menu
             ? Container(
                 width: screen_width * (portrait ? 0.8 : 0.4),
-                child: ListView.builder(
-                  itemCount: reservations.length + 1,
-                  itemBuilder: (context, index) {
-                    return index == 0
-                        ? Container(
-                            margin: const EdgeInsets.all(30),
-                            child: Text(
-                              text_list.get(source_language_index)[25],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            height: screen_height * (portrait ? 0.3 : 0.2),
-                            child: CabinReservationCard(
-                              reservation: reservations[index - 1],
-                              select_date_available: true,
-                              select_date_callback: _select_date,
-                              main_color: widget.topbar_color,
-                              text_list: text_list.get(source_language_index),
-                              cabin: cabins.firstWhere((cabin) =>
-                                  cabin.id == reservations[index - 1].cabin_id),
-                              reservation_period_label:
-                                  get_reservation_period_label(index - 1),
-                              selected_cabin: selected_cabin,
-                              update_selected_cabin: update_selected_cabin,
-                              register_reservation: register_reservation,
-                              available_cabins: available_cabins,
-                              cancel_button_callback: () {},
-                            ),
-                          );
-                  },
-                ),
+                child: reservations.length == 0
+                    ? Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.all(30),
+                        child: Text(
+                          text_list.get(source_language_index)[26],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: reservations.length + 1,
+                        itemBuilder: (context, index) {
+                          return index == 0
+                              ? Container(
+                                  margin: const EdgeInsets.all(30),
+                                  child: Text(
+                                    text_list.get(source_language_index)[25],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  height:
+                                      screen_height * (portrait ? 0.3 : 0.2),
+                                  margin: const EdgeInsets.all(10),
+                                  child: CabinReservationCard(
+                                    reservation: reservations[index - 1],
+                                    select_date_available: true,
+                                    select_date_callback: _select_date,
+                                    main_color: widget.topbar_color,
+                                    text_list:
+                                        text_list.get(source_language_index),
+                                    cabin: cabins.firstWhere((cabin) =>
+                                        cabin.id ==
+                                        reservations[index - 1].cabin_id),
+                                    reservation_period_label:
+                                        get_reservation_period_label(index - 1),
+                                    selected_cabin: selected_cabin,
+                                    update_selected_cabin:
+                                        update_selected_cabin,
+                                    register_reservation: (String?
+                                            reservation_id) =>
+                                        register_reservation(reservation_id),
+                                    available_cabins: available_cabins,
+                                    cancel_button_callback: () =>
+                                        cancel_button(),
+                                    delete_button_callback:
+                                        (String reservation_id) =>
+                                            delete_button(reservation_id),
+                                    edit_button_callback:
+                                        (String reservation_id) =>
+                                            edit_button(reservation_id),
+                                  ),
+                                );
+                        },
+                      ),
               )
             : date_label_1.isEmpty || date_label_2.isEmpty
                 ? Container()
@@ -553,32 +608,33 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                       select_date_callback: _select_date,
                       main_color: widget.topbar_color,
                       text_list: text_list.get(source_language_index),
-                      cabin: get_cabin_from_index(selected_cabin),
+                      cabin: get_cabin_from_id(selected_cabin),
                       reservation_period_label:
                           get_reservation_period_label(-1),
                       selected_cabin: selected_cabin,
                       update_selected_cabin: update_selected_cabin,
                       register_reservation: register_reservation,
                       available_cabins: available_cabins,
-                      cancel_button_callback: () {
-                        show_creation_menu = false;
-                        setState(() {});
-                      },
+                      cancel_button_callback: () => cancel_button(),
+                      delete_button_callback: (String reservation_id) {},
+                      edit_button_callback: (String reservation_id) {},
                     ),
                   ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          show_creation_menu = true;
-          setState(() {});
-          show_select_date_alert_dialog(
-              text_list.get(source_language_index)[0]);
-        },
-        child: Icon(
-          FontAwesomeIcons.filePen,
-        ),
-        tooltip: text_list.get(source_language_index)[24],
-      ),
+      floatingActionButton: !show_creation_menu
+          ? FloatingActionButton(
+              onPressed: () {
+                show_creation_menu = true;
+                setState(() {});
+                show_select_date_alert_dialog(
+                    text_list.get(source_language_index)[0]);
+              },
+              child: Icon(
+                FontAwesomeIcons.filePen,
+              ),
+              tooltip: text_list.get(source_language_index)[24],
+            )
+          : Container(),
     );
   }
 }
