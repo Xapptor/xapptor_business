@@ -60,6 +60,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           "New Reservation",
           "Reservations",
           "You don't have any active reservations",
+          "Confirm deletion",
         ],
       ),
       TranslationTextList(
@@ -92,6 +93,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           "Nueva Reservación",
           "Reservaciones",
           "No posees ninguna reservación activa",
+          "Confirmar la eliminación",
         ],
       ),
     ],
@@ -158,6 +160,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
 
   List<Cabin> available_cabins = [];
   String selected_cabin = "";
+  CabinReservation? current_reservation;
 
   DateFormat label_date_formatter = DateFormat.yMMMMd('en_US');
 
@@ -332,7 +335,12 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     });
 
     if (available_cabins.length > 0) {
-      selected_cabin = available_cabins.first.id;
+      if (ignore_reservation_with_id == null) {
+        selected_cabin = available_cabins.first.id;
+      } else {
+        selected_cabin =
+            get_reservation_from_id(ignore_reservation_with_id).cabin_id;
+      }
     }
 
     setState(() {});
@@ -344,10 +352,15 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     return available_cabins.firstWhere((cabin) => cabin.id == id);
   }
 
+  CabinReservation get_reservation_from_id(String id) {
+    return reservations.firstWhere((reservation) => reservation.id == id);
+  }
+
   cancel_button() {
     date_label_1 = "";
     date_label_2 = "";
     show_creation_menu = false;
+    current_reservation = null;
     setState(() {});
   }
 
@@ -357,31 +370,33 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         .doc(reservation_id)
         .delete()
         .then((value) {
+      Navigator.of(context).pop();
+      cancel_button();
       get_reservations();
     });
   }
 
   edit_button(String reservation_id) async {
     show_creation_menu = true;
-    CabinReservation current_reservation =
+    current_reservation =
         reservations.firstWhere((element) => element.id == reservation_id);
 
-    selected_date_1 = current_reservation.date_init;
+    selected_date_1 = current_reservation!.date_init;
     date_label_1 = label_date_formatter.format(selected_date_1);
 
-    selected_date_2 = current_reservation.date_end;
+    selected_date_2 = current_reservation!.date_end;
     date_label_2 = label_date_formatter.format(selected_date_1);
 
     check_available_cabins(ignore_reservation_with_id: reservation_id);
   }
 
-  register_reservation(String? reservation_id) async {
+  show_edit_alert_dialog(String reservation_id, bool register) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(text_list.get(source_language_index)[21]),
+          title: Text(text_list.get(source_language_index)[register ? 21 : 27]),
           actions: <Widget>[
             TextButton(
               child: Text(text_list.get(source_language_index)[22]),
@@ -391,39 +406,12 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
             ),
             TextButton(
               child: Text(text_list.get(source_language_index)[23]),
-              onPressed: () async {
-                if (reservation_id != null) {
-                  await FirebaseFirestore.instance
-                      .collection("reservations")
-                      .doc(reservation_id)
-                      .update({
-                    "user_id": FirebaseAuth.instance.currentUser!.uid,
-                    "date_created": Timestamp.now(),
-                    "date_init": selected_date_1,
-                    "date_end": selected_date_2,
-                    "cabin_id": selected_cabin,
-                  }).then((value) {
-                    Navigator.of(context).pop();
-                    show_creation_menu = false;
-                    setState(() {});
-                    get_reservations();
-                  });
+              onPressed: () {
+                if (register) {
+                  register_reservation(
+                      reservation_id.isEmpty ? null : reservation_id);
                 } else {
-                  await FirebaseFirestore.instance
-                      .collection("reservations")
-                      .doc()
-                      .set({
-                    "user_id": FirebaseAuth.instance.currentUser!.uid,
-                    "date_created": Timestamp.now(),
-                    "date_init": selected_date_1,
-                    "date_end": selected_date_2,
-                    "cabin_id": selected_cabin,
-                  }).then((value) {
-                    Navigator.of(context).pop();
-                    show_creation_menu = false;
-                    setState(() {});
-                    get_reservations();
-                  });
+                  delete_button(reservation_id);
                 }
               },
             ),
@@ -431,6 +419,39 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         );
       },
     );
+  }
+
+  register_reservation(String? reservation_id) async {
+    if (reservation_id != null) {
+      await FirebaseFirestore.instance
+          .collection("reservations")
+          .doc(reservation_id)
+          .update({
+        "user_id": FirebaseAuth.instance.currentUser!.uid,
+        "date_created": Timestamp.now(),
+        "date_init": selected_date_1,
+        "date_end": selected_date_2,
+        "cabin_id": selected_cabin,
+      }).then((value) {
+        Navigator.of(context).pop();
+        show_creation_menu = false;
+        setState(() {});
+        get_reservations();
+      });
+    } else {
+      await FirebaseFirestore.instance.collection("reservations").doc().set({
+        "user_id": FirebaseAuth.instance.currentUser!.uid,
+        "date_created": Timestamp.now(),
+        "date_init": selected_date_1,
+        "date_end": selected_date_2,
+        "cabin_id": selected_cabin,
+      }).then((value) {
+        Navigator.of(context).pop();
+        show_creation_menu = false;
+        setState(() {});
+        get_reservations();
+      });
+    }
   }
 
   String get_reservation_period_label(int index) {
@@ -580,18 +601,23 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                     selected_cabin: selected_cabin,
                                     update_selected_cabin:
                                         update_selected_cabin,
-                                    register_reservation: (String?
-                                            reservation_id) =>
-                                        register_reservation(reservation_id),
+                                    register_reservation:
+                                        (String reservation_id,
+                                                bool register) =>
+                                            show_edit_alert_dialog(
+                                                reservation_id, register),
                                     available_cabins: available_cabins,
                                     cancel_button_callback: () =>
                                         cancel_button(),
                                     delete_button_callback:
-                                        (String reservation_id) =>
-                                            delete_button(reservation_id),
+                                        (String reservation_id,
+                                                bool register) =>
+                                            show_edit_alert_dialog(
+                                                reservation_id, register),
                                     edit_button_callback:
                                         (String reservation_id) =>
                                             edit_button(reservation_id),
+                                    editing_mode: show_creation_menu,
                                   ),
                                 );
                         },
@@ -603,7 +629,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                     height: screen_height * (portrait ? 0.6 : 0.4),
                     width: screen_width * (portrait ? 0.8 : 0.4),
                     child: CabinReservationCard(
-                      reservation: null,
+                      reservation: current_reservation,
                       select_date_available: true,
                       select_date_callback: _select_date,
                       main_color: widget.topbar_color,
@@ -613,11 +639,16 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                           get_reservation_period_label(-1),
                       selected_cabin: selected_cabin,
                       update_selected_cabin: update_selected_cabin,
-                      register_reservation: register_reservation,
+                      register_reservation:
+                          (String reservation_id, bool register) =>
+                              show_edit_alert_dialog(reservation_id, register),
                       available_cabins: available_cabins,
                       cancel_button_callback: () => cancel_button(),
-                      delete_button_callback: (String reservation_id) {},
+                      delete_button_callback:
+                          (String reservation_id, bool register) =>
+                              show_edit_alert_dialog(reservation_id, register),
                       edit_button_callback: (String reservation_id) {},
+                      editing_mode: show_creation_menu,
                     ),
                   ),
       ),

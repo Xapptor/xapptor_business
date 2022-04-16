@@ -20,6 +20,7 @@ class CabinReservationCard extends StatefulWidget {
     required this.cancel_button_callback,
     required this.delete_button_callback,
     required this.edit_button_callback,
+    required this.editing_mode,
   });
 
   final CabinReservation? reservation;
@@ -31,11 +32,12 @@ class CabinReservationCard extends StatefulWidget {
   final String reservation_period_label;
   final String selected_cabin;
   final Function update_selected_cabin;
-  final Function(String? reservation_id) register_reservation;
+  final Function(String reservation_id, bool register) register_reservation;
   final List<Cabin> available_cabins;
   final Function cancel_button_callback;
-  final Function(String reservation_id) delete_button_callback;
+  final Function(String reservation_id, bool register) delete_button_callback;
   final Function(String reservation_id) edit_button_callback;
+  final bool editing_mode;
 
   @override
   _CabinReservationCardState createState() => _CabinReservationCardState();
@@ -73,7 +75,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
             children: [
               GestureDetector(
                 onTap: () {
-                  if (widget.reservation == null) {
+                  if (widget.editing_mode) {
                     widget.select_date_callback();
                   }
                 },
@@ -128,7 +130,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      widget.reservation != null
+                      !widget.editing_mode
                           ? Text(
                               widget.cabin.id,
                               textAlign: TextAlign.center,
@@ -319,7 +321,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                     ],
                   ),
-                  widget.reservation == null
+                  widget.editing_mode
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -347,7 +349,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   widget.register_reservation(
-                                      widget.reservation?.id);
+                                      widget.reservation?.id ?? "", true);
                                 },
                                 child: Text(
                                   widget.text_list[20],
@@ -368,35 +370,38 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
             ],
           ),
         ),
-        Container(
-          alignment: Alignment.topCenter,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                child: IconButton(
-                  onPressed: () {
-                    widget.delete_button_callback(widget.reservation!.id);
-                  },
-                  icon: Icon(
-                    FontAwesomeIcons.trashCan,
-                    color: Colors.red,
-                  ),
+        !widget.editing_mode
+            ? Container(
+                alignment: Alignment.topCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child: IconButton(
+                        onPressed: () {
+                          widget.delete_button_callback(
+                              widget.reservation!.id, false);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.trashCan,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: IconButton(
+                        onPressed: () {
+                          widget.edit_button_callback(widget.reservation!.id);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.penToSquare,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Container(
-                child: IconButton(
-                  onPressed: () {
-                    widget.edit_button_callback(widget.reservation!.id);
-                  },
-                  icon: Icon(
-                    FontAwesomeIcons.penToSquare,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+              )
+            : Container(),
       ],
     );
   }
