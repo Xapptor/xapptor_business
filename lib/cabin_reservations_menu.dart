@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:xapptor_logic/get_user_info.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_logic/get_range_of_dates.dart';
 import 'package:xapptor_translation/language_picker.dart';
@@ -183,23 +184,62 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
 
   get_reservations() async {
     reservations.clear();
-    var reservations_snap = await FirebaseFirestore.instance
-        .collection("reservations")
-        .where(
-          'date_init',
-          isGreaterThanOrEqualTo: DateTime(
-            DateTime.now().year,
-            DateTime.now().month,
-            DateTime.now().day - 1,
-          ),
-        )
-        .get();
+
+    Map<String, dynamic> user_info =
+        await get_user_info(FirebaseAuth.instance.currentUser!.uid);
+
+    bool get_all_reservations = false;
+
+    if (user_info["admin"] != null) {
+      if (user_info["admin"]) {
+        get_all_reservations = true;
+      }
+    }
+
+    QuerySnapshot<Map<String, dynamic>> reservations_snap;
+
+    if (get_all_reservations) {
+      reservations_snap = await FirebaseFirestore.instance
+          .collection("reservations")
+          .where(
+            "date_init",
+            isGreaterThanOrEqualTo: DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day - 1,
+            ),
+          )
+          .get();
+    } else {
+      reservations_snap = await FirebaseFirestore.instance
+          .collection("reservations")
+          .where(
+            "user_id",
+            isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+          )
+          .get();
+    }
 
     if (reservations_snap.docs.length > 0) {
       reservations_snap.docs.forEach((snap) {
         reservations.add(CabinReservation.from_snapshot(snap.id, snap.data()));
       });
     }
+
+    var reservations_copy = reservations.toList();
+
+    reservations.forEach((reservation) {
+      DateTime comparison_date = DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day - 1,
+      );
+      if (reservation.date_init.isBefore(comparison_date)) {
+        reservations_copy.remove(reservation);
+      }
+    });
+
+    reservations = reservations_copy.toList();
 
     setState(() {});
 
