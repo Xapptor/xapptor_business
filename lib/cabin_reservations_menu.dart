@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:xapptor_logic/get_user_info.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_logic/get_range_of_dates.dart';
+import 'package:xapptor_logic/send_email.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_translation/model/text_list.dart';
 import 'package:xapptor_translation/translation_stream.dart';
@@ -62,6 +63,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           "Reservations",
           "You don't have any active reservations",
           "Confirm deletion",
+          "Username",
         ],
       ),
       TranslationTextList(
@@ -95,6 +97,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           "Reservaciones",
           "No posees ninguna reservación activa",
           "Confirmar la eliminación",
+          "Nombre de Usuario",
         ],
       ),
     ],
@@ -182,11 +185,12 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     get_reservations();
   }
 
+  Map<String, dynamic> user_info = {};
+
   get_reservations() async {
     reservations.clear();
 
-    Map<String, dynamic> user_info =
-        await get_user_info(FirebaseAuth.instance.currentUser!.uid);
+    user_info = await get_user_info(FirebaseAuth.instance.currentUser!.uid);
 
     bool get_all_reservations = false;
 
@@ -476,10 +480,22 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         Navigator.of(context).pop();
         show_creation_menu = false;
         setState(() {});
-        get_reservations();
+        String email_message = user_info["firstname"] +
+            " " +
+            user_info["lastname"] +
+            " ha actualizado una reservación (${current_reservation!.id}) para la cabaña ${selected_cabin} con un periodo de " +
+            reservation_period_label;
+
+        //print(email_message);
+
+        send_email(
+          to: "info@collineblanche.com.mx",
+          subject: "Reservación Actualizada (${current_reservation!.id})",
+          text: email_message,
+        );
       });
     } else {
-      await FirebaseFirestore.instance.collection("reservations").doc().set({
+      await FirebaseFirestore.instance.collection("reservations").add({
         "user_id": FirebaseAuth.instance.currentUser!.uid,
         "date_created": Timestamp.now(),
         "date_init": selected_date_1,
@@ -489,13 +505,29 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         Navigator.of(context).pop();
         show_creation_menu = false;
         setState(() {});
+
+        String email_message = user_info["firstname"] +
+            " " +
+            user_info["lastname"] +
+            " ha creado una reservación (${value.id}) para la cabaña ${selected_cabin} con un periodo de " +
+            reservation_period_label;
+
+        //print(email_message);
+
+        send_email(
+          to: "info@collineblanche.com.mx",
+          subject: "Nueva Reservación Registrada (${current_reservation!.id})",
+          text: email_message,
+        );
         get_reservations();
       });
     }
   }
 
+  String reservation_period_label = "";
+
   String get_reservation_period_label(int index) {
-    String reservation_period_label = "";
+    reservation_period_label = "";
 
     if (selected_date_1.month == selected_date_2.month) {
       String month = DateFormat(
@@ -624,7 +656,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                 )
                               : Container(
                                   height:
-                                      screen_height * (portrait ? 0.3 : 0.2),
+                                      screen_height * (portrait ? 0.35 : 0.3),
                                   margin: const EdgeInsets.all(10),
                                   child: CabinReservationCard(
                                     reservation: reservations[index - 1],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/cabin_reservation.dart';
 import 'package:xapptor_logic/bool_to_text.dart';
+import 'package:xapptor_logic/get_user_info.dart';
 import 'models/cabin.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -47,6 +48,31 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
   @override
   void initState() {
     super.initState();
+    get_user_info_from_reservation();
+  }
+
+  Map<String, dynamic> user_info = {};
+  String user_name = "";
+  bool admin = false;
+
+  get_user_info_from_reservation() async {
+    if (widget.reservation != null) {
+      user_info = await get_user_info(widget.reservation!.user_id);
+      if (user_info["admin"] != null) {
+        admin = user_info["admin"];
+      }
+      update_user_name();
+    }
+  }
+
+  update_user_name() {
+    user_name = widget.text_list[28] +
+        ": " +
+        user_info["firstname"] +
+        " " +
+        user_info["lastname"];
+
+    setState(() {});
   }
 
   @override
@@ -59,6 +85,9 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
       description = widget.text_list[18];
     } else if (widget.cabin.capacity >= 2) {
       description = widget.text_list[19];
+    }
+    if (user_info.isNotEmpty) {
+      update_user_name();
     }
 
     return Stack(
@@ -321,6 +350,18 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                     ],
                   ),
+                  widget.reservation != null && admin
+                      ? Text(
+                          user_name,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.visible,
+                          maxLines: 10,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : Container(),
                   widget.editing_mode
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
