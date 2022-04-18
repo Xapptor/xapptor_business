@@ -409,6 +409,11 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   }
 
   delete_button(String reservation_id) async {
+    var reservation_for_deletion = get_reservation_from_id(reservation_id);
+
+    String current_reservation_period_label = get_reservation_period_label(
+        reservations.indexOf(reservation_for_deletion));
+
     var reservations_snap = await FirebaseFirestore.instance
         .collection("reservations")
         .doc(reservation_id)
@@ -416,6 +421,19 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         .then((value) {
       Navigator.of(context).pop();
       cancel_button();
+
+      String email_message = user_info["firstname"] +
+          " " +
+          user_info["lastname"] +
+          " ha eliminado una reservación (${reservation_id}) para la cabaña ${reservation_for_deletion.cabin_id} con un periodo de " +
+          current_reservation_period_label;
+
+      send_email(
+        to: "info@collineblanche.com.mx",
+        subject: "Reservación Eliminada (${reservation_id})",
+        text: email_message,
+      );
+
       get_reservations();
     });
   }
@@ -480,19 +498,19 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         Navigator.of(context).pop();
         show_creation_menu = false;
         setState(() {});
+
         String email_message = user_info["firstname"] +
             " " +
             user_info["lastname"] +
             " ha actualizado una reservación (${current_reservation!.id}) para la cabaña ${selected_cabin} con un periodo de " +
             reservation_period_label;
 
-        //print(email_message);
-
         send_email(
           to: "info@collineblanche.com.mx",
           subject: "Reservación Actualizada (${current_reservation!.id})",
           text: email_message,
         );
+        get_reservations();
       });
     } else {
       await FirebaseFirestore.instance.collection("reservations").add({
@@ -512,11 +530,9 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
             " ha creado una reservación (${value.id}) para la cabaña ${selected_cabin} con un periodo de " +
             reservation_period_label;
 
-        //print(email_message);
-
         send_email(
           to: "info@collineblanche.com.mx",
-          subject: "Nueva Reservación Registrada (${current_reservation!.id})",
+          subject: "Nueva Reservación Registrada (${value.id})",
           text: email_message,
         );
         get_reservations();
@@ -529,47 +545,41 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   String get_reservation_period_label(int index) {
     reservation_period_label = "";
 
-    if (selected_date_1.month == selected_date_2.month) {
-      String month = DateFormat(
-              "MMMM",
-              text_list.translation_text_list_array[source_language_index]
-                  .source_language)
-          .format(selected_date_1);
+    String month_day_1 = DateFormat(
+            "MMMMd",
+            text_list.translation_text_list_array[source_language_index]
+                .source_language)
+        .format(selected_date_1);
 
-      month = month.substring(0, 1).toUpperCase() + month.substring(1);
+    String month_day_2 = DateFormat(
+            "MMMMd",
+            text_list.translation_text_list_array[source_language_index]
+                .source_language)
+        .format(selected_date_2);
+
+    String month_1 = DateFormat(
+            "MMMM",
+            text_list.translation_text_list_array[source_language_index]
+                .source_language)
+        .format(selected_date_1);
+
+    String month_2 = DateFormat(
+            "MMMM",
+            text_list.translation_text_list_array[source_language_index]
+                .source_language)
+        .format(selected_date_2);
+
+    if (selected_date_1.month == selected_date_2.month) {
+      month_1 = month_1.substring(0, 1).toUpperCase() + month_1.substring(1);
 
       if (index == -1) {
         reservation_period_label =
-            "$month ${selected_date_1.day} - ${selected_date_2.day}, ${DateFormat("yyyy").format(selected_date_1)}.";
+            "$month_1 ${selected_date_1.day} - ${selected_date_2.day}, ${DateFormat("yyyy").format(selected_date_1)}.";
       } else {
         reservation_period_label =
-            "$month ${reservations[index].date_init.day} - ${reservations[index].date_end.day}, ${DateFormat("yyyy").format(selected_date_1)}.";
+            "$month_1 ${reservations[index].date_init.day} - ${reservations[index].date_end.day}, ${DateFormat("yyyy").format(selected_date_1)}.";
       }
     } else {
-      String month_day_1 = DateFormat(
-              "MMMMd",
-              text_list.translation_text_list_array[source_language_index]
-                  .source_language)
-          .format(selected_date_1);
-
-      String month_day_2 = DateFormat(
-              "MMMMd",
-              text_list.translation_text_list_array[source_language_index]
-                  .source_language)
-          .format(selected_date_2);
-
-      String month_1 = DateFormat(
-              "MMMM",
-              text_list.translation_text_list_array[source_language_index]
-                  .source_language)
-          .format(selected_date_1);
-
-      String month_2 = DateFormat(
-              "MMMM",
-              text_list.translation_text_list_array[source_language_index]
-                  .source_language)
-          .format(selected_date_2);
-
       int month_day_1_first_letter_index = month_day_1.indexOf(month_1);
 
       int month_day_2_first_letter_index = month_day_2.indexOf(month_2);
