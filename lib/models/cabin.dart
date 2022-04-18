@@ -80,4 +80,15 @@ class Cabin {
 
     return bed_string.toSet().join(", ") + ".";
   }
+
+  int get_season_price(DateTime date) {
+    if (date.month == DateTime.july ||
+        date.month == DateTime.august ||
+        date.month == DateTime.september ||
+        date.month == DateTime.december) {
+      return this.high_price;
+    } else {
+      return this.low_price;
+    }
+  }
 }

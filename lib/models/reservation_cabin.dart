@@ -2,14 +2,15 @@
 
 import 'reservation.dart';
 
-class CabinReservation extends Reservation {
-  const CabinReservation({
+class ReservationCabin extends Reservation {
+  const ReservationCabin({
     required String id,
     required String user_id,
     required DateTime date_created,
     required DateTime date_init,
     required DateTime date_end,
     required this.cabin_id,
+    required this.payments,
   }) : super(
           id: id,
           user_id: user_id,
@@ -19,19 +20,21 @@ class CabinReservation extends Reservation {
         );
 
   final String cabin_id;
+  final List<String> payments;
 
-  factory CabinReservation.from_snapshot(
+  factory ReservationCabin.from_snapshot(
     String id,
     Map<String, dynamic> snapshot,
   ) {
     Reservation reservation = Reservation.from_snapshot(id, snapshot);
-    return CabinReservation(
+    return ReservationCabin(
       id: id,
       user_id: reservation.user_id,
       date_created: reservation.date_created,
       date_init: reservation.date_init,
       date_end: reservation.date_end,
       cabin_id: snapshot['cabin_id'],
+      payments: List<String>.from(snapshot['payments'] ?? []),
     );
   }
 }

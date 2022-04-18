@@ -16,7 +16,8 @@ import 'package:xapptor_logic/check_if_dates_are_in_the_same_day.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 import 'cabin_reservation_card.dart';
 import 'models/cabin.dart';
-import 'models/cabin_reservation.dart';
+import 'models/payment.dart';
+import 'models/reservation_cabin.dart';
 
 class CabinReservationsMenu extends StatefulWidget {
   CabinReservationsMenu({
@@ -64,6 +65,11 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           "You don't have any active reservations",
           "Confirm deletion",
           "Username",
+          "Delete",
+          "Edit",
+          "Add Payment",
+          "Amount",
+          "Total Paid",
         ],
       ),
       TranslationTextList(
@@ -98,6 +104,11 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           "No posees ninguna reservación activa",
           "Confirmar la eliminación",
           "Nombre de Usuario",
+          "Eliminar",
+          "Editar",
+          "Agregar Pago",
+          "Cantidad",
+          "Total Pagado",
         ],
       ),
     ],
@@ -159,12 +170,13 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   String date_label_2 = "";
 
   List<Cabin> cabins = [];
-  List<CabinReservation> reservations = [];
+  List<ReservationCabin> reservations = [];
   int selected_date_index = 0;
 
   List<Cabin> available_cabins = [];
   String selected_cabin = "";
-  CabinReservation? current_reservation;
+  ReservationCabin? current_reservation;
+  Cabin? current_cabin;
 
   DateFormat label_date_formatter = DateFormat.yMMMMd('en_US');
 
@@ -186,11 +198,13 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   }
 
   Map<String, dynamic> user_info = {};
+  String user_id = "";
 
   get_reservations() async {
     reservations.clear();
 
-    user_info = await get_user_info(FirebaseAuth.instance.currentUser!.uid);
+    user_id = FirebaseAuth.instance.currentUser!.uid;
+    user_info = await get_user_info(user_id);
 
     bool get_all_reservations = false;
 
@@ -219,14 +233,14 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           .collection("reservations")
           .where(
             "user_id",
-            isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+            isEqualTo: user_id,
           )
           .get();
     }
 
     if (reservations_snap.docs.length > 0) {
       reservations_snap.docs.forEach((snap) {
-        reservations.add(CabinReservation.from_snapshot(snap.id, snap.data()));
+        reservations.add(ReservationCabin.from_snapshot(snap.id, snap.data()));
       });
     }
 
@@ -396,7 +410,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     return available_cabins.firstWhere((cabin) => cabin.id == id);
   }
 
-  CabinReservation get_reservation_from_id(String id) {
+  ReservationCabin get_reservation_from_id(String id) {
     return reservations.firstWhere((reservation) => reservation.id == id);
   }
 
@@ -489,7 +503,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           .collection("reservations")
           .doc(reservation_id)
           .update({
-        "user_id": FirebaseAuth.instance.currentUser!.uid,
+        "user_id": user_id,
         "date_created": Timestamp.now(),
         "date_init": selected_date_1,
         "date_end": selected_date_2,
@@ -514,7 +528,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
       });
     } else {
       await FirebaseFirestore.instance.collection("reservations").add({
-        "user_id": FirebaseAuth.instance.currentUser!.uid,
+        "user_id": user_id,
         "date_created": Timestamp.now(),
         "date_init": selected_date_1,
         "date_end": selected_date_2,
@@ -538,6 +552,182 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         get_reservations();
       });
     }
+  }
+
+  TextEditingController amount_input_controller = TextEditingController();
+
+  Future<Payment> get_payment_by_id(String payment_id) async {
+    var payment_snap = await FirebaseFirestore.instance
+        .collection("payments")
+        .doc(payment_id)
+        .get();
+    return Payment.from_snapshot(
+        payment_snap.id, payment_snap.data() as Map<String, dynamic>);
+  }
+
+  Future<List<Payment>> get_payments_by_reservation(
+      ReservationCabin reservation) async {
+    List<Payment> reservation_payments = [];
+
+    reservation.payments.forEach((payment_id) async {
+      Payment current_payment = await get_payment_by_id(payment_id);
+      reservation_payments.add(current_payment);
+    });
+    return reservation_payments;
+  }
+
+  register_payment(String reservation_id) async {
+    current_reservation =
+        reservations.firstWhere((element) => element.id == reservation_id);
+
+    current_cabin = cabins
+        .firstWhere((element) => element.id == current_reservation!.cabin_id);
+
+    double screen_height = MediaQuery.of(context).size.height;
+    double screen_width = MediaQuery.of(context).size.width;
+    bool portrait = is_portrait(context);
+
+    get_payments_by_reservation(current_reservation!)
+        .then((reservation_payments) {
+      Timer(Duration(milliseconds: 300), () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(text_list.get(source_language_index)[31]),
+              content: Container(
+                height: screen_height * 0.3,
+                child: Column(
+                  children: [
+                    Container(
+                      height: screen_height * 0.2,
+                      width: screen_width / 5,
+                      child: ListView.builder(
+                          itemCount: reservation_payments.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              //height: screen_height * 0.1,
+                              width: screen_width / 5,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    label_date_formatter.format(
+                                            reservation_payments[index].date) +
+                                        " - \$" +
+                                        reservation_payments[index]
+                                            .amount
+                                            .toString(),
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      await FirebaseFirestore.instance
+                                          .collection("payments")
+                                          .doc(reservation_payments[index].id)
+                                          .delete();
+
+                                      current_reservation!.payments.removeWhere(
+                                          (element) =>
+                                              element ==
+                                              reservation_payments[index].id);
+
+                                      await FirebaseFirestore.instance
+                                          .collection("reservations")
+                                          .doc(current_reservation!.id)
+                                          .update({
+                                        "payments":
+                                            current_reservation!.payments,
+                                      });
+
+                                      Navigator.pop(context);
+                                    },
+                                    icon: Icon(
+                                      FontAwesomeIcons.trashCan,
+                                    ),
+                                    tooltip: text_list
+                                        .get(source_language_index)[29],
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        text_list.get(source_language_index)[33] +
+                            " \$" +
+                            reservation_payments
+                                .map((payment) => payment.amount)
+                                .toList()
+                                .reduce((a, b) => a + b)
+                                .toString() +
+                            "/" +
+                            current_cabin!
+                                .get_season_price(
+                                    current_reservation!.date_init)
+                                .toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: TextField(
+                        controller: amount_input_controller,
+                        autofocus: true,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: text_list.get(source_language_index)[32],
+                          hintText: text_list.get(source_language_index)[32],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(text_list.get(source_language_index)[22]),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                TextButton(
+                  child: Text(text_list.get(source_language_index)[23]),
+                  onPressed: () {
+                    Payment new_payment = Payment(
+                      id: "",
+                      amount: int.parse(amount_input_controller.text),
+                      date: DateTime.now(),
+                      product_id: current_reservation!.cabin_id,
+                      user_id: user_id,
+                    );
+
+                    FirebaseFirestore.instance
+                        .collection("payments")
+                        .add(new_payment.to_json())
+                        .then((payment) {
+                      FirebaseFirestore.instance
+                          .collection("reservations")
+                          .doc(current_reservation!.id)
+                          .update({
+                        "payments": FieldValue.arrayUnion([payment.id]),
+                      }).then((payment) {
+                        amount_input_controller.clear();
+                        Navigator.pop(context);
+                        get_reservations();
+                      });
+                    });
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      });
+    });
   }
 
   String reservation_period_label = "";
@@ -700,6 +890,9 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                         (String reservation_id) =>
                                             edit_button(reservation_id),
                                     editing_mode: show_creation_menu,
+                                    register_payment_callback:
+                                        (String reservation_id) =>
+                                            register_payment(reservation_id),
                                   ),
                                 );
                         },
@@ -731,6 +924,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                               show_edit_alert_dialog(reservation_id, register),
                       edit_button_callback: (String reservation_id) {},
                       editing_mode: show_creation_menu,
+                      register_payment_callback: (String reservation_id) {},
                     ),
                   ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xapptor_business/models/cabin_reservation.dart';
+import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_logic/bool_to_text.dart';
 import 'package:xapptor_logic/get_user_info.dart';
 import 'models/cabin.dart';
@@ -22,9 +22,10 @@ class CabinReservationCard extends StatefulWidget {
     required this.delete_button_callback,
     required this.edit_button_callback,
     required this.editing_mode,
+    required this.register_payment_callback,
   });
 
-  final CabinReservation? reservation;
+  final ReservationCabin? reservation;
   final bool select_date_available;
   final Function select_date_callback;
   final Color main_color;
@@ -39,6 +40,7 @@ class CabinReservationCard extends StatefulWidget {
   final Function(String reservation_id, bool register) delete_button_callback;
   final Function(String reservation_id) edit_button_callback;
   final bool editing_mode;
+  final Function(String reservation_id) register_payment_callback;
 
   @override
   _CabinReservationCardState createState() => _CabinReservationCardState();
@@ -102,6 +104,16 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              widget.reservation != null
+                  ? SelectableText(
+                      "ID: " + widget.reservation!.id,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : Container(),
               GestureDetector(
                 onTap: () {
                   if (widget.editing_mode) {
@@ -203,7 +215,11 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       Text(
                         widget.text_list[4] +
                             ": " +
-                            widget.cabin.low_price.toString() +
+                            widget.cabin
+                                .get_season_price(widget.reservation != null
+                                    ? widget.reservation!.date_init
+                                    : DateTime.now())
+                                .toString() +
                             "  MXN",
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.visible,
@@ -416,28 +432,43 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                 alignment: Alignment.topCenter,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      child: IconButton(
-                        onPressed: () {
-                          widget.delete_button_callback(
-                              widget.reservation!.id, false);
-                        },
-                        icon: Icon(
-                          FontAwesomeIcons.trashCan,
-                          color: Colors.red,
-                        ),
+                    IconButton(
+                      onPressed: () {
+                        widget.delete_button_callback(
+                            widget.reservation!.id, false);
+                      },
+                      icon: Icon(
+                        FontAwesomeIcons.trashCan,
+                        color: Colors.red,
                       ),
+                      tooltip: widget.text_list[29],
                     ),
-                    Container(
-                      child: IconButton(
-                        onPressed: () {
-                          widget.edit_button_callback(widget.reservation!.id);
-                        },
-                        icon: Icon(
-                          FontAwesomeIcons.penToSquare,
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            widget.edit_button_callback(widget.reservation!.id);
+                          },
+                          icon: Icon(
+                            FontAwesomeIcons.penToSquare,
+                          ),
+                          tooltip: widget.text_list[30],
                         ),
-                      ),
+                        admin
+                            ? IconButton(
+                                onPressed: () {
+                                  widget.register_payment_callback(
+                                      widget.reservation!.id);
+                                },
+                                icon: Icon(
+                                  FontAwesomeIcons.creditCard,
+                                ),
+                                tooltip: widget.text_list[31],
+                              )
+                            : Container(),
+                      ],
                     ),
                   ],
                 ),
