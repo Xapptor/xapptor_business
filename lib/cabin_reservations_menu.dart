@@ -114,6 +114,8 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     ],
   );
 
+  String website_url = "https://collineblanche.com.mx/home";
+
   bool show_creation_menu = false;
 
   late TranslationStream translation_stream;
@@ -440,7 +442,9 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           " " +
           user_info["lastname"] +
           " ha eliminado una reservación (${reservation_id}) para la cabaña ${reservation_for_deletion.cabin_id} con un periodo de " +
-          current_reservation_period_label;
+          current_reservation_period_label +
+          " " +
+          website_url;
 
       send_email(
         to: "info@collineblanche.com.mx",
@@ -517,7 +521,9 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
             " " +
             user_info["lastname"] +
             " ha actualizado una reservación (${current_reservation!.id}) para la cabaña ${selected_cabin} con un periodo de " +
-            reservation_period_label;
+            reservation_period_label +
+            " " +
+            website_url;
 
         send_email(
           to: "info@collineblanche.com.mx",
@@ -542,7 +548,9 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
             " " +
             user_info["lastname"] +
             " ha creado una reservación (${value.id}) para la cabaña ${selected_cabin} con un periodo de " +
-            reservation_period_label;
+            reservation_period_label +
+            " " +
+            website_url;
 
         send_email(
           to: "info@collineblanche.com.mx",
@@ -599,80 +607,87 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                 height: screen_height * 0.3,
                 child: Column(
                   children: [
-                    Container(
-                      height: screen_height * 0.2,
-                      width: screen_width / 5,
-                      child: ListView.builder(
-                          itemCount: reservation_payments.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              //height: screen_height * 0.1,
-                              width: screen_width / 5,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    label_date_formatter.format(
-                                            reservation_payments[index].date) +
-                                        " - \$" +
-                                        reservation_payments[index]
-                                            .amount
-                                            .toString(),
-                                  ),
-                                  IconButton(
-                                    onPressed: () async {
-                                      await FirebaseFirestore.instance
-                                          .collection("payments")
-                                          .doc(reservation_payments[index].id)
-                                          .delete();
+                    reservation_payments.length > 0
+                        ? Container(
+                            height: screen_height * 0.2,
+                            width: screen_width / 5,
+                            child: ListView.builder(
+                                itemCount: reservation_payments.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    //height: screen_height * 0.1,
+                                    width: screen_width / 5,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          label_date_formatter.format(
+                                                  reservation_payments[index]
+                                                      .date) +
+                                              " - \$" +
+                                              reservation_payments[index]
+                                                  .amount
+                                                  .toString(),
+                                        ),
+                                        IconButton(
+                                          onPressed: () async {
+                                            await FirebaseFirestore.instance
+                                                .collection("payments")
+                                                .doc(reservation_payments[index]
+                                                    .id)
+                                                .delete();
 
-                                      current_reservation!.payments.removeWhere(
-                                          (element) =>
-                                              element ==
-                                              reservation_payments[index].id);
+                                            current_reservation!.payments
+                                                .removeWhere((element) =>
+                                                    element ==
+                                                    reservation_payments[index]
+                                                        .id);
 
-                                      await FirebaseFirestore.instance
-                                          .collection("reservations")
-                                          .doc(current_reservation!.id)
-                                          .update({
-                                        "payments":
-                                            current_reservation!.payments,
-                                      });
+                                            await FirebaseFirestore.instance
+                                                .collection("reservations")
+                                                .doc(current_reservation!.id)
+                                                .update({
+                                              "payments":
+                                                  current_reservation!.payments,
+                                            });
 
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(
-                                      FontAwesomeIcons.trashCan,
+                                            Navigator.pop(context);
+                                          },
+                                          icon: Icon(
+                                            FontAwesomeIcons.trashCan,
+                                          ),
+                                          tooltip: text_list
+                                              .get(source_language_index)[29],
+                                        )
+                                      ],
                                     ),
-                                    tooltip: text_list
-                                        .get(source_language_index)[29],
-                                  )
-                                ],
+                                  );
+                                }),
+                          )
+                        : Container(),
+                    reservation_payments.length > 0
+                        ? Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              text_list.get(source_language_index)[33] +
+                                  " \$" +
+                                  reservation_payments
+                                      .map((payment) => payment.amount)
+                                      .toList()
+                                      .reduce((a, b) => a + b)
+                                      .toString() +
+                                  "/" +
+                                  current_cabin!
+                                      .get_season_price(
+                                          current_reservation!.date_init)
+                                      .toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                          }),
-                    ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        text_list.get(source_language_index)[33] +
-                            " \$" +
-                            reservation_payments
-                                .map((payment) => payment.amount)
-                                .toList()
-                                .reduce((a, b) => a + b)
-                                .toString() +
-                            "/" +
-                            current_cabin!
-                                .get_season_price(
-                                    current_reservation!.date_init)
-                                .toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                            ),
+                          )
+                        : Container(),
                     Container(
                       child: TextField(
                         controller: amount_input_controller,
