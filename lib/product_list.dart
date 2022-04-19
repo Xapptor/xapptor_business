@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:uuid/uuid.dart';
 import 'package:xapptor_logic/firebase_tasks.dart';
 import 'package:xapptor_router/app_screen.dart';
@@ -12,7 +11,7 @@ import 'package:xapptor_ui/widgets/webview/webview.dart';
 import 'package:xapptor_ui/widgets/custom_card.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'dispenser_details.dart';
+import 'vending_machine/dispenser_details.dart';
 import 'product_details.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 

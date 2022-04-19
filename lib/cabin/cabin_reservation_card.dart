@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_logic/bool_to_text.dart';
 import 'package:xapptor_logic/get_user_info.dart';
-import 'models/cabin.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CabinReservationCard extends StatefulWidget {

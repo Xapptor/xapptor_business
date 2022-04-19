@@ -1,27 +1,33 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
-import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
-import 'package:xapptor_logic/file_downloader/file_downloader.dart';
-import 'models/payments.dart';
-import 'models/product.dart';
-import 'models/vending_machine.dart';
+import 'models/payment.dart';
 import 'package:xapptor_ui/values/ui.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
 
 class AdminAnalytics extends StatefulWidget {
   const AdminAnalytics({
     required this.text_color,
     required this.icon_color,
+    required this.products,
+    required this.product_value,
+    required this.update_product_value,
+    required this.payments,
+    required this.filtered_payments,
+    required this.filter_payments,
   });
 
   final Color text_color;
   final Color icon_color;
+  final List products;
+  final String product_value;
+  final Function(String new_value) update_product_value;
+  final List<Payment> payments;
+  final List<Payment> filtered_payments;
+  final Function filter_payments;
+
   @override
   _AdminAnalyticsState createState() => _AdminAnalyticsState();
 }
@@ -39,208 +45,32 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
   String timeframe_value = timeframe_values[3];
   TimeFrame current_timeframe = TimeFrame.year;
 
-  List<VendingMachine> vending_machines = [];
-  List<String> vending_machine_values = ["Máquinas"];
-  String vending_machine_value = "Máquinas";
-
-  static List<String> dispenser_values = ["Dispensadores"] +
-      List<String>.generate(10, (i) => "Dispensador ${(i + 1)}");
-  String dispenser_value = dispenser_values.first;
-
-  List<Product> products = [];
-  List<String> product_values = ["Productos"];
-  String product_value = "Productos";
-
-  List<Payment> payments = [];
-  List<Payment> filtered_payments = [];
-  List<Payment> filtered_payments_by_vending_machine = [];
-
   List<Map<String, dynamic>> sum_of_payments = [];
 
   @override
   void initState() {
     super.initState();
-    get_vending_machines();
-    // duplicate_document(
-    //   document_id: "",
-    //   collection_id: "vending_machines",
-    //   times: 0,
-    // );
-  }
-
-  // Retrieving vending machines.
-
-  get_vending_machines() async {
-    vending_machines.clear();
-    vending_machine_values.clear();
-
-    vending_machine_values.add("Máquinas");
-
-    user_id = FirebaseAuth.instance.currentUser!.uid;
-
-    await FirebaseFirestore.instance
-        .collection('vending_machines')
-        .where(
-          'user_id',
-          isEqualTo: user_id,
-        )
-        .get()
-        .then((QuerySnapshot query_snapshot) {
-      query_snapshot.docs.forEach((DocumentSnapshot doc) {
-        vending_machines.add(
-          VendingMachine.from_snapshot(
-            doc.id,
-            doc.data() as Map<String, dynamic>,
-          ),
-        );
-        vending_machine_values.add(vending_machines.last.name);
-      });
-      vending_machine_value = vending_machine_values.first;
-      get_products();
-    });
-  }
-
-  // Retrieving products.
-
-  get_products() async {
-    products.clear();
-    product_values.clear();
-
-    product_values.add("Productos");
-
-    await FirebaseFirestore.instance
-        .collection("products")
-        .get()
-        .then((snapshot_products) {
-      for (var snapshot_product in snapshot_products.docs) {
-        products.add(
-          Product.from_snapshot(
-            snapshot_product.id,
-            snapshot_product.data(),
-          ),
-        );
-        product_values.add(products.last.name);
-      }
-      product_value = product_values.first;
-      get_payments();
-    });
-  }
-
-  // Retrieving payments.
-
-  get_payments() async {
-    for (var vending_machine in vending_machines) {
-      await FirebaseFirestore.instance
-          .collection('payments')
-          .where(
-            'vending_machine_id',
-            isEqualTo: vending_machine.id,
-          )
-          .get()
-          .then((QuerySnapshot query_snapshot) {
-        query_snapshot.docs.forEach((DocumentSnapshot doc) {
-          payments.add(
-            Payment.from_snapshot(
-              doc.id,
-              doc.data() as Map<String, dynamic>,
-            ),
-          );
-        });
-        if (vending_machine == vending_machines.last) {
-          get_filtered_payments();
-        }
-      });
-    }
-  }
-
-  // Filtering payments.
-
-  get_filtered_payments() {
-    filtered_payments.clear();
-    payments.sort((a, b) => a.date.compareTo(b.date));
-
-    filtered_payments = payments
-        .where(
-          (payment) => payment.date.isAfter(
-            get_timeframe_date(
-              timeframe: current_timeframe,
-              first_year: payments.first.date.year,
-            ),
-          ),
-        )
-        .toList();
-
-    filtered_payments_by_vending_machine = payments;
-
-    if (vending_machine_values.indexOf(vending_machine_value) != 0) {
-      filtered_payments = filtered_payments
-          .where(
-            (payment) =>
-                payment.vending_machine_id ==
-                vending_machines
-                    .firstWhere((vending_machine) =>
-                        vending_machine.name == vending_machine_value)
-                    .id,
-          )
-          .toList();
-
-      filtered_payments_by_vending_machine = payments
-          .where(
-            (payment) =>
-                payment.vending_machine_id ==
-                vending_machines
-                    .firstWhere((vending_machine) =>
-                        vending_machine.name == vending_machine_value)
-                    .id,
-          )
-          .toList();
-    }
-
-    if (dispenser_values.indexOf(dispenser_value) != 0)
-      filtered_payments = filtered_payments.where((payment) {
-        int dispenser_value_number = dispenser_value.characters.last == "0"
-            ? 9
-            : (int.parse(dispenser_value.characters.last) - 1);
-        return payment.dispenser == dispenser_value_number;
-      }).toList();
-
-    if (product_values.indexOf(product_value) != 0)
-      filtered_payments = filtered_payments
-          .where(
-            (payment) =>
-                payment.product_id ==
-                products
-                    .firstWhere((product) => product.name == product_value)
-                    .id,
-          )
-          .toList();
-
-    filtered_payments.sort((a, b) => a.date.compareTo(b.date));
-    get_sum_of_payments_by_timeframe();
   }
 
   get_sum_of_payments_by_timeframe() {
     sum_of_payments.clear();
-    for (var filtered_payment in filtered_payments) {
+    for (var payment in widget.payments) {
       if (sum_of_payments.isEmpty) {
         sum_of_payments.add({
-          "date": filtered_payment.date,
-          "amount": filtered_payment.amount,
+          "date": payment.date,
+          "amount": payment.amount,
         });
       } else {
         bool payment_was_made_at_same_timeframe = false;
 
-        bool same_hour =
-            filtered_payment.date.hour == sum_of_payments.last["date"].hour;
+        bool same_hour = payment.date.hour == sum_of_payments.last["date"].hour;
 
-        bool same_day =
-            filtered_payment.date.day == sum_of_payments.last["date"].day;
+        bool same_day = payment.date.day == sum_of_payments.last["date"].day;
 
         bool same_month =
-            filtered_payment.date.month == sum_of_payments.last["date"].month;
+            payment.date.month == sum_of_payments.last["date"].month;
 
-        bool same_year =
-            filtered_payment.date.year == sum_of_payments.last["date"].year;
+        bool same_year = payment.date.year == sum_of_payments.last["date"].year;
 
         switch (current_timeframe) {
           case TimeFrame.day:
@@ -265,116 +95,16 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
         }
 
         if (payment_was_made_at_same_timeframe) {
-          sum_of_payments.last["amount"] += filtered_payment.amount;
+          sum_of_payments.last["amount"] += payment.amount;
         } else {
           sum_of_payments.add({
-            "date": filtered_payment.date,
-            "amount": filtered_payment.amount,
+            "date": payment.date,
+            "amount": payment.amount,
           });
         }
       }
     }
     setState(() {});
-  }
-
-  // Download excel file.
-
-  download_excel_file() async {
-    SnackBar snackBar = SnackBar(
-      content: Text("Descargando..."),
-      duration: Duration(seconds: 2),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-    final xlsio.Workbook workbook = new xlsio.Workbook();
-    final xlsio.Worksheet sheet = workbook.worksheets[0];
-
-    List<String> titles = [
-      "ID DE PAGO",
-      "MONTO",
-      "NOMBRE DE MÁQUINA",
-      "ID DE MÁQUINA",
-      "ID DE DISPENSADOR",
-      "NOMBRE DE PRODUCTO",
-      "ID DE PRODUCTO",
-      "ID DE USUARIO",
-      "FECHA",
-      "HORA",
-    ];
-
-    for (var i = 0; i < titles.length; i++) {
-      String current_cell_position = "${String.fromCharCode(65 + i)}1";
-      sheet.getRangeByName(current_cell_position).setText(titles[i]);
-    }
-
-    int current_row_number = 2;
-
-    for (var filtred_payment in filtered_payments) {
-      await FirebaseFirestore.instance
-          .collection('vending_machines')
-          .doc(filtred_payment.vending_machine_id)
-          .get()
-          .then((DocumentSnapshot vending_machine_snapshot) async {
-        VendingMachine vending_machine = VendingMachine.from_snapshot(
-          vending_machine_snapshot.id,
-          vending_machine_snapshot.data() as Map<String, dynamic>,
-        );
-
-        String current_date =
-            DateFormat("dd/MM/yyyy").format(filtred_payment.date);
-        String current_date_hour = DateFormat.Hm().format(filtred_payment.date);
-
-        await FirebaseFirestore.instance
-            .collection('products')
-            .doc(filtred_payment.product_id)
-            .get()
-            .then((DocumentSnapshot product_snapshot) {
-          Product product = Product.from_snapshot(
-            product_snapshot.id,
-            product_snapshot.data() as Map<String, dynamic>,
-          );
-
-          List<String> cell_values = [
-            filtred_payment.id,
-            filtred_payment.amount.toString(),
-            vending_machine.name,
-            filtred_payment.vending_machine_id,
-            filtred_payment.dispenser.toString(),
-            product.name,
-            filtred_payment.product_id,
-            filtred_payment.user_id,
-            current_date,
-            current_date_hour
-          ];
-
-          for (var i = 0; i < cell_values.length; i++) {
-            String current_cell_position =
-                '${String.fromCharCode(65 + i)}$current_row_number';
-            sheet.getRangeByName(current_cell_position).setText(cell_values[i]);
-          }
-
-          current_row_number++;
-        });
-      });
-    }
-
-    for (var i = 0; i < titles.length; i++) {
-      sheet.autoFitColumn(i + 1);
-    }
-
-    String file_name = "pagos_lum_" + DateTime.now().toString() + ".xlsx";
-    file_name = file_name
-        .replaceAll(":", "_")
-        .replaceAll("-", "_")
-        .replaceAll(" ", "_")
-        .replaceFirst(".", "_");
-
-    FileDownloader.save(
-      src: base64Encode(workbook.saveAsStream()),
-      file_name: file_name,
-    );
-
-    workbook.dispose();
   }
 
   @override
@@ -421,7 +151,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                   Expanded(
                     flex: 1,
                     child: IconButton(
-                      onPressed: download_excel_file,
+                      onPressed: () {},
                       icon: Icon(
                         Typicons.down_outline,
                         color: widget.icon_color,
@@ -476,7 +206,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                                   current_timeframe = TimeFrame.beginning;
                                   break;
                               }
-                              get_filtered_payments();
+                              widget.filter_payments();
                             });
                           },
                           items: timeframe_values
@@ -489,221 +219,222 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                         ),
                       ),
                       Spacer(flex: 1),
-                      Expanded(
-                        flex: 10,
-                        child: DropdownButton<String>(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: widget.text_color,
-                          ),
-                          value: vending_machine_value,
-                          iconSize: 24,
-                          elevation: 16,
-                          isExpanded: true,
-                          style: TextStyle(
-                            color: widget.text_color,
-                          ),
-                          underline: Container(
-                            height: 1,
-                            color: widget.text_color,
-                          ),
-                          onChanged: (new_value) {
-                            setState(() {
-                              vending_machine_value = new_value!;
-                              get_filtered_payments();
-                            });
-                          },
-                          items: vending_machine_values
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
+                      // Expanded(
+                      //   flex: 10,
+                      //   child: DropdownButton<String>(
+                      //     icon: Icon(
+                      //       Icons.arrow_drop_down,
+                      //       color: widget.text_color,
+                      //     ),
+                      //     value: vending_machine_value,
+                      //     iconSize: 24,
+                      //     elevation: 16,
+                      //     isExpanded: true,
+                      //     style: TextStyle(
+                      //       color: widget.text_color,
+                      //     ),
+                      //     underline: Container(
+                      //       height: 1,
+                      //       color: widget.text_color,
+                      //     ),
+                      //     onChanged: (new_value) {
+                      //       setState(() {
+                      //         vending_machine_value = new_value!;
+                      //         widget.filter_payments();
+                      //       });
+                      //     },
+                      //     items: vending_machine_values
+                      //         .map<DropdownMenuItem<String>>((String value) {
+                      //       return DropdownMenuItem<String>(
+                      //         value: value,
+                      //         child: Text(value),
+                      //       );
+                      //     }).toList(),
+                      //   ),
+                      // ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Expanded(
-                        flex: 10,
-                        child: DropdownButton<String>(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: widget.text_color,
-                          ),
-                          value: dispenser_value,
-                          iconSize: 24,
-                          elevation: 16,
-                          isExpanded: true,
-                          style: TextStyle(
-                            color: widget.text_color,
-                          ),
-                          underline: Container(
-                            height: 1,
-                            color: widget.text_color,
-                          ),
-                          onChanged: (new_value) {
-                            setState(() {
-                              dispenser_value = new_value!;
-                              get_filtered_payments();
-                            });
-                          },
-                          items: dispenser_values
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
+                      // Expanded(
+                      //   flex: 10,
+                      //   child: DropdownButton<String>(
+                      //     icon: Icon(
+                      //       Icons.arrow_drop_down,
+                      //       color: widget.text_color,
+                      //     ),
+                      //     value: dispenser_value,
+                      //     iconSize: 24,
+                      //     elevation: 16,
+                      //     isExpanded: true,
+                      //     style: TextStyle(
+                      //       color: widget.text_color,
+                      //     ),
+                      //     underline: Container(
+                      //       height: 1,
+                      //       color: widget.text_color,
+                      //     ),
+                      //     onChanged: (new_value) {
+                      //       setState(() {
+                      //         dispenser_value = new_value!;
+                      //         widget.filter_payments();
+                      //       });
+                      //     },
+                      //     items: dispenser_values
+                      //         .map<DropdownMenuItem<String>>((String value) {
+                      //       return DropdownMenuItem<String>(
+                      //         value: value,
+                      //         child: Text(value),
+                      //       );
+                      //     }).toList(),
+                      //   ),
+                      // ),
                       Spacer(flex: 1),
-                      Expanded(
-                        flex: 10,
-                        child: DropdownButton<String>(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: widget.text_color,
-                          ),
-                          value: product_value,
-                          iconSize: 24,
-                          elevation: 16,
-                          isExpanded: true,
-                          style: TextStyle(
-                            color: widget.text_color,
-                          ),
-                          underline: Container(
-                            height: 1,
-                            color: widget.text_color,
-                          ),
-                          onChanged: (new_value) {
-                            setState(() {
-                              product_value = new_value!;
-                              get_filtered_payments();
-                            });
-                          },
-                          items: product_values
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
+                      // Expanded(
+                      //   flex: 10,
+                      //   child: DropdownButton<String>(
+                      //     icon: Icon(
+                      //       Icons.arrow_drop_down,
+                      //       color: widget.text_color,
+                      //     ),
+                      //     value: widget.product_value,
+                      //     iconSize: 24,
+                      //     elevation: 16,
+                      //     isExpanded: true,
+                      //     style: TextStyle(
+                      //       color: widget.text_color,
+                      //     ),
+                      //     underline: Container(
+                      //       height: 1,
+                      //       color: widget.text_color,
+                      //     ),
+                      //     onChanged: (new_value) {
+                      //       setState(() {
+                      //         widget.update_product_value(new_value!);
+                      //         widget.filter_payments();
+                      //       });
+                      //     },
+                      //     items: widget.products
+                      //         .map<DropdownMenuItem<String>>((String value) {
+                      //       return DropdownMenuItem<String>(
+                      //         value: value,
+                      //         child: Text(value),
+                      //       );
+                      //     }).toList(),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
               ),
-              payments.isNotEmpty
-                  ? Column(
+              Column(
+                children: [
+                  SizedBox(
+                    height: sized_box_space * 2,
+                  ),
+                  Container(
+                    height: screen_height / 3,
+                    width: screen_width,
+                    child: main_line_chart(
+                      current_timeframe: current_timeframe,
+                      max_y: max_y,
+                      sum_of_payments: sum_of_payments,
+                      text_color: widget.text_color,
+                      icon_color: widget.icon_color,
+                    ),
+                  ),
+                  FractionallySizedBox(
+                    widthFactor: 0.75,
+                    child: Column(
                       children: [
                         SizedBox(
-                          height: sized_box_space * 2,
+                          height: sized_box_space * 6,
+                        ),
+                        Text(
+                          'Ventas por Máquina',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: widget.text_color,
+                            fontSize: subtitle_size,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: sized_box_space,
                         ),
                         Container(
                           height: screen_height / 3,
                           width: screen_width,
-                          child: main_line_chart(
-                            current_timeframe: current_timeframe,
-                            max_y: max_y,
-                            sum_of_payments: sum_of_payments,
-                            text_color: widget.text_color,
-                            icon_color: widget.icon_color,
+                          child: payments_pie_chart_by_parameter(
+                            payments:
+                                payment_list_to_json_list(widget.payments),
+                            filtered_payments_by_vending_machine: null,
+                            parameter: "vending_machine_id",
+                            same_background_color: true,
                           ),
                         ),
-                        FractionallySizedBox(
-                          widthFactor: 0.75,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: sized_box_space * 6,
-                              ),
-                              Text(
-                                'Ventas por Máquina',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: widget.text_color,
-                                  fontSize: subtitle_size,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: sized_box_space,
-                              ),
-                              Container(
-                                height: screen_height / 3,
-                                width: screen_width,
-                                child: payments_pie_chart_by_parameter(
-                                  payments: payment_list_to_json_list(payments),
-                                  filtered_payments_by_vending_machine: null,
-                                  parameter: "vending_machine_id",
-                                  same_background_color: true,
-                                ),
-                              ),
-                              SizedBox(
-                                height: sized_box_space * 4,
-                              ),
-                              Text(
-                                'Ventas por Dispensador',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: widget.text_color,
-                                  fontSize: subtitle_size,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: sized_box_space,
-                              ),
-                              Container(
-                                height: screen_height / 3,
-                                width: screen_width,
-                                child: payments_pie_chart_by_parameter(
-                                  payments: payment_list_to_json_list(payments),
-                                  filtered_payments_by_vending_machine:
-                                      payment_list_to_json_list(
-                                          filtered_payments_by_vending_machine),
-                                  parameter: "dispenser",
-                                  same_background_color: false,
-                                ),
-                              ),
-                              SizedBox(
-                                height: sized_box_space * 4,
-                              ),
-                              Text(
-                                'Ventas por Producto',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: widget.text_color,
-                                  fontSize: subtitle_size,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: sized_box_space,
-                              ),
-                              Container(
-                                height: screen_height / 3,
-                                width: screen_width,
-                                child: payments_pie_chart_by_parameter(
-                                  payments: payment_list_to_json_list(payments),
-                                  filtered_payments_by_vending_machine:
-                                      payment_list_to_json_list(
-                                          filtered_payments_by_vending_machine),
-                                  parameter: "product_id",
-                                  same_background_color: true,
-                                ),
-                              ),
-                            ],
+                        SizedBox(
+                          height: sized_box_space * 4,
+                        ),
+                        Text(
+                          'Ventas por Dispensador',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: widget.text_color,
+                            fontSize: subtitle_size,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: sized_box_space,
+                        ),
+                        Container(
+                          height: screen_height / 3,
+                          width: screen_width,
+                          child: payments_pie_chart_by_parameter(
+                            payments:
+                                payment_list_to_json_list(widget.payments),
+                            filtered_payments_by_vending_machine:
+                                payment_list_to_json_list(
+                                    widget.filtered_payments),
+                            parameter: "dispenser",
+                            same_background_color: false,
+                          ),
+                        ),
+                        SizedBox(
+                          height: sized_box_space * 4,
+                        ),
+                        Text(
+                          'Ventas por Producto',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: widget.text_color,
+                            fontSize: subtitle_size,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: sized_box_space,
+                        ),
+                        Container(
+                          height: screen_height / 3,
+                          width: screen_width,
+                          child: payments_pie_chart_by_parameter(
+                            payments:
+                                payment_list_to_json_list(widget.payments),
+                            filtered_payments_by_vending_machine:
+                                payment_list_to_json_list(
+                                    widget.filtered_payments),
+                            parameter: "product_id",
+                            same_background_color: true,
                           ),
                         ),
                       ],
-                    )
-                  : Container(),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: sized_box_space * 2,
               ),

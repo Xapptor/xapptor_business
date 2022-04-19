@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:xapptor_business/models/cabin.dart';
+import 'package:xapptor_business/models/payment.dart';
+import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_logic/get_user_info.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_logic/get_range_of_dates.dart';
 import 'package:xapptor_logic/send_email.dart';
 import 'package:xapptor_translation/language_picker.dart';
-import 'package:xapptor_translation/model/text_list.dart';
 import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_logic/check_if_dates_are_in_the_same_day.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 import 'cabin_reservation_card.dart';
-import 'models/cabin.dart';
-import 'models/payment.dart';
-import 'models/reservation_cabin.dart';
+import 'cabin_reservation_text_list.dart';
 
 class CabinReservationsMenu extends StatefulWidget {
   CabinReservationsMenu({
@@ -31,89 +31,6 @@ class CabinReservationsMenu extends StatefulWidget {
 }
 
 class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
-  TranslationTextListArray text_list = TranslationTextListArray(
-    [
-      TranslationTextList(
-        source_language: "en",
-        text_list: [
-          "Enter the initial day of your reservation",
-          "Enter the last day of your reservation",
-          "Reservation Period",
-          "Cabin",
-          "Price",
-          "Capacity",
-          "People",
-          "Description",
-          "Bed",
-          "Bathrooms",
-          "Kitchen",
-          "Sauna",
-          "Livingroom",
-          "Chimney",
-          "Balcony",
-          "Yes",
-          "No",
-          "Ideal for big families or groups of friends.",
-          "Ideal for families or groups of friends.",
-          "Ideal for couples.",
-          "Confirm",
-          "Confirm Reservation",
-          "Cancel",
-          "Ok",
-          "New Reservation",
-          "Reservations",
-          "You don't have any active reservations",
-          "Confirm deletion",
-          "Username",
-          "Delete",
-          "Edit",
-          "Add Payment",
-          "Amount",
-          "Total Paid",
-        ],
-      ),
-      TranslationTextList(
-        source_language: "es",
-        text_list: [
-          "Selecciona el día inicial de tu reservación",
-          "Selecciona el último día de tu reservación",
-          "Periodo de Reservación",
-          "Cabaña",
-          "Precio",
-          "Capacidad",
-          "Personas",
-          "Descripción",
-          "Camas",
-          "Baños",
-          "Cocina",
-          "Sauna",
-          "Sala",
-          "Chimenea",
-          "Balcón",
-          "Si",
-          "No",
-          "Ideal para familias y grupos de amigos grandes.",
-          "Ideal para familias y grupos de amigos.",
-          "Ideal para parejas.",
-          "Confirmar",
-          "Confirmar Reservación",
-          "Cancelar",
-          "Ok",
-          "Nueva Reservación",
-          "Reservaciones",
-          "No posees ninguna reservación activa",
-          "Confirmar la eliminación",
-          "Nombre de Usuario",
-          "Eliminar",
-          "Editar",
-          "Agregar Pago",
-          "Cantidad",
-          "Total Pagado",
-        ],
-      ),
-    ],
-  );
-
   String website_url = "https://collineblanche.com.mx/home";
 
   bool show_creation_menu = false;
@@ -750,29 +667,35 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   String get_reservation_period_label(int index) {
     reservation_period_label = "";
 
+    DateTime date_to_use_1 =
+        show_creation_menu ? selected_date_1 : reservations[index].date_init;
+
+    DateTime date_to_use_2 =
+        show_creation_menu ? selected_date_2 : reservations[index].date_init;
+
     String month_day_1 = DateFormat(
             "MMMMd",
             text_list.translation_text_list_array[source_language_index]
                 .source_language)
-        .format(selected_date_1);
+        .format(date_to_use_1);
 
     String month_day_2 = DateFormat(
             "MMMMd",
             text_list.translation_text_list_array[source_language_index]
                 .source_language)
-        .format(selected_date_2);
+        .format(date_to_use_2);
 
     String month_1 = DateFormat(
             "MMMM",
             text_list.translation_text_list_array[source_language_index]
                 .source_language)
-        .format(selected_date_1);
+        .format(date_to_use_1);
 
     String month_2 = DateFormat(
             "MMMM",
             text_list.translation_text_list_array[source_language_index]
                 .source_language)
-        .format(selected_date_2);
+        .format(date_to_use_2);
 
     if (selected_date_1.month == selected_date_2.month) {
       month_1 = month_1.substring(0, 1).toUpperCase() + month_1.substring(1);
@@ -840,7 +763,6 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
         alignment: Alignment.center,
         child: !show_creation_menu
             ? Container(
-                width: screen_width * (portrait ? 0.8 : 0.4),
                 child: reservations.length == 0
                     ? Container(
                         alignment: Alignment.center,
@@ -869,45 +791,49 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                     ),
                                   ),
                                 )
-                              : Container(
-                                  height:
-                                      screen_height * (portrait ? 0.35 : 0.3),
-                                  margin: const EdgeInsets.all(10),
-                                  child: CabinReservationCard(
-                                    reservation: reservations[index - 1],
-                                    select_date_available: true,
-                                    select_date_callback: _select_date,
-                                    main_color: widget.topbar_color,
-                                    text_list:
-                                        text_list.get(source_language_index),
-                                    cabin: cabins.firstWhere((cabin) =>
-                                        cabin.id ==
-                                        reservations[index - 1].cabin_id),
-                                    reservation_period_label:
-                                        get_reservation_period_label(index - 1),
-                                    selected_cabin: selected_cabin,
-                                    update_selected_cabin:
-                                        update_selected_cabin,
-                                    register_reservation:
-                                        (String reservation_id,
-                                                bool register) =>
-                                            show_edit_alert_dialog(
-                                                reservation_id, register),
-                                    available_cabins: available_cabins,
-                                    cancel_button_callback: () =>
-                                        cancel_button(),
-                                    delete_button_callback:
-                                        (String reservation_id,
-                                                bool register) =>
-                                            show_edit_alert_dialog(
-                                                reservation_id, register),
-                                    edit_button_callback:
-                                        (String reservation_id) =>
-                                            edit_button(reservation_id),
-                                    editing_mode: show_creation_menu,
-                                    register_payment_callback:
-                                        (String reservation_id) =>
-                                            register_payment(reservation_id),
+                              : FractionallySizedBox(
+                                  widthFactor: portrait ? 0.8 : 0.4,
+                                  child: Container(
+                                    height:
+                                        screen_height * (portrait ? 0.35 : 0.3),
+                                    margin: const EdgeInsets.all(10),
+                                    child: CabinReservationCard(
+                                      reservation: reservations[index - 1],
+                                      select_date_available: true,
+                                      select_date_callback: _select_date,
+                                      main_color: widget.topbar_color,
+                                      text_list:
+                                          text_list.get(source_language_index),
+                                      cabin: cabins.firstWhere((cabin) =>
+                                          cabin.id ==
+                                          reservations[index - 1].cabin_id),
+                                      reservation_period_label:
+                                          get_reservation_period_label(
+                                              index - 1),
+                                      selected_cabin: selected_cabin,
+                                      update_selected_cabin:
+                                          update_selected_cabin,
+                                      register_reservation:
+                                          (String reservation_id,
+                                                  bool register) =>
+                                              show_edit_alert_dialog(
+                                                  reservation_id, register),
+                                      available_cabins: available_cabins,
+                                      cancel_button_callback: () =>
+                                          cancel_button(),
+                                      delete_button_callback:
+                                          (String reservation_id,
+                                                  bool register) =>
+                                              show_edit_alert_dialog(
+                                                  reservation_id, register),
+                                      edit_button_callback:
+                                          (String reservation_id) =>
+                                              edit_button(reservation_id),
+                                      editing_mode: show_creation_menu,
+                                      register_payment_callback:
+                                          (String reservation_id) =>
+                                              register_payment(reservation_id),
+                                    ),
                                   ),
                                 );
                         },

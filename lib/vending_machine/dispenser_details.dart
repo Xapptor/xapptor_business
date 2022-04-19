@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:xapptor_business/models/dispenser.dart';
+import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_logic/get_main_color_from_remote_svg.dart';
-import 'models/dispenser.dart';
-import 'models/product.dart';
 import 'package:xapptor_ui/widgets/switch_button.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
