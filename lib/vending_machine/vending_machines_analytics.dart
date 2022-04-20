@@ -1,24 +1,42 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
-import 'package:xapptor_business/admin_analytics.dart';
+import 'package:xapptor_business/analytics/admin_analytics.dart';
+import 'package:xapptor_business/analytics/analytics_segment.dart';
+import 'package:xapptor_business/analytics/get_sum_of_payments_by_timeframe.dart';
 import 'package:xapptor_business/models/payment_vending_machine.dart';
 import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
-import 'package:xapptor_logic/file_downloader/file_downloader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:xapptor_business/vending_machine/download_vending_machines_analytics_excel_file.dart';
 import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
 
 class VendingMachinesAnalytics extends StatefulWidget {
   const VendingMachinesAnalytics({
+    required this.screen_title,
     required this.text_color,
     required this.icon_color,
+    required this.pie_chart_titles,
+    required this.download_analytics_titles,
+    required this.timeframe_values,
+    required this.vending_machine_value,
+    required this.dispenser_values,
+    required this.product_value,
+    required this.loading_message,
+    required this.base_file_name,
   });
 
+  final String screen_title;
   final Color text_color;
   final Color icon_color;
+  final List<String> pie_chart_titles;
+  final List<String> download_analytics_titles;
+  final List<String> timeframe_values;
+  final String vending_machine_value;
+  final List<String> dispenser_values;
+  final String product_value;
+  final String loading_message;
+  final String base_file_name;
+
   @override
   _VendingMachinesAnalyticsState createState() =>
       _VendingMachinesAnalyticsState();
@@ -27,27 +45,18 @@ class VendingMachinesAnalytics extends StatefulWidget {
 class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
   String user_id = "";
 
-  static List<String> timeframe_values = [
-    "Del último día",
-    "De la última semana",
-    "Del último mes",
-    "Del último año",
-    "Desde el inicio",
-  ];
-  String timeframe_value = timeframe_values[3];
+  String timeframe_value = "";
   TimeFrame current_timeframe = TimeFrame.year;
 
   List<VendingMachine> vending_machines = [];
-  List<String> vending_machine_values = ["Máquinas"];
-  String vending_machine_value = "Máquinas";
+  List<String> vending_machine_values = [];
+  String vending_machine_value = "";
 
-  static List<String> dispenser_values = ["Dispensadores"] +
-      List<String>.generate(10, (i) => "Dispensador ${(i + 1)}");
-  String dispenser_value = dispenser_values.first;
+  String dispenser_value = "";
 
   List<Product> products = [];
-  List<String> product_values = ["Productos"];
-  String product_value = "Productos";
+  List<String> product_values = [];
+  String product_value = "";
 
   List<PaymentVendingMachine> payments = [];
   List<PaymentVendingMachine> filtered_payments = [];
@@ -57,8 +66,19 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
 
   @override
   void initState() {
+    timeframe_value = widget.timeframe_values[3];
+
+    vending_machine_values = [widget.vending_machine_value];
+    vending_machine_value = widget.vending_machine_value;
+
+    dispenser_value = widget.dispenser_values.first;
+
+    product_values = [widget.product_value];
+    product_value = widget.product_value;
+
     super.initState();
     get_vending_machines();
+
     // duplicate_document(
     //   document_id: "",
     //   collection_id: "vending_machines",
@@ -72,7 +92,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
     vending_machines.clear();
     vending_machine_values.clear();
 
-    vending_machine_values.add("Máquinas");
+    vending_machine_values.add(widget.vending_machine_value);
 
     user_id = FirebaseAuth.instance.currentUser!.uid;
 
@@ -104,7 +124,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
     products.clear();
     product_values.clear();
 
-    product_values.add("Productos");
+    product_values.add(widget.product_value);
 
     await FirebaseFirestore.instance
         .collection("products")
@@ -194,7 +214,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           .toList();
     }
 
-    if (dispenser_values.indexOf(dispenser_value) != 0)
+    if (widget.dispenser_values.indexOf(dispenser_value) != 0)
       filtered_payments = filtered_payments.where((payment) {
         int dispenser_value_number = dispenser_value.characters.last == "0"
             ? 9
@@ -214,195 +234,89 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           .toList();
 
     filtered_payments.sort((a, b) => a.date.compareTo(b.date));
-    get_sum_of_payments_by_timeframe();
-  }
 
-  get_sum_of_payments_by_timeframe() {
-    sum_of_payments.clear();
-    for (var filtered_payment in filtered_payments) {
-      if (sum_of_payments.isEmpty) {
-        sum_of_payments.add({
-          "date": filtered_payment.date,
-          "amount": filtered_payment.amount,
-        });
-      } else {
-        bool payment_was_made_at_same_timeframe = false;
-
-        bool same_hour =
-            filtered_payment.date.hour == sum_of_payments.last["date"].hour;
-
-        bool same_day =
-            filtered_payment.date.day == sum_of_payments.last["date"].day;
-
-        bool same_month =
-            filtered_payment.date.month == sum_of_payments.last["date"].month;
-
-        bool same_year =
-            filtered_payment.date.year == sum_of_payments.last["date"].year;
-
-        switch (current_timeframe) {
-          case TimeFrame.day:
-            if (same_hour && same_day && same_month && same_year)
-              payment_was_made_at_same_timeframe = true;
-            break;
-          case TimeFrame.week:
-            if (same_day && same_month && same_year)
-              payment_was_made_at_same_timeframe = true;
-            break;
-          case TimeFrame.month:
-            if (same_day && same_month && same_year)
-              payment_was_made_at_same_timeframe = true;
-            break;
-          case TimeFrame.year:
-            if (same_month && same_year)
-              payment_was_made_at_same_timeframe = true;
-            break;
-          case TimeFrame.beginning:
-            if (same_year) payment_was_made_at_same_timeframe = true;
-            break;
-        }
-
-        if (payment_was_made_at_same_timeframe) {
-          sum_of_payments.last["amount"] += filtered_payment.amount;
-        } else {
-          sum_of_payments.add({
-            "date": filtered_payment.date,
-            "amount": filtered_payment.amount,
-          });
-        }
-      }
-    }
+    sum_of_payments = get_sum_of_payments_by_timeframe(
+      filtered_payments: filtered_payments,
+      current_timeframe: current_timeframe,
+    );
     setState(() {});
-  }
-
-  // Download excel file.
-
-  download_excel_file() async {
-    SnackBar snackBar = SnackBar(
-      content: Text("Descargando..."),
-      duration: Duration(seconds: 2),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-    final xlsio.Workbook workbook = new xlsio.Workbook();
-    final xlsio.Worksheet sheet = workbook.worksheets[0];
-
-    List<String> titles = [
-      "ID DE PAGO",
-      "MONTO",
-      "NOMBRE DE MÁQUINA",
-      "ID DE MÁQUINA",
-      "ID DE DISPENSADOR",
-      "NOMBRE DE PRODUCTO",
-      "ID DE PRODUCTO",
-      "ID DE USUARIO",
-      "FECHA",
-      "HORA",
-    ];
-
-    for (var i = 0; i < titles.length; i++) {
-      String current_cell_position = "${String.fromCharCode(65 + i)}1";
-      sheet.getRangeByName(current_cell_position).setText(titles[i]);
-    }
-
-    int current_row_number = 2;
-
-    for (var filtred_payment in filtered_payments) {
-      await FirebaseFirestore.instance
-          .collection('vending_machines')
-          .doc(filtred_payment.vending_machine_id)
-          .get()
-          .then((DocumentSnapshot vending_machine_snapshot) async {
-        VendingMachine vending_machine = VendingMachine.from_snapshot(
-          vending_machine_snapshot.id,
-          vending_machine_snapshot.data() as Map<String, dynamic>,
-        );
-
-        String current_date =
-            DateFormat("dd/MM/yyyy").format(filtred_payment.date);
-        String current_date_hour = DateFormat.Hm().format(filtred_payment.date);
-
-        await FirebaseFirestore.instance
-            .collection('products')
-            .doc(filtred_payment.product_id)
-            .get()
-            .then((DocumentSnapshot product_snapshot) {
-          Product product = Product.from_snapshot(
-            product_snapshot.id,
-            product_snapshot.data() as Map<String, dynamic>,
-          );
-
-          List<String> cell_values = [
-            filtred_payment.id,
-            filtred_payment.amount.toString(),
-            vending_machine.name,
-            filtred_payment.vending_machine_id,
-            filtred_payment.dispenser.toString(),
-            product.name,
-            filtred_payment.product_id,
-            filtred_payment.user_id,
-            current_date,
-            current_date_hour
-          ];
-
-          for (var i = 0; i < cell_values.length; i++) {
-            String current_cell_position =
-                '${String.fromCharCode(65 + i)}$current_row_number';
-            sheet.getRangeByName(current_cell_position).setText(cell_values[i]);
-          }
-
-          current_row_number++;
-        });
-      });
-    }
-
-    for (var i = 0; i < titles.length; i++) {
-      sheet.autoFitColumn(i + 1);
-    }
-
-    String file_name = "pagos_lum_" + DateTime.now().toString() + ".xlsx";
-    file_name = file_name
-        .replaceAll(":", "_")
-        .replaceAll("-", "_")
-        .replaceAll(" ", "_")
-        .replaceFirst(".", "_");
-
-    FileDownloader.save(
-      src: base64Encode(workbook.saveAsStream()),
-      file_name: file_name,
-    );
-
-    workbook.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double screen_height = MediaQuery.of(context).size.height;
-    double screen_width = MediaQuery.of(context).size.width;
-    double title_size = 20;
-    double subtitle_size = 16;
-
-    double max_y = 0;
-
-    if (sum_of_payments.isNotEmpty) {
-      List filtered_sum_of_payments = sum_of_payments;
-      filtered_sum_of_payments
-          .sort((a, b) => a["amount"].compareTo(b["amount"]));
-      max_y = filtered_sum_of_payments.last["amount"] * 1.3;
-    }
-
     return AdminAnalytics(
+      screen_title: widget.screen_title,
       icon_color: widget.icon_color,
       text_color: widget.text_color,
-      products: products,
-      product_value: product_value,
-      update_product_value: (String new_value) {
-        product_value = new_value;
-        setState(() {});
-      },
       payments: payments,
       filtered_payments: filtered_payments,
       filter_payments: () => get_filtered_payments(),
+      sum_of_payments: sum_of_payments,
+      analytics_segments: [
+        AnalyticsSegment(
+          products: vending_machine_values,
+          product_value: vending_machine_value,
+          update_product_value: (String new_value) {
+            vending_machine_value = new_value;
+            setState(() {});
+          },
+          pie_chart_title: widget.pie_chart_titles[0],
+          pie_chart_parameter: "vending_machine_id",
+        ),
+        AnalyticsSegment(
+          products: widget.dispenser_values,
+          product_value: dispenser_value,
+          update_product_value: (String new_value) {
+            dispenser_value = new_value;
+            setState(() {});
+          },
+          pie_chart_title: widget.pie_chart_titles[1],
+          pie_chart_parameter: "dispenser",
+        ),
+        AnalyticsSegment(
+          products: product_values,
+          product_value: product_value,
+          update_product_value: (String new_value) {
+            product_value = new_value;
+            setState(() {});
+          },
+          pie_chart_title: widget.pie_chart_titles[2],
+          pie_chart_parameter: "product_id",
+        ),
+      ],
+      timeframe_values: widget.timeframe_values,
+      timeframe_value: timeframe_value,
+      current_timeframe: current_timeframe,
+      update_timeframe_value: (new_value) {
+        timeframe_value = new_value;
+        switch (widget.timeframe_values.indexOf(timeframe_value)) {
+          case 0:
+            current_timeframe = TimeFrame.day;
+            break;
+          case 1:
+            current_timeframe = TimeFrame.week;
+            break;
+          case 2:
+            current_timeframe = TimeFrame.month;
+            break;
+          case 3:
+            current_timeframe = TimeFrame.year;
+            break;
+          case 4:
+            current_timeframe = TimeFrame.beginning;
+            break;
+        }
+        get_filtered_payments();
+        setState(() {});
+      },
+      download_analytics_callback: (BuildContext context) =>
+          download_vending_machines_analytics_excel_file(
+        context: context,
+        titles: widget.download_analytics_titles,
+        filtered_payments: filtered_payments,
+        loading_message: widget.loading_message,
+        base_file_name: widget.base_file_name,
+      ),
     );
   }
 }

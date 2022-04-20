@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
-import 'package:xapptor_business/admin_analytics.dart';
+import 'package:xapptor_business/analytics/admin_analytics.dart';
 import 'package:xapptor_business/models/payment_vending_machine.dart';
 import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
@@ -383,18 +383,20 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
       max_y = filtered_sum_of_payments.last["amount"] * 1.3;
     }
 
-    return AdminAnalytics(
-      icon_color: widget.icon_color,
-      text_color: widget.text_color,
-      products: products,
-      product_value: product_value,
-      update_product_value: (String new_value) {
-        product_value = new_value;
-        setState(() {});
-      },
-      payments: payments,
-      filtered_payments: filtered_payments,
-      filter_payments: () => get_filtered_payments(),
-    );
+    // return AdminAnalytics(
+    //   icon_color: widget.icon_color,
+    //   text_color: widget.text_color,
+    //   segments_products: products,
+    //   segments_product_value: product_value,
+    //   segments_update_product_value: (String new_value) {
+    //     product_value = new_value;
+    //     setState(() {});
+    //   },
+    //   segments_payments: payments,
+    //   segments_filtered_payments: filtered_payments,
+    //   filter_payments: () => get_filtered_payments(),
+    // );
+
+    return Container();
   }
 }
