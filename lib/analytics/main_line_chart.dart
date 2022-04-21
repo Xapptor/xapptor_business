@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
+import 'package:xapptor_logic/is_int.dart';
 
 LineChart main_line_chart({
   required TimeFrame current_timeframe,
@@ -137,8 +138,9 @@ LineChart main_line_chart({
           ),
           margin: 10,
           getTitles: (value) {
-            if (value <= current_bottom_labels.length - 1) {
-              return current_bottom_labels[value.toInt()];
+            if (value <= current_bottom_labels.length - 1 && value.isInt) {
+              String title = current_bottom_labels[value.toInt()];
+              return title;
             } else {
               return "";
             }

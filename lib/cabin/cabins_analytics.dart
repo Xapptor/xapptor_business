@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/analytics/admin_analytics.dart';
 import 'package:xapptor_business/analytics/analytics_segment.dart';
 import 'package:xapptor_business/analytics/get_sum_of_payments_by_timeframe.dart';
+import 'package:xapptor_business/cabin/download_cabins_analytics_excel_file.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,8 +81,14 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
             doc.data() as Map<String, dynamic>,
           ),
         );
-        cabin_values.add(cabins.last.id);
       });
+
+      cabins.sort((cabin_a, cabin_b) =>
+          int.parse(cabin_a.id).compareTo(int.parse(cabin_b.id)));
+
+      cabin_values =
+          [widget.cabin_value] + cabins.map((cabin) => cabin.id).toList();
+
       cabin_value = cabin_values.first;
       get_payments();
     });
@@ -198,17 +205,14 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
         get_filtered_payments();
         setState(() {});
       },
-      // download_analytics_callback: (BuildContext context) =>
-      //     download_vending_machines_analytics_excel_file(
-      //   context: context,
-      //   titles: widget.download_analytics_titles,
-      //   filtered_payments: filtered_payments,
-      //   loading_message: widget.loading_message,
-      //   base_file_name: widget.base_file_name,
-      // ),
-      download_analytics_callback: (BuildContext context) {
-        //
-      },
+      download_analytics_callback: (BuildContext context) =>
+          download_cabins_analytics_excel_file(
+        context: context,
+        titles: widget.download_analytics_titles,
+        filtered_payments: filtered_payments,
+        loading_message: widget.loading_message,
+        base_file_name: widget.base_file_name,
+      ),
     );
   }
 }

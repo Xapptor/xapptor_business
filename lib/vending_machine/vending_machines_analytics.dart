@@ -60,7 +60,6 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
 
   List<PaymentVendingMachine> payments = [];
   List<PaymentVendingMachine> filtered_payments = [];
-  List<PaymentVendingMachine> filtered_payments_by_vending_machine = [];
 
   List<Map<String, dynamic>> sum_of_payments = [];
 
@@ -188,21 +187,8 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
         )
         .toList();
 
-    filtered_payments_by_vending_machine = payments;
-
     if (vending_machine_values.indexOf(vending_machine_value) != 0) {
       filtered_payments = filtered_payments
-          .where(
-            (payment) =>
-                payment.vending_machine_id ==
-                vending_machines
-                    .firstWhere((vending_machine) =>
-                        vending_machine.name == vending_machine_value)
-                    .id,
-          )
-          .toList();
-
-      filtered_payments_by_vending_machine = payments
           .where(
             (payment) =>
                 payment.vending_machine_id ==

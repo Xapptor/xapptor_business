@@ -1,14 +1,15 @@
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'get_sum_of_payments_by_parameter.dart';
+import 'package:xapptor_logic/get_random_color.dart';
 
 Future<List<PieChartSectionData>> get_pie_chart_sections({
   required List<Map<String, dynamic>> payments,
   required String parameter,
   required String collection,
   required bool same_background_color,
+  required List<Color> seed_colors,
 }) async {
   List<Map<String, dynamic>> sum_of_payments_by_parameter =
       get_sum_of_payments_by_parameter(
@@ -25,9 +26,6 @@ Future<List<PieChartSectionData>> get_pie_chart_sections({
   }
 
   for (var payments_by_parameter in sum_of_payments_by_parameter) {
-    Color random_color =
-        Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
-
     double payments_by_parameter_percentage =
         ((payments_by_parameter["amount"] as int) * 100) /
             total_amount_in_sales;
@@ -48,6 +46,13 @@ Future<List<PieChartSectionData>> get_pie_chart_sections({
         title = snapshot_data["name"] ?? snapshot.id;
       });
     }
+
+    Color random_color = get_random_color(
+      seed_color: seed_colors[
+          sum_of_payments_by_parameter.indexOf(payments_by_parameter).isEven
+              ? 1
+              : 0],
+    );
 
     pie_chart_sections.add(
       PieChartSectionData(

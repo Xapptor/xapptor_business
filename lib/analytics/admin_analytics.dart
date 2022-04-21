@@ -62,6 +62,8 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
     }
 
     return Container(
+      height: screen_height,
+      width: screen_width,
       color: Colors.white,
       child: SingleChildScrollView(
         child: FractionallySizedBox(
@@ -178,17 +180,19 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                       },
                     ),
                   ),
-                  Container(
-                    height: screen_height / 3,
-                    width: screen_width * (portrait ? 0.85 : 0.50),
-                    child: main_line_chart(
-                      current_timeframe: widget.current_timeframe,
-                      max_y: max_y,
-                      sum_of_payments: widget.sum_of_payments,
-                      text_color: widget.text_color,
-                      icon_color: widget.icon_color,
-                    ),
-                  ),
+                  widget.filtered_payments.length > 0
+                      ? Container(
+                          height: screen_height / 3,
+                          width: screen_width * (portrait ? 0.85 : 0.50),
+                          child: main_line_chart(
+                            current_timeframe: widget.current_timeframe,
+                            max_y: max_y,
+                            sum_of_payments: widget.sum_of_payments,
+                            text_color: widget.text_color,
+                            icon_color: widget.icon_color,
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
               SizedBox(
@@ -232,6 +236,10 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                               collection: widget.analytics_segments[index]
                                   .pie_chart_collection,
                               same_background_color: true,
+                              seed_colors: [
+                                widget.text_color,
+                                widget.icon_color,
+                              ],
                             ),
                           ),
                         ],

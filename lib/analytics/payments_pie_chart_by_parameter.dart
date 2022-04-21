@@ -8,6 +8,7 @@ Widget payments_pie_chart_by_parameter({
   required String parameter,
   required String collection,
   required bool same_background_color,
+  required List<Color> seed_colors,
 }) {
   return FutureBuilder<List<PieChartSectionData>>(
     future: get_pie_chart_sections(
@@ -15,6 +16,7 @@ Widget payments_pie_chart_by_parameter({
       parameter: parameter,
       collection: collection,
       same_background_color: same_background_color,
+      seed_colors: seed_colors,
     ),
     builder: (
       BuildContext context,
