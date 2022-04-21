@@ -7,6 +7,7 @@ import 'get_sum_of_payments_by_parameter.dart';
 Future<List<PieChartSectionData>> get_pie_chart_sections({
   required List<Map<String, dynamic>> payments,
   required String parameter,
+  required String collection,
   required bool same_background_color,
 }) async {
   List<Map<String, dynamic>> sum_of_payments_by_parameter =
@@ -37,17 +38,14 @@ Future<List<PieChartSectionData>> get_pie_chart_sections({
     } else {
       String id = payments_by_parameter[parameter];
 
-      String collection_name =
-          parameter.substring(0, parameter.indexOf("_id")) + "s";
-
       await FirebaseFirestore.instance
-          .collection(collection_name)
+          .collection(collection)
           .doc(id)
           .get()
           .then((DocumentSnapshot snapshot) {
         Map<String, dynamic> snapshot_data =
             snapshot.data() as Map<String, dynamic>;
-        title = snapshot_data["name"];
+        title = snapshot_data["name"] ?? snapshot.id;
       });
     }
 

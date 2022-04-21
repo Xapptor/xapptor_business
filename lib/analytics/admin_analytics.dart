@@ -89,9 +89,8 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                   Expanded(
                     flex: 1,
                     child: IconButton(
-                      onPressed: () {
-                        widget.download_analytics_callback(context);
-                      },
+                      onPressed: () =>
+                          widget.download_analytics_callback(context),
                       icon: Icon(
                         Typicons.down_outline,
                         color: widget.icon_color,
@@ -110,7 +109,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                     : CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: widget.analytics_segments.length * 70,
+                    height: (widget.analytics_segments.length + 1) * 70,
                     width: screen_width * (portrait ? 0.85 : 0.25),
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -227,9 +226,11 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                             child: payments_pie_chart_by_parameter(
                               payments:
                                   payment_list_to_json_list(widget.payments),
-                              filtered_payments_by_vending_machine: null,
+                              filtered_payments: null,
                               parameter: widget.analytics_segments[index]
                                   .pie_chart_parameter,
+                              collection: widget.analytics_segments[index]
+                                  .pie_chart_collection,
                               same_background_color: true,
                             ),
                           ),

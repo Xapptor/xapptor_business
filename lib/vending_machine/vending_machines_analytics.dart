@@ -262,6 +262,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           },
           pie_chart_title: widget.pie_chart_titles[0],
           pie_chart_parameter: "vending_machine_id",
+          pie_chart_collection: "vending_machines",
         ),
         AnalyticsSegment(
           products: widget.dispenser_values,
@@ -272,6 +273,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           },
           pie_chart_title: widget.pie_chart_titles[1],
           pie_chart_parameter: "dispenser",
+          pie_chart_collection: "dispensers",
         ),
         AnalyticsSegment(
           products: product_values,
@@ -282,6 +284,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           },
           pie_chart_title: widget.pie_chart_titles[2],
           pie_chart_parameter: "product_id",
+          pie_chart_collection: "products",
         ),
       ],
       timeframe_values: widget.timeframe_values,

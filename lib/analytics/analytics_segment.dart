@@ -5,6 +5,7 @@ class AnalyticsSegment {
     required this.update_product_value,
     required this.pie_chart_title,
     required this.pie_chart_parameter,
+    required this.pie_chart_collection,
   });
 
   final List<String> products;
@@ -12,4 +13,5 @@ class AnalyticsSegment {
   final Function(String new_value) update_product_value;
   final String pie_chart_title;
   final String pie_chart_parameter;
+  final String pie_chart_collection;
 }
