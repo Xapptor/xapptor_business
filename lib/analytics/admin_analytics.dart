@@ -23,6 +23,7 @@ class AdminAnalytics extends StatefulWidget {
     required this.current_timeframe,
     required this.update_timeframe_value,
     required this.download_analytics_callback,
+    required this.download_button_tooltip,
   });
 
   final String screen_title;
@@ -38,6 +39,7 @@ class AdminAnalytics extends StatefulWidget {
   final TimeFrame current_timeframe;
   final Function(String new_value) update_timeframe_value;
   final Function(BuildContext context) download_analytics_callback;
+  final String download_button_tooltip;
 
   @override
   _AdminAnalyticsState createState() => _AdminAnalyticsState();
@@ -97,6 +99,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                         Typicons.down_outline,
                         color: widget.icon_color,
                       ),
+                      tooltip: widget.download_button_tooltip,
                     ),
                   ),
                 ],

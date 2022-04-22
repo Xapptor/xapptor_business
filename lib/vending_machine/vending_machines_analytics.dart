@@ -23,6 +23,7 @@ class VendingMachinesAnalytics extends StatefulWidget {
     required this.product_value,
     required this.loading_message,
     required this.base_file_name,
+    required this.download_button_tooltip,
   });
 
   final String screen_title;
@@ -36,6 +37,7 @@ class VendingMachinesAnalytics extends StatefulWidget {
   final String product_value;
   final String loading_message;
   final String base_file_name;
+  final String download_button_tooltip;
 
   @override
   _VendingMachinesAnalyticsState createState() =>
@@ -77,15 +79,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
 
     super.initState();
     get_vending_machines();
-
-    // duplicate_document(
-    //   document_id: "",
-    //   collection_id: "vending_machines",
-    //   times: 0,
-    // );
   }
-
-  // Retrieving vending machines.
 
   get_vending_machines() async {
     vending_machines.clear();
@@ -306,6 +300,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
         loading_message: widget.loading_message,
         base_file_name: widget.base_file_name,
       ),
+      download_button_tooltip: widget.download_button_tooltip,
     );
   }
 }

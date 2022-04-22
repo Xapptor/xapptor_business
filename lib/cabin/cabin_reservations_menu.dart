@@ -569,6 +569,20 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                                   current_reservation!.payments,
                                             });
 
+                                            String email_message = user_info[
+                                                    "firstname"] +
+                                                " " +
+                                                user_info["lastname"] +
+                                                " ha eliminado el registro de pago (${reservation_payments[index].id}), con un monto de (\$${reservation_payments[index].amount}), para la reservación (${current_reservation!.id}), en la cabaña ${current_reservation!.cabin_id} " +
+                                                website_url;
+
+                                            send_email(
+                                              to: "info@collineblanche.com.mx",
+                                              subject:
+                                                  "Registro de pago eliminado (${reservation_payments[index].id}), Cabaña: (${current_reservation!.cabin_id})",
+                                              text: email_message,
+                                            );
+
                                             Navigator.pop(context);
                                           },
                                           icon: Icon(
@@ -646,8 +660,22 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                           .doc(current_reservation!.id)
                           .update({
                         "payments": FieldValue.arrayUnion([payment.id]),
-                      }).then((payment) {
+                      }).then((reservation) {
+                        String email_message = user_info["firstname"] +
+                            " " +
+                            user_info["lastname"] +
+                            " ha creado el registro de pago (${payment.id}), con un monto de (\$${amount_input_controller.text}), para la reservación (${current_reservation!.id}), en la cabaña ${current_reservation!.cabin_id} " +
+                            website_url;
+
+                        send_email(
+                          to: "info@collineblanche.com.mx",
+                          subject:
+                              "Registro de pago creado (${payment.id}), Cabaña: (${current_reservation!.cabin_id})",
+                          text: email_message,
+                        );
+
                         amount_input_controller.clear();
+
                         Navigator.pop(context);
                         get_reservations();
                       });

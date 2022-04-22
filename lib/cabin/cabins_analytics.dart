@@ -20,6 +20,7 @@ class CabinsAnalytics extends StatefulWidget {
     required this.cabin_value,
     required this.loading_message,
     required this.base_file_name,
+    required this.download_button_tooltip,
   });
 
   final String screen_title;
@@ -31,6 +32,7 @@ class CabinsAnalytics extends StatefulWidget {
   final String cabin_value;
   final String loading_message;
   final String base_file_name;
+  final String download_button_tooltip;
 
   @override
   _CabinsAnalyticsState createState() => _CabinsAnalyticsState();
@@ -213,6 +215,7 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
         loading_message: widget.loading_message,
         base_file_name: widget.base_file_name,
       ),
+      download_button_tooltip: widget.download_button_tooltip,
     );
   }
 }
