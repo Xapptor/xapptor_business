@@ -23,6 +23,8 @@ class CabinReservationCard extends StatefulWidget {
     required this.edit_button_callback,
     required this.editing_mode,
     required this.register_payment_callback,
+    required this.total_price_from_reservation,
+    required this.reservation_payments_total,
   });
 
   final ReservationCabin? reservation;
@@ -41,6 +43,8 @@ class CabinReservationCard extends StatefulWidget {
   final Function(String reservation_id) edit_button_callback;
   final bool editing_mode;
   final Function(String reservation_id) register_payment_callback;
+  final int total_price_from_reservation;
+  final int reservation_payments_total;
 
   @override
   _CabinReservationCardState createState() => _CabinReservationCardState();
@@ -220,7 +224,9 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                                     ? widget.reservation!.date_init
                                     : DateTime.now())
                                 .toString() +
-                            "  MXN",
+                            " " +
+                            widget.text_list[35] +
+                            widget.text_list[36],
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
@@ -230,6 +236,38 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                         ),
                       ),
                       SizedBox(width: 20),
+                      Text(
+                        widget.text_list[33] +
+                            ": " +
+                            widget.total_price_from_reservation.toString() +
+                            " " +
+                            widget.text_list[35],
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    widget.text_list[34] +
+                        ": " +
+                        widget.reservation_payments_total.toString() +
+                        " " +
+                        widget.text_list[35],
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+                    maxLines: 10,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Row(
+                    children: [
                       Text(
                         widget.text_list[5] +
                             ": " +
@@ -244,10 +282,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
+                      SizedBox(width: 20),
                       Text(
                         widget.text_list[8] +
                             ": " +
