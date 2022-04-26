@@ -1,4 +1,3 @@
-import 'package:xapptor_business/cabin/get_reservation_from_id.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_logic/check_if_dates_are_in_the_same_day.dart';
@@ -11,6 +10,7 @@ List<Cabin> get_available_cabins({
   required DateTime selected_date_1,
   required DateTime selected_date_2,
   required String selected_cabin,
+  required Function(List<Cabin> available_cabins) callback,
 }) {
   List<Cabin> available_cabins = cabins.toList();
 
@@ -53,15 +53,7 @@ List<Cabin> get_available_cabins({
     available_cabins.removeWhere((cabin) => cabin.id == unavailable_cabin);
   });
 
-  if (available_cabins.length > 0) {
-    if (ignore_reservation_with_id == null) {
-      selected_cabin = available_cabins.first.id;
-    } else {
-      selected_cabin = get_reservation_from_id(
-        id: ignore_reservation_with_id,
-        reservations: reservations,
-      ).cabin_id;
-    }
-  }
+  callback(available_cabins);
+
   return available_cabins;
 }

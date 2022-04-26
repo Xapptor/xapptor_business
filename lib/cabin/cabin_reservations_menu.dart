@@ -12,6 +12,7 @@ import 'package:xapptor_business/cabin/get_payments_by_reservation.dart';
 import 'package:xapptor_business/cabin/get_reservation_from_id.dart';
 import 'package:xapptor_business/cabin/get_reservation_period_label.dart';
 import 'package:xapptor_business/cabin/get_reservations.dart';
+import 'package:xapptor_business/cabin/get_total_price_from_date_range.dart';
 import 'package:xapptor_business/cabin/get_total_price_from_reservation.dart';
 import 'package:xapptor_business/cabin/register_reservation.dart';
 import 'package:xapptor_business/models/cabin.dart';
@@ -294,13 +295,24 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     required List<Cabin> cabins,
   }) {
     available_cabins = get_available_cabins(
-      ignore_reservation_with_id: ignore_reservation_with_id,
-      cabins: cabins,
-      reservations: reservations,
-      selected_cabin: selected_cabin,
-      selected_date_1: selected_date_1,
-      selected_date_2: selected_date_2,
-    );
+        ignore_reservation_with_id: ignore_reservation_with_id,
+        cabins: cabins,
+        reservations: reservations,
+        selected_cabin: selected_cabin,
+        selected_date_1: selected_date_1,
+        selected_date_2: selected_date_2,
+        callback: (List<Cabin> available_cabins) {
+          if (available_cabins.length > 0) {
+            if (ignore_reservation_with_id == null) {
+              selected_cabin = available_cabins.first.id;
+            } else {
+              selected_cabin = get_reservation_from_id(
+                id: ignore_reservation_with_id,
+                reservations: reservations,
+              ).cabin_id;
+            }
+          }
+        });
     setState(() {});
   }
 
@@ -429,95 +441,93 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                             );
 
                             return FractionallySizedBox(
-                              widthFactor: portrait ? 0.8 : 0.4,
+                              widthFactor: portrait ? 0.9 : 0.4,
                               child: Container(
-                                height: screen_height * (portrait ? 0.35 : 0.3),
+                                height: screen_height * (portrait ? 0.45 : 0.4),
                                 margin: const EdgeInsets.all(10),
                                 child: FutureBuilder<List<Payment>>(
                                   future: get_payments_by_reservation(
                                     reservations[index - 1],
-                                  ), // a previously-obtained Future<String> or null
+                                  ),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<List<Payment>>
                                           reservation_payments) {
-                                    return reservation_payments.hasData
-                                        ? CabinReservationCard(
-                                            reservation:
-                                                reservations[index - 1],
-                                            select_date_available: true,
-                                            select_date_callback: _select_date,
-                                            main_color: widget.topbar_color,
-                                            text_list: text_list
-                                                .get(source_language_index),
-                                            cabin: current_cabin,
-                                            reservation_period_label:
-                                                get_reservation_period_label(
-                                              index: index - 1,
-                                              show_creation_menu:
-                                                  show_creation_menu,
-                                              reservations: reservations,
-                                              selected_date_1: selected_date_1,
-                                              selected_date_2: selected_date_2,
-                                              source_language: text_list
-                                                  .translation_text_list_array[
-                                                      source_language_index]
-                                                  .source_language,
-                                            ),
-                                            selected_cabin: selected_cabin,
-                                            update_selected_cabin:
-                                                update_selected_cabin,
-                                            register_reservation:
-                                                (String reservation_id,
-                                                        bool register) =>
-                                                    show_edit_alert_dialog(
-                                                        reservation_id,
-                                                        register),
-                                            available_cabins: available_cabins,
-                                            cancel_button_callback: () =>
-                                                cancel_button(),
-                                            delete_button_callback:
-                                                (String reservation_id,
-                                                        bool register) =>
-                                                    show_edit_alert_dialog(
-                                                        reservation_id,
-                                                        register),
-                                            edit_button_callback:
-                                                (String reservation_id) =>
-                                                    edit_button(reservation_id),
-                                            editing_mode: show_creation_menu,
-                                            register_payment_callback:
-                                                (String reservation_id) =>
-                                                    register_payment(
-                                              reservation_id: reservation_id,
-                                              context: context,
-                                              parent: this,
-                                              amount_input_controller:
-                                                  amount_input_controller,
-                                              text_list: text_list
-                                                  .get(source_language_index),
-                                              get_reservations_callback:
-                                                  get_reservations,
-                                              reservations: reservations,
-                                              user_info: user_info,
-                                              website_url: widget.website_url,
-                                              cabins: cabins,
-                                              reservation_payments:
-                                                  reservation_payments.data!,
-                                            ),
-                                            total_price_from_reservation:
-                                                total_price_from_reservation,
-                                            reservation_payments_total:
-                                                reservation_payments
-                                                            .data!.length >
-                                                        0
-                                                    ? reservation_payments.data!
-                                                        .map((payment) =>
-                                                            payment.amount)
-                                                        .toList()
-                                                        .reduce((a, b) => a + b)
-                                                    : 0,
-                                          )
-                                        : CircularProgressIndicator();
+                                    if (reservation_payments.hasData) {
+                                      return CabinReservationCard(
+                                        reservation: reservations[index - 1],
+                                        select_date_available: true,
+                                        select_date_callback: _select_date,
+                                        main_color: widget.topbar_color,
+                                        text_list: text_list
+                                            .get(source_language_index),
+                                        cabin: current_cabin,
+                                        reservation_period_label:
+                                            get_reservation_period_label(
+                                          index: index - 1,
+                                          show_creation_menu:
+                                              show_creation_menu,
+                                          reservations: reservations,
+                                          selected_date_1: selected_date_1,
+                                          selected_date_2: selected_date_2,
+                                          source_language: text_list
+                                              .translation_text_list_array[
+                                                  source_language_index]
+                                              .source_language,
+                                        ),
+                                        selected_cabin: selected_cabin,
+                                        update_selected_cabin:
+                                            update_selected_cabin,
+                                        register_reservation:
+                                            (String reservation_id,
+                                                    bool register) =>
+                                                show_edit_alert_dialog(
+                                                    reservation_id, register),
+                                        available_cabins: available_cabins,
+                                        cancel_button_callback: () =>
+                                            cancel_button(),
+                                        delete_button_callback:
+                                            (String reservation_id,
+                                                    bool register) =>
+                                                show_edit_alert_dialog(
+                                                    reservation_id, register),
+                                        edit_button_callback:
+                                            (String reservation_id) =>
+                                                edit_button(reservation_id),
+                                        editing_mode: show_creation_menu,
+                                        register_payment_callback:
+                                            (String reservation_id) =>
+                                                register_payment(
+                                          reservation_id: reservation_id,
+                                          context: context,
+                                          parent: this,
+                                          amount_input_controller:
+                                              amount_input_controller,
+                                          text_list: text_list
+                                              .get(source_language_index),
+                                          get_reservations_callback:
+                                              get_reservations,
+                                          reservations: reservations,
+                                          user_info: user_info,
+                                          website_url: widget.website_url,
+                                          cabins: cabins,
+                                          reservation_payments:
+                                              reservation_payments.data!,
+                                        ),
+                                        total_price_from_reservation:
+                                            total_price_from_reservation,
+                                        reservation_payments_total:
+                                            reservation_payments.data!.length >
+                                                    0
+                                                ? reservation_payments.data!
+                                                    .map((payment) =>
+                                                        payment.amount)
+                                                    .toList()
+                                                    .reduce((a, b) => a + b)
+                                                : 0,
+                                      );
+                                    } else {
+                                      return CircularProgressIndicator();
+                                    }
                                   },
                                 ),
                               ),
@@ -529,8 +539,8 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
             : date_label_1.isEmpty || date_label_2.isEmpty
                 ? Container()
                 : Container(
-                    height: screen_height * (portrait ? 0.6 : 0.4),
-                    width: screen_width * (portrait ? 0.8 : 0.4),
+                    height: screen_height * (portrait ? 0.45 : 0.4),
+                    width: screen_width * (portrait ? 0.9 : 0.4),
                     child: CabinReservationCard(
                       reservation: current_reservation,
                       select_date_available: true,
@@ -564,14 +574,23 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                       edit_button_callback: (String reservation_id) {},
                       editing_mode: show_creation_menu,
                       register_payment_callback: (String reservation_id) {},
-                      total_price_from_reservation:
-                          get_total_price_from_reservation(
-                        reservation: current_reservation!,
-                        cabin_season_price: get_cabin_from_id(
-                          id: selected_cabin,
-                          cabins: available_cabins,
-                        ).get_season_price(current_reservation!.date_init),
-                      ),
+                      total_price_from_reservation: current_reservation == null
+                          ? get_total_price_from_date_range(
+                              cabin_season_price: get_cabin_from_id(
+                                id: selected_cabin,
+                                cabins: available_cabins,
+                              ).get_season_price(selected_date_1),
+                              date_1: selected_date_1,
+                              date_2: selected_date_2,
+                            )
+                          : get_total_price_from_reservation(
+                              reservation: current_reservation!,
+                              cabin_season_price: get_cabin_from_id(
+                                id: current_reservation!.cabin_id,
+                                cabins: available_cabins,
+                              ).get_season_price(
+                                  current_reservation!.date_init),
+                            ),
                       reservation_payments_total: 0,
                     ),
                   ),

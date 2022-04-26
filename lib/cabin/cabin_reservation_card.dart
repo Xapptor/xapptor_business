@@ -4,6 +4,7 @@ import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_logic/bool_to_text.dart';
 import 'package:xapptor_logic/get_user_info.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:xapptor_logic/is_portrait.dart';
 
 class CabinReservationCard extends StatefulWidget {
   const CabinReservationCard({
@@ -83,6 +84,8 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
 
   @override
   Widget build(BuildContext context) {
+    bool portrait = is_portrait(context);
+
     String description = "";
 
     if (widget.cabin.capacity >= 6) {
@@ -111,7 +114,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
               widget.reservation != null
                   ? SelectableText(
                       "ID: " + widget.reservation!.id,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -134,7 +137,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                     children: [
                       Text(
                         widget.text_list[2],
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -145,7 +148,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                       Text(
                         widget.reservation_period_label,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -166,7 +169,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                     children: [
                       Text(
                         widget.text_list[3] + ": ",
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -178,7 +181,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       !widget.editing_mode
                           ? Text(
                               widget.cabin.id,
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.start,
                               overflow: TextOverflow.visible,
                               maxLines: 10,
                               style: TextStyle(
@@ -201,64 +204,11 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                               },
                               value: widget.selected_cabin,
                             ),
-                      SizedBox(width: 10),
-                      Text(
-                        description,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.visible,
-                        maxLines: 10,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        widget.text_list[4] +
-                            ": " +
-                            widget.cabin
-                                .get_season_price(widget.reservation != null
-                                    ? widget.reservation!.date_init
-                                    : DateTime.now())
-                                .toString() +
-                            " " +
-                            widget.text_list[35] +
-                            widget.text_list[36],
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.visible,
-                        maxLines: 10,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Text(
-                        widget.text_list[33] +
-                            ": " +
-                            widget.total_price_from_reservation.toString() +
-                            " " +
-                            widget.text_list[35],
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.visible,
-                        maxLines: 10,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                     ],
                   ),
                   Text(
-                    widget.text_list[34] +
-                        ": " +
-                        widget.reservation_payments_total.toString() +
-                        " " +
-                        widget.text_list[35],
-                    textAlign: TextAlign.center,
+                    description,
+                    textAlign: TextAlign.start,
                     overflow: TextOverflow.visible,
                     maxLines: 10,
                     style: TextStyle(
@@ -266,7 +216,59 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Row(
+                  Text(
+                    widget.text_list[4] +
+                        ": " +
+                        widget.cabin
+                            .get_season_price(widget.reservation != null
+                                ? widget.reservation!.date_init
+                                : DateTime.now())
+                            .toString() +
+                        " " +
+                        widget.text_list[35] +
+                        widget.text_list[36],
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.visible,
+                    maxLines: 10,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    widget.text_list[33] +
+                        ": " +
+                        widget.total_price_from_reservation.toString() +
+                        " " +
+                        widget.text_list[35],
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.visible,
+                    maxLines: 10,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  widget.reservation == null
+                      ? Container()
+                      : Text(
+                          widget.text_list[34] +
+                              ": " +
+                              widget.reservation_payments_total.toString() +
+                              " " +
+                              widget.text_list[35],
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.visible,
+                          maxLines: 10,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                  Flex(
+                    direction: portrait ? Axis.vertical : Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         widget.text_list[5] +
@@ -274,7 +276,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                             widget.cabin.capacity.toString() +
                             " " +
                             widget.text_list[6],
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -287,7 +289,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                         widget.text_list[8] +
                             ": " +
                             widget.cabin.get_beds_string(),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -300,7 +302,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                         widget.text_list[9] +
                             ": " +
                             widget.cabin.bathrooms.toString(),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -320,7 +322,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                               true_text: widget.text_list[15],
                               false_text: widget.text_list[16],
                             ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -337,7 +339,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                               true_text: widget.text_list[15],
                               false_text: widget.text_list[16],
                             ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -357,7 +359,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                               true_text: widget.text_list[15],
                               false_text: widget.text_list[16],
                             ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -374,7 +376,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                               true_text: widget.text_list[15],
                               false_text: widget.text_list[16],
                             ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -391,7 +393,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                               true_text: widget.text_list[15],
                               false_text: widget.text_list[16],
                             ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
                         style: TextStyle(
@@ -404,7 +406,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                   widget.reservation != null && admin
                       ? Text(
                           user_name,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.start,
                           overflow: TextOverflow.visible,
                           maxLines: 10,
                           style: TextStyle(
