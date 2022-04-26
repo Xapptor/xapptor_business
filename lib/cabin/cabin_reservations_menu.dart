@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:xapptor_business/cabin/delete_reservation.dart';
 import 'package:xapptor_business/cabin/get_available_cabins.dart';
 import 'package:xapptor_business/cabin/get_cabin_from_id.dart';
 import 'package:xapptor_business/cabin/get_cabins.dart';
@@ -20,7 +20,6 @@ import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_logic/get_user_info.dart';
 import 'package:xapptor_logic/is_portrait.dart';
-import 'package:xapptor_logic/send_email.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
@@ -231,48 +230,6 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     setState(() {});
   }
 
-  delete_button(String reservation_id) async {
-    var reservation_for_deletion = get_reservation_from_id(
-      id: reservation_id,
-      reservations: reservations,
-    );
-
-    String current_reservation_period_label = get_reservation_period_label(
-      index: reservations.indexOf(reservation_for_deletion),
-      show_creation_menu: show_creation_menu,
-      reservations: reservations,
-      selected_date_1: selected_date_1,
-      selected_date_2: selected_date_2,
-      source_language: text_list
-          .translation_text_list_array[source_language_index].source_language,
-    );
-
-    var reservations_snap = await FirebaseFirestore.instance
-        .collection("reservations")
-        .doc(reservation_id)
-        .delete()
-        .then((value) {
-      Navigator.of(context).pop();
-      cancel_button();
-
-      String email_message = user_info["firstname"] +
-          " " +
-          user_info["lastname"] +
-          " ha eliminado una reservación (${reservation_id}) para la cabaña ${reservation_for_deletion.cabin_id} con un periodo de " +
-          current_reservation_period_label +
-          " " +
-          widget.website_url;
-
-      send_email(
-        to: "info@collineblanche.com.mx",
-        subject: "Reservación Eliminada (${reservation_id})",
-        text: email_message,
-      );
-
-      get_current_reservations();
-    });
-  }
-
   edit_button(String reservation_id) async {
     show_creation_menu = true;
     current_reservation =
@@ -353,7 +310,22 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                     website_url: widget.website_url,
                   );
                 } else {
-                  delete_button(reservation_id);
+                  delete_reservation(
+                    reservation_id: reservation_id,
+                    reservations: reservations,
+                    callback: () {
+                      cancel_button();
+                      get_current_reservations();
+                    },
+                    context: context,
+                    selected_date_1: selected_date_1,
+                    selected_date_2: selected_date_2,
+                    source_language: text_list
+                        .translation_text_list_array[source_language_index]
+                        .source_language,
+                    user_info: user_info,
+                    website_url: widget.website_url,
+                  );
                 }
               },
             ),

@@ -15,7 +15,7 @@ String get_reservation_period_label({
       show_creation_menu ? selected_date_1 : reservations[index].date_init;
 
   DateTime date_to_use_2 =
-      show_creation_menu ? selected_date_2 : reservations[index].date_init;
+      show_creation_menu ? selected_date_2 : reservations[index].date_end;
 
   String month_day_1 =
       DateFormat("MMMMd", source_language).format(date_to_use_1);
