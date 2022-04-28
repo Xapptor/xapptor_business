@@ -15,13 +15,14 @@ delete_reservation({
   required String source_language,
   required Map<String, dynamic> user_info,
   required String website_url,
+  required List<String> text_list,
 }) async {
   var reservation_for_deletion = get_reservation_from_id(
     id: reservation_id,
     reservations: reservations,
   );
 
-  String current_reservation_period_label = get_reservation_period_label(
+  String reservation_period_label = get_reservation_period_label(
     index: reservations.indexOf(reservation_for_deletion),
     show_creation_menu: false,
     reservations: reservations,
@@ -37,17 +38,12 @@ delete_reservation({
       .then((value) {
     Navigator.of(context).pop();
 
-    String email_message = user_info["firstname"] +
-        " " +
-        user_info["lastname"] +
-        " ha eliminado una reservación (${reservation_id}) para la cabaña ${reservation_for_deletion.cabin_id} con un periodo de " +
-        current_reservation_period_label +
-        " " +
-        website_url;
+    String email_message =
+        "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[2]} (${reservation_id}) ${text_list[5]} ${reservation_for_deletion.cabin_id} ${text_list[6]} ${reservation_period_label} ${website_url}";
 
     send_email(
       to: "info@collineblanche.com.mx",
-      subject: "Reservación Eliminada (${reservation_id})",
+      subject: "${text_list[8]} ${text_list[11]} (${reservation_id})",
       text: email_message,
     );
 

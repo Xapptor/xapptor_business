@@ -10,65 +10,78 @@ register_reservation({
   required BuildContext context,
   required DateTime selected_date_1,
   required DateTime selected_date_2,
-  required ReservationCabin current_reservation,
+  required ReservationCabin? current_reservation,
   required String reservation_period_label,
   required String selected_cabin,
   required String user_id,
   required Map<String, dynamic> user_info,
   required String website_url,
+  required List<String> text_list,
 }) async {
-  if (reservation_id != null) {
-    await FirebaseFirestore.instance
+  if (current_reservation != null) {
+    ReservationCabin reservation = ReservationCabin(
+      id: current_reservation.id,
+      user_id: user_id,
+      date_created: DateTime.now(),
+      date_init: selected_date_1,
+      date_end: selected_date_2,
+      cabin_id: selected_cabin,
+      payments: [],
+    );
+    Map<String, dynamic> reservation_map = reservation.to_json();
+    reservation_map.remove("id");
+    reservation_map.remove("user_id");
+    reservation_map.remove("date_created");
+    reservation_map.remove("payments");
+
+    var reservation_snap = await FirebaseFirestore.instance
         .collection("reservations")
-        .doc(reservation_id)
-        .update({
-      "user_id": user_id,
-      "date_created": Timestamp.now(),
-      "date_init": selected_date_1,
-      "date_end": selected_date_2,
-      "cabin_id": selected_cabin,
-    }).then((value) {
-      Navigator.of(context).pop();
+        .doc(current_reservation.id)
+        .get();
 
-      callback();
+    reservation_snap.reference.update(reservation_map);
 
-      String email_message = user_info["firstname"] +
-          " " +
-          user_info["lastname"] +
-          " ha actualizado una reservación (${current_reservation.id}) para la cabaña ${selected_cabin} con un periodo de " +
-          reservation_period_label +
-          " " +
-          website_url;
+    Navigator.of(context).pop();
 
-      send_email(
-        to: "info@collineblanche.com.mx",
-        subject: "Reservación Actualizada (${current_reservation.id})",
-        text: email_message,
-      );
-      get_current_reservations_callback();
-    });
+    callback();
+
+    String email_message =
+        "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[1]} (${reservation_id}) ${text_list[5]} ${selected_cabin} ${text_list[6]} ${reservation_period_label} ${website_url}";
+
+    send_email(
+      to: "info@collineblanche.com.mx",
+      subject: "${text_list[8]} ${text_list[10]} (${current_reservation.id})",
+      text: email_message,
+    );
+    get_current_reservations_callback();
   } else {
-    await FirebaseFirestore.instance.collection("reservations").add({
-      "user_id": user_id,
-      "date_created": Timestamp.now(),
-      "date_init": selected_date_1,
-      "date_end": selected_date_2,
-      "cabin_id": selected_cabin,
-    }).then((value) {
+    ReservationCabin reservation = ReservationCabin(
+      id: "",
+      user_id: user_id,
+      date_created: DateTime.now(),
+      date_init: selected_date_1,
+      date_end: selected_date_2,
+      cabin_id: selected_cabin,
+      payments: [],
+    );
+    Map<String, dynamic> reservation_map = reservation.to_json();
+    reservation_map.remove("id");
+    reservation_map["date_created"] = Timestamp.now();
+    reservation_map.remove("payments");
+
+    FirebaseFirestore.instance
+        .collection("reservations")
+        .add(reservation_map)
+        .then((value) {
       Navigator.of(context).pop();
       callback();
 
-      String email_message = user_info["firstname"] +
-          " " +
-          user_info["lastname"] +
-          " ha creado una reservación (${value.id}) para la cabaña ${selected_cabin} con un periodo de " +
-          reservation_period_label +
-          " " +
-          website_url;
+      String email_message =
+          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[0]} (${value.id}) ${text_list[5]} ${selected_cabin} ${text_list[6]} ${reservation_period_label} ${website_url}";
 
       send_email(
         to: "info@collineblanche.com.mx",
-        subject: "Nueva Reservación Registrada (${value.id})",
+        subject: "${text_list[8]} ${text_list[9]} (${value.id})",
         text: email_message,
       );
       get_current_reservations_callback();

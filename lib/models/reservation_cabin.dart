@@ -37,4 +37,16 @@ class ReservationCabin extends Reservation {
       payments: List<String>.from(snapshot['payments'] ?? []),
     );
   }
+
+  Map<String, dynamic> to_json() {
+    return {
+      'id': id,
+      'user_id': user_id,
+      'date_created': date_created,
+      'date_init': date_init,
+      'date_end': date_end,
+      'cabin_id': cabin_id,
+      'payments': payments,
+    };
+  }
 }

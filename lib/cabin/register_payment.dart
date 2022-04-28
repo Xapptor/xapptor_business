@@ -1,8 +1,8 @@
-import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:xapptor_business/cabin/get_reservation_period_label.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
@@ -10,18 +10,20 @@ import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_logic/send_email.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-register_payment(
-    {required String reservation_id,
-    required BuildContext context,
-    required var parent,
-    required Function get_reservations_callback,
-    required Map<String, dynamic> user_info,
-    required List<ReservationCabin> reservations,
-    required List<Cabin> cabins,
-    required TextEditingController amount_input_controller,
-    required List<String> text_list,
-    required String website_url,
-    required List<Payment> reservation_payments}) async {
+register_payment({
+  required String reservation_id,
+  required BuildContext context,
+  required var parent,
+  required Function get_reservations_callback,
+  required Map<String, dynamic> user_info,
+  required List<ReservationCabin> reservations,
+  required List<Cabin> cabins,
+  required TextEditingController amount_input_controller,
+  required List<String> text_list,
+  required String website_url,
+  required List<Payment> reservation_payments,
+  required String source_language,
+}) async {
   parent.current_reservation =
       reservations.firstWhere((element) => element.id == reservation_id);
 
@@ -34,6 +36,15 @@ register_payment(
 
   String user_id = FirebaseAuth.instance.currentUser!.uid;
   DateFormat label_date_formatter = DateFormat.yMMMMd('en_US');
+
+  String reservation_period_label = get_reservation_period_label(
+    index: reservations.indexOf(parent.current_reservation),
+    show_creation_menu: false,
+    reservations: reservations,
+    selected_date_1: parent.current_reservation.date_init,
+    selected_date_2: parent.current_reservation.date_end,
+    source_language: source_language,
+  );
 
   showDialog(
     context: context,
@@ -52,7 +63,6 @@ register_payment(
                           itemCount: reservation_payments.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              //height: screen_height * 0.1,
                               width: screen_width / 5,
                               child: Row(
                                 mainAxisAlignment:
@@ -86,17 +96,13 @@ register_payment(
                                             .current_reservation!.payments,
                                       });
 
-                                      String email_message = user_info[
-                                              "firstname"] +
-                                          " " +
-                                          user_info["lastname"] +
-                                          " ha eliminado el registro de pago (${reservation_payments[index].id}), con un monto de (\$${reservation_payments[index].amount}), para la reservación (${parent.current_reservation!.id}), en la cabaña ${parent.current_reservation!.cabin_id} " +
-                                          website_url;
+                                      String email_message =
+                                          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_id}) ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
 
                                       send_email(
                                         to: "info@collineblanche.com.mx",
                                         subject:
-                                            "Registro de pago eliminado (${reservation_payments[index].id}), Cabaña: (${parent.current_reservation!.cabin_id})",
+                                            "${text_list[37 + 12]} ${text_list[37 + 11]} (${parent.current_reservation.id})",
                                         text: email_message,
                                       );
 
@@ -153,6 +159,7 @@ register_payment(
           TextButton(
             child: Text(text_list[22]),
             onPressed: () {
+              amount_input_controller.clear();
               Navigator.pop(context);
             },
           ),
@@ -177,16 +184,13 @@ register_payment(
                     .update({
                   "payments": FieldValue.arrayUnion([payment.id]),
                 }).then((reservation) {
-                  String email_message = user_info["firstname"] +
-                      " " +
-                      user_info["lastname"] +
-                      " ha creado el registro de pago (${payment.id}), con un monto de (\$${amount_input_controller.text}), para la reservación (${parent.current_reservation!.id}), en la cabaña ${parent.current_reservation!.cabin_id} " +
-                      website_url;
+                  String email_message =
+                      "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${reservation_id}) ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
 
                   send_email(
                     to: "info@collineblanche.com.mx",
                     subject:
-                        "Registro de pago creado (${payment.id}), Cabaña: (${parent.current_reservation!.cabin_id})",
+                        "${text_list[37 + 12]} ${text_list[37 + 9]} (${parent.current_reservation.id})",
                     text: email_message,
                   );
 

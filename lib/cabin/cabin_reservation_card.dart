@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_logic/bool_to_text.dart';
-import 'package:xapptor_logic/get_user_info.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 
@@ -26,6 +25,7 @@ class CabinReservationCard extends StatefulWidget {
     required this.register_payment_callback,
     required this.total_price_from_reservation,
     required this.reservation_payments_total,
+    required this.user_info,
   });
 
   final ReservationCabin? reservation;
@@ -46,6 +46,7 @@ class CabinReservationCard extends StatefulWidget {
   final Function(String reservation_id) register_payment_callback;
   final int total_price_from_reservation;
   final int reservation_payments_total;
+  final Map<String, dynamic> user_info;
 
   @override
   _CabinReservationCardState createState() => _CabinReservationCardState();
@@ -58,15 +59,13 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
     get_user_info_from_reservation();
   }
 
-  Map<String, dynamic> user_info = {};
   String user_name = "";
   bool admin = false;
 
   get_user_info_from_reservation() async {
     if (widget.reservation != null) {
-      user_info = await get_user_info(widget.reservation!.user_id);
-      if (user_info["admin"] != null) {
-        admin = user_info["admin"];
+      if (widget.user_info["admin"] != null) {
+        admin = widget.user_info["admin"];
       }
       update_user_name();
     }
@@ -75,9 +74,9 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
   update_user_name() {
     user_name = widget.text_list[28] +
         ": " +
-        user_info["firstname"] +
+        widget.user_info["firstname"] +
         " " +
-        user_info["lastname"];
+        widget.user_info["lastname"];
 
     setState(() {});
   }
@@ -95,7 +94,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
     } else if (widget.cabin.capacity >= 2) {
       description = widget.text_list[19];
     }
-    if (user_info.isNotEmpty) {
+    if (widget.user_info.isNotEmpty) {
       update_user_name();
     }
 
