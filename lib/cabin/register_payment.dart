@@ -112,6 +112,7 @@ register_payment({
                                       );
 
                                       Navigator.pop(context);
+                                      get_reservations_callback();
                                     },
                                     icon: Icon(
                                       FontAwesomeIcons.trashCan,
