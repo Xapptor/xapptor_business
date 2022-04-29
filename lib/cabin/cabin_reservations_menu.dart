@@ -92,7 +92,10 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   }
 
   static DateTime next_3_months = DateTime(
-      DateTime.now().year, DateTime.now().month + 3, DateTime.now().day);
+    DateTime.now().year,
+    DateTime.now().month + 3,
+    DateTime.now().day,
+  );
 
   DateTime selected_date_1 = DateTime.now();
   DateTime selected_date_2 = DateTime.now();
@@ -174,7 +177,13 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: initial_date,
-      firstDate: initial_date,
+      firstDate: show_older_reservations
+          ? DateTime(
+              DateTime.now().year - 2,
+              DateTime.now().month,
+              DateTime.now().day,
+            )
+          : initial_date,
       lastDate: next_3_months,
       builder: (context, child) {
         return Theme(
@@ -353,34 +362,31 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   bool show_older_reservations = false;
 
   Widget show_older_reservations_button() {
-    var container = Container();
+    Widget container = Container();
     if (user_info["admin"] != null) {
       if (user_info["admin"]) {
-        container = Container(
-          margin: const EdgeInsets.all(30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                text_list.get(source_language_index)[51] +
-                    " " +
-                    text_list.get(source_language_index)[25],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+        container = Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              text_list.get(source_language_index)[51] +
+                  " " +
+                  text_list.get(source_language_index)[25],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
               ),
-              Switch(
-                value: show_older_reservations,
-                onChanged: (new_value) {
-                  show_older_reservations = new_value;
-                  setState(() {});
-                  get_current_reservations();
-                },
-              ),
-            ],
-          ),
+            ),
+            Switch(
+              value: show_older_reservations,
+              onChanged: (new_value) {
+                show_older_reservations = new_value;
+                get_current_reservations();
+              },
+              activeColor: widget.topbar_color,
+            ),
+          ],
         );
       }
     }
@@ -437,18 +443,18 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                       )
                     : ListView(
                         children: [
-                          Container(
-                            margin: const EdgeInsets.all(30),
-                            child: Text(
-                              text_list.get(source_language_index)[25],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          SizedBox(height: screen_height / 20),
+                          Text(
+                            text_list.get(source_language_index)[25],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
+                          SizedBox(height: screen_height / 50),
                           show_older_reservations_button(),
+                          SizedBox(height: screen_height / 50),
                           ListView.builder(
                             shrinkWrap: true,
                             physics: ClampingScrollPhysics(),
@@ -568,6 +574,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                               );
                             },
                           ),
+                          SizedBox(height: screen_height / 20),
                         ],
                       ),
               )
@@ -642,7 +649,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
               child: Icon(
                 FontAwesomeIcons.filePen,
               ),
-              tooltip: text_list.get(source_language_index)[42] +
+              tooltip: text_list.get(source_language_index)[44] +
                   " " +
                   text_list.get(source_language_index)[24],
             )

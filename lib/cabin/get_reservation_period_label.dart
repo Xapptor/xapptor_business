@@ -35,7 +35,7 @@ String get_reservation_period_label({
           "$month_1 ${selected_date_1.day} - ${selected_date_2.day}, ${DateFormat("yyyy").format(selected_date_1)}.";
     } else {
       reservation_period_label =
-          "$month_1 ${reservations[index].date_init.day} - ${reservations[index].date_end.day}, ${DateFormat("yyyy").format(selected_date_1)}.";
+          "$month_1 ${reservations[index].date_init.day} - ${reservations[index].date_end.day}, ${DateFormat("yyyy").format(reservations[index].date_init)}.";
     }
   } else {
     int month_day_1_first_letter_index = month_day_1.indexOf(month_1);
@@ -57,7 +57,7 @@ String get_reservation_period_label({
         month_day_2.substring(month_day_2_first_letter_index + 1);
 
     reservation_period_label =
-        "$month_day_1 - $month_day_2, ${DateFormat("yyyy").format(selected_date_1)}.";
+        "$month_day_1 - $month_day_2, ${DateFormat("yyyy").format(date_to_use_1)}.";
   }
   return reservation_period_label;
 }

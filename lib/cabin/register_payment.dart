@@ -6,6 +6,7 @@ import 'package:xapptor_business/cabin/get_reservation_period_label.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
+import 'package:xapptor_logic/get_range_of_dates.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_logic/send_email.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,6 +46,10 @@ register_payment({
     selected_date_2: parent.current_reservation.date_end,
     source_language: source_language,
   );
+
+  List<DateTime> current_range_of_dates = get_range_of_dates(
+      parent.current_reservation.date_init,
+      parent.current_reservation.date_end);
 
   showDialog(
     context: context,
@@ -97,12 +102,12 @@ register_payment({
                                       });
 
                                       String email_message =
-                                          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_id}) ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
+                                          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
 
                                       send_email(
                                         to: "info@collineblanche.com.mx",
                                         subject:
-                                            "${text_list[37 + 12]} ${text_list[37 + 11]} (${parent.current_reservation.id})",
+                                            "${text_list[37 + 12]} ${text_list[37 + 11]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id})",
                                         text: email_message,
                                       );
 
@@ -131,9 +136,9 @@ register_payment({
                                 .reduce((a, b) => a + b)
                                 .toString() +
                             "/" +
-                            current_cabin
-                                .get_season_price(
-                                    parent.current_reservation!.date_init)
+                            (current_cabin.get_season_price(
+                                        parent.current_reservation!.date_init) *
+                                    (current_range_of_dates.length - 1))
                                 .toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -185,12 +190,12 @@ register_payment({
                   "payments": FieldValue.arrayUnion([payment.id]),
                 }).then((reservation) {
                   String email_message =
-                      "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${reservation_id}) ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
+                      "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${payment.id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
 
                   send_email(
                     to: "info@collineblanche.com.mx",
                     subject:
-                        "${text_list[37 + 12]} ${text_list[37 + 9]} (${parent.current_reservation.id})",
+                        "${text_list[37 + 12]} ${text_list[37 + 9]} (${payment.id}), ${text_list[24]} (${reservation_id})",
                     text: email_message,
                   );
 

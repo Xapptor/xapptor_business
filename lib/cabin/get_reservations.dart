@@ -59,10 +59,15 @@ Future<List<ReservationCabin>> get_reservations({
       DateTime.now().month,
       DateTime.now().day - 1,
     );
-    if (reservation.date_init.isBefore(comparison_date)) {
+    if (!show_older_reservations &&
+        reservation.date_init.isBefore(comparison_date)) {
       reservations_copy.remove(reservation);
     }
   });
   reservations = reservations_copy.toList();
+  reservations.sort((a, b) => a.date_init.compareTo(b.date_init));
+  if (show_older_reservations) {
+    reservations = reservations.reversed.toList();
+  }
   return reservations;
 }
