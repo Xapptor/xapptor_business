@@ -60,7 +60,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
       List filtered_sum_of_payments = widget.sum_of_payments;
       filtered_sum_of_payments
           .sort((a, b) => a["amount"].compareTo(b["amount"]));
-      max_y = filtered_sum_of_payments.last["amount"] * 1.3;
+      max_y = filtered_sum_of_payments.last["amount"] * 1.35;
     }
 
     return Container(

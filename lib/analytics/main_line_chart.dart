@@ -1,7 +1,22 @@
+import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
 import 'package:xapptor_logic/is_int.dart';
+
+List<double> generate_numbers() {
+  List<double> current_number_list = [];
+  for (var i = 0; i <= 10; i++) {
+    for (var j = 0; j <= 10; j++) {
+      current_number_list.add((i * (pow(10, j))).toDouble());
+    }
+  }
+  current_number_list = current_number_list.toSet().toList();
+  current_number_list.sort();
+  return current_number_list;
+}
+
+List<double> number_list = generate_numbers();
 
 LineChart main_line_chart({
   required TimeFrame current_timeframe,
@@ -34,7 +49,8 @@ LineChart main_line_chart({
     if (i == original_bottom_labels_length_quarter * 0 ||
         i == original_bottom_labels_length_quarter * 1 ||
         i == original_bottom_labels_length_quarter * 2 ||
-        i == original_bottom_labels_length_quarter * 3) {
+        i == original_bottom_labels_length_quarter * 3 ||
+        i == original_bottom_labels_length_quarter * 4) {
       current_bottom_labels.add(original_bottom_labels[i]);
     } else {
       current_bottom_labels.add("");
@@ -116,107 +132,66 @@ LineChart main_line_chart({
         touchCallback: (touch_event, touch_response) {},
         handleBuiltInTouches: true,
       ),
-      gridData: FlGridData(
-        show: true,
-      ),
+      gridData: FlGridData(),
       titlesData: FlTitlesData(
-        topTitles: SideTitles(
-          reservedSize: 0,
-          showTitles: false,
-        ),
-        rightTitles: SideTitles(
-          reservedSize: 0,
-          showTitles: false,
-        ),
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 0,
-          getTextStyles: (context, value) => TextStyle(
-            color: text_color,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          margin: 10,
-          getTitles: (value) {
-            if (value <= current_bottom_labels.length - 1 && value.isInt) {
-              String title = current_bottom_labels[value.toInt()];
-              return title;
-            } else {
-              return "";
-            }
-          },
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (context, value) => TextStyle(
-            color: icon_color,
-            fontWeight: FontWeight.bold,
-            fontSize: 13,
-          ),
-          getTitles: (value) {
-            String label = "";
+        topTitles: AxisTitles(),
+        rightTitles: AxisTitles(),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 50,
+            getTitlesWidget: (value, titleMeta) {
+              String title = "";
+              if (value <= current_bottom_labels.length - 1 && value.isInt) {
+                title = current_bottom_labels[value.toInt()];
+              }
 
-            if (value > 999) {
-              label = "\$${(value / 1000).round()}k";
-            } else {
-              label = "\$${value.toInt()}";
-            }
+              return Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: text_color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.center,
+                ),
+              );
+            },
+          ),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 70,
+            getTitlesWidget: (value, title_meta) {
+              String label = "";
 
-            if (max_y < 201) {
-              if (value == 0 ||
-                  value == 50 ||
-                  value == 100 ||
-                  value == 150 ||
-                  value == 200) {
-                return label;
-              } else {
-                return "";
+              if (number_list.contains(value)) {
+                if (value > 999) {
+                  label = "\$${(value / 1000)}k";
+                } else {
+                  label = "\$$value";
+                }
               }
-            } else if (max_y > 200 && max_y < 1001) {
-              if (value == 0 ||
-                  value == 200 ||
-                  value == 400 ||
-                  value == 600 ||
-                  value == 800 ||
-                  value == 1000) {
-                return label;
-              } else {
-                return "";
-              }
-            } else if (max_y > 1000 && max_y < 2001) {
-              if (value == 0 ||
-                  value == 500 ||
-                  value == 1000 ||
-                  value == 1500 ||
-                  value == 2000) {
-                return label;
-              } else {
-                return "";
-              }
-            } else {
-              if (value == 0 ||
-                  value == 1000 ||
-                  value == 2000 ||
-                  value == 3000 ||
-                  value == 4000 ||
-                  value == 5000 ||
-                  value == 6000 ||
-                  value == 7000 ||
-                  value == 8000 ||
-                  value == 9000 ||
-                  value == 10000) {
-                return label;
-              } else {
-                return "";
-              }
-            }
-          },
-          margin: 10,
-          reservedSize: 40,
+
+              return Text(
+                label,
+                style: TextStyle(
+                  color: icon_color,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.center,
+              );
+            },
+          ),
         ),
       ),
       borderData: FlBorderData(
-        show: true,
         border: Border(
           bottom: BorderSide(
             color: text_color,
@@ -242,28 +217,24 @@ LineChart main_line_chart({
           spots: spots,
           isCurved: true,
           curveSmoothness: 0.15,
-          colors: [
-            text_color.withOpacity(0.7),
-          ],
+          color: text_color.withOpacity(0.7),
           barWidth: 6,
           isStrokeCapRound: true,
-          dotData: FlDotData(
-            show: true,
-          ),
+          dotData: FlDotData(),
           belowBarData: BarAreaData(
-            show: true,
-            colors: [
-              icon_color.withOpacity(0.3),
-              text_color.withOpacity(0.3),
-            ],
-            gradientFrom: Offset(0, 0),
-            gradientTo: Offset(0, 1),
-            gradientColorStops: [
-              0.2,
-              1.0,
-            ],
+            gradient: LinearGradient(
+              colors: [
+                icon_color.withOpacity(0.3),
+                text_color.withOpacity(0.3),
+              ],
+              stops: [
+                0.2,
+                1.0,
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ),
             spotsLine: BarAreaSpotsLine(
-              show: true,
               flLineStyle: FlLine(
                 color: text_color.withOpacity(0.3),
                 strokeWidth: 4,
@@ -273,6 +244,7 @@ LineChart main_line_chart({
         )
       ],
     ),
-    swapAnimationDuration: const Duration(milliseconds: 200),
+    swapAnimationDuration: const Duration(milliseconds: 600),
+    swapAnimationCurve: Curves.easeInOutCubicEmphasized,
   );
 }
