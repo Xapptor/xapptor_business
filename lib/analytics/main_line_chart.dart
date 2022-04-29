@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
+import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 import 'package:xapptor_logic/is_int.dart';
 
 List<double> generate_numbers() {

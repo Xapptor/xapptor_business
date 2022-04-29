@@ -7,7 +7,7 @@ import 'package:xapptor_business/cabin/download_cabins_analytics_excel_file.dart
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
+import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 
 class CabinsAnalytics extends StatefulWidget {
   const CabinsAnalytics({

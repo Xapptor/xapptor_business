@@ -3,10 +3,10 @@ import 'package:fluttericon/typicons_icons.dart';
 import 'package:xapptor_business/analytics/analytics_segment.dart';
 import 'package:xapptor_business/analytics/main_line_chart.dart';
 import 'package:xapptor_business/analytics/payments_pie_chart_by_parameter.dart';
+import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_ui/values/ui.dart';
-import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
 
 class AdminAnalytics extends StatefulWidget {
   const AdminAnalytics({

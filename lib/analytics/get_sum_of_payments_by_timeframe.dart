@@ -1,4 +1,4 @@
-import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
+import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 
 List<Map<String, dynamic>> get_sum_of_payments_by_timeframe({
   required List<dynamic> filtered_payments,

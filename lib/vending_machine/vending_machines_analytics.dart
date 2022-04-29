@@ -8,7 +8,7 @@ import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/vending_machine/download_vending_machines_analytics_excel_file.dart';
-import 'package:xapptor_ui/widgets/timeframe_chart_functions.dart';
+import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 
 class VendingMachinesAnalytics extends StatefulWidget {
   const VendingMachinesAnalytics({
