@@ -30,12 +30,10 @@ import 'register_payment.dart';
 class CabinReservationsMenu extends StatefulWidget {
   CabinReservationsMenu({
     required this.topbar_color,
-    required this.text_list,
     required this.website_url,
   });
 
   final Color topbar_color;
-  final List<String> text_list;
   final String website_url;
 
   @override
