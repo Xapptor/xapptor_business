@@ -425,22 +425,27 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
       body: Container(
         alignment: Alignment.center,
         child: !show_creation_menu
-            ? ListView(
+            ? Column(
+                mainAxisAlignment: reservations.length == 0
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(height: screen_height / 20),
                   show_older_reservations_button(),
-                  SizedBox(height: screen_height / 50),
                   Container(
+                    height: screen_height * (portrait ? 0.8 : 0.8),
                     child: reservations.length == 0
-                        ? Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: screen_height / 3),
-                            child: Text(
-                              text_list.get(source_language_index)[26],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                        ? FractionallySizedBox(
+                            widthFactor: (portrait ? 0.85 : 1),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                text_list.get(source_language_index)[26],
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           )
