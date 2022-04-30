@@ -13,6 +13,8 @@ Future<List> get_chart_sections({
   required bool same_background_color,
   required List<Color> seed_colors,
   required ChartType chart_type,
+  required double width,
+  required bool portrait,
 }) async {
   List<Map<String, dynamic>> sum_of_payments_by_parameter =
       get_sum_of_payments_by_parameter(
@@ -72,7 +74,8 @@ Future<List> get_chart_sections({
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
-              width: 10,
+              width: (width / sum_of_payments_by_parameter.length) *
+                  (portrait ? 0.2 : 0.1),
               backDrawRodData: BackgroundBarChartRodData(
                 show: true,
                 toY: 100,

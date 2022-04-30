@@ -247,6 +247,8 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                                 widget.icon_color,
                               ],
                               chart_type: widget.chart_type,
+                              width: screen_width * (portrait ? 0.85 : 0.50),
+                              portrait: portrait,
                             ),
                           ),
                         ],

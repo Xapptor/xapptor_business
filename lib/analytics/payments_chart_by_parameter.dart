@@ -11,6 +11,8 @@ Widget payments_chart_by_parameter({
   required bool same_background_color,
   required List<Color> seed_colors,
   required ChartType chart_type,
+  required double width,
+  required bool portrait,
 }) {
   return FutureBuilder<List<dynamic>>(
     future: get_chart_sections(
@@ -20,6 +22,8 @@ Widget payments_chart_by_parameter({
       same_background_color: same_background_color,
       seed_colors: seed_colors,
       chart_type: chart_type,
+      width: width,
+      portrait: portrait,
     ),
     builder: (
       BuildContext context,
