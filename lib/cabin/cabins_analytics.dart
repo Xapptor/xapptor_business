@@ -129,16 +129,20 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
     filtered_payments.clear();
     payments.sort((a, b) => a.date.compareTo(b.date));
 
-    filtered_payments = payments
-        .where(
-          (payment) => payment.date.isAfter(
-            get_timeframe_date(
-              timeframe: current_timeframe,
-              first_year: payments.first.date.year,
+    if (current_timeframe == TimeFrame.beginning) {
+      filtered_payments = payments.toList();
+    } else {
+      filtered_payments = payments
+          .where(
+            (payment) => payment.date.isAfter(
+              get_timeframe_date(
+                timeframe: current_timeframe,
+                first_year: payments.first.date.year,
+              ),
             ),
-          ),
-        )
-        .toList();
+          )
+          .toList();
+    }
 
     if (cabin_values.indexOf(cabin_value) != 0) {
       filtered_payments = filtered_payments
@@ -205,7 +209,6 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
             break;
         }
         get_filtered_payments();
-        setState(() {});
       },
       download_analytics_callback: (BuildContext context) =>
           download_cabins_analytics_excel_file(

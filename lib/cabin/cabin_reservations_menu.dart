@@ -477,7 +477,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                 widthFactor: portrait ? 0.9 : 0.4,
                                 child: Container(
                                   height:
-                                      screen_height * (portrait ? 0.45 : 0.4),
+                                      screen_height * (portrait ? 0.5 : 0.45),
                                   margin: const EdgeInsets.all(10),
                                   child: FutureBuilder<List<Payment>>(
                                     future: get_payments_by_reservation(
@@ -566,7 +566,13 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                           user_info: user_info,
                                         );
                                       } else {
-                                        return CircularProgressIndicator();
+                                        return Container(
+                                          child: FractionallySizedBox(
+                                            heightFactor: 0.25,
+                                            widthFactor: 0.2,
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        );
                                       }
                                     },
                                   ),
@@ -642,6 +648,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
           ? FloatingActionButton(
               onPressed: () {
                 show_creation_menu = true;
+                current_reservation = null;
                 setState(() {});
                 show_select_date_alert_dialog(
                     text_list.get(source_language_index)[0]);

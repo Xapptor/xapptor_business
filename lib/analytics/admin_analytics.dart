@@ -54,7 +54,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
 
     double title_size = 20;
     double subtitle_size = 16;
-    double max_y = 0;
+    double max_y = 10;
 
     if (widget.sum_of_payments.isNotEmpty) {
       List filtered_sum_of_payments = widget.sum_of_payments;
@@ -78,7 +78,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
               Row(
                 children: [
                   Expanded(
-                    flex: 8,
+                    flex: 10,
                     child: Text(
                       widget.screen_title,
                       textAlign: TextAlign.left,
@@ -91,7 +91,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                   ),
                   Spacer(flex: 2),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: IconButton(
                       onPressed: () =>
                           widget.download_analytics_callback(context),
@@ -183,19 +183,17 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                       },
                     ),
                   ),
-                  widget.filtered_payments.length > 0
-                      ? Container(
-                          height: screen_height / 3,
-                          width: screen_width * (portrait ? 0.85 : 0.50),
-                          child: main_line_chart(
-                            current_timeframe: widget.current_timeframe,
-                            max_y: max_y,
-                            sum_of_payments: widget.sum_of_payments,
-                            text_color: widget.text_color,
-                            icon_color: widget.icon_color,
-                          ),
-                        )
-                      : Container(),
+                  Container(
+                    height: screen_height / 3,
+                    width: screen_width * (portrait ? 0.85 : 0.50),
+                    child: main_line_chart(
+                      current_timeframe: widget.current_timeframe,
+                      max_y: max_y,
+                      sum_of_payments: widget.sum_of_payments,
+                      text_color: widget.text_color,
+                      icon_color: widget.icon_color,
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -203,13 +201,13 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
               ),
               Container(
                 height: (widget.analytics_segments.length *
-                    (screen_height / 3) *
+                    (screen_height / 2.5) *
                     1.5),
                 child: ListView.builder(
                   itemCount: widget.analytics_segments.length,
                   itemBuilder: (context, index) {
                     return FractionallySizedBox(
-                      widthFactor: 0.75,
+                      widthFactor: portrait ? 0.85 : 0.75,
                       child: Column(
                         children: [
                           SizedBox(
@@ -228,8 +226,8 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                             height: sized_box_space,
                           ),
                           Container(
-                            height: screen_height / 3,
-                            width: screen_width,
+                            height: screen_height / 2.5,
+                            width: screen_width * (portrait ? 0.85 : 0.75),
                             child: payments_pie_chart_by_parameter(
                               payments:
                                   payment_list_to_json_list(widget.payments),

@@ -63,62 +63,94 @@ register_payment({
               reservation_payments.length > 0
                   ? Container(
                       height: screen_height * 0.2,
-                      width: screen_width / 5,
+                      width: screen_width * (portrait ? 0.8 : 0.3),
                       child: ListView.builder(
                           itemCount: reservation_payments.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              width: screen_width / 5,
+                              margin: const EdgeInsets.only(top: 6),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    label_date_formatter.format(
-                                            reservation_payments[index].date) +
-                                        " - \$" +
-                                        reservation_payments[index]
-                                            .amount
-                                            .toString(),
-                                  ),
-                                  IconButton(
-                                    onPressed: () async {
-                                      await FirebaseFirestore.instance
-                                          .collection("payments")
-                                          .doc(reservation_payments[index].id)
-                                          .delete();
-
-                                      parent.current_reservation!.payments
-                                          .removeWhere((element) =>
-                                              element ==
-                                              reservation_payments[index].id);
-
-                                      await FirebaseFirestore.instance
-                                          .collection("reservations")
-                                          .doc(parent.current_reservation!.id)
-                                          .update({
-                                        "payments": parent
-                                            .current_reservation!.payments,
-                                      });
-
-                                      String email_message =
-                                          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
-
-                                      send_email(
-                                        to: "info@collineblanche.com.mx",
-                                        subject:
-                                            "${text_list[37 + 12]} ${text_list[37 + 11]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id})",
-                                        text: email_message,
-                                      );
-
-                                      Navigator.pop(context);
-                                      get_reservations_callback();
-                                    },
-                                    icon: Icon(
-                                      FontAwesomeIcons.trashCan,
+                                  Expanded(
+                                    flex: 10,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SelectableText(
+                                          "ID: (${reservation_payments[index].id})",
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SelectableText(
+                                          label_date_formatter.format(
+                                                  reservation_payments[index]
+                                                      .date) +
+                                              " - \$" +
+                                              reservation_payments[index]
+                                                  .amount
+                                                  .toString(),
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    tooltip: text_list[29],
-                                  )
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        await FirebaseFirestore.instance
+                                            .collection("payments")
+                                            .doc(reservation_payments[index].id)
+                                            .delete();
+
+                                        parent.current_reservation!.payments
+                                            .removeWhere((element) =>
+                                                element ==
+                                                reservation_payments[index].id);
+
+                                        await FirebaseFirestore.instance
+                                            .collection("reservations")
+                                            .doc(parent.current_reservation!.id)
+                                            .update({
+                                          "payments": parent
+                                              .current_reservation!.payments,
+                                        });
+
+                                        String email_message =
+                                            "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
+
+                                        send_email(
+                                          to: "info@collineblanche.com.mx",
+                                          subject:
+                                              "${text_list[37 + 12]} ${text_list[37 + 11]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id})",
+                                          text: email_message,
+                                        );
+
+                                        Navigator.pop(context);
+                                        get_reservations_callback();
+                                      },
+                                      icon: Icon(
+                                        FontAwesomeIcons.trashCan,
+                                      ),
+                                      tooltip: text_list[29],
+                                    ),
+                                  ),
                                 ],
                               ),
                             );
@@ -128,6 +160,7 @@ register_payment({
               reservation_payments.length > 0
                   ? Container(
                       alignment: Alignment.centerRight,
+                      margin: const EdgeInsets.only(top: 10),
                       child: Text(
                         text_list[33] +
                             " \$" +

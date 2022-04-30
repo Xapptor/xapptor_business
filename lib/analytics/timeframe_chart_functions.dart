@@ -22,7 +22,7 @@ double get_max_x({
     case TimeFrame.year:
       return 12;
     case TimeFrame.beginning:
-      return 3;
+      return first_year.toDouble();
   }
 }
 
