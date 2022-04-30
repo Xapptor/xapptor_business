@@ -1,15 +1,18 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:xapptor_business/analytics/chart_type.dart';
 import 'get_sum_of_payments_by_parameter.dart';
 import 'package:xapptor_logic/get_random_color.dart';
 
-Future<List<PieChartSectionData>> get_pie_chart_sections({
+Future<List> get_chart_sections({
   required List<Map<String, dynamic>> payments,
   required String parameter,
   required String collection,
   required bool same_background_color,
   required List<Color> seed_colors,
+  required ChartType chart_type,
 }) async {
   List<Map<String, dynamic>> sum_of_payments_by_parameter =
       get_sum_of_payments_by_parameter(
@@ -17,7 +20,7 @@ Future<List<PieChartSectionData>> get_pie_chart_sections({
     parameter: parameter,
   );
 
-  List<PieChartSectionData> pie_chart_sections = [];
+  List chart_sections = [];
 
   int total_amount_in_sales = 0;
 
@@ -54,18 +57,46 @@ Future<List<PieChartSectionData>> get_pie_chart_sections({
               : 0],
     );
 
-    pie_chart_sections.add(
-      PieChartSectionData(
-        color: random_color,
-        value: payments_by_parameter_percentage,
-        title: title,
-        titleStyle: TextStyle(
-          color: Colors.white,
-          backgroundColor:
-              same_background_color ? random_color : Colors.transparent,
+    if (chart_type == ChartType.bar) {
+      chart_sections.add({
+        "section": BarChartGroupData(
+          x: sum_of_payments_by_parameter.indexOf(payments_by_parameter),
+          barRods: [
+            BarChartRodData(
+              toY: payments_by_parameter_percentage.roundToDouble(),
+              gradient: LinearGradient(
+                colors: [
+                  random_color,
+                  random_color.withOpacity(0.1),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              width: 10,
+              backDrawRodData: BackgroundBarChartRodData(
+                show: true,
+                toY: 100,
+                color: Colors.transparent,
+              ),
+            ),
+          ],
         ),
-      ),
-    );
+        "title": title,
+      });
+    } else if (chart_type == ChartType.pie) {
+      chart_sections.add(
+        PieChartSectionData(
+          color: random_color,
+          value: payments_by_parameter_percentage,
+          title: title,
+          titleStyle: TextStyle(
+            color: Colors.white,
+            backgroundColor:
+                same_background_color ? random_color : Colors.transparent,
+          ),
+        ),
+      );
+    }
   }
-  return pie_chart_sections;
+  return chart_sections;
 }

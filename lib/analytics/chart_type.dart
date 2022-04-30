@@ -1,0 +1,4 @@
+enum ChartType {
+  bar,
+  pie,
+}

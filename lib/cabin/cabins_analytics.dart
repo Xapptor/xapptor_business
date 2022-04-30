@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xapptor_business/analytics/chart_type.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/analytics/admin_analytics.dart';
 import 'package:xapptor_business/analytics/analytics_segment.dart';
@@ -21,6 +22,7 @@ class CabinsAnalytics extends StatefulWidget {
     required this.loading_message,
     required this.base_file_name,
     required this.download_button_tooltip,
+    required this.chart_type,
   });
 
   final String screen_title;
@@ -33,6 +35,7 @@ class CabinsAnalytics extends StatefulWidget {
   final String loading_message;
   final String base_file_name;
   final String download_button_tooltip;
+  final ChartType chart_type;
 
   @override
   _CabinsAnalyticsState createState() => _CabinsAnalyticsState();
@@ -181,9 +184,9 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
             cabin_value = new_value;
             setState(() {});
           },
-          pie_chart_title: widget.pie_chart_titles[0],
-          pie_chart_parameter: "product_id",
-          pie_chart_collection: "cabins",
+          chart_title: widget.pie_chart_titles[0],
+          chart_parameter: "product_id",
+          chart_collection: "cabins",
         ),
       ],
       timeframe_values: widget.timeframe_values,
@@ -219,6 +222,7 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
         base_file_name: widget.base_file_name,
       ),
       download_button_tooltip: widget.download_button_tooltip,
+      chart_type: widget.chart_type,
     );
   }
 }

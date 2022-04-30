@@ -162,7 +162,7 @@ LineChart main_line_chart({
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 75,
+            reservedSize: 50,
             getTitlesWidget: (value, title_meta) {
               String label = "";
 
@@ -193,8 +193,7 @@ LineChart main_line_chart({
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
-                textDirection: TextDirection.rtl,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
               );
             },
           ),
@@ -312,7 +311,7 @@ LineChart main_line_chart({
         )
       ],
     ),
-    swapAnimationDuration: const Duration(milliseconds: 600),
+    swapAnimationDuration: const Duration(milliseconds: 500),
     swapAnimationCurve: Curves.easeInOutCubicEmphasized,
   );
 }

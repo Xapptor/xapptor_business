@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/analytics/admin_analytics.dart';
 import 'package:xapptor_business/analytics/analytics_segment.dart';
+import 'package:xapptor_business/analytics/chart_type.dart';
 import 'package:xapptor_business/analytics/get_sum_of_payments_by_timeframe.dart';
 import 'package:xapptor_business/models/payment_vending_machine.dart';
 import 'package:xapptor_business/models/product.dart';
@@ -24,6 +25,7 @@ class VendingMachinesAnalytics extends StatefulWidget {
     required this.loading_message,
     required this.base_file_name,
     required this.download_button_tooltip,
+    required this.chart_type,
   });
 
   final String screen_title;
@@ -38,6 +40,7 @@ class VendingMachinesAnalytics extends StatefulWidget {
   final String loading_message;
   final String base_file_name;
   final String download_button_tooltip;
+  final ChartType chart_type;
 
   @override
   _VendingMachinesAnalyticsState createState() =>
@@ -240,9 +243,9 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
             vending_machine_value = new_value;
             setState(() {});
           },
-          pie_chart_title: widget.pie_chart_titles[0],
-          pie_chart_parameter: "vending_machine_id",
-          pie_chart_collection: "vending_machines",
+          chart_title: widget.pie_chart_titles[0],
+          chart_parameter: "vending_machine_id",
+          chart_collection: "vending_machines",
         ),
         AnalyticsSegment(
           products: widget.dispenser_values,
@@ -251,9 +254,9 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
             dispenser_value = new_value;
             setState(() {});
           },
-          pie_chart_title: widget.pie_chart_titles[1],
-          pie_chart_parameter: "dispenser",
-          pie_chart_collection: "dispensers",
+          chart_title: widget.pie_chart_titles[1],
+          chart_parameter: "dispenser",
+          chart_collection: "dispensers",
         ),
         AnalyticsSegment(
           products: product_values,
@@ -262,9 +265,9 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
             product_value = new_value;
             setState(() {});
           },
-          pie_chart_title: widget.pie_chart_titles[2],
-          pie_chart_parameter: "product_id",
-          pie_chart_collection: "products",
+          chart_title: widget.pie_chart_titles[2],
+          chart_parameter: "product_id",
+          chart_collection: "products",
         ),
       ],
       timeframe_values: widget.timeframe_values,
@@ -301,6 +304,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
         base_file_name: widget.base_file_name,
       ),
       download_button_tooltip: widget.download_button_tooltip,
+      chart_type: widget.chart_type,
     );
   }
 }

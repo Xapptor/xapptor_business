@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/typicons_icons.dart';
 import 'package:xapptor_business/analytics/analytics_segment.dart';
+import 'package:xapptor_business/analytics/chart_type.dart';
 import 'package:xapptor_business/analytics/main_line_chart.dart';
-import 'package:xapptor_business/analytics/payments_pie_chart_by_parameter.dart';
+import 'package:xapptor_business/analytics/payments_chart_by_parameter.dart';
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_logic/is_portrait.dart';
@@ -24,6 +25,7 @@ class AdminAnalytics extends StatefulWidget {
     required this.update_timeframe_value,
     required this.download_analytics_callback,
     required this.download_button_tooltip,
+    required this.chart_type,
   });
 
   final String screen_title;
@@ -40,6 +42,7 @@ class AdminAnalytics extends StatefulWidget {
   final Function(String new_value) update_timeframe_value;
   final Function(BuildContext context) download_analytics_callback;
   final String download_button_tooltip;
+  final ChartType chart_type;
 
   @override
   _AdminAnalyticsState createState() => _AdminAnalyticsState();
@@ -64,7 +67,6 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
     }
 
     return Container(
-      height: screen_height,
       width: screen_width,
       color: Colors.white,
       child: SingleChildScrollView(
@@ -186,6 +188,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                   Container(
                     height: screen_height / 3,
                     width: screen_width * (portrait ? 0.85 : 0.50),
+                    padding: EdgeInsets.only(left: portrait ? 0 : 20),
                     child: main_line_chart(
                       current_timeframe: widget.current_timeframe,
                       max_y: max_y,
@@ -200,21 +203,22 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                 height: sized_box_space * 2,
               ),
               Container(
-                height: (widget.analytics_segments.length *
-                    (screen_height / 2.5) *
-                    1.5),
+                height: widget.analytics_segments.length > 1
+                    ? ((widget.analytics_segments.length *
+                        (screen_height * (portrait ? 1.3 : 0.9))))
+                    : screen_height * (portrait ? 0.65 : 0.5),
                 child: ListView.builder(
                   itemCount: widget.analytics_segments.length,
                   itemBuilder: (context, index) {
                     return FractionallySizedBox(
-                      widthFactor: portrait ? 0.85 : 0.75,
+                      widthFactor: portrait ? 1 : 0.4,
                       child: Column(
                         children: [
                           SizedBox(
-                            height: sized_box_space * 6,
+                            height: sized_box_space * 4,
                           ),
                           Text(
-                            widget.analytics_segments[index].pie_chart_title,
+                            widget.analytics_segments[index].chart_title,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: widget.text_color,
@@ -226,21 +230,23 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                             height: sized_box_space,
                           ),
                           Container(
-                            height: screen_height / 2.5,
-                            width: screen_width * (portrait ? 0.85 : 0.75),
-                            child: payments_pie_chart_by_parameter(
+                            height: portrait
+                                ? (screen_width * 0.8)
+                                : (screen_height / 3),
+                            child: payments_chart_by_parameter(
                               payments:
                                   payment_list_to_json_list(widget.payments),
                               filtered_payments: null,
-                              parameter: widget.analytics_segments[index]
-                                  .pie_chart_parameter,
-                              collection: widget.analytics_segments[index]
-                                  .pie_chart_collection,
+                              parameter: widget
+                                  .analytics_segments[index].chart_parameter,
+                              collection: widget
+                                  .analytics_segments[index].chart_collection,
                               same_background_color: true,
                               seed_colors: [
                                 widget.text_color,
                                 widget.icon_color,
                               ],
+                              chart_type: widget.chart_type,
                             ),
                           ),
                         ],
