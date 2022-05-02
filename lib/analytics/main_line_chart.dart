@@ -112,8 +112,6 @@ LineChart main_line_chart({
       if (sum_of_payments.indexOf(sum_of_payment) ==
           sum_of_payments.length - 1) {
         result = max_x;
-      } else {
-        result = result * 1.1;
       }
     }
 
