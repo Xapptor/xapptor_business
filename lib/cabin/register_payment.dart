@@ -6,6 +6,7 @@ import 'package:xapptor_business/cabin/get_reservation_period_label.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
+import 'package:xapptor_business/models/season.dart';
 import 'package:xapptor_logic/get_range_of_dates.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_logic/send_email.dart';
@@ -24,6 +25,7 @@ register_payment({
   required String website_url,
   required List<Payment> reservation_payments,
   required String source_language,
+  required List<Season> seasons,
 }) async {
   parent.current_reservation =
       reservations.firstWhere((element) => element.id == reservation_id);
@@ -171,7 +173,9 @@ register_payment({
                                 .toString() +
                             "/" +
                             (current_cabin.get_season_price(
-                                        parent.current_reservation!.date_init) *
+                                        current_date: parent
+                                            .current_reservation!.date_init,
+                                        seasons: seasons) *
                                     (current_range_of_dates.length - 1))
                                 .toString(),
                         style: TextStyle(

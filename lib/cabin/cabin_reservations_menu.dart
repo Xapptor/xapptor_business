@@ -18,6 +18,7 @@ import 'package:xapptor_business/cabin/register_reservation.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
+import 'package:xapptor_business/models/season.dart';
 import 'package:xapptor_logic/get_user_info.dart';
 import 'package:xapptor_logic/is_portrait.dart';
 import 'package:xapptor_translation/language_picker.dart';
@@ -31,10 +32,12 @@ class CabinReservationsMenu extends StatefulWidget {
   CabinReservationsMenu({
     required this.topbar_color,
     required this.website_url,
+    required this.seasons,
   });
 
   final Color topbar_color;
   final String website_url;
+  final List<Season> seasons;
 
   @override
   _CabinReservationsMenuState createState() => _CabinReservationsMenuState();
@@ -476,7 +479,10 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                     reservation: reservations[index],
                                     cabin_season_price:
                                         current_cabin.get_season_price(
-                                            reservations[index].date_init),
+                                      current_date:
+                                          reservations[index].date_init,
+                                      seasons: widget.seasons,
+                                    ),
                                   );
 
                                   return FractionallySizedBox(
@@ -562,6 +568,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                                     .translation_text_list_array[
                                                         source_language_index]
                                                     .source_language,
+                                                seasons: widget.seasons,
                                               ),
                                               total_price_from_reservation:
                                                   total_price_from_reservation,
@@ -578,6 +585,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                                               (a, b) => a + b)
                                                       : 0,
                                               user_info: user_info,
+                                              seasons: widget.seasons,
                                             );
                                           } else {
                                             return Container(
@@ -644,7 +652,10 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                               cabin_season_price: get_cabin_from_id(
                                 id: selected_cabin,
                                 cabins: available_cabins,
-                              ).get_season_price(selected_date_1),
+                              ).get_season_price(
+                                current_date: selected_date_1,
+                                seasons: widget.seasons,
+                              ),
                               date_1: selected_date_1,
                               date_2: selected_date_2,
                             )
@@ -654,10 +665,13 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                 id: current_reservation!.cabin_id,
                                 cabins: available_cabins,
                               ).get_season_price(
-                                  current_reservation!.date_init),
+                                current_date: current_reservation!.date_init,
+                                seasons: widget.seasons,
+                              ),
                             ),
                       reservation_payments_total: 0,
                       user_info: user_info,
+                      seasons: widget.seasons,
                     ),
                   ),
       ),

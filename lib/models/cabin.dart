@@ -1,6 +1,7 @@
 // Cabine model.
 
 import 'package:xapptor_business/models/bed.dart';
+import 'package:xapptor_business/models/season.dart';
 
 class Cabin {
   const Cabin({
@@ -81,14 +82,34 @@ class Cabin {
     return bed_string.toSet().join(", ") + ".";
   }
 
-  int get_season_price(DateTime date) {
-    if (date.month == DateTime.july ||
-        date.month == DateTime.august ||
-        date.month == DateTime.september ||
-        date.month == DateTime.december) {
-      return this.high_price;
-    } else {
-      return this.low_price;
-    }
+  int get_season_price({
+    required DateTime current_date,
+    required List<Season> seasons,
+  }) {
+    Season current_season = seasons.firstWhere((season) {
+      DateTime season_begin = DateTime(
+        current_date.year,
+        season.begin.month,
+        season.begin.day,
+      );
+
+      DateTime season_end = DateTime(
+        current_date.year,
+        season.end.month,
+        season.end.day,
+      );
+
+      bool after_begin =
+          current_date.isAfter(season_begin) || current_date == season_begin;
+
+      bool before_end =
+          current_date.isBefore(season_end) || current_date == season_end;
+
+      return after_begin && before_end;
+    });
+
+    return current_season.type == SeasonType.high
+        ? this.high_price
+        : this.low_price;
   }
 }

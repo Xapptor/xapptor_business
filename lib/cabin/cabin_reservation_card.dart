@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
+import 'package:xapptor_business/models/season.dart';
 import 'package:xapptor_logic/bool_to_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_logic/is_portrait.dart';
@@ -26,6 +27,7 @@ class CabinReservationCard extends StatefulWidget {
     required this.total_price_from_reservation,
     required this.reservation_payments_total,
     required this.user_info,
+    required this.seasons,
   });
 
   final ReservationCabin? reservation;
@@ -47,6 +49,7 @@ class CabinReservationCard extends StatefulWidget {
   final int total_price_from_reservation;
   final int reservation_payments_total;
   final Map<String, dynamic> user_info;
+  final List<Season> seasons;
 
   @override
   _CabinReservationCardState createState() => _CabinReservationCardState();
@@ -219,9 +222,12 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                     widget.text_list[4] +
                         ": " +
                         widget.cabin
-                            .get_season_price(widget.reservation != null
-                                ? widget.reservation!.date_init
-                                : DateTime.now())
+                            .get_season_price(
+                              current_date: widget.reservation != null
+                                  ? widget.reservation!.date_init
+                                  : DateTime.now(),
+                              seasons: widget.seasons,
+                            )
                             .toString() +
                         " " +
                         widget.text_list[35] +
