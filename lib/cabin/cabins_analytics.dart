@@ -15,7 +15,7 @@ class CabinsAnalytics extends StatefulWidget {
     required this.screen_title,
     required this.text_color,
     required this.icon_color,
-    required this.pie_chart_titles,
+    required this.chart_titles,
     required this.download_analytics_titles,
     required this.timeframe_values,
     required this.cabin_value,
@@ -28,7 +28,7 @@ class CabinsAnalytics extends StatefulWidget {
   final String screen_title;
   final Color text_color;
   final Color icon_color;
-  final List<String> pie_chart_titles;
+  final List<String> chart_titles;
   final List<String> download_analytics_titles;
   final List<String> timeframe_values;
   final String cabin_value;
@@ -184,7 +184,7 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
             cabin_value = new_value;
             setState(() {});
           },
-          chart_title: widget.pie_chart_titles[0],
+          chart_title: widget.chart_titles[0],
           chart_parameter: "product_id",
           chart_collection: "cabins",
         ),

@@ -16,7 +16,7 @@ class VendingMachinesAnalytics extends StatefulWidget {
     required this.screen_title,
     required this.text_color,
     required this.icon_color,
-    required this.pie_chart_titles,
+    required this.chart_titles,
     required this.download_analytics_titles,
     required this.timeframe_values,
     required this.vending_machine_value,
@@ -31,7 +31,7 @@ class VendingMachinesAnalytics extends StatefulWidget {
   final String screen_title;
   final Color text_color;
   final Color icon_color;
-  final List<String> pie_chart_titles;
+  final List<String> chart_titles;
   final List<String> download_analytics_titles;
   final List<String> timeframe_values;
   final String vending_machine_value;
@@ -243,7 +243,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
             vending_machine_value = new_value;
             setState(() {});
           },
-          chart_title: widget.pie_chart_titles[0],
+          chart_title: widget.chart_titles[0],
           chart_parameter: "vending_machine_id",
           chart_collection: "vending_machines",
         ),
@@ -254,7 +254,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
             dispenser_value = new_value;
             setState(() {});
           },
-          chart_title: widget.pie_chart_titles[1],
+          chart_title: widget.chart_titles[1],
           chart_parameter: "dispenser",
           chart_collection: "dispensers",
         ),
@@ -265,7 +265,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
             product_value = new_value;
             setState(() {});
           },
-          chart_title: widget.pie_chart_titles[2],
+          chart_title: widget.chart_titles[2],
           chart_parameter: "product_id",
           chart_collection: "products",
         ),
