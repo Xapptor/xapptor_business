@@ -1,9 +1,10 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_logic/file_downloader/file_downloader.dart';
-import 'dart:convert';
+import 'package:xapptor_logic/firebase_tasks.dart';
 
 download_cabins_analytics_excel_file({
   required BuildContext context,
@@ -61,10 +62,19 @@ download_cabins_analytics_excel_file({
       .replaceAll(" ", "_")
       .replaceFirst(".", "_");
 
-  FileDownloader.save(
-    src: base64Encode(workbook.saveAsStream()),
+  Uint8List bytes = workbook.saveAsStream() as Uint8List;
+
+  StorageTemporaryFile storage_temporary_file = await save_temporary_file(
+    bytes: bytes,
     file_name: file_name,
+    user_id: "user_id", // <- change user_id
   );
 
-  workbook.dispose();
+  FileDownloader.save(
+    src: storage_temporary_file.url,
+    file_name: file_name,
+  ).then((value) {
+    workbook.dispose();
+    storage_temporary_file.callback();
+  });
 }
