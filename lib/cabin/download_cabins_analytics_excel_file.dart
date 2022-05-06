@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
+import 'package:universal_platform/universal_platform.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_logic/file_downloader/file_downloader.dart';
 import 'package:xapptor_logic/firebase_tasks.dart';
@@ -64,13 +66,16 @@ download_cabins_analytics_excel_file({
 
   Uint8List bytes = workbook.saveAsStream() as Uint8List;
 
-  String temporary_file_url = await save_temporary_file(
-    bytes: bytes,
-    file_name: file_name,
-  );
+  String temporary_file_url = "";
 
+  if (UniversalPlatform.isWeb) {
+    temporary_file_url = await save_temporary_file(
+      bytes: bytes,
+      file_name: file_name,
+    );
+  }
   FileDownloader.save(
-    src: temporary_file_url,
+    src: UniversalPlatform.isWeb ? temporary_file_url : base64Encode(bytes),
     file_name: file_name,
   ).then((value) {
     workbook.dispose();
