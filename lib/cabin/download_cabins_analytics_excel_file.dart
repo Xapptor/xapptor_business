@@ -64,17 +64,15 @@ download_cabins_analytics_excel_file({
 
   Uint8List bytes = workbook.saveAsStream() as Uint8List;
 
-  StorageTemporaryFile storage_temporary_file = await save_temporary_file(
+  String temporary_file_url = await save_temporary_file(
     bytes: bytes,
     file_name: file_name,
-    user_id: "user_id", // <- change user_id
   );
 
   FileDownloader.save(
-    src: storage_temporary_file.url,
+    src: temporary_file_url,
     file_name: file_name,
   ).then((value) {
     workbook.dispose();
-    storage_temporary_file.callback();
   });
 }
