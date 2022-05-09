@@ -8,7 +8,8 @@ import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_auth/user_info_form_type.dart';
 import 'package:xapptor_auth/translation_text_values.dart';
-import 'package:xapptor_ui/screens/privacy_policy.dart';
+import 'package:xapptor_ui/screens/privacy_policy/privacy_policy.dart';
+import 'package:xapptor_ui/screens/privacy_policy/privacy_policy_model.dart';
 import 'package:xapptor_ui/widgets/card_holder.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_ui/widgets/loading.dart';
@@ -46,6 +47,7 @@ class HomeContainer extends StatefulWidget {
     required this.main_button_color,
     required this.update_payment_enabled,
     required this.update_source_language,
+    required this.privacy_policy_model,
   });
 
   final Color topbar_color;
@@ -69,6 +71,7 @@ class HomeContainer extends StatefulWidget {
   final Function(bool new_value) update_payment_enabled;
   final Function({required int new_source_language_index})
       update_source_language;
+  final PrivacyPolicyModel privacy_policy_model;
 
   @override
   _HomeContainerState createState() => _HomeContainerState();
@@ -212,7 +215,7 @@ class _HomeContainerState extends State<HomeContainer> {
       AppScreen(
         name: "home/privacy_policy",
         child: PrivacyPolicy(
-          base_url: widget.base_url,
+          privacy_policy_model: widget.privacy_policy_model,
           use_topbar: true,
           topbar_color: widget.topbar_color,
           logo_path: widget.logo_path_white ?? widget.logo_path,
