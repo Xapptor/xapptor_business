@@ -259,7 +259,7 @@ class _HomeContainerState extends State<HomeContainer> {
         ),
       );
     });
-    widget.product_catalog.products = [];
+    widget.product_catalog.products = products;
     add_new_app_screen(
       AppScreen(
         name: "home/products",

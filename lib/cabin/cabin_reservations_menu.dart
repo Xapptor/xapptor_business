@@ -308,9 +308,8 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                     reservations: reservations,
                     selected_date_1: selected_date_1,
                     selected_date_2: selected_date_2,
-                    source_language: text_list
-                        .translation_text_list_array[source_language_index]
-                        .source_language,
+                    source_language:
+                        text_list.list[source_language_index].source_language,
                   );
 
                   register_reservation(
@@ -343,9 +342,8 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                     context: context,
                     selected_date_1: selected_date_1,
                     selected_date_2: selected_date_2,
-                    source_language: text_list
-                        .translation_text_list_array[source_language_index]
-                        .source_language,
+                    source_language:
+                        text_list.list[source_language_index].source_language,
                     user_info: user_info,
                     website_url: widget.website_url,
                     text_list:
@@ -519,8 +517,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                                 selected_date_2:
                                                     selected_date_2,
                                                 source_language: text_list
-                                                    .translation_text_list_array[
-                                                        source_language_index]
+                                                    .list[source_language_index]
                                                     .source_language,
                                               ),
                                               selected_cabin: selected_cabin,
@@ -565,8 +562,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                                 reservation_payments:
                                                     reservation_payments.data!,
                                                 source_language: text_list
-                                                    .translation_text_list_array[
-                                                        source_language_index]
+                                                    .list[source_language_index]
                                                     .source_language,
                                                 seasons: widget.seasons,
                                               ),
@@ -631,8 +627,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                         selected_date_1: selected_date_1,
                         selected_date_2: selected_date_2,
                         source_language: text_list
-                            .translation_text_list_array[source_language_index]
-                            .source_language,
+                            .list[source_language_index].source_language,
                       ),
                       selected_cabin: selected_cabin,
                       update_selected_cabin: update_selected_cabin,
