@@ -59,12 +59,13 @@ register_payment({
       return AlertDialog(
         title: Text(text_list[31]),
         content: Container(
-          height: screen_height * 0.3,
+          height: screen_height * 0.45,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               reservation_payments.length > 0
                   ? Container(
-                      height: screen_height * 0.2,
+                      height: screen_height * 0.3,
                       width: screen_width * (portrait ? 0.8 : 0.3),
                       child: ListView.builder(
                           itemCount: reservation_payments.length,

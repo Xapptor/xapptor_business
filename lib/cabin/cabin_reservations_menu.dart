@@ -487,7 +487,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                     widthFactor: portrait ? 0.9 : 0.4,
                                     child: Container(
                                       height: screen_height *
-                                          (portrait ? 0.5 : 0.45),
+                                          (portrait ? 0.55 : 0.5),
                                       margin: const EdgeInsets.all(10),
                                       child: FutureBuilder<List<Payment>>(
                                         future: get_payments_by_reservation(
