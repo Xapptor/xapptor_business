@@ -59,144 +59,136 @@ register_payment({
       return AlertDialog(
         title: Text(text_list[31]),
         content: Container(
-          height: screen_height * 0.45,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              reservation_payments.length > 0
-                  ? Container(
-                      height: screen_height * 0.25,
-                      width: screen_width * (portrait ? 0.8 : 0.3),
-                      child: ListView.builder(
-                          itemCount: reservation_payments.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: const EdgeInsets.only(top: 6),
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.blueGrey.withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(20),
+          height: screen_height * 0.38,
+          width: screen_width * (portrait ? 0.8 : 0.3),
+          child: ListView.builder(
+            itemCount: reservation_payments.length + 1,
+            itemBuilder: (context, index) {
+              if (index < reservation_payments.length) {
+                return Container(
+                  margin: const EdgeInsets.only(top: 6),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 10,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SelectableText(
+                              "ID: (${reservation_payments[index].id})",
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
                               ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 10,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SelectableText(
-                                          "ID: (${reservation_payments[index].id})",
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SelectableText(
-                                          label_date_formatter.format(
-                                                  reservation_payments[index]
-                                                      .date) +
-                                              " - \$" +
-                                              reservation_payments[index]
-                                                  .amount
-                                                  .toString(),
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: IconButton(
-                                      onPressed: () async {
-                                        await FirebaseFirestore.instance
-                                            .collection("payments")
-                                            .doc(reservation_payments[index].id)
-                                            .delete();
-
-                                        parent.current_reservation!.payments
-                                            .removeWhere((element) =>
-                                                element ==
-                                                reservation_payments[index].id);
-
-                                        await FirebaseFirestore.instance
-                                            .collection("reservations")
-                                            .doc(parent.current_reservation!.id)
-                                            .update({
-                                          "payments": parent
-                                              .current_reservation!.payments,
-                                        });
-
-                                        String email_message =
-                                            "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
-
-                                        send_email(
-                                          to: "info@collineblanche.com.mx",
-                                          subject:
-                                              "${text_list[37 + 12]} ${text_list[37 + 11]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id})",
-                                          text: email_message,
-                                        );
-
-                                        Navigator.pop(context);
-                                        get_reservations_callback();
-                                      },
-                                      icon: Icon(
-                                        FontAwesomeIcons.trashCan,
-                                      ),
-                                      tooltip: text_list[29],
-                                    ),
-                                  ),
-                                ],
+                            ),
+                            SelectableText(
+                              label_date_formatter.format(
+                                      reservation_payments[index].date) +
+                                  " - \$" +
+                                  reservation_payments[index].amount.toString(),
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                          }),
-                    )
-                  : Container(),
-              reservation_payments.length > 0
-                  ? Container(
-                      alignment: Alignment.centerRight,
-                      margin: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        text_list[33] +
-                            " \$" +
-                            reservation_payments
-                                .map((payment) => payment.amount)
-                                .toList()
-                                .reduce((a, b) => a + b)
-                                .toString() +
-                            "/" +
-                            (current_cabin.get_season_price(
-                                        current_date: parent
-                                            .current_reservation!.date_init,
-                                        seasons: seasons) *
-                                    (current_range_of_dates.length - 1))
-                                .toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                            ),
+                          ],
                         ),
                       ),
-                    )
-                  : Container(),
-              Container(
-                child: TextField(
-                  controller: amount_input_controller,
-                  autofocus: true,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: text_list[32],
-                    hintText: text_list[32],
+                      Expanded(
+                        flex: 2,
+                        child: IconButton(
+                          onPressed: () async {
+                            await FirebaseFirestore.instance
+                                .collection("payments")
+                                .doc(reservation_payments[index].id)
+                                .delete();
+
+                            parent.current_reservation!.payments.removeWhere(
+                                (element) =>
+                                    element == reservation_payments[index].id);
+
+                            await FirebaseFirestore.instance
+                                .collection("reservations")
+                                .doc(parent.current_reservation!.id)
+                                .update({
+                              "payments": parent.current_reservation!.payments,
+                            });
+
+                            String email_message =
+                                "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
+
+                            send_email(
+                              to: "info@collineblanche.com.mx",
+                              subject:
+                                  "${text_list[37 + 12]} ${text_list[37 + 11]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id})",
+                              text: email_message,
+                            );
+
+                            Navigator.pop(context);
+                            get_reservations_callback();
+                          },
+                          icon: Icon(
+                            FontAwesomeIcons.trashCan,
+                          ),
+                          tooltip: text_list[29],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ],
+                );
+              } else {
+                return Column(
+                  children: [
+                    reservation_payments.length > 0
+                        ? Container(
+                            alignment: Alignment.centerRight,
+                            margin: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              text_list[33] +
+                                  " \$" +
+                                  reservation_payments
+                                      .map((payment) => payment.amount)
+                                      .toList()
+                                      .reduce((a, b) => a + b)
+                                      .toString() +
+                                  "/" +
+                                  (current_cabin.get_season_price(
+                                              current_date: parent
+                                                  .current_reservation!
+                                                  .date_init,
+                                              seasons: seasons) *
+                                          (current_range_of_dates.length - 1))
+                                      .toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        : Container(),
+                    Container(
+                      child: TextField(
+                        controller: amount_input_controller,
+                        autofocus: true,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: text_list[32],
+                          hintText: text_list[32],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
           ),
         ),
         actions: <Widget>[
@@ -210,40 +202,44 @@ register_payment({
           TextButton(
             child: Text(text_list[23]),
             onPressed: () {
-              Payment new_payment = Payment(
-                id: "",
-                amount: int.parse(amount_input_controller.text),
-                date: DateTime.now(),
-                product_id: parent.current_reservation!.cabin_id,
-                user_id: user_id,
-              );
-
-              FirebaseFirestore.instance
-                  .collection("payments")
-                  .add(new_payment.to_json())
-                  .then((payment) {
-                FirebaseFirestore.instance
-                    .collection("reservations")
-                    .doc(parent.current_reservation!.id)
-                    .update({
-                  "payments": FieldValue.arrayUnion([payment.id]),
-                }).then((reservation) {
-                  String email_message =
-                      "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${payment.id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
-
-                  send_email(
-                    to: "info@collineblanche.com.mx",
-                    subject:
-                        "${text_list[37 + 12]} ${text_list[37 + 9]} (${payment.id}), ${text_list[24]} (${reservation_id})",
-                    text: email_message,
+              if (amount_input_controller.text.isNotEmpty) {
+                if (int.tryParse(amount_input_controller.text) != null) {
+                  Payment new_payment = Payment(
+                    id: "",
+                    amount: int.parse(amount_input_controller.text),
+                    date: DateTime.now(),
+                    product_id: parent.current_reservation!.cabin_id,
+                    user_id: user_id,
                   );
 
-                  amount_input_controller.clear();
+                  FirebaseFirestore.instance
+                      .collection("payments")
+                      .add(new_payment.to_json())
+                      .then((payment) {
+                    FirebaseFirestore.instance
+                        .collection("reservations")
+                        .doc(parent.current_reservation!.id)
+                        .update({
+                      "payments": FieldValue.arrayUnion([payment.id]),
+                    }).then((reservation) {
+                      String email_message =
+                          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${payment.id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
 
-                  Navigator.pop(context);
-                  get_reservations_callback();
-                });
-              });
+                      send_email(
+                        to: "info@collineblanche.com.mx",
+                        subject:
+                            "${text_list[37 + 12]} ${text_list[37 + 9]} (${payment.id}), ${text_list[24]} (${reservation_id})",
+                        text: email_message,
+                      );
+
+                      amount_input_controller.clear();
+
+                      Navigator.pop(context);
+                      get_reservations_callback();
+                    });
+                  });
+                }
+              }
             },
           ),
         ],
