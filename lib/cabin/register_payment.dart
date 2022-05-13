@@ -65,7 +65,7 @@ register_payment({
             children: [
               reservation_payments.length > 0
                   ? Container(
-                      height: screen_height * 0.3,
+                      height: screen_height * 0.25,
                       width: screen_width * (portrait ? 0.8 : 0.3),
                       child: ListView.builder(
                           itemCount: reservation_payments.length,

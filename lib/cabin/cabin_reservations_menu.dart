@@ -403,6 +403,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     bool portrait = is_portrait(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: TopBar(
         background_color: widget.topbar_color,
         has_back_button: true,
@@ -485,19 +486,19 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
 
                                   return FractionallySizedBox(
                                     widthFactor: portrait ? 0.9 : 0.4,
-                                    child: Container(
-                                      height: screen_height *
-                                          (portrait ? 0.55 : 0.5),
-                                      margin: const EdgeInsets.all(10),
-                                      child: FutureBuilder<List<Payment>>(
-                                        future: get_payments_by_reservation(
-                                          reservations[index],
-                                        ),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<List<Payment>>
-                                                reservation_payments) {
-                                          if (reservation_payments.hasData) {
-                                            return CabinReservationCard(
+                                    child: FutureBuilder<List<Payment>>(
+                                      future: get_payments_by_reservation(
+                                        reservations[index],
+                                      ),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<List<Payment>>
+                                              reservation_payments) {
+                                        if (reservation_payments.hasData) {
+                                          return Container(
+                                            height: screen_height *
+                                                (portrait ? 0.55 : 0.5),
+                                            margin: const EdgeInsets.all(10),
+                                            child: CabinReservationCard(
                                               reservation: reservations[index],
                                               select_date_available: true,
                                               select_date_callback:
@@ -582,19 +583,29 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                                       : 0,
                                               user_info: user_info,
                                               seasons: widget.seasons,
-                                            );
-                                          } else {
+                                            ),
+                                          );
+                                        } else {
+                                          if (index == 0) {
                                             return Container(
+                                              margin: EdgeInsets.only(
+                                                  top: screen_height / 5),
                                               child: FractionallySizedBox(
-                                                heightFactor: 0.25,
                                                 widthFactor: 0.2,
-                                                child:
-                                                    CircularProgressIndicator(),
+                                                child: AspectRatio(
+                                                  aspectRatio: 1,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: widget.topbar_color,
+                                                  ),
+                                                ),
                                               ),
                                             );
+                                          } else {
+                                            return Container();
                                           }
-                                        },
-                                      ),
+                                        }
+                                      },
                                     ),
                                   );
                                 },
