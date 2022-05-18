@@ -49,7 +49,6 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
   late TranslationStream translation_stream;
   List<TranslationStream> translation_stream_list = [];
 
-  int current_page = 1;
   int source_language_index = 1;
 
   update_source_language({
@@ -80,13 +79,11 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
       translation_stream = TranslationStream(
         translation_text_list_array: text_list,
         update_text_list_function: update_text_list,
-        list_index: 4,
+        list_index: 0,
         source_language_index: source_language_index,
       );
 
-      translation_stream_list = [
-        translation_stream,
-      ];
+      translation_stream_list = [translation_stream];
 
       get_current_cabins();
     }
