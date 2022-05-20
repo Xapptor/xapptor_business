@@ -462,7 +462,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: ClampingScrollPhysics(),
+                                physics: NeverScrollableScrollPhysics(),
                                 itemCount: reservations.length,
                                 itemBuilder: (context, index) {
                                   Cabin current_cabin = get_cabin_from_id(
