@@ -28,6 +28,7 @@ class CabinReservationCard extends StatefulWidget {
     required this.reservation_payments_total,
     required this.user_info,
     required this.seasons,
+    required this.number_of_days,
   });
 
   final ReservationCabin? reservation;
@@ -50,6 +51,7 @@ class CabinReservationCard extends StatefulWidget {
   final int reservation_payments_total;
   final Map<String, dynamic> user_info;
   final List<Season> seasons;
+  final int number_of_days;
 
   @override
   _CabinReservationCardState createState() => _CabinReservationCardState();
@@ -221,14 +223,17 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                   Text(
                     widget.text_list[4] +
                         ": " +
-                        widget.cabin
-                            .get_season_price(
-                              current_date: widget.reservation != null
-                                  ? widget.reservation!.date_init
-                                  : DateTime.now(),
-                              seasons: widget.seasons,
-                            )
-                            .toString() +
+                        (widget.reservation != null
+                            ? widget.cabin
+                                .get_season_price(
+                                  date_1: widget.reservation!.date_init,
+                                  date_2: widget.reservation!.date_end,
+                                  seasons: widget.seasons,
+                                )
+                                .toString()
+                            : (widget.total_price_from_reservation /
+                                    widget.number_of_days)
+                                .toString()) +
                         " " +
                         widget.text_list[35] +
                         widget.text_list[36],

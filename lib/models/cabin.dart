@@ -83,29 +83,27 @@ class Cabin {
   }
 
   int get_season_price({
-    required DateTime current_date,
+    required DateTime date_1,
+    required DateTime date_2,
     required List<Season> seasons,
   }) {
     Season current_season = seasons.firstWhere((season) {
       DateTime season_begin = DateTime(
-        season.begin.month == 12 && season.end.month == 1
-            ? (current_date.year - 1)
-            : current_date.year,
+        date_1.year,
         season.begin.month,
         season.begin.day,
       );
 
       DateTime season_end = DateTime(
-        current_date.year,
+        season.begin.month == 12 && season.end.month == 1
+            ? date_2.year + 1
+            : date_1.year,
         season.end.month,
         season.end.day,
       );
 
-      bool after_begin =
-          current_date.isAfter(season_begin) || current_date == season_begin;
-
-      bool before_end =
-          current_date.isBefore(season_end) || current_date == season_end;
+      bool after_begin = date_1.isAfter(season_begin) || date_1 == season_begin;
+      bool before_end = date_2.isBefore(season_end) || date_2 == season_end;
 
       return after_begin && before_end;
     });

@@ -162,9 +162,12 @@ register_payment({
                                       .toString() +
                                   "/" +
                                   (current_cabin.get_season_price(
-                                              current_date: parent
+                                              date_1: parent
                                                   .current_reservation!
                                                   .date_init,
+                                              date_2: parent
+                                                  .current_reservation!
+                                                  .date_end,
                                               seasons: seasons) *
                                           (current_range_of_dates.length - 1))
                                       .toString(),
