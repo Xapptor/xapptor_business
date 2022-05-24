@@ -114,6 +114,7 @@ class _ProductListState extends State<ProductList> {
     return Scaffold(
       appBar: widget.has_topbar
           ? TopBar(
+              context: context,
               background_color: widget.topbar_color,
               has_back_button: true,
               actions: [],

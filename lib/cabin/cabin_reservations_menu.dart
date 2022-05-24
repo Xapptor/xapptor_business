@@ -401,6 +401,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: TopBar(
+        context: context,
         background_color: widget.topbar_color,
         has_back_button: true,
         actions: [

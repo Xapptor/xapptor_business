@@ -351,6 +351,7 @@ class _HomeContainerState extends State<HomeContainer> {
           key: scaffold_key,
           endDrawer: drawer(),
           appBar: TopBar(
+            context: context,
             background_color: widget.topbar_color,
             has_back_button: false,
             actions: widgets_action(portrait),
