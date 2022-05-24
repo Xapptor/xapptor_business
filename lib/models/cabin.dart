@@ -89,7 +89,9 @@ class Cabin {
   }) {
     Season current_season = seasons.firstWhere((season) {
       DateTime season_begin = DateTime(
-        date_1.year,
+        season.begin.month == 12 && season.end.month == 1
+            ? date_1.year - 1
+            : date_1.year,
         season.begin.month,
         season.begin.day,
       );
@@ -97,7 +99,7 @@ class Cabin {
       DateTime season_end = DateTime(
         season.begin.month == 12 && season.end.month == 1
             ? date_2.year + 1
-            : date_1.year,
+            : date_2.year,
         season.end.month,
         season.end.day,
       );

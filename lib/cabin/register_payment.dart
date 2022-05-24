@@ -26,6 +26,7 @@ register_payment({
   required List<Payment> reservation_payments,
   required String source_language,
   required List<Season> seasons,
+  required bool show_older_reservations,
 }) async {
   parent.current_reservation =
       reservations.firstWhere((element) => element.id == reservation_id);
@@ -207,7 +208,9 @@ register_payment({
                   Payment new_payment = Payment(
                     id: "",
                     amount: int.parse(amount_input_controller.text),
-                    date: DateTime.now(),
+                    date: show_older_reservations
+                        ? parent.current_reservation!.date_init
+                        : DateTime.now(),
                     product_id: parent.current_reservation!.cabin_id,
                     user_id: user_id,
                   );

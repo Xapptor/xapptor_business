@@ -532,29 +532,35 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                                       reservation_id) =>
                                                   edit_button(reservation_id),
                                               editing_mode: show_creation_menu,
-                                              register_payment_callback:
-                                                  (String reservation_id) =>
-                                                      register_payment(
-                                                reservation_id: reservation_id,
-                                                context: context,
-                                                parent: this,
-                                                amount_input_controller:
-                                                    amount_input_controller,
-                                                text_list: text_list
-                                                    .get(source_language_index),
-                                                get_reservations_callback:
-                                                    get_current_reservations,
-                                                reservations: reservations,
-                                                user_info: user_info,
-                                                website_url: widget.website_url,
-                                                cabins: cabins,
-                                                reservation_payments:
-                                                    reservation_payments.data!,
-                                                source_language: text_list
-                                                    .list[source_language_index]
-                                                    .source_language,
-                                                seasons: widget.seasons,
-                                              ),
+                                              register_payment_callback: (String
+                                                      reservation_id) =>
+                                                  register_payment(
+                                                      reservation_id:
+                                                          reservation_id,
+                                                      context: context,
+                                                      parent: this,
+                                                      amount_input_controller:
+                                                          amount_input_controller,
+                                                      text_list: text_list.get(
+                                                          source_language_index),
+                                                      get_reservations_callback:
+                                                          get_current_reservations,
+                                                      reservations:
+                                                          reservations,
+                                                      user_info: user_info,
+                                                      website_url:
+                                                          widget.website_url,
+                                                      cabins: cabins,
+                                                      reservation_payments:
+                                                          reservation_payments
+                                                              .data!,
+                                                      source_language: text_list
+                                                          .list[
+                                                              source_language_index]
+                                                          .source_language,
+                                                      seasons: widget.seasons,
+                                                      show_older_reservations:
+                                                          show_older_reservations),
                                               total_price_from_reservation:
                                                   total_price_from_reservation,
                                               reservation_payments_total:
