@@ -41,11 +41,8 @@ register_payment({
   DateFormat label_date_formatter = DateFormat.yMMMMd('en_US');
 
   String reservation_period_label = get_reservation_period_label(
-    index: reservations.indexOf(parent.current_reservation),
-    show_creation_menu: false,
-    reservations: reservations,
-    selected_date_1: parent.current_reservation.date_init,
-    selected_date_2: parent.current_reservation.date_end,
+    date_1: parent.current_reservation.date_init,
+    date_2: parent.current_reservation.date_end,
     source_language: source_language,
   );
 

@@ -10,8 +10,6 @@ delete_reservation({
   required List<ReservationCabin> reservations,
   required Function callback,
   required BuildContext context,
-  required DateTime selected_date_1,
-  required DateTime selected_date_2,
   required String source_language,
   required Map<String, dynamic> user_info,
   required String website_url,
@@ -30,11 +28,8 @@ delete_reservation({
   });
 
   String reservation_period_label = get_reservation_period_label(
-    index: reservations.indexOf(reservation_for_deletion),
-    show_creation_menu: false,
-    reservations: reservations,
-    selected_date_1: selected_date_1,
-    selected_date_2: selected_date_2,
+    date_1: reservation_for_deletion.date_init,
+    date_2: reservation_for_deletion.date_end,
     source_language: source_language,
   );
 

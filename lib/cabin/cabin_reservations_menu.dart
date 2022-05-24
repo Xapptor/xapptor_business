@@ -299,11 +299,8 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
               onPressed: () {
                 if (register) {
                   reservation_period_label = get_reservation_period_label(
-                    index: -1,
-                    show_creation_menu: show_creation_menu,
-                    reservations: reservations,
-                    selected_date_1: selected_date_1,
-                    selected_date_2: selected_date_2,
+                    date_1: selected_date_1,
+                    date_2: selected_date_2,
                     source_language:
                         text_list.list[source_language_index].source_language,
                   );
@@ -336,8 +333,6 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                       get_current_reservations();
                     },
                     context: context,
-                    selected_date_1: selected_date_1,
-                    selected_date_2: selected_date_2,
                     source_language:
                         text_list.list[source_language_index].source_language,
                     user_info: user_info,
@@ -506,14 +501,10 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                               cabin: current_cabin,
                                               reservation_period_label:
                                                   get_reservation_period_label(
-                                                index: index,
-                                                show_creation_menu:
-                                                    show_creation_menu,
-                                                reservations: reservations,
-                                                selected_date_1:
-                                                    selected_date_1,
-                                                selected_date_2:
-                                                    selected_date_2,
+                                                date_1: reservations[index]
+                                                    .date_init,
+                                                date_2: reservations[index]
+                                                    .date_end,
                                                 source_language: text_list
                                                     .list[source_language_index]
                                                     .source_language,
@@ -639,11 +630,8 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                         cabins: available_cabins,
                       ),
                       reservation_period_label: get_reservation_period_label(
-                        index: -1,
-                        show_creation_menu: show_creation_menu,
-                        reservations: reservations,
-                        selected_date_1: selected_date_1,
-                        selected_date_2: selected_date_2,
+                        date_1: selected_date_1,
+                        date_2: selected_date_2,
                         source_language: text_list
                             .list[source_language_index].source_language,
                       ),
