@@ -87,21 +87,41 @@ class Cabin {
     required DateTime date_2,
     required List<Season> seasons,
   }) {
-    List<Map<String, int>> season_distances = [];
+    List<Map<String, int>> season_distances_begin = [];
+    List<Map<String, int>> season_distances_end = [];
 
     seasons.forEach((season) {
       int index = seasons.indexOf(season);
 
-      season_distances.add({
+      season_distances_begin.add({
         "index": index,
         "value": ((date_1.month - season.begin.month).abs() * 10) +
             (date_1.day - season.begin.day).abs(),
       });
+
+      season_distances_end.add({
+        "index": index,
+        "value": ((date_1.month - season.end.month).abs() * 10) +
+            (date_1.day - season.end.day).abs(),
+      });
     });
 
-    season_distances.sort((a, b) => a["value"]!.compareTo(b["value"]!));
+    season_distances_begin.sort((a, b) => a["value"]!.compareTo(b["value"]!));
+    season_distances_end.sort((a, b) => a["value"]!.compareTo(b["value"]!));
 
-    Season current_season = seasons[season_distances.first["index"]!];
+    Season posible_season_1 = seasons[season_distances_begin.first["index"]!];
+    Season posible_season_2 = seasons[season_distances_end.first["index"]!];
+
+    int season_distance_1 = season_distances_begin.first["value"]!;
+    int season_distance_2 = season_distances_end.first["value"]!;
+
+    late Season current_season;
+
+    if (season_distance_1 < season_distance_2) {
+      current_season = posible_season_1;
+    } else {
+      current_season = posible_season_2;
+    }
 
     return current_season.type == SeasonType.high
         ? this.high_price
