@@ -108,11 +108,6 @@ LineChart main_line_chart({
     if (current_timeframe == TimeFrame.beginning &&
         sum_of_payments.indexOf(sum_of_payment) == sum_of_payments.length - 1) {
       result = max_x - 1;
-    } else if (current_timeframe == TimeFrame.year) {
-      if (sum_of_payments.indexOf(sum_of_payment) ==
-          sum_of_payments.length - 1) {
-        result = max_x;
-      }
     }
 
     spots.add(
