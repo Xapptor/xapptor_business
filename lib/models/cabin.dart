@@ -87,28 +87,21 @@ class Cabin {
     required DateTime date_2,
     required List<Season> seasons,
   }) {
-    Season current_season = seasons.firstWhere((season) {
-      DateTime season_begin = DateTime(
-        season.begin.month == 12 && season.end.month == 1
-            ? date_1.year - 1
-            : date_1.year,
-        season.begin.month,
-        season.begin.day,
-      );
+    List<Map<String, int>> season_distances = [];
 
-      DateTime season_end = DateTime(
-        season.begin.month == 12 && season.end.month == 1
-            ? date_2.year + 1
-            : date_2.year,
-        season.end.month,
-        season.end.day,
-      );
+    seasons.forEach((season) {
+      int index = seasons.indexOf(season);
 
-      bool after_begin = date_1.isAfter(season_begin) || date_1 == season_begin;
-      bool before_end = date_2.isBefore(season_end) || date_2 == season_end;
-
-      return after_begin && before_end;
+      season_distances.add({
+        "index": index,
+        "value": ((date_1.month - season.begin.month).abs() * 10) +
+            (date_1.day - season.begin.day).abs(),
+      });
     });
+
+    season_distances.sort((a, b) => a["value"]!.compareTo(b["value"]!));
+
+    Season current_season = seasons[season_distances.first["index"]!];
 
     return current_season.type == SeasonType.high
         ? this.high_price
