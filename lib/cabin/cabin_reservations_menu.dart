@@ -579,13 +579,16 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                                       : 0,
                                               user_info: user_info,
                                               seasons: widget.seasons,
-                                              number_of_days: get_range_of_dates(
-                                                          current_reservation!
-                                                              .date_init,
-                                                          current_reservation!
-                                                              .date_end)
-                                                      .length -
-                                                  1,
+                                              number_of_days:
+                                                  get_range_of_dates(
+                                                              reservations[
+                                                                      index]
+                                                                  .date_init,
+                                                              reservations[
+                                                                      index]
+                                                                  .date_end)
+                                                          .length -
+                                                      1,
                                             ),
                                           );
                                         } else {
