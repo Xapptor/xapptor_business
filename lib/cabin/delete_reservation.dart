@@ -22,6 +22,13 @@ delete_reservation({
     reservations: reservations,
   );
 
+  reservation_for_deletion.payments.forEach((payment_id) async {
+    await FirebaseFirestore.instance
+        .collection("payments")
+        .doc(payment_id)
+        .delete();
+  });
+
   String reservation_period_label = get_reservation_period_label(
     index: reservations.indexOf(reservation_for_deletion),
     show_creation_menu: false,
