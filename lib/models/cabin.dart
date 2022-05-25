@@ -87,33 +87,41 @@ class Cabin {
     required DateTime date_2,
     required List<Season> seasons,
   }) {
-    List<Map<String, int>> season_distances_begin = [];
-    List<Map<String, int>> season_distances_end = [];
+    List<Map<String, int>> season_distances_1 = [];
+    List<Map<String, int>> season_distances_2 = [];
 
     seasons.forEach((season) {
       int index = seasons.indexOf(season);
 
-      season_distances_begin.add({
+      if (date_1.year != date_2.year) {
+        if (season.begin.month == 12 && season.end.month == 1) {
+          season.begin = DateTime(
+            date_1.year,
+            season.begin.month,
+            season.begin.day,
+          );
+        }
+      }
+
+      season_distances_1.add({
         "index": index,
-        "value": ((date_1.month - season.begin.month).abs() * 10) +
-            (date_1.day - season.begin.day).abs(),
+        "value": date_1.difference(season.begin).inDays.abs(),
       });
 
-      season_distances_end.add({
+      season_distances_2.add({
         "index": index,
-        "value": ((date_1.month - season.end.month).abs() * 10) +
-            (date_1.day - season.end.day).abs(),
+        "value": date_1.difference(season.end).inDays.abs(),
       });
     });
 
-    season_distances_begin.sort((a, b) => a["value"]!.compareTo(b["value"]!));
-    season_distances_end.sort((a, b) => a["value"]!.compareTo(b["value"]!));
+    season_distances_1.sort((a, b) => a["value"]!.compareTo(b["value"]!));
+    season_distances_2.sort((a, b) => a["value"]!.compareTo(b["value"]!));
 
-    Season posible_season_1 = seasons[season_distances_begin.first["index"]!];
-    Season posible_season_2 = seasons[season_distances_end.first["index"]!];
+    Season posible_season_1 = seasons[season_distances_1.first["index"]!];
+    Season posible_season_2 = seasons[season_distances_2.first["index"]!];
 
-    int season_distance_1 = season_distances_begin.first["value"]!;
-    int season_distance_2 = season_distances_end.first["value"]!;
+    int season_distance_1 = season_distances_1.first["value"]!;
+    int season_distance_2 = season_distances_2.first["value"]!;
 
     late Season current_season;
 
