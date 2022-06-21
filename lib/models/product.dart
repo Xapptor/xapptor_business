@@ -42,7 +42,9 @@ class Product {
         description = snapshot['description'] ?? "",
         inventory_quantity = snapshot['inventory_quantity'] ?? 0,
         product_type_index = snapshot['product_type_index'] ?? 0,
-        linked_products = List<String>.from(snapshot['linked_products'] ?? []);
+        linked_products = (snapshot['linked_products'] ?? <String>[] as List)
+            .map((e) => e as String)
+            .toList();
 
   Map<String, dynamic> to_json() {
     return {

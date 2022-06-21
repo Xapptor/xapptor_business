@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:xapptor_business/inventory/product_card.dart';
 import 'package:xapptor_business/models/product.dart';
 
@@ -19,6 +18,7 @@ class _InventoryState extends State<Inventory> {
   @override
   void initState() {
     super.initState();
+    get_products();
   }
 
   List<Product> products = [];
