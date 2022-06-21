@@ -9,9 +9,11 @@ class Product {
     required this.name,
     required this.image_src,
     required this.price,
-    required this.description,
+    this.description = "",
     this.enabled = true,
     this.inventory_quantity = 0,
+    required this.product_type_index,
+    this.linked_products = const [],
   });
 
   final String id;
@@ -22,6 +24,8 @@ class Product {
   final String description;
   final bool enabled;
   final int inventory_quantity;
+  final int product_type_index;
+  final List<String> linked_products;
 
   Product.from_snapshot(
     String id,
@@ -36,14 +40,21 @@ class Product {
         price = snapshot['price'],
         enabled = snapshot['enabled'] ?? true,
         description = snapshot['description'] ?? "",
-        inventory_quantity = snapshot['inventory_quantity'] ?? 0;
+        inventory_quantity = snapshot['inventory_quantity'] ?? 0,
+        product_type_index = snapshot['product_type_index'] ?? 0,
+        linked_products = List<String>.from(snapshot['linked_products'] ?? []);
 
   Map<String, dynamic> to_json() {
     return {
       'name': name,
-      'image': image_src,
+      'price_id': price_id,
+      'image_src': image_src,
       'price': price,
+      'enabled': enabled,
       'description': description,
+      'inventory_quantity': inventory_quantity,
+      'product_type_index': product_type_index,
+      'linked_products': linked_products,
     };
   }
 }
@@ -56,4 +67,10 @@ List<Map<String, dynamic>> product_list_to_json_list(List<Product> products) {
   });
 
   return json_list;
+}
+
+enum ProductType {
+  raw_material,
+  finished_product,
+  service,
 }
