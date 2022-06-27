@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <style>
+        body {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id='canvas'></canvas>
+</body>
+
+<script type='text/javascript' src='https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg/jsmpeg.min.js'></script>
+<script type='text/javascript'>
+    player = new JSMpeg.Player('[URL]', {
+        canvas: document.getElementById('canvas')
+    })
+</script>
+
+</html>

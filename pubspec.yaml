@@ -65,6 +65,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/rtsp/
 
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages
