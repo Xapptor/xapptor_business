@@ -131,6 +131,8 @@ class _InventoryState extends State<Inventory> {
                                 name: screen_name,
                                 child: ProductEditorView(
                                   product: product,
+                                  is_a_category_product:
+                                      product.is_a_category_product,
                                   main_color: widget.main_color,
                                   text_list: widget.product_editor_text_list,
                                   confirmation_text_list: widget
@@ -182,18 +184,20 @@ class _InventoryState extends State<Inventory> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(text_list[6]),
+          title: Text(text_list[0]),
           actions: <Widget>[
             TextButton(
-              child: Text(text_list[4]),
+              child: Text(text_list[1]),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text(text_list[5]),
+              child: Text(text_list[2]),
               onPressed: () async {
-                delete_product(product_id);
+                await delete_product(product_id);
+                Navigator.pop(context);
+                get_products();
               },
             ),
           ],
@@ -221,7 +225,7 @@ class _InventoryState extends State<Inventory> {
               items: text_list.sublist(1, 3).map((String value) {
                 return new DropdownMenuItem<String>(
                   value: value,
-                  child: new Text(
+                  child: Text(
                     value,
                     style: TextStyle(fontWeight: FontWeight.w500),
                   ),
@@ -245,12 +249,13 @@ class _InventoryState extends State<Inventory> {
               child: Text(text_list[4]),
               onPressed: () async {
                 Product product = Product.empty();
-                String screen_name = "home/products/${product.id}";
+                String screen_name = "home/products/new";
                 add_new_app_screen(
                   AppScreen(
                     name: screen_name,
                     child: ProductEditorView(
                       product: product,
+                      is_a_category_product: chosen_value == text_list[2],
                       main_color: widget.main_color,
                       text_list: widget.product_editor_text_list,
                       confirmation_text_list:
