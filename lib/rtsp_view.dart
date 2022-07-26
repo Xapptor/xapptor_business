@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';

@@ -12,8 +12,8 @@ class Product {
     this.description = "",
     this.enabled = true,
     this.inventory_quantity = 0,
-    required this.product_type_index,
     this.linked_products = const [],
+    this.category_id = "",
   });
 
   final String id;
@@ -24,8 +24,8 @@ class Product {
   final String description;
   final bool enabled;
   final int inventory_quantity;
-  final int product_type_index;
   final List<String> linked_products;
+  final String category_id;
 
   Product.from_snapshot(
     String id,
@@ -36,15 +36,15 @@ class Product {
                 : "stripe_id_test"] ??
             "",
         name = snapshot['name'],
-        image_src = snapshot['image_src'],
+        image_src = snapshot['image_src'] ?? "",
         price = snapshot['price'],
         enabled = snapshot['enabled'] ?? true,
         description = snapshot['description'] ?? "",
-        inventory_quantity = snapshot['inventory_quantity'] ?? 0,
-        product_type_index = snapshot['product_type_index'] ?? 0,
-        linked_products = (snapshot['linked_products'] ?? <String>[] as List)
+        inventory_quantity = snapshot['inventory_quantity'] ?? -1,
+        linked_products = ((snapshot['linked_products'] ?? []) as List)
             .map((e) => e as String)
-            .toList();
+            .toList(),
+        category_id = snapshot['category_id'] ?? "";
 
   Map<String, dynamic> to_json() {
     return {
@@ -55,15 +55,29 @@ class Product {
       'enabled': enabled,
       'description': description,
       'inventory_quantity': inventory_quantity,
-      'product_type_index': product_type_index,
       'linked_products': linked_products,
+      'category_id': category_id,
     };
+  }
+
+  factory Product.empty() {
+    return Product(
+      id: "",
+      price_id: "",
+      name: "",
+      image_src: "",
+      price: 0,
+      description: "",
+      enabled: true,
+      inventory_quantity: -1,
+      linked_products: [],
+      category_id: "",
+    );
   }
 }
 
 List<Map<String, dynamic>> product_list_to_json_list(List<Product> products) {
   List<Map<String, dynamic>> json_list = [];
-
   products.forEach((product) {
     json_list.add(product.to_json());
   });
