@@ -12,8 +12,7 @@ class Product {
     this.description = "",
     this.enabled = true,
     this.inventory_quantity = 0,
-    this.linked_products = const [],
-    this.is_a_category_product = false,
+    this.is_a_product_category = false,
     this.category_id = "",
   });
 
@@ -25,8 +24,7 @@ class Product {
   final String description;
   final bool enabled;
   final int inventory_quantity;
-  final List<String> linked_products;
-  final bool is_a_category_product;
+  final bool is_a_product_category;
   final String category_id;
 
   Product.from_snapshot(
@@ -43,10 +41,7 @@ class Product {
         enabled = snapshot['enabled'] ?? true,
         description = snapshot['description'] ?? "",
         inventory_quantity = snapshot['inventory_quantity'] ?? -1,
-        linked_products = ((snapshot['linked_products'] ?? []) as List)
-            .map((e) => e as String)
-            .toList(),
-        is_a_category_product = snapshot['is_a_category_product'] ?? false,
+        is_a_product_category = snapshot['is_a_product_category'] ?? false,
         category_id = snapshot['category_id'] ?? "";
 
   Map<String, dynamic> to_json() {
@@ -58,8 +53,7 @@ class Product {
       'enabled': enabled,
       'description': description,
       'inventory_quantity': inventory_quantity,
-      'linked_products': linked_products,
-      'is_a_category_product': is_a_category_product,
+      'is_a_product_category': is_a_product_category,
       'category_id': category_id,
     };
   }
@@ -74,8 +68,7 @@ class Product {
       description: "",
       enabled: true,
       inventory_quantity: -1,
-      linked_products: [],
-      is_a_category_product: false,
+      is_a_product_category: false,
       category_id: "",
     );
   }

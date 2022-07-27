@@ -4,7 +4,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:xapptor_business/models/product.dart';
 
 Future set_product(
-    Product product, Uint8List? image_data, String image_name) async {
+  Product product,
+  Uint8List? image_data,
+  String image_name,
+  String category_id,
+) async {
   String doc_id = product.id;
   if (product.id == '') {
     DocumentReference doc_ref =
@@ -13,6 +17,9 @@ Future set_product(
   }
 
   Map<String, dynamic> product_json = product.to_json();
+
+  product_json['category_id'] = category_id;
+
   if (image_data != null) {
     Reference doc_ref = await FirebaseStorage.instance
         .ref('products/' + doc_id + '/${image_name}');

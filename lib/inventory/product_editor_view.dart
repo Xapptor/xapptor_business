@@ -11,15 +11,17 @@ import 'package:xapptor_ui/widgets/topbar.dart';
 
 class ProductEditorView extends StatefulWidget {
   const ProductEditorView({
+    required this.category_id,
     required this.product,
-    required this.is_a_category_product,
+    required this.is_a_product_category,
     required this.main_color,
     required this.text_list,
     required this.confirmation_text_list,
   });
 
+  final String? category_id;
   final Product product;
-  final bool is_a_category_product;
+  final bool is_a_product_category;
   final Color main_color;
   final List<String> text_list;
   final List<String> confirmation_text_list;
@@ -232,7 +234,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                     SizedBox(
                       height: sized_box_space,
                     ),
-                    !widget.is_a_category_product
+                    !widget.is_a_product_category
                         ? TextFormField(
                             style: TextStyle(
                               color: widget.main_color,
@@ -278,7 +280,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                     ),
                     is_admin &&
                             widget.product.id != '' &&
-                            !widget.is_a_category_product
+                            !widget.is_a_product_category
                         ? TextFormField(
                             style: TextStyle(
                               color: widget.main_color,
@@ -373,13 +375,19 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                   id: widget.product.id,
                   name: name_input_controller.text,
                   image_src: image_input_controller.text,
-                  price: int.parse(price_input_controller.text),
+                  price: int.tryParse(price_input_controller.text) ?? 0,
                   description: description_input_controller.text,
+                  is_a_product_category: widget.is_a_product_category,
                   inventory_quantity: int.parse(
                     quantity_input_controller.text,
                   ),
                 );
-                await set_product(product, image_data, image_name);
+                await set_product(
+                  product,
+                  image_data,
+                  image_name,
+                  widget.category_id ?? '',
+                );
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
