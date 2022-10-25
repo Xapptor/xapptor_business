@@ -25,7 +25,7 @@ dependencies:
   in_app_purchase_ios: ^0.1.4
   uuid: ^3.0.6
   universal_platform: ^1.0.0+1
-  permission_handler: ^8.1.6
+  permission_handler: ^10.2.0
   url_launcher: ^6.1.2
   http: ^0.13.4
 
