@@ -26,6 +26,7 @@ register_payment({
   required List<Payment> reservation_payments,
   required String source_language,
   required List<Season> seasons,
+  required bool show_older_reservations,
 }) async {
   parent.current_reservation =
       reservations.firstWhere((element) => element.id == reservation_id);
@@ -41,17 +42,20 @@ register_payment({
   DateFormat label_date_formatter = DateFormat.yMMMMd('en_US');
 
   String reservation_period_label = get_reservation_period_label(
-    index: reservations.indexOf(parent.current_reservation),
-    show_creation_menu: false,
-    reservations: reservations,
-    selected_date_1: parent.current_reservation.date_init,
-    selected_date_2: parent.current_reservation.date_end,
+    date_1: parent.current_reservation.date_init,
+    date_2: parent.current_reservation.date_end,
     source_language: source_language,
   );
 
   List<DateTime> current_range_of_dates = get_range_of_dates(
       parent.current_reservation.date_init,
       parent.current_reservation.date_end);
+
+  int total_to_pay = current_cabin.get_season_price(
+          date_1: parent.current_reservation!.date_init,
+          date_2: parent.current_reservation!.date_end,
+          seasons: seasons) *
+      (current_range_of_dates.length - 1);
 
   showDialog(
     context: context,
@@ -161,13 +165,7 @@ register_payment({
                                       .reduce((a, b) => a + b)
                                       .toString() +
                                   "/" +
-                                  (current_cabin.get_season_price(
-                                              current_date: parent
-                                                  .current_reservation!
-                                                  .date_init,
-                                              seasons: seasons) *
-                                          (current_range_of_dates.length - 1))
-                                      .toString(),
+                                  total_to_pay.toString(),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -204,40 +202,54 @@ register_payment({
             onPressed: () {
               if (amount_input_controller.text.isNotEmpty) {
                 if (int.tryParse(amount_input_controller.text) != null) {
-                  Payment new_payment = Payment(
-                    id: "",
-                    amount: int.parse(amount_input_controller.text),
-                    date: DateTime.now(),
-                    product_id: parent.current_reservation!.cabin_id,
-                    user_id: user_id,
-                  );
+                  if (int.parse(amount_input_controller.text) <
+                      total_to_pay * 2) {
+                    Payment new_payment = Payment(
+                      id: "",
+                      amount: int.parse(amount_input_controller.text),
+                      date: show_older_reservations
+                          ? parent.current_reservation!.date_init
+                          : DateTime.now(),
+                      product_id: parent.current_reservation!.cabin_id,
+                      user_id: user_id,
+                    );
 
-                  FirebaseFirestore.instance
-                      .collection("payments")
-                      .add(new_payment.to_json())
-                      .then((payment) {
                     FirebaseFirestore.instance
-                        .collection("reservations")
-                        .doc(parent.current_reservation!.id)
-                        .update({
-                      "payments": FieldValue.arrayUnion([payment.id]),
-                    }).then((reservation) {
-                      String email_message =
-                          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${payment.id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
+                        .collection("payments")
+                        .add(new_payment.to_json())
+                        .then((payment) {
+                      FirebaseFirestore.instance
+                          .collection("reservations")
+                          .doc(parent.current_reservation!.id)
+                          .update({
+                        "payments": FieldValue.arrayUnion([payment.id]),
+                      }).then((reservation) {
+                        String email_message =
+                            "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${payment.id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
 
-                      send_email(
-                        to: "info@collineblanche.com.mx",
-                        subject:
-                            "${text_list[37 + 12]} ${text_list[37 + 9]} (${payment.id}), ${text_list[24]} (${reservation_id})",
-                        text: email_message,
-                      );
+                        send_email(
+                          to: "info@collineblanche.com.mx",
+                          subject:
+                              "${text_list[37 + 12]} ${text_list[37 + 9]} (${payment.id}), ${text_list[24]} (${reservation_id})",
+                          text: email_message,
+                        );
 
-                      amount_input_controller.clear();
+                        amount_input_controller.clear();
 
-                      Navigator.pop(context);
-                      get_reservations_callback();
+                        Navigator.pop(context);
+                        get_reservations_callback();
+                      });
                     });
-                  });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: SelectableText(
+                          "The amount is too large",
+                        ),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 }
               }
             },

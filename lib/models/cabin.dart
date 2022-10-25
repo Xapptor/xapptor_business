@@ -83,32 +83,53 @@ class Cabin {
   }
 
   int get_season_price({
-    required DateTime current_date,
+    required DateTime date_1,
+    required DateTime date_2,
     required List<Season> seasons,
   }) {
-    Season current_season = seasons.firstWhere((season) {
-      DateTime season_begin = DateTime(
-        season.begin.month == 12 && season.end.month == 1
-            ? (current_date.year - 1)
-            : current_date.year,
-        season.begin.month,
-        season.begin.day,
-      );
+    List<Map<String, int>> season_distances_1 = [];
+    List<Map<String, int>> season_distances_2 = [];
 
-      DateTime season_end = DateTime(
-        current_date.year,
-        season.end.month,
-        season.end.day,
-      );
+    seasons.forEach((season) {
+      int index = seasons.indexOf(season);
 
-      bool after_begin =
-          current_date.isAfter(season_begin) || current_date == season_begin;
+      if (date_1.year != date_2.year) {
+        if (season.begin.month == 12 && season.end.month == 1) {
+          season.begin = DateTime(
+            date_1.year,
+            season.begin.month,
+            season.begin.day,
+          );
+        }
+      }
 
-      bool before_end =
-          current_date.isBefore(season_end) || current_date == season_end;
+      season_distances_1.add({
+        "index": index,
+        "value": date_1.difference(season.begin).inDays.abs(),
+      });
 
-      return after_begin && before_end;
+      season_distances_2.add({
+        "index": index,
+        "value": date_1.difference(season.end).inDays.abs(),
+      });
     });
+
+    season_distances_1.sort((a, b) => a["value"]!.compareTo(b["value"]!));
+    season_distances_2.sort((a, b) => a["value"]!.compareTo(b["value"]!));
+
+    Season posible_season_1 = seasons[season_distances_1.first["index"]!];
+    Season posible_season_2 = seasons[season_distances_2.first["index"]!];
+
+    int season_distance_1 = season_distances_1.first["value"]!;
+    int season_distance_2 = season_distances_2.first["value"]!;
+
+    late Season current_season;
+
+    if (season_distance_1 < season_distance_2) {
+      current_season = posible_season_1;
+    } else {
+      current_season = posible_season_2;
+    }
 
     return current_season.type == SeasonType.high
         ? this.high_price

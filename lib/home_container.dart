@@ -29,7 +29,7 @@ class HomeContainer extends StatefulWidget {
   const HomeContainer({
     required this.topbar_color,
     required this.products_collection_name,
-    required this.product_catalog,
+    this.product_catalog,
     required this.cardholder_list_1,
     required this.cardholder_list_2,
     required this.dot_colors_active_1,
@@ -38,7 +38,7 @@ class HomeContainer extends StatefulWidget {
     required this.dot_color_inactive_2,
     required this.tile_list,
     required this.text_list_menu,
-    required this.translation_stream_list,
+    this.translation_stream_list,
     required this.tooltip_list,
     required this.has_language_picker,
     required this.base_url,
@@ -46,13 +46,13 @@ class HomeContainer extends StatefulWidget {
     this.logo_path_white,
     required this.main_button_color,
     required this.update_payment_enabled,
-    required this.update_source_language,
+    this.update_source_language,
     required this.privacy_policy_model,
   });
 
   final Color topbar_color;
   final String products_collection_name;
-  final ProductCatalog product_catalog;
+  final ProductCatalog? product_catalog;
   final List<CardHolder> cardholder_list_1;
   final List<CardHolder> cardholder_list_2;
   final List<Color> dot_colors_active_1;
@@ -61,7 +61,7 @@ class HomeContainer extends StatefulWidget {
   final Color dot_color_inactive_2;
   final List<ListTile> tile_list;
   final List<String> text_list_menu;
-  final List<TranslationStream> translation_stream_list;
+  final List<TranslationStream>? translation_stream_list;
   final List<Tooltip> tooltip_list;
   final bool has_language_picker;
   final String base_url;
@@ -69,7 +69,7 @@ class HomeContainer extends StatefulWidget {
   final String? logo_path_white;
   final LinearGradient main_button_color;
   final Function(bool new_value) update_payment_enabled;
-  final Function({required int new_source_language_index})
+  final Function({required int new_source_language_index})?
       update_source_language;
   final PrivacyPolicyModel privacy_policy_model;
 
@@ -133,13 +133,15 @@ class _HomeContainerState extends State<HomeContainer> {
 
   List<Widget> widgets_action(bool portrait) {
     return [
-      widget.has_language_picker
+      widget.has_language_picker &&
+              widget.translation_stream_list != null &&
+              widget.update_source_language != null
           ? Container(
               width: 150,
               child: LanguagePicker(
-                translation_stream_list: widget.translation_stream_list,
+                translation_stream_list: widget.translation_stream_list!,
                 language_picker_items_text_color: widget.topbar_color,
-                update_source_language: widget.update_source_language,
+                update_source_language: widget.update_source_language!,
               ),
             )
           : Container(),
@@ -259,11 +261,11 @@ class _HomeContainerState extends State<HomeContainer> {
         ),
       );
     });
-    widget.product_catalog.products = products;
+    widget.product_catalog!.products = products;
     add_new_app_screen(
       AppScreen(
         name: "home/products",
-        child: widget.product_catalog,
+        child: widget.product_catalog!,
       ),
     );
   }
@@ -275,7 +277,9 @@ class _HomeContainerState extends State<HomeContainer> {
     widget.update_payment_enabled(payment_enabled);
     setState(() {});
     if (payment_enabled) {
-      get_products_for_product_catalog();
+      if (widget.product_catalog != null) {
+        get_products_for_product_catalog();
+      }
     }
   }
 
@@ -351,6 +355,7 @@ class _HomeContainerState extends State<HomeContainer> {
           key: scaffold_key,
           endDrawer: drawer(),
           appBar: TopBar(
+            context: context,
             background_color: widget.topbar_color,
             has_back_button: false,
             actions: widgets_action(portrait),

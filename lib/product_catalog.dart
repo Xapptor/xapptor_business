@@ -444,6 +444,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
           ? Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: TopBar(
+                context: context,
                 background_color: widget.topbar_color!,
                 has_back_button: true,
                 actions: <Widget>[

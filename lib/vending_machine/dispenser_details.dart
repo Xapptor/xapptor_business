@@ -71,6 +71,7 @@ class _DispenserDetailsState extends State<DispenserDetails> {
 
     return Scaffold(
       appBar: TopBar(
+        context: context,
         background_color: main_color,
         has_back_button: true,
         actions: [],

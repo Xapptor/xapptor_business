@@ -6,6 +6,5 @@ int get_total_price_from_date_range({
   required DateTime date_2,
 }) {
   List<DateTime> range_of_dates = get_range_of_dates(date_1, date_2);
-
   return (range_of_dates.length - 1) * cabin_season_price;
 }
