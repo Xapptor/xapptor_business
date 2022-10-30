@@ -21,7 +21,7 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_ui/widgets/widgets_carousel.dart';
-import 'package:xapptor_logic/is_portrait.dart';
+import 'package:xapptor_ui/widgets/is_portrait.dart';
 import 'package:xapptor_auth/sign_out.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

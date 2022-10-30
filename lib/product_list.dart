@@ -13,7 +13,7 @@ import 'package:xapptor_ui/widgets/topbar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'vending_machine/dispenser_details.dart';
 import 'product_details.dart';
-import 'package:xapptor_logic/is_portrait.dart';
+import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({

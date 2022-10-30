@@ -4,7 +4,7 @@ import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_business/models/season.dart';
 import 'package:xapptor_logic/bool_to_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xapptor_logic/is_portrait.dart';
+import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class CabinReservationCard extends StatefulWidget {
   const CabinReservationCard({
