@@ -6,7 +6,7 @@ import 'package:xapptor_logic/get_main_color_from_remote_svg.dart';
 import 'package:xapptor_ui/widgets/switch_button.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
-import 'package:xapptor_logic/is_portrait.dart';
+import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class DispenserDetails extends StatefulWidget {
   const DispenserDetails({

@@ -5,7 +5,7 @@ import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'vending_machine_details.dart';
 import 'package:xapptor_ui/widgets/custom_card.dart';
-import 'package:xapptor_logic/is_portrait.dart';
+import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class VendingMachineCard extends StatefulWidget {
   const VendingMachineCard({

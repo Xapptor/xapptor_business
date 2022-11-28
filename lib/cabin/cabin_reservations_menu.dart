@@ -21,7 +21,7 @@ import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_business/models/season.dart';
 import 'package:xapptor_logic/get_range_of_dates.dart';
 import 'package:xapptor_logic/get_user_info.dart';
-import 'package:xapptor_logic/is_portrait.dart';
+import 'package:xapptor_ui/widgets/is_portrait.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
