@@ -364,8 +364,14 @@ class _HomeContainerState extends State<HomeContainer> {
           ),
           body: Column(
             children: [
+              widget.cardholder_list_2.isEmpty
+                  ? Expanded(
+                      flex: 1,
+                      child: Container(),
+                    )
+                  : Container(),
               Expanded(
-                flex: 1,
+                flex: widget.cardholder_list_2.isEmpty ? 2 : 1,
                 child: FractionallySizedBox(
                   heightFactor: 0.9,
                   child: WidgetsCarousel(
@@ -386,28 +392,33 @@ class _HomeContainerState extends State<HomeContainer> {
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: FractionallySizedBox(
-                  heightFactor: 0.9,
-                  child: WidgetsCarousel(
-                    update_current_page: (current_page) {
-                      if (!UniversalPlatform.isWeb || portrait) {
-                        widget.cardholder_list_2.forEach((element) {
-                          element.is_focused = false;
-                        });
-                        widget.cardholder_list_2[current_page].is_focused =
-                            true;
-                        setState(() {});
-                      }
-                    },
-                    auto_scroll: auto_scroll,
-                    dot_colors_active: widget.dot_colors_active_2,
-                    dot_color_inactive: widget.dot_color_inactive_2,
-                    children: widget.cardholder_list_2,
-                  ),
-                ),
-              ),
+              widget.cardholder_list_2.isEmpty
+                  ? Expanded(
+                      flex: 1,
+                      child: Container(),
+                    )
+                  : Expanded(
+                      flex: 1,
+                      child: FractionallySizedBox(
+                        heightFactor: 0.9,
+                        child: WidgetsCarousel(
+                          update_current_page: (current_page) {
+                            if (!UniversalPlatform.isWeb || portrait) {
+                              widget.cardholder_list_2.forEach((element) {
+                                element.is_focused = false;
+                              });
+                              widget.cardholder_list_2[current_page]
+                                  .is_focused = true;
+                              setState(() {});
+                            }
+                          },
+                          auto_scroll: auto_scroll,
+                          dot_colors_active: widget.dot_colors_active_2,
+                          dot_color_inactive: widget.dot_color_inactive_2,
+                          children: widget.cardholder_list_2,
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),
