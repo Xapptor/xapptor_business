@@ -342,8 +342,14 @@ class _HomeContainerState extends State<HomeContainer> {
   @override
   Widget build(BuildContext context) {
     bool portrait = is_portrait(context);
-    double elevation = 3;
-    double border_radius = 20;
+    int first_carousel_flex = 1;
+    if (widget.cardholder_list_2.isEmpty) {
+      if (portrait) {
+        first_carousel_flex = 2;
+      } else {
+        first_carousel_flex = 4;
+      }
+    }
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -371,7 +377,7 @@ class _HomeContainerState extends State<HomeContainer> {
                     )
                   : Container(),
               Expanded(
-                flex: widget.cardholder_list_2.isEmpty ? 2 : 1,
+                flex: first_carousel_flex,
                 child: FractionallySizedBox(
                   heightFactor: 0.9,
                   child: WidgetsCarousel(
