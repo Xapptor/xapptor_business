@@ -23,6 +23,7 @@ dependencies:
   syncfusion_flutter_xlsio: ^19.4.42-beta
   in_app_purchase: ^1.0.9
   in_app_purchase_ios: ^0.1.4
+  pay: ^1.0.11
   uuid: ^3.0.6
   universal_platform: ^1.0.0+1
   permission_handler: ^10.2.0
