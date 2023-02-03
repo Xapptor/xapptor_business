@@ -46,9 +46,6 @@ dependencies:
   xapptor_ui:
     path: ../xapptor_ui
 
-dependency_overrides:
-  font_awesome_flutter: ^10.3.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
