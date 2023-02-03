@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttericon/typicons_icons.dart';
 import 'package:xapptor_business/analytics/analytics_segment.dart';
 import 'package:xapptor_business/analytics/chart_type.dart';
 import 'package:xapptor_business/analytics/main_line_chart.dart';
@@ -8,6 +7,7 @@ import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 import 'package:xapptor_ui/values/ui.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AdminAnalytics extends StatefulWidget {
   const AdminAnalytics({
@@ -98,7 +98,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                       onPressed: () =>
                           widget.download_analytics_callback(context),
                       icon: Icon(
-                        Typicons.down_outline,
+                        FontAwesomeIcons.download,
                         color: widget.icon_color,
                       ),
                       tooltip: widget.download_button_tooltip,
