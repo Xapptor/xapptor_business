@@ -26,30 +26,6 @@ import 'package:xapptor_auth/sign_out.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeContainer extends StatefulWidget {
-  const HomeContainer({
-    required this.topbar_color,
-    required this.products_collection_name,
-    this.product_catalog,
-    required this.cardholder_list_1,
-    required this.cardholder_list_2,
-    required this.dot_colors_active_1,
-    required this.dot_colors_active_2,
-    required this.dot_color_inactive_1,
-    required this.dot_color_inactive_2,
-    required this.tile_list,
-    required this.text_list_menu,
-    this.translation_stream_list,
-    required this.tooltip_list,
-    required this.has_language_picker,
-    required this.base_url,
-    required this.logo_path,
-    this.logo_path_white,
-    required this.main_button_color,
-    required this.update_payment_enabled,
-    this.update_source_language,
-    required this.privacy_policy_model,
-  });
-
   final Color topbar_color;
   final String products_collection_name;
   final ProductCatalog? product_catalog;
@@ -72,6 +48,32 @@ class HomeContainer extends StatefulWidget {
   final Function({required int new_source_language_index})?
       update_source_language;
   final PrivacyPolicyModel privacy_policy_model;
+  final bool has_back_button;
+
+  const HomeContainer({
+    required this.topbar_color,
+    required this.products_collection_name,
+    this.product_catalog,
+    required this.cardholder_list_1,
+    required this.cardholder_list_2,
+    required this.dot_colors_active_1,
+    required this.dot_colors_active_2,
+    required this.dot_color_inactive_1,
+    required this.dot_color_inactive_2,
+    required this.tile_list,
+    required this.text_list_menu,
+    this.translation_stream_list,
+    required this.tooltip_list,
+    required this.has_language_picker,
+    required this.base_url,
+    required this.logo_path,
+    this.logo_path_white,
+    required this.main_button_color,
+    required this.update_payment_enabled,
+    this.update_source_language,
+    required this.privacy_policy_model,
+    this.has_back_button = false,
+  });
 
   @override
   _HomeContainerState createState() => _HomeContainerState();
@@ -145,7 +147,7 @@ class _HomeContainerState extends State<HomeContainer> {
               ),
             )
           : Container(),
-      portrait
+      portrait || widget.tooltip_list.isEmpty
           ? Container()
           : Row(
               children: [
@@ -164,15 +166,17 @@ class _HomeContainerState extends State<HomeContainer> {
                   ] +
                   widget.tooltip_list,
             ),
-      IconButton(
-        icon: const Icon(
-          Icons.menu,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          scaffold_key.currentState!.openEndDrawer();
-        },
-      ),
+      widget.tile_list.isEmpty
+          ? Container()
+          : IconButton(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                scaffold_key.currentState!.openEndDrawer();
+              },
+            ),
     ];
   }
 
@@ -359,13 +363,20 @@ class _HomeContainerState extends State<HomeContainer> {
         progress_indicator_color: widget.topbar_color,
         child: Scaffold(
           key: scaffold_key,
-          endDrawer: drawer(),
+          endDrawer: widget.tooltip_list.isEmpty ? null : drawer(),
           appBar: TopBar(
             context: context,
             background_color: widget.topbar_color,
-            has_back_button: false,
+            has_back_button: widget.has_back_button,
             actions: widgets_action(portrait),
-            custom_leading: null,
+            custom_leading: widget.has_back_button
+                ? IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(FontAwesomeIcons.angleLeft),
+                  )
+                : null,
             logo_path: widget.logo_path_white ?? widget.logo_path,
           ),
           body: Column(
