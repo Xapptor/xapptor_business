@@ -17,7 +17,7 @@ dependencies:
   firebase_storage: ^11.0.7
 
   file_picker: ^4.5.1
-  fl_chart: ^0.50.1
+  fl_chart: ^0.60.0
   intl: ^0.17.0
   syncfusion_flutter_xlsio: ^20.4.48-beta
   in_app_purchase: ^1.0.9
