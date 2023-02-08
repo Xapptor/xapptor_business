@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 class WpeGeneralSegment extends StatefulWidget {
-  final ValueNotifier<int> current_step;
-  final Function setState;
+  final Widget main_button;
   final Color main_color;
+  final ValueNotifier<String> shift;
+  final ValueNotifier<String> area;
+  final ValueNotifier<TextEditingController> specific_area_controller;
 
   WpeGeneralSegment({
-    required this.current_step,
-    required this.setState,
+    required this.main_button,
     required this.main_color,
+    required this.shift,
+    required this.area,
+    required this.specific_area_controller,
   });
   @override
   _WpeGeneralSegmentState createState() => _WpeGeneralSegmentState();
@@ -40,15 +44,8 @@ class _WpeGeneralSegmentState extends State<WpeGeneralSegment> {
     'Other Area (Indicate)',
   ];
 
-  String current_shift = '';
-  String current_area = '';
-
-  TextEditingController _specific_area_controller = TextEditingController();
-
   @override
   void initState() {
-    current_shift = shift_list[0];
-    current_area = area_list[0];
     super.initState();
   }
 
@@ -69,10 +66,10 @@ class _WpeGeneralSegmentState extends State<WpeGeneralSegment> {
             ),
           ),
           DropdownButton<String>(
-            value: current_shift,
+            value: widget.shift.value,
             onChanged: (String? new_value) {
               setState(() {
-                current_shift = new_value!;
+                widget.shift.value = new_value!;
               });
             },
             items: shift_list.map<DropdownMenuItem<String>>((String value) {
@@ -97,10 +94,10 @@ class _WpeGeneralSegmentState extends State<WpeGeneralSegment> {
             ),
           ),
           DropdownButton<String>(
-            value: current_area,
+            value: widget.area.value,
             onChanged: (String? new_value) {
               setState(() {
-                current_area = new_value!;
+                widget.area.value = new_value!;
               });
             },
             items: area_list.map<DropdownMenuItem<String>>((String value) {
@@ -112,22 +109,12 @@ class _WpeGeneralSegmentState extends State<WpeGeneralSegment> {
             isExpanded: true,
           ),
           TextField(
-            controller: _specific_area_controller,
+            controller: widget.specific_area_controller.value,
             decoration: InputDecoration(
               labelText: 'Specific Area',
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 20),
-            child: ElevatedButton(
-              onPressed: () {
-                widget.current_step.value++;
-                widget.setState();
-              },
-              child: Text('Continue'),
-            ),
-          ),
+          widget.main_button,
         ],
       ),
     );

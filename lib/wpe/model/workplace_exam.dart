@@ -106,35 +106,35 @@ enum Fall {
 }
 
 class WorkplaceExam {
-  final String id;
-  final String user_id;
-  final DateTime date_created;
-  final List<String> supervisors;
+  String id;
+  String user_id;
+  DateTime date_created;
+  List<String> supervisors;
 
   // General Segment
-  final Shift shift;
-  final Area area;
-  final String specific_area;
+  Shift shift;
+  Area area;
+  String specific_area;
 
   // Risk Segment
-  final Lototo lototo;
-  final HitOrCaught hit_or_caught;
-  final Burn burn;
-  final Health health;
-  final WorkEnviromentConditions work_enviroment_conditions;
-  final Fall fall;
+  Lototo lototo;
+  HitOrCaught hit_or_caught;
+  Burn burn;
+  Health health;
+  WorkEnviromentConditions work_enviroment_conditions;
+  Fall fall;
 
   // Description Segment
-  final String potential_risk_description;
+  String potential_risk_description;
 
   // Correctives Segment
-  final bool eliminated;
-  final bool reduced;
-  final bool isolated;
-  final bool controlled;
-  final bool ppe;
+  bool eliminated;
+  bool reduced;
+  bool isolated;
+  bool controlled;
+  bool ppe;
 
-  const WorkplaceExam({
+  WorkplaceExam({
     required this.id,
     required this.user_id,
     required this.date_created,

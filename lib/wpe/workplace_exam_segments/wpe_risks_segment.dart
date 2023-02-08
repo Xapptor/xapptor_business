@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 
 class WpeRisksSegment extends StatefulWidget {
-  final ValueNotifier<int> current_step;
-  final Function setState;
+  final Widget main_button;
   final Color main_color;
+  final ValueNotifier<String> lototo;
+  final ValueNotifier<String> hit_or_caught;
+  final ValueNotifier<String> burn;
+  final ValueNotifier<String> health;
+  final ValueNotifier<String> work_enviroment_conditions;
+  final ValueNotifier<String> fall;
 
   WpeRisksSegment({
-    required this.current_step,
-    required this.setState,
+    required this.main_button,
     required this.main_color,
+    required this.lototo,
+    required this.hit_or_caught,
+    required this.burn,
+    required this.health,
+    required this.work_enviroment_conditions,
+    required this.fall,
   });
   @override
   _WpeRisksSegmentState createState() => _WpeRisksSegmentState();
@@ -97,21 +107,8 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
     'Tools - Utility Knife',
   ];
 
-  String current_lototo = '';
-  String current_hit_or_caught = '';
-  String current_burn = '';
-  String current_health = '';
-  String current_work_enviroment_conditions = '';
-  String current_fall = '';
-
   @override
   void initState() {
-    current_lototo = lototo_list[0];
-    current_hit_or_caught = hit_or_caught_list[0];
-    current_burn = burn_list[0];
-    current_health = health_list[0];
-    current_work_enviroment_conditions = work_enviroment_conditions_list[0];
-    current_fall = fall_list[0];
     super.initState();
   }
 
@@ -132,10 +129,10 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
             ),
           ),
           DropdownButton<String>(
-            value: current_lototo,
+            value: widget.lototo.value,
             onChanged: (String? new_value) {
               setState(() {
-                current_lototo = new_value!;
+                widget.lototo.value = new_value!;
               });
             },
             items: lototo_list.map<DropdownMenuItem<String>>((String value) {
@@ -160,10 +157,10 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
             ),
           ),
           DropdownButton<String>(
-            value: current_hit_or_caught,
+            value: widget.hit_or_caught.value,
             onChanged: (String? new_value) {
               setState(() {
-                current_hit_or_caught = new_value!;
+                widget.hit_or_caught.value = new_value!;
               });
             },
             items: hit_or_caught_list
@@ -189,10 +186,10 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
             ),
           ),
           DropdownButton<String>(
-            value: current_burn,
+            value: widget.burn.value,
             onChanged: (String? new_value) {
               setState(() {
-                current_burn = new_value!;
+                widget.burn.value = new_value!;
               });
             },
             items: burn_list.map<DropdownMenuItem<String>>((String value) {
@@ -217,10 +214,10 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
             ),
           ),
           DropdownButton<String>(
-            value: current_health,
+            value: widget.health.value,
             onChanged: (String? new_value) {
               setState(() {
-                current_health = new_value!;
+                widget.health.value = new_value!;
               });
             },
             items: health_list.map<DropdownMenuItem<String>>((String value) {
@@ -245,10 +242,10 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
             ),
           ),
           DropdownButton<String>(
-            value: current_work_enviroment_conditions,
+            value: widget.work_enviroment_conditions.value,
             onChanged: (String? new_value) {
               setState(() {
-                current_work_enviroment_conditions = new_value!;
+                widget.work_enviroment_conditions.value = new_value!;
               });
             },
             items: work_enviroment_conditions_list
@@ -274,10 +271,10 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
             ),
           ),
           DropdownButton<String>(
-            value: current_fall,
+            value: widget.fall.value,
             onChanged: (String? new_value) {
               setState(() {
-                current_fall = new_value!;
+                widget.fall.value = new_value!;
               });
             },
             items: fall_list.map<DropdownMenuItem<String>>((String value) {
@@ -288,17 +285,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
             }).toList(),
             isExpanded: true,
           ),
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 20),
-            child: ElevatedButton(
-              onPressed: () {
-                widget.current_step.value++;
-                widget.setState();
-              },
-              child: Text('Continue'),
-            ),
-          ),
+          widget.main_button,
         ],
       ),
     );
