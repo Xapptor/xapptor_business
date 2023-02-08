@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 
 class WpeCorrectivesSegment extends StatefulWidget {
-  final ValueNotifier<int> current_step;
-  final Function setState;
+  final Widget main_button;
   final Color main_color;
+  final ValueNotifier<bool> eliminated;
+  final ValueNotifier<bool> reduced;
+  final ValueNotifier<bool> isolated;
+  final ValueNotifier<bool> controlled;
+  final ValueNotifier<bool> ppe;
 
   WpeCorrectivesSegment({
-    required this.current_step,
-    required this.setState,
+    required this.main_button,
     required this.main_color,
+    required this.eliminated,
+    required this.reduced,
+    required this.isolated,
+    required this.controlled,
+    required this.ppe,
   });
   @override
   _WpeCorrectivesSegmentState createState() => _WpeCorrectivesSegmentState();
 }
 
 class _WpeCorrectivesSegmentState extends State<WpeCorrectivesSegment> {
-  ValueNotifier<bool> _corrective_check_eliminated = ValueNotifier(false);
-  ValueNotifier<bool> _corrective_check_reduced = ValueNotifier(false);
-  ValueNotifier<bool> _corrective_check_isolated = ValueNotifier(false);
-  ValueNotifier<bool> _corrective_check_controled = ValueNotifier(false);
-  ValueNotifier<bool> _corrective_check_ppe = ValueNotifier(false);
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -39,24 +41,12 @@ class _WpeCorrectivesSegmentState extends State<WpeCorrectivesSegment> {
               ),
             ),
           ),
-          corrective_check('Eliminated', _corrective_check_eliminated),
-          corrective_check('Reduced', _corrective_check_reduced),
-          corrective_check('Isolated', _corrective_check_isolated),
-          corrective_check('Controled', _corrective_check_controled),
-          corrective_check('PPE', _corrective_check_ppe),
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(
-              top: 20,
-            ),
-            child: ElevatedButton(
-              onPressed: () {
-                widget.current_step.value = -1;
-                widget.setState();
-              },
-              child: Text('Save and Upload'),
-            ),
-          ),
+          corrective_check('Eliminated', widget.eliminated),
+          corrective_check('Reduced', widget.reduced),
+          corrective_check('Isolated', widget.isolated),
+          corrective_check('Controled', widget.controlled),
+          corrective_check('PPE', widget.ppe),
+          widget.main_button,
         ],
       ),
     );

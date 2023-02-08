@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 
 class WpeDescriptionSegment extends StatefulWidget {
-  final ValueNotifier<int> current_step;
-  final Function setState;
+  final Widget main_button;
   final Color main_color;
+  ValueNotifier<TextEditingController> potential_risk_description_controller;
 
   WpeDescriptionSegment({
-    required this.current_step,
-    required this.setState,
+    required this.main_button,
     required this.main_color,
+    required this.potential_risk_description_controller,
   });
   @override
   _WpeDescriptionSegmentState createState() => _WpeDescriptionSegmentState();
 }
 
 class _WpeDescriptionSegmentState extends State<WpeDescriptionSegment> {
-  TextEditingController _potential_risk_description_controller =
-      TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -37,7 +34,7 @@ class _WpeDescriptionSegmentState extends State<WpeDescriptionSegment> {
               bottom: 10,
             ),
             child: TextField(
-              controller: _potential_risk_description_controller,
+              controller: widget.potential_risk_description_controller.value,
               decoration: InputDecoration(
                 hintText:
                     'Describe related Present and / or\nPotential Hazards in your area',
@@ -46,20 +43,7 @@ class _WpeDescriptionSegmentState extends State<WpeDescriptionSegment> {
               maxLines: null,
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(
-              top: 20,
-              bottom: 30,
-            ),
-            child: ElevatedButton(
-              onPressed: () {
-                widget.current_step.value++;
-                widget.setState();
-              },
-              child: Text('Continue'),
-            ),
-          ),
+          widget.main_button,
         ],
       ),
     );

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class WpeInitialSegment extends StatefulWidget {
-  final ValueNotifier<int> current_step;
-  final Function setState;
+  final Widget main_button;
   final Color main_color;
 
   WpeInitialSegment({
-    required this.current_step,
-    required this.setState,
+    required this.main_button,
     required this.main_color,
   });
 
@@ -32,16 +30,7 @@ class _WpeInitialSegmentState extends State<WpeInitialSegment> {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: ElevatedButton(
-              onPressed: () {
-                widget.current_step.value++;
-                widget.setState();
-              },
-              child: Text('Start'),
-            ),
-          ),
+          widget.main_button,
         ],
       ),
     );
