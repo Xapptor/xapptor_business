@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:xapptor_auth/user_info_view.dart';
+import 'package:xapptor_auth/account_view.dart';
 import 'package:xapptor_business/product_catalog.dart';
 import 'package:xapptor_logic/check_if_payments_are_enabled.dart';
 import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_translation/translation_stream.dart';
-import 'package:xapptor_auth/user_info_form_type.dart';
+import 'package:xapptor_auth/auth_form_type.dart';
 import 'package:xapptor_auth/translation_text_values.dart';
 import 'package:xapptor_ui/screens/privacy_policy/privacy_policy.dart';
 import 'package:xapptor_ui/screens/privacy_policy/privacy_policy_model.dart';
@@ -188,7 +188,7 @@ class _HomeContainerState extends State<HomeContainer> {
     add_new_app_screen(
       AppScreen(
         name: "home/account",
-        child: UserInfoView(
+        child: AccountView(
           text_list: account_values,
           tc_and_pp_text: RichText(text: const TextSpan()),
           gender_values: gender_values,
@@ -206,7 +206,7 @@ class _HomeContainerState extends State<HomeContainer> {
           has_language_picker: widget.has_language_picker,
           topbar_color: widget.topbar_color,
           custom_background: null,
-          user_info_form_type: UserInfoFormType.edit_account,
+          user_info_form_type: AuthFormType.edit_account,
           outline_border: true,
           first_button_action: null,
           second_button_action: null,
