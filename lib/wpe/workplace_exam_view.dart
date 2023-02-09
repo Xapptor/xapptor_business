@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +103,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
 
   Widget main_button() {
     return Container(
+      alignment: Alignment.center,
       margin: const EdgeInsets.only(
         top: 20,
         bottom: 30,
@@ -150,7 +149,9 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
           ),
         );
       }
-    } else if (current_step.value == 2) {
+    } else if (current_step.value == 2 ||
+        current_step.value == 3 ||
+        current_step.value == 5) {
       set_wpe_values(finish_wpe: !any_risk_identified.value);
     } else if (current_step.value == 4) {
       if (any_risk_identified.value) {
@@ -246,18 +247,10 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
     //print(workplace_exam.value.to_json());
 
     if (finish_wpe) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.green,
-          content: Text(
-            'Workplace exam finished and saved',
-          ),
-        ),
-      );
+      finish_wpe_alert();
       Navigator.pop(context);
     } else {
-      if (current_step.value >= 0 && current_step.value < segment_length) {
+      if (current_step.value >= 0 && current_step.value < segment_length - 1) {
         if (current_step.value == 1) {
           await doc_ref.set(workplace_exam.value.to_json()).then((value) {
             workplace_exam.value.id = doc_ref.id;
@@ -270,12 +263,25 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
             setState(() {});
           });
         }
-      } else if (current_step.value == segment_length) {
+      } else if (current_step.value == segment_length - 1) {
         await doc_ref.update(workplace_exam.value.to_json()).then((value) {
+          finish_wpe_alert();
           Navigator.pop(context);
         });
       }
     }
+  }
+
+  finish_wpe_alert() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.green,
+        content: Text(
+          'Workplace exam finished and saved',
+        ),
+      ),
+    );
   }
 
   @override
@@ -360,9 +366,12 @@ Map<String, int> count_alphabet_chars(String input) {
 }
 
 get_most_similar_enum_value(List enum_values, String input) {
-  String input_only_alphabet = keep_only_alphabetic_chars(input);
-  List<String> enum_string_values =
-      enum_values.map((e) => keep_only_alphabetic_chars(e.toString())).toList();
+  String input_only_alphabet = keep_only_alphabetic_chars(input.toLowerCase());
+
+  List<String> enum_string_values = enum_values
+      .map((e) => keep_only_alphabetic_chars(
+          e.toString().split('.').last.toLowerCase()))
+      .toList();
 
   var enum_index = 0;
   enum_string_values.asMap().forEach((index, element) {
