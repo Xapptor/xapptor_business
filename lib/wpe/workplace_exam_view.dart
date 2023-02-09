@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/wpe/model/workplace_exam.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 import 'workplace_exam_segments/wpe_initial_Segment.dart';
 import 'workplace_exam_segments/wpe_general_segment.dart';
+import 'workplace_exam_segments/wpe_risk_identified_segment.dart';
 import 'workplace_exam_segments/wpe_risks_segment.dart';
 import 'workplace_exam_segments/wpe_description_segment.dart';
 import 'workplace_exam_segments/wpe_correctives_segment.dart';
@@ -49,7 +53,8 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
   ValueNotifier<bool> controlled = ValueNotifier(false);
   ValueNotifier<bool> ppe = ValueNotifier(false);
 
-  int segment_length = 5;
+  ValueNotifier<bool> any_risk_identified = ValueNotifier(false);
+  int segment_length = 6;
 
   Widget get_wpe_segments() {
     List<Widget> wpe_segments = [
@@ -63,6 +68,11 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
         shift: shift,
         area: area,
         specific_area_controller: specific_area_controller,
+      ),
+      WpeRiskIdentifiedSegment(
+        main_button: main_button(),
+        main_color: widget.main_color,
+        any_risk_identified: any_risk_identified,
       ),
       WpeRisksSegment(
         main_button: main_button(),
@@ -90,9 +100,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
         ppe: ppe,
       ),
     ];
-    return current_step.value == -1
-        ? Container()
-        : wpe_segments[current_step.value];
+    return wpe_segments[current_step.value];
   }
 
   Widget main_button() {
@@ -102,29 +110,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
         bottom: 30,
       ),
       child: ElevatedButton(
-        onPressed: () async {
-          DocumentReference doc_ref =
-              FirebaseFirestore.instance.collection('wpes').doc();
-
-          if (current_step.value >= 0 && current_step.value < segment_length) {
-            if (current_step.value == 0) {
-              await doc_ref.set(workplace_exam.value.to_json()).then((value) {
-                workplace_exam.value.id = doc_ref.id;
-                current_step.value++;
-                setState(() {});
-              });
-            } else {
-              doc_ref.update(workplace_exam.value.to_json()).then((value) {
-                current_step.value++;
-                setState(() {});
-              });
-            }
-          } else if (current_step.value == segment_length) {
-            doc_ref.update(workplace_exam.value.to_json()).then((value) {
-              Navigator.pop(context);
-            });
-          }
-        },
+        onPressed: () => check_fields(),
         child: Text(current_step.value == 0
             ? 'Start'
             : current_step.value == segment_length
@@ -132,6 +118,164 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
                 : 'Next'),
       ),
     );
+  }
+
+  String user_id = '';
+
+  check_fields() {
+    if (current_step.value == 0) {
+      user_id = FirebaseAuth.instance.currentUser!.uid;
+
+      if (user_id != '') {
+        current_step.value++;
+        setState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Please sign in',
+            ),
+          ),
+        );
+      }
+    } else if (current_step.value == 1) {
+      if (specific_area_controller.value.text.isNotEmpty) {
+        set_wpe_values();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Please describe the specific area',
+            ),
+          ),
+        );
+      }
+    } else if (current_step.value == 2) {
+      set_wpe_values(finish_wpe: !any_risk_identified.value);
+    } else if (current_step.value == 4) {
+      if (any_risk_identified.value) {
+        if (potential_risk_description_controller.value.text.isNotEmpty) {
+          set_wpe_values();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Please describe the potential risk',
+              ),
+            ),
+          );
+        }
+      } else {
+        set_wpe_values();
+      }
+    }
+  }
+
+  set_wpe_values({
+    bool finish_wpe = false,
+  }) {
+    workplace_exam.value.user_id = user_id;
+
+    workplace_exam.value.shift = get_most_similar_enum_value(
+      Shift.values,
+      shift.value,
+    );
+
+    workplace_exam.value.area = get_most_similar_enum_value(
+      Area.values,
+      area.value,
+    );
+
+    workplace_exam.value.specific_area = specific_area_controller.value.text;
+
+    workplace_exam.value.lototo = get_most_similar_enum_value(
+      Lototo.values,
+      lototo.value,
+    );
+
+    workplace_exam.value.hit_or_caught = get_most_similar_enum_value(
+      HitOrCaught.values,
+      hit_or_caught.value,
+    );
+
+    workplace_exam.value.burn = get_most_similar_enum_value(
+      Burn.values,
+      burn.value,
+    );
+
+    workplace_exam.value.health = get_most_similar_enum_value(
+      Health.values,
+      health.value,
+    );
+
+    workplace_exam.value.work_enviroment_conditions =
+        get_most_similar_enum_value(
+      WorkEnviromentConditions.values,
+      work_enviroment_conditions.value,
+    );
+
+    workplace_exam.value.fall = get_most_similar_enum_value(
+      Fall.values,
+      fall.value,
+    );
+
+    workplace_exam.value.potential_risk_description =
+        potential_risk_description_controller.value.text;
+
+    workplace_exam.value.eliminated = eliminated.value;
+    workplace_exam.value.reduced = reduced.value;
+    workplace_exam.value.isolated = isolated.value;
+    workplace_exam.value.controlled = controlled.value;
+    workplace_exam.value.ppe = ppe.value;
+
+    save_in_firebase(finish_wpe: finish_wpe);
+  }
+
+  save_in_firebase({
+    bool finish_wpe = false,
+  }) async {
+    CollectionReference wpes_ref =
+        FirebaseFirestore.instance.collection('wpes');
+    late DocumentReference doc_ref;
+    if (workplace_exam.value.id != '') {
+      doc_ref = wpes_ref.doc(workplace_exam.value.id);
+    } else {
+      doc_ref = wpes_ref.doc();
+    }
+
+    //print(workplace_exam.value.to_json());
+
+    if (finish_wpe) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.green,
+          content: Text(
+            'Workplace exam finished and saved',
+          ),
+        ),
+      );
+      Navigator.pop(context);
+    } else {
+      if (current_step.value >= 0 && current_step.value < segment_length) {
+        if (current_step.value == 1) {
+          await doc_ref.set(workplace_exam.value.to_json()).then((value) {
+            workplace_exam.value.id = doc_ref.id;
+            current_step.value++;
+            setState(() {});
+          });
+        } else {
+          await doc_ref.update(workplace_exam.value.to_json()).then((value) {
+            current_step.value++;
+            setState(() {});
+          });
+        }
+      } else if (current_step.value == segment_length) {
+        await doc_ref.update(workplace_exam.value.to_json()).then((value) {
+          Navigator.pop(context);
+        });
+      }
+    }
   }
 
   @override
@@ -188,4 +332,43 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
       ),
     );
   }
+}
+
+String keep_only_alphabetic_chars(String input) {
+  String result = '';
+  for (int i = 0; i < input.length; i++) {
+    String char = input[i];
+    if (char.codeUnitAt(0) >= 65 && char.codeUnitAt(0) <= 90 ||
+        char.codeUnitAt(0) >= 97 && char.codeUnitAt(0) <= 122) {
+      result += char;
+    }
+  }
+  return result;
+}
+
+Map<String, int> count_alphabet_chars(String input) {
+  Map<String, int> result = {};
+  for (int i = 0; i < input.length; i++) {
+    String char = input[i];
+    if (result.containsKey(char)) {
+      result[char] = result[char]! + 1;
+    } else {
+      result[char] = 1;
+    }
+  }
+  return result;
+}
+
+get_most_similar_enum_value(List enum_values, String input) {
+  String input_only_alphabet = keep_only_alphabetic_chars(input);
+  List<String> enum_string_values =
+      enum_values.map((e) => keep_only_alphabetic_chars(e.toString())).toList();
+
+  var enum_index = 0;
+  enum_string_values.asMap().forEach((index, element) {
+    if (element == input_only_alphabet) {
+      enum_index = index;
+    }
+  });
+  return enum_values[enum_index];
 }

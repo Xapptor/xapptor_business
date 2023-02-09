@@ -235,17 +235,17 @@ class WorkplaceExam {
       'supervisors': supervisors,
 
       // General Segment
-      'shift': shift.index,
-      'area': area.index,
+      'shift': shift.name,
+      'area': area.name,
       'specific_area': specific_area,
 
       // Risk Segment
-      'lototo': lototo.index,
-      'hit_or_caught': hit_or_caught.index,
-      'burn': burn.index,
-      'health': health.index,
-      'work_enviroment_conditions': work_enviroment_conditions.index,
-      'fall': fall.index,
+      'lototo': lototo.name,
+      'hit_or_caught': hit_or_caught.name,
+      'burn': burn.name,
+      'health': health.name,
+      'work_enviroment_conditions': work_enviroment_conditions.name,
+      'fall': fall.name,
 
       // Description Segment
       'potential_risk_description': potential_risk_description,
