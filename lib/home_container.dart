@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_auth/account_view.dart';
+import 'package:xapptor_auth/model/xapptor_user.dart';
 import 'package:xapptor_business/product_catalog.dart';
 import 'package:xapptor_logic/check_if_payments_are_enabled.dart';
 import 'package:xapptor_business/models/product.dart';
@@ -295,19 +296,16 @@ class _HomeContainerState extends State<HomeContainer> {
           .doc(auth_user.uid)
           .get();
 
-      Map user_data = user.data() as Map;
+      Map<String, dynamic> user_data = user.data() as Map<String, dynamic>;
 
-      String? firstname = user_data["firstname"];
-      String? lastname = user_data["lastname"];
-      Timestamp? birthday = user_data["birthday"];
-      int? gender_index = user_data["gender"];
-      String? country = user_data["country"];
+      XapptorUser xapptor_user = XapptorUser.from_snapshot(
+          auth_user.uid, auth_user.email ?? '', user_data);
 
-      if (firstname == null ||
-          lastname == null ||
-          birthday == null ||
-          gender_index == null ||
-          country == null) {
+      bool firstname_is_empty = xapptor_user.firstname.isEmpty;
+      bool lastname_is_empty = xapptor_user.lastname.isEmpty;
+      bool country_is_empty = xapptor_user.country.isEmpty;
+
+      if (firstname_is_empty || lastname_is_empty || country_is_empty) {
         showDialog(
           context: context,
           barrierDismissible: false,
