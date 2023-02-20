@@ -207,7 +207,7 @@ class _HomeContainerState extends State<HomeContainer> {
           has_language_picker: widget.has_language_picker,
           topbar_color: widget.topbar_color,
           custom_background: null,
-          user_info_form_type: AuthFormType.edit_account,
+          auth_form_type: AuthFormType.edit_account,
           outline_border: true,
           first_button_action: null,
           second_button_action: null,
