@@ -314,6 +314,12 @@ class _HomeContainerState extends State<HomeContainer> {
               title: Text("You need to complete your profile"),
               actions: <Widget>[
                 TextButton(
+                  child: Text("Logout"),
+                  onPressed: () async {
+                    sign_out(context: context);
+                  },
+                ),
+                TextButton(
                   child: Text("Ok"),
                   onPressed: () async {
                     Navigator.of(context).pop();
