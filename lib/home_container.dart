@@ -48,7 +48,7 @@ class HomeContainer extends StatefulWidget {
   final Function(bool new_value) update_payment_enabled;
   final Function({required int new_source_language_index})?
       update_source_language;
-  final PrivacyPolicyModel privacy_policy_model;
+  final PrivacyPolicyModel? privacy_policy_model;
   final bool has_back_button;
 
   const HomeContainer({
@@ -72,7 +72,7 @@ class HomeContainer extends StatefulWidget {
     required this.main_button_color,
     required this.update_payment_enabled,
     this.update_source_language,
-    required this.privacy_policy_model,
+    this.privacy_policy_model,
     this.has_back_button = false,
   });
 
@@ -218,17 +218,19 @@ class _HomeContainerState extends State<HomeContainer> {
       ),
     );
 
-    add_new_app_screen(
-      AppScreen(
-        name: "home/privacy_policy",
-        child: PrivacyPolicy(
-          privacy_policy_model: widget.privacy_policy_model,
-          use_topbar: true,
-          topbar_color: widget.topbar_color,
-          logo_path: widget.logo_path_white ?? widget.logo_path,
+    if (widget.privacy_policy_model != null) {
+      add_new_app_screen(
+        AppScreen(
+          name: "home/privacy_policy",
+          child: PrivacyPolicy(
+            privacy_policy_model: widget.privacy_policy_model!,
+            use_topbar: true,
+            topbar_color: widget.topbar_color,
+            logo_path: widget.logo_path_white ?? widget.logo_path,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   check_login() {
@@ -330,6 +332,17 @@ class _HomeContainerState extends State<HomeContainer> {
             );
           },
         );
+      } else {
+        check_user_roles(user_data);
+      }
+    }
+  }
+
+  check_user_roles(Map<String, dynamic> user_data) async {
+    if (user_data['roles'] != null) {
+      List<String> roles = user_data['roles'].cast<String>();
+      if (roles.contains('supervisor') || roles.contains('shift_participant')) {
+        open_screen("home/business_solutions");
       }
     }
   }

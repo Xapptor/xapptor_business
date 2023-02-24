@@ -8,8 +8,40 @@ class WpeList extends StatefulWidget {
 class _WpeListState extends State<WpeList> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('WpeForm'),
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Text(
+            'Pending',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            'Closed',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ListView.builder(
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text('Title'),
+                subtitle: Text('Subtitle'),
+              );
+            },
+          ),
+          Text(
+            'Current',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

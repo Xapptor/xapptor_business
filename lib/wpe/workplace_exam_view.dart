@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:xapptor_business/wpe/model/shift.dart';
 import 'package:xapptor_business/wpe/model/workplace_exam.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 import 'workplace_exam_segments/wpe_initial_Segment.dart';
@@ -178,7 +179,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
     workplace_exam.value.user_id = user_id;
 
     workplace_exam.value.shift = get_most_similar_enum_value(
-      Shift.values,
+      ShiftType.values,
       shift.value,
     );
 

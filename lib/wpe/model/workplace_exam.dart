@@ -1,9 +1,4 @@
-enum Shift {
-  first,
-  second,
-  night,
-  normal,
-}
+import 'package:xapptor_business/wpe/model/shift.dart';
 
 enum Area {
   quarry_or_mine,
@@ -110,9 +105,10 @@ class WorkplaceExam {
   String user_id;
   DateTime date_created;
   List<String> supervisors;
+  List<String> participants;
 
   // General Segment
-  Shift shift;
+  ShiftType shift;
   Area area;
   String specific_area;
 
@@ -139,6 +135,7 @@ class WorkplaceExam {
     required this.user_id,
     required this.date_created,
     required this.supervisors,
+    required this.participants,
 
     // General Segment
     required this.shift,
@@ -171,9 +168,10 @@ class WorkplaceExam {
         user_id = snapshot['user_id'],
         date_created = snapshot['date_created'].toDate(),
         supervisors = snapshot['supervisors'],
+        participants = snapshot['participants'],
 
         // General Segment
-        shift = Shift.values[snapshot['shift']],
+        shift = ShiftType.values[snapshot['shift']],
         area = Area.values[snapshot['area']],
         specific_area = snapshot['specific_area'],
 
@@ -202,9 +200,10 @@ class WorkplaceExam {
       user_id: '',
       date_created: DateTime.now(),
       supervisors: [],
+      participants: [],
 
       // General Segment
-      shift: Shift.normal,
+      shift: ShiftType.normal,
       area: Area.quarry_or_mine,
       specific_area: '',
 
@@ -233,6 +232,7 @@ class WorkplaceExam {
       'user_id': user_id,
       'date_created': date_created,
       'supervisors': supervisors,
+      'participants': participants,
 
       // General Segment
       'shift': shift.name,
