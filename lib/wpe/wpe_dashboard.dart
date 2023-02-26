@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/home_container.dart';
 import 'package:xapptor_router/app_screens.dart';
-import 'package:xapptor_ui/values/custom_colors.dart';
 import 'package:xapptor_ui/widgets/card_holder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -9,11 +8,13 @@ class WPEDashboard extends StatefulWidget {
   final String base_path;
   final Color main_color;
   final String logo_path;
+  final List<Color> background_colors;
 
   WPEDashboard({
     required this.base_path,
     required this.main_color,
     required this.logo_path,
+    required this.background_colors,
   });
   @override
   _WPEDashboardState createState() => _WPEDashboardState();
@@ -36,7 +37,7 @@ class _WPEDashboardState extends State<WPEDashboard> {
           subtitle: 'Identify Posible Risks',
           background_image_alignment: Alignment.center,
           icon: FontAwesomeIcons.clipboardList,
-          icon_background_color: color_github,
+          icon_background_color: widget.background_colors[0],
           on_pressed: () {
             open_screen("${widget.base_path}/workplace_exam");
           },
@@ -50,7 +51,7 @@ class _WPEDashboardState extends State<WPEDashboard> {
           subtitle: 'Examine Your Operations',
           background_image_alignment: Alignment.center,
           icon: FontAwesomeIcons.uncharted,
-          icon_background_color: color_light_aqua,
+          icon_background_color: widget.background_colors[1],
           on_pressed: () {
             open_screen("${widget.base_path}/analytics");
           },
@@ -61,12 +62,12 @@ class _WPEDashboardState extends State<WPEDashboard> {
       ].whereType<CardHolder>().toList(),
       cardholder_list_2: [],
       dot_colors_active_1: [
-        color_github,
-        color_light_aqua,
+        widget.background_colors[0],
+        widget.background_colors[1],
       ],
       dot_colors_active_2: [],
-      dot_color_inactive_1: color_dark_aqua,
-      dot_color_inactive_2: color_dark_aqua,
+      dot_color_inactive_1: Colors.blueGrey,
+      dot_color_inactive_2: Colors.blueGrey,
       tile_list: [],
       text_list_menu: text_list_menu,
       tooltip_list: [],
