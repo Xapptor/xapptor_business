@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:xapptor_auth/account_view.dart';
+import 'package:xapptor_auth/account_view/account_view.dart';
 import 'package:xapptor_auth/model/xapptor_user.dart';
 import 'package:xapptor_business/product_catalog.dart';
 import 'package:xapptor_logic/check_if_payments_are_enabled.dart';
@@ -202,7 +202,6 @@ class _HomeContainerState extends State<HomeContainer> {
           text_color: widget.topbar_color,
           first_button_color: widget.main_button_color,
           second_button_color: widget.topbar_color,
-          third_button_color: widget.topbar_color,
           logo_path: widget.logo_path,
           has_language_picker: widget.has_language_picker,
           topbar_color: widget.topbar_color,
@@ -211,7 +210,6 @@ class _HomeContainerState extends State<HomeContainer> {
           outline_border: true,
           first_button_action: null,
           second_button_action: null,
-          third_button_action: null,
           has_back_button: true,
           text_field_background_color: null,
         ),
