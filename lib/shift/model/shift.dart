@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:xapptor_business/wpe/model/shift_participant.dart';
+import 'package:xapptor_business/shift/model/shift_participant.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 
 enum ShiftType {
@@ -30,7 +30,7 @@ class Shift {
     return {
       'supervisor_id': supervisor_id,
       'type': type,
-      'participants': participants,
+      'participants': participants.map((e) => e.id).toList(),
       'start': start,
       'end': end,
     };

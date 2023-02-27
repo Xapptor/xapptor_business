@@ -1,4 +1,4 @@
-import 'package:xapptor_business/wpe/model/shift.dart';
+import 'package:xapptor_business/shift/model/shift.dart';
 
 enum Area {
   quarry_or_mine,

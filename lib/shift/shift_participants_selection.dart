@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:xapptor_business/wpe/model/shift.dart';
-import 'package:xapptor_business/wpe/model/shift_participant.dart';
+import 'package:xapptor_business/shift/model/shift.dart';
+import 'package:xapptor_business/shift/model/shift_participant.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 
 class ShiftParticipantsSelection extends StatefulWidget {
-  final List<String> shifts_id;
+  final List<String> shift_ids;
   final Color main_color;
 
   const ShiftParticipantsSelection({
-    required this.shifts_id,
+    required this.shift_ids,
     required this.main_color,
   });
 
@@ -22,7 +22,7 @@ class _ShiftParticipantsSelectionState
   List<Shift> shifts = [];
 
   fetch_shifts() async {
-    shifts = await get_shifts(widget.shifts_id);
+    shifts = await get_shifts(widget.shift_ids);
     setState(() {});
   }
 

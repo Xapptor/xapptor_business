@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:xapptor_business/wpe/model/shift.dart';
+import 'package:xapptor_business/shift/model/shift.dart';
 import 'package:xapptor_business/wpe/model/workplace_exam.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 import 'workplace_exam_segments/wpe_initial_Segment.dart';

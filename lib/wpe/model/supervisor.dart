@@ -1,21 +1,21 @@
 class Supervisor {
   String id;
-  List<String> shifts;
+  List<String> shift_ids;
 
   Supervisor({
     required this.id,
-    required this.shifts,
+    required this.shift_ids,
   });
 
   Supervisor.from_snapshot(
     String id,
-    Map<String, dynamic> snapshot,
+    Map snapshot,
   )   : id = id,
-        shifts = snapshot['shifts'];
+        shift_ids = snapshot['shifts'];
 
   Map<String, dynamic> to_json() {
     return {
-      'shifts': shifts,
+      'shifts': shift_ids,
     };
   }
 }
