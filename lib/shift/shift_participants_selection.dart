@@ -34,55 +34,57 @@ class _ShiftParticipantsSelectionState
 
   @override
   Widget build(BuildContext context) {
-    return shifts.length == 0
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
-        : SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Text(
-                  'Shift Participants Selection',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+    return Scaffold(
+      body: shifts.length == 0
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    'Shift Participants Selection',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                ListView.builder(
-                  itemCount: shifts.length,
-                  itemBuilder: (context, index) {
-                    Shift shift = shifts[index];
+                  ListView.builder(
+                    itemCount: shifts.length,
+                    itemBuilder: (context, index) {
+                      Shift shift = shifts[index];
 
-                    return ExpansionTile(
-                      title: Text(
-                        get_most_similar_enum_value(
-                          ShiftType.values,
-                          shift.type.name,
+                      return ExpansionTile(
+                        title: Text(
+                          get_most_similar_enum_value(
+                            ShiftType.values,
+                            shift.type.name,
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        'Available Participants ${shift.participants.length}',
-                      ),
-                      children: <Widget>[
-                        ShiftParticipantTile(
-                          shift_participant: shift.participants[index],
+                        subtitle: Text(
+                          'Available Participants ${shift.participants.length}',
                         ),
-                      ],
-                    );
-                  },
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: widget.main_color,
+                        children: <Widget>[
+                          ShiftParticipantTile(
+                            shift_participant: shift.participants[index],
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    //
-                  },
-                  child: Text('Next'),
-                ),
-              ],
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: widget.main_color,
+                    ),
+                    onPressed: () {
+                      //
+                    },
+                    child: Text('Next'),
+                  ),
+                ],
+              ),
             ),
-          );
+    );
   }
 }
 

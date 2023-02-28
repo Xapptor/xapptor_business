@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:xapptor_auth/model/xapptor_user.dart';
 import 'package:xapptor_business/home_container.dart';
 import 'package:xapptor_business/wpe/model/supervisor.dart';
 import 'package:xapptor_business/shift/shift_participants_selection.dart';
@@ -49,26 +52,36 @@ class _WPEDashboardState extends State<WPEDashboard> {
 
   check_if_is_supervisor() async {
     User auth_user = FirebaseAuth.instance.currentUser!;
-    DocumentSnapshot user = await FirebaseFirestore.instance
+    DocumentSnapshot user_snap = await FirebaseFirestore.instance
         .collection("users")
         .doc(auth_user.uid)
         .get();
 
-    Map user_data = user.data() as Map;
+    Map user_data = user_snap.data() as Map;
 
-    if (user_data['roles'] != null) {
-      List<String> roles = user_data['roles'].cast<String>();
-      if (roles.contains('supervisor')) {
+    XapptorUser user = XapptorUser.from_snapshot(
+        auth_user.uid, auth_user.email ?? '', user_data);
+
+    if (user.roles.isNotEmpty) {
+      bool is_supervisor = false;
+
+      user.roles.forEach((element) {
+        if (element.value == "supervisor") {
+          is_supervisor = true;
+        }
+      });
+
+      if (is_supervisor) {
         Supervisor supervisor = Supervisor.from_snapshot(user.id, user_data);
         check_if_supervisor_filled_shift_participants(supervisor);
-      } else if (roles.contains('shift_participant')) {
+      } else {
         check_if_participant_filled_wpe();
       }
     }
   }
 
-  check_if_supervisor_filled_shift_participants(Supervisor supervisor) {
-    add_new_app_screen(
+  check_if_supervisor_filled_shift_participants(Supervisor supervisor) async {
+    await add_new_app_screen(
       AppScreen(
         name: "${widget.base_path}/shift_participants_selection",
         child: ShiftParticipantsSelection(
@@ -77,7 +90,7 @@ class _WPEDashboardState extends State<WPEDashboard> {
         ),
       ),
     );
-    open_screen("home/business_solutions");
+    open_screen("${widget.base_path}/shift_participants_selection");
   }
 
   check_if_participant_filled_wpe() {

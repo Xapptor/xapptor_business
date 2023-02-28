@@ -331,17 +331,14 @@ class _HomeContainerState extends State<HomeContainer> {
           },
         );
       } else {
-        check_user_roles(user_data);
+        check_user_roles(xapptor_user);
       }
     }
   }
 
-  check_user_roles(Map<String, dynamic> user_data) async {
-    if (user_data['roles'] != null) {
-      List<String> roles = user_data['roles'].cast<String>();
-      if (roles.contains('supervisor') || roles.contains('shift_participant')) {
-        open_screen("home/business_solutions");
-      }
+  check_user_roles(XapptorUser user) async {
+    if (user.roles.isNotEmpty) {
+      open_screen("home/business_solutions");
     }
   }
 
