@@ -203,7 +203,7 @@ class WorkplaceExam {
       participants: [],
 
       // General Segment
-      shift: ShiftType.normal,
+      shift: ShiftType.day,
       area: Area.quarry_or_mine,
       specific_area: '',
 

@@ -6,8 +6,9 @@ import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 enum ShiftType {
   first,
   second,
+  third,
+  day,
   night,
-  normal,
 }
 
 class Shift {
