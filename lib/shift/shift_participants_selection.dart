@@ -20,12 +20,19 @@ class ShiftParticipantsSelection extends StatefulWidget {
 class _ShiftParticipantsSelectionState
     extends State<ShiftParticipantsSelection> {
   List<Shift> shifts = [];
+  Map<int, Map<int, bool>> participants_selection_matrix = {};
 
   fetch_shifts() async {
     get_shifts((List<Shift> new_shifts) {
       shifts = new_shifts;
       setState(() {});
     });
+
+    // shifts.asMap().forEach((shift_index, shift) {
+    //   shift.participants.asMap().forEach((participant_index, participant) {
+    //     participants_selection_matrix[shift_index]!.addEntries({});
+    //   });
+    // });
   }
 
   @override
@@ -98,6 +105,19 @@ class _ShiftParticipantsSelectionState
                                       return ShiftParticipantTile(
                                         shift_participant: shift
                                             .participants[participant_index],
+                                        shift_index: index,
+                                        participant_index: participant_index,
+                                        on_changed: ({
+                                          required bool selected,
+                                          required int shift_index,
+                                          required int participant_index,
+                                          required bool update_state,
+                                        }) {
+                                          // participants_selection_matrix[
+                                          //         shift_index]![
+                                          //     participant_index] = selected;
+                                          if (update_state) setState(() {});
+                                        },
                                       );
                                     },
                                   ),
@@ -147,6 +167,10 @@ class _ShiftParticipantsSelectionState
             TextButton(
               child: Text('Confirm'),
               onPressed: () {
+                participants_selection_matrix.forEach((key, value) {
+                  print('Shift $key - participants: $value');
+                });
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
             ),
@@ -159,9 +183,20 @@ class _ShiftParticipantsSelectionState
 
 class ShiftParticipantTile extends StatefulWidget {
   final ShiftParticipant shift_participant;
+  final int shift_index;
+  final int participant_index;
+  final Function({
+    required bool selected,
+    required int shift_index,
+    required int participant_index,
+    required bool update_state,
+  }) on_changed;
 
   const ShiftParticipantTile({
     required this.shift_participant,
+    required this.shift_index,
+    required this.participant_index,
+    required this.on_changed,
   });
 
   @override
@@ -172,14 +207,29 @@ class _ShiftParticipantTileState extends State<ShiftParticipantTile> {
   bool selected = true;
 
   @override
+  void initState() {
+    super.initState();
+    // widget.on_changed(
+    //   selected: selected,
+    //   shift_index: widget.shift_index,
+    //   participant_index: widget.participant_index,
+    //   update_state: false,
+    // );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
       title: Text(widget.shift_participant.full_name),
       value: selected,
       onChanged: (value) {
-        setState(() {
-          selected = value!;
-        });
+        selected = value!;
+        widget.on_changed(
+          selected: selected,
+          shift_index: widget.shift_index,
+          participant_index: widget.participant_index,
+          update_state: true,
+        );
       },
     );
   }

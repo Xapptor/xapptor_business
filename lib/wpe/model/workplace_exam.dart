@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/shift/model/shift.dart';
+import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 
 enum Area {
   quarry_or_mine,
@@ -163,26 +166,49 @@ class WorkplaceExam {
 
   WorkplaceExam.from_snapshot(
     String id,
-    Map<String, dynamic> snapshot,
+    Map snapshot,
   )   : id = id,
         user_id = snapshot['user_id'],
         date_created = snapshot['date_created'].toDate(),
-        supervisors = snapshot['supervisors'],
-        participants = snapshot['participants'],
+        supervisors = (snapshot['supervisors'] ?? []).cast<String>(),
+        participants = (snapshot['participants'] ?? []).cast<String>(),
 
         // General Segment
-        shift = ShiftType.values[snapshot['shift']],
-        area = Area.values[snapshot['area']],
+        shift = get_most_similar_enum_value(
+          ShiftType.values,
+          snapshot['shift'] ?? '',
+        ),
+        area = get_most_similar_enum_value(
+          Area.values,
+          snapshot['area'] ?? '',
+        ),
         specific_area = snapshot['specific_area'],
 
         // Risk Segment
-        lototo = Lototo.values[snapshot['lototo']],
-        hit_or_caught = HitOrCaught.values[snapshot['hit_or_caught']],
-        burn = Burn.values[snapshot['burn']],
-        health = Health.values[snapshot['health']],
-        work_enviroment_conditions = WorkEnviromentConditions
-            .values[snapshot['work_enviroment_conditions']],
-        fall = Fall.values[snapshot['fall']],
+        lototo = get_most_similar_enum_value(
+          Lototo.values,
+          snapshot['lototo'] ?? '',
+        ),
+        hit_or_caught = get_most_similar_enum_value(
+          HitOrCaught.values,
+          snapshot['hit_or_caught'] ?? '',
+        ),
+        burn = get_most_similar_enum_value(
+          Burn.values,
+          snapshot['burn'] ?? '',
+        ),
+        health = get_most_similar_enum_value(
+          Health.values,
+          snapshot['health'] ?? '',
+        ),
+        work_enviroment_conditions = get_most_similar_enum_value(
+          WorkEnviromentConditions.values,
+          snapshot['work_enviroment_conditions'] ?? '',
+        ),
+        fall = get_most_similar_enum_value(
+          Fall.values,
+          snapshot['fall'] ?? '',
+        ),
 
         // Description Segment
         potential_risk_description = snapshot['potential_risk_description'],
@@ -257,5 +283,30 @@ class WorkplaceExam {
       'controlled': controlled,
       'ppe': ppe,
     };
+  }
+}
+
+get_wpes(Function(List<WorkplaceExam>) update_function) async {
+  User? user = await FirebaseAuth.instance.currentUser;
+  List<WorkplaceExam> wpes = [];
+
+  QuerySnapshot wpes_snaps =
+      await FirebaseFirestore.instance.collection('wpes').get();
+
+  if (wpes_snaps.docs.isEmpty) {
+    update_function(wpes);
+  } else {
+    wpes_snaps.docs.asMap().forEach((index, wpes_snap) async {
+      wpes.add(
+        WorkplaceExam.from_snapshot(
+          wpes_snap.id,
+          wpes_snap.data() as Map,
+        ),
+      );
+
+      if (index == wpes_snaps.docs.length - 1) {
+        update_function(wpes);
+      }
+    });
   }
 }

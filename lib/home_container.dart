@@ -50,6 +50,7 @@ class HomeContainer extends StatefulWidget {
       update_source_language;
   final PrivacyPolicyModel? privacy_policy_model;
   final bool has_back_button;
+  final FloatingActionButton? fab;
 
   const HomeContainer({
     required this.topbar_color,
@@ -74,6 +75,7 @@ class HomeContainer extends StatefulWidget {
     this.update_source_language,
     this.privacy_policy_model,
     this.has_back_button = false,
+    this.fab,
   });
 
   @override
@@ -391,6 +393,7 @@ class _HomeContainerState extends State<HomeContainer> {
                 : null,
             logo_path: widget.logo_path_white ?? widget.logo_path,
           ),
+          floatingActionButton: widget.fab,
           body: Column(
             children: [
               widget.cardholder_list_2.isEmpty

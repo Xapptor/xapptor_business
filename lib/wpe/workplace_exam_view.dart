@@ -177,6 +177,9 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
     bool finish_wpe = false,
   }) {
     workplace_exam.value.user_id = user_id;
+    workplace_exam.value.date_created = DateTime.now();
+    workplace_exam.value.supervisors = [user_id];
+    workplace_exam.value.participants = [user_id];
 
     workplace_exam.value.shift = get_most_similar_enum_value(
       ShiftType.values,

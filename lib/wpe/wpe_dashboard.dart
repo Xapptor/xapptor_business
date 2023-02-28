@@ -5,6 +5,7 @@ import 'package:xapptor_auth/model/xapptor_user.dart';
 import 'package:xapptor_business/home_container.dart';
 import 'package:xapptor_business/wpe/model/supervisor.dart';
 import 'package:xapptor_business/shift/shift_participants_selection.dart';
+import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 import 'package:xapptor_business/wpe/wpe_list.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
@@ -35,18 +36,10 @@ class _WPEDashboardState extends State<WPEDashboard> {
   @override
   void initState() {
     super.initState();
-    add_screens();
-  }
-
-  add_screens() {
-    add_new_app_screen(
-      AppScreen(
-        name: "${widget.base_path}/workplace_exams",
-        child: WpeList(),
-      ),
-    );
     check_if_is_supervisor();
   }
+
+  late Supervisor supervisor;
 
   check_if_is_supervisor() async {
     User auth_user = FirebaseAuth.instance.currentUser!;
@@ -70,15 +63,15 @@ class _WPEDashboardState extends State<WPEDashboard> {
       });
 
       if (is_supervisor) {
-        Supervisor supervisor = Supervisor.from_snapshot(user.id, user_data);
-        check_if_supervisor_filled_shift_participants(supervisor);
+        supervisor = Supervisor.from_snapshot(user.id, user_data);
+        //check_if_supervisor_filled_shift_participants(supervisor);
       } else {
-        check_if_participant_filled_wpe();
+        //check_if_participant_filled_wpe();
       }
     }
   }
 
-  check_if_supervisor_filled_shift_participants(Supervisor supervisor) async {
+  open_shift_participants_selection(Supervisor supervisor) async {
     await add_new_app_screen(
       AppScreen(
         name: "${widget.base_path}/shift_participants_selection",
@@ -90,31 +83,78 @@ class _WPEDashboardState extends State<WPEDashboard> {
     open_screen("${widget.base_path}/shift_participants_selection");
   }
 
-  check_if_participant_filled_wpe() {
-    add_new_app_screen(
+  open_workplace_exam() async {
+    await add_new_app_screen(
       AppScreen(
         name: "${widget.base_path}/workplace_exam",
-        child: WpeList(),
+        child: WorkplaceExamView(
+          main_color: widget.main_color,
+        ),
       ),
     );
     open_screen("${widget.base_path}/workplace_exam");
   }
 
+  open_workplace_exam_list() async {
+    await add_new_app_screen(
+      AppScreen(
+        name: "${widget.base_path}/workplace_exam_list",
+        child: WpeList(),
+      ),
+    );
+    open_screen("${widget.base_path}/workplace_exam_list");
+  }
+
+  open_analytics() async {
+    await add_new_app_screen(
+      AppScreen(
+        name: "${widget.base_path}/analytics",
+        child: WpeList(),
+      ),
+    );
+    open_screen("${widget.base_path}/analytics");
+  }
+
   @override
   Widget build(BuildContext context) {
     return HomeContainer(
+      fab: FloatingActionButton(
+        onPressed: () {
+          open_workplace_exam();
+        },
+        child: Icon(
+          FontAwesomeIcons.clipboardList,
+          color: Colors.white,
+        ),
+        tooltip: 'Add Workplace Exam',
+        backgroundColor: widget.background_colors[1],
+      ),
       topbar_color: widget.main_color,
       products_collection_name: "",
       cardholder_list_1: [
         CardHolder(
           image_src: "",
-          title: 'Workplace Exam',
+          title: 'Shift Participants Selection',
+          subtitle: 'Select Participants For Shift',
+          background_image_alignment: Alignment.center,
+          icon: FontAwesomeIcons.peopleGroup,
+          icon_background_color: widget.background_colors[0],
+          on_pressed: () {
+            open_shift_participants_selection(supervisor);
+          },
+          elevation: 3,
+          border_radius: 20,
+          is_focused: false,
+        ),
+        CardHolder(
+          image_src: "",
+          title: 'Workplace Exam History',
           subtitle: 'Identify Posible Risks',
           background_image_alignment: Alignment.center,
           icon: FontAwesomeIcons.clipboardList,
-          icon_background_color: widget.background_colors[0],
+          icon_background_color: widget.background_colors[1],
           on_pressed: () {
-            open_screen("${widget.base_path}/workplace_exams");
+            open_workplace_exam_list();
           },
           elevation: 3,
           border_radius: 20,
@@ -126,9 +166,9 @@ class _WPEDashboardState extends State<WPEDashboard> {
           subtitle: 'Examine Your Operations',
           background_image_alignment: Alignment.center,
           icon: FontAwesomeIcons.uncharted,
-          icon_background_color: widget.background_colors[1],
+          icon_background_color: widget.background_colors[2],
           on_pressed: () {
-            open_screen("${widget.base_path}/analytics");
+            open_analytics();
           },
           elevation: 3,
           border_radius: 20,
