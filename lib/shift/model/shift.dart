@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/shift/model/shift_participant.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 
@@ -45,8 +46,11 @@ class Shift {
 
 Future<Shift> get_shift_from_snapshot(
   String id,
-  Map<String, dynamic> snapshot,
+  Map snapshot,
 ) async {
+  List<ShiftParticipant> participants =
+      await get_shift_participants((snapshot['participants']).cast<String>());
+
   return Shift(
     id: id,
     supervisor_id: snapshot['supervisor_id'],
@@ -56,26 +60,35 @@ Future<Shift> get_shift_from_snapshot(
       snapshot['type'],
     ),
     name: snapshot['name'],
-    participants:
-        await get_shift_participants(snapshot['participants'] as List<String>),
+    participants: participants,
     start: (snapshot['start'] as Timestamp).toDate(),
     end: (snapshot['end'] as Timestamp).toDate(),
   );
 }
 
-Future<List<Shift>> get_shifts(List<String> shifts_id) async {
+get_shifts(Function(List<Shift>) update_function) async {
+  User? user = await FirebaseAuth.instance.currentUser;
   List<Shift> shifts = [];
 
-  for (var shift_id in shifts_id) {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('shifts')
-        .doc(shift_id)
-        .get();
+  QuerySnapshot shifts_snaps = await FirebaseFirestore.instance
+      .collection('shifts')
+      .where('supervisor_id', isEqualTo: user!.uid)
+      .get();
 
-    shifts.add(
-      await get_shift_from_snapshot(
-          shift_id, snapshot.data() as Map<String, dynamic>),
-    );
+  if (shifts_snaps.docs.isEmpty) {
+    update_function(shifts);
+  } else {
+    shifts_snaps.docs.asMap().forEach((index, shift_snap) async {
+      shifts.add(
+        await get_shift_from_snapshot(
+          shift_snap.id,
+          shift_snap.data() as Map,
+        ),
+      );
+
+      if (index == shifts_snaps.docs.length - 1) {
+        update_function(shifts);
+      }
+    });
   }
-  return shifts;
 }

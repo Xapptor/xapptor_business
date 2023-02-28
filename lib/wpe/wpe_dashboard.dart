@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +84,6 @@ class _WPEDashboardState extends State<WPEDashboard> {
         name: "${widget.base_path}/shift_participants_selection",
         child: ShiftParticipantsSelection(
           main_color: widget.main_color,
-          shift_ids: supervisor.shift_ids,
         ),
       ),
     );

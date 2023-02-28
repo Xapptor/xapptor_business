@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/shift/model/shift.dart';
 import 'package:xapptor_business/shift/model/shift_participant.dart';
-import 'package:xapptor_business/wpe/workplace_exam_view.dart';
+import 'package:xapptor_ui/values/ui.dart';
+import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class ShiftParticipantsSelection extends StatefulWidget {
-  final List<String> shift_ids;
   final Color main_color;
 
   const ShiftParticipantsSelection({
-    required this.shift_ids,
     required this.main_color,
   });
 
@@ -22,8 +21,10 @@ class _ShiftParticipantsSelectionState
   List<Shift> shifts = [];
 
   fetch_shifts() async {
-    shifts = await get_shifts(widget.shift_ids);
-    setState(() {});
+    get_shifts((List<Shift> new_shifts) {
+      shifts = new_shifts;
+      setState(() {});
+    });
   }
 
   @override
@@ -34,56 +35,75 @@ class _ShiftParticipantsSelectionState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: shifts.length == 0
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    'Shift Participants Selection',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  ListView.builder(
-                    itemCount: shifts.length,
-                    itemBuilder: (context, index) {
-                      Shift shift = shifts[index];
+    bool portrait = is_portrait(context);
 
-                      return ExpansionTile(
-                        title: Text(
-                          get_most_similar_enum_value(
-                            ShiftType.values,
-                            shift.type.name,
-                          ),
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        child: shifts.length == 0
+            ? CircularProgressIndicator()
+            : FractionallySizedBox(
+                widthFactor: portrait ? 0.9 : 0.4,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Shift Participants Selection',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
-                        subtitle: Text(
-                          'Available Participants ${shift.participants.length}',
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          bottom: sized_box_space,
                         ),
-                        children: <Widget>[
-                          ShiftParticipantTile(
-                            shift_participant: shift.participants[index],
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: shifts.length,
+                          itemBuilder: (context, index) {
+                            Shift shift = shifts[index];
+
+                            return ExpansionTile(
+                              initiallyExpanded: true,
+                              title: Text(
+                                shift.name,
+                              ),
+                              subtitle: Text(
+                                'Available Participants ${shift.participants.length}',
+                              ),
+                              children: <Widget>[
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: shift.participants.length,
+                                  itemBuilder: (context, participant_index) {
+                                    return ShiftParticipantTile(
+                                      shift_participant:
+                                          shift.participants[participant_index],
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                      Container(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: widget.main_color,
                           ),
-                        ],
-                      );
-                    },
+                          onPressed: () {
+                            //
+                          },
+                          child: Text('Next'),
+                        ),
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: widget.main_color,
-                    ),
-                    onPressed: () {
-                      //
-                    },
-                    child: Text('Next'),
-                  ),
-                ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }

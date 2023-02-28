@@ -11,9 +11,9 @@ class ShiftParticipant {
 
   ShiftParticipant.from_snapshot(
     String id,
-    Map<String, dynamic> snapshot,
+    Map snapshot,
   )   : id = id,
-        full_name = snapshot['firstname'] + ' ' + snapshot['lastnmame'];
+        full_name = snapshot['firstname'] + ' ' + snapshot['lastname'];
 }
 
 Future<List<ShiftParticipant>> get_shift_participants(
@@ -27,8 +27,7 @@ Future<List<ShiftParticipant>> get_shift_participants(
         .get();
 
     participants.add(
-      ShiftParticipant.from_snapshot(
-          participant_id, snapshot.data() as Map<String, dynamic>),
+      ShiftParticipant.from_snapshot(participant_id, snapshot.data() as Map),
     );
   }
   return participants;
