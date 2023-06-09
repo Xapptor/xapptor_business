@@ -340,7 +340,7 @@ class _HomeContainerState extends State<HomeContainer> {
 
   check_user_roles(XapptorUser user) async {
     if (user.roles.isNotEmpty) {
-      open_screen("home/business_solutions");
+      //open_screen("home/business_solutions");
     }
   }
 

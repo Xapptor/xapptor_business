@@ -7,6 +7,7 @@ import 'package:xapptor_business/wpe/model/supervisor.dart';
 import 'package:xapptor_business/shift/shift_participants_selection.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 import 'package:xapptor_business/wpe/wpe_list.dart';
+import 'package:xapptor_logic/show_alert.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_ui/widgets/card_holder.dart';
@@ -64,9 +65,9 @@ class _WPEDashboardState extends State<WPEDashboard> {
 
       if (is_supervisor) {
         supervisor = Supervisor.from_snapshot(user.id, user_data);
-        //check_if_supervisor_filled_shift_participants(supervisor);
+        //open_workplace_exam();
       } else {
-        //check_if_participant_filled_wpe();
+        //open_workplace_exam();
       }
     }
   }
@@ -168,7 +169,12 @@ class _WPEDashboardState extends State<WPEDashboard> {
           icon: FontAwesomeIcons.uncharted,
           icon_background_color: widget.background_colors[2],
           on_pressed: () {
-            open_analytics();
+            //open_analytics();
+
+            show_neutral_alert(
+              context: context,
+              message: "This feature is coming soon.",
+            );
           },
           elevation: 3,
           border_radius: 20,
