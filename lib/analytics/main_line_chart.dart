@@ -30,12 +30,7 @@ LineChart main_line_chart({
   int first_year = 1;
 
   if (sum_of_payments.length > 1) {
-    first_year = (DateTime.now()
-                    .difference((sum_of_payments.first["date"] as DateTime))
-                    .inDays /
-                365)
-            .round() +
-        1;
+    first_year = (DateTime.now().difference((sum_of_payments.first["date"] as DateTime)).inDays / 365).round() + 1;
   }
 
   double max_x = sum_of_payments.length > 0
@@ -101,9 +96,7 @@ LineChart main_line_chart({
         break;
     }
 
-    double result = max_x -
-        date_difference_result -
-        (current_timeframe == TimeFrame.beginning ? 1 : 0);
+    double result = max_x - date_difference_result - (current_timeframe == TimeFrame.beginning ? 1 : 0);
 
     if (current_timeframe == TimeFrame.beginning &&
         sum_of_payments.indexOf(sum_of_payment) == sum_of_payments.length - 1) {
@@ -212,8 +205,7 @@ LineChart main_line_chart({
                   if (current_difference <= 0.1) {
                     String new_title = current_bottom_labels[value.round()];
 
-                    if (bottom_labels_used.length ==
-                            current_bottom_labels.length &&
+                    if (bottom_labels_used.length == current_bottom_labels.length &&
                         current_bottom_labels.indexOf(new_title) == 0) {
                       bottom_labels_used.clear();
                     }
@@ -311,7 +303,7 @@ LineChart main_line_chart({
         )
       ],
     ),
-    swapAnimationDuration: const Duration(milliseconds: 500),
-    swapAnimationCurve: Curves.easeInOutCubicEmphasized,
+    duration: const Duration(milliseconds: 500),
+    curve: Curves.easeInOutCubicEmphasized,
   );
 }
