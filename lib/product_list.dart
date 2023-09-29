@@ -16,7 +16,8 @@ import 'product_details.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class ProductList extends StatefulWidget {
-  const ProductList({super.key, 
+  const ProductList({
+    super.key,
     required this.vending_machine_id,
     required this.allow_edit,
     required this.has_topbar,
@@ -56,10 +57,7 @@ class _ProductListState extends State<ProductList> {
 
     setState(() {});
 
-    await FirebaseFirestore.instance
-        .collection("products")
-        .get()
-        .then((snapshot_products) async {
+    await FirebaseFirestore.instance.collection("products").get().then((snapshot_products) async {
       for (var snapshot_product in snapshot_products.docs) {
         products.add(
           Product.from_snapshot(
@@ -70,19 +68,15 @@ class _ProductListState extends State<ProductList> {
       }
 
       if (widget.for_dispensers) {
-        DocumentSnapshot vending_machine = await FirebaseFirestore.instance
-            .collection("vending_machines")
-            .doc(widget.vending_machine_id)
-            .get();
+        DocumentSnapshot vending_machine =
+            await FirebaseFirestore.instance.collection("vending_machines").doc(widget.vending_machine_id).get();
 
         List vending_machine_dispensers = vending_machine["dispensers"];
 
         for (var dispenser in vending_machine_dispensers) {
-          Dispenser current_dispenser =
-              Dispenser.from_snapshot(dispenser as Map<String, dynamic>);
+          Dispenser current_dispenser = Dispenser.from_snapshot(dispenser as Map<String, dynamic>);
 
-          Product current_product = products.firstWhere(
-              (product) => product.id == current_dispenser.product_id);
+          Product current_product = products.firstWhere((product) => product.id == current_dispenser.product_id);
 
           vending_machine_products.add(current_product);
           dispensers.add(current_dispenser);
@@ -127,14 +121,10 @@ class _ProductListState extends State<ProductList> {
         color: Colors.white,
         child: ListView.builder(
           controller: _scroll_controller,
-          itemCount: widget.for_dispensers
-              ? vending_machine_products.length
-              : products.length,
+          itemCount: widget.for_dispensers ? vending_machine_products.length : products.length,
           itemBuilder: (context, i) {
             return dispenser_and_product_item(
-              product: widget.for_dispensers
-                  ? vending_machine_products[i]
-                  : products[i],
+              product: widget.for_dispensers ? vending_machine_products[i] : products[i],
               context: context,
               dispenser: widget.for_dispensers ? dispensers[i] : null,
               dispenser_id: i,
@@ -236,9 +226,8 @@ class _ProductListState extends State<ProductList> {
                       ),
                       onPressed: () {
                         setState(() {
-                          products_value = products_values[
-                              products_values.indexOf(
-                                  vending_machine_products[dispenser_id].name)];
+                          products_value =
+                              products_values[products_values.indexOf(vending_machine_products[dispenser_id].name)];
                           show_product_picker_dialog(context, dispenser_id);
                         });
                       },
@@ -375,14 +364,11 @@ class _ProductListState extends State<ProductList> {
                               .doc(product.id)
                               .delete()
                               .then((value) async {
-                            await FirebaseStorage.instance
-                                .refFromURL(product.image_src)
-                                .delete()
-                                .then((value) async {
+                            await FirebaseStorage.instance.refFromURL(product.image_src).delete().then((value) async {
                               get_products();
                               Navigator.pop(context);
                             }).onError((error, stackTrace) {
-                              print(error);
+                              debugPrint(error.toString());
                               get_products();
                               Navigator.pop(context);
                             });
@@ -440,8 +426,7 @@ class _ProductListState extends State<ProductList> {
                         products_value = new_value!;
                       });
                     },
-                    items: products_values
-                        .map<DropdownMenuItem<String>>((String value) {
+                    items: products_values.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -489,8 +474,7 @@ class _ProductListState extends State<ProductList> {
 
   update_product_in_dispenser(int index) {
     Dispenser dispenser_updated = dispensers[index];
-    Product current_product =
-        products.firstWhere((product) => product.name == products_value);
+    Product current_product = products.firstWhere((product) => product.name == products_value);
 
     dispenser_updated.product_id = current_product.id;
     update_dispenser(dispenser_updated, index);

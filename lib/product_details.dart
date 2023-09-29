@@ -15,7 +15,8 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({super.key, 
+  const ProductDetails({
+    super.key,
     required this.product,
     required this.is_editing,
     required this.title_color,
@@ -28,7 +29,7 @@ class ProductDetails extends StatefulWidget {
   final Color text_color;
 
   @override
-  _ProductDetailsState createState() => _ProductDetailsState();
+  State<ProductDetails> createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
@@ -59,8 +60,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   check_main_color() async {
     if (widget.product != null) {
-      main_color =
-          await get_main_color_from_remote_svg(widget.product!.image_src);
+      main_color = await get_main_color_from_remote_svg(widget.product!.image_src);
       setState(() {});
     }
   }
@@ -128,15 +128,11 @@ class _ProductDetailsState extends State<ProductDetails> {
         try {
           await firebase_storage.FirebaseStorage.instance
               .ref('images/products/$current_image_file_name')
-              .putString(current_image_file_base64,
-                  format: firebase_storage.PutStringFormat.dataUrl)
+              .putString(current_image_file_base64, format: firebase_storage.PutStringFormat.dataUrl)
               .then((firebase_storage.TaskSnapshot task_snapshot) async {
             String products_length_text = "";
 
-            await FirebaseFirestore.instance
-                .collection("products")
-                .get()
-                .then((collection_snapshot) {
+            await FirebaseFirestore.instance.collection("products").get().then((collection_snapshot) {
               products_length_text = (collection_snapshot.size + 1).toString();
             });
 
@@ -146,10 +142,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             String new_product_id = "zzzzzzzzzzzzzzzzz$products_length_text";
 
-            FirebaseFirestore.instance
-                .collection("products")
-                .doc(new_product_id)
-                .set({
+            FirebaseFirestore.instance.collection("products").doc(new_product_id).set({
               "name": _controller_name.text,
               "description": _controller_description.text,
               "price": int.parse(_controller_price.text),
@@ -161,7 +154,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             });
           });
         } catch (e) {
-          print("Error: $e");
+          debugPrint("Error: $e");
         }
       }
     } else {
@@ -172,13 +165,9 @@ class _ProductDetailsState extends State<ProductDetails> {
             .then((value) async {
           await firebase_storage.FirebaseStorage.instance
               .ref('images/products/$current_image_file_name')
-              .putString(current_image_file_base64,
-                  format: firebase_storage.PutStringFormat.dataUrl)
+              .putString(current_image_file_base64, format: firebase_storage.PutStringFormat.dataUrl)
               .then((firebase_storage.TaskSnapshot task_snapshot) async {
-            FirebaseFirestore.instance
-                .collection("products")
-                .doc(widget.product!.id)
-                .update({
+            FirebaseFirestore.instance.collection("products").doc(widget.product!.id).update({
               "name": _controller_name.text,
               "description": _controller_description.text,
               "price": int.parse(_controller_price.text),
@@ -191,10 +180,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           });
         });
       } else {
-        FirebaseFirestore.instance
-            .collection("products")
-            .doc(widget.product!.id)
-            .update({
+        FirebaseFirestore.instance.collection("products").doc(widget.product!.id).update({
           "name": _controller_name.text,
           "description": _controller_description.text,
           "price": int.parse(_controller_price.text),
@@ -212,8 +198,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   open_file_picker(BuildContext context) async {
     bool permission_granted = await check_permission(
       context: context,
-      message:
-          "Debes dar permiso al almacenamiento para la selección de imágen",
+      message: "Debes dar permiso al almacenamiento para la selección de imágen",
       message_no: "Cancelar",
       message_yes: "Aceptar",
       permission_type: Permission.storage,
@@ -227,8 +212,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     )
         .then((file_picker.FilePickerResult? result) async {
       if (result != null) {
-        current_image_file_base64 =
-            "data:image/svg+xml;base64,${base64Encode(result.files.first.bytes!)}";
+        current_image_file_base64 = "data:image/svg+xml;base64,${base64Encode(result.files.first.bytes!)}";
         current_image_file_name = result.files.first.name;
         upload_image_button_label = current_image_file_name;
         setState(() {});
@@ -352,8 +336,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Colors.white,
                               ],
                             ),
-                            splash_color: widget.text_color
-                                .withOpacity(is_editing ? 0.3 : 0),
+                            splash_color: widget.text_color.withOpacity(is_editing ? 0.3 : 0),
                             child: Container(
                               alignment: Alignment.center,
                               padding: const EdgeInsets.all(10),

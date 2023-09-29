@@ -10,7 +10,8 @@ import 'package:xapptor_ui/widgets/topbar.dart';
 import 'delete_product.dart';
 
 class Inventory extends StatefulWidget {
-  const Inventory({super.key, 
+  const Inventory({
+    super.key,
     required this.old_path,
     required this.product,
     required this.collection_name,
@@ -33,7 +34,7 @@ class Inventory extends StatefulWidget {
   final Color main_color;
 
   @override
-  _InventoryState createState() => _InventoryState();
+  State<Inventory> createState() => _InventoryState();
 }
 
 class _InventoryState extends State<Inventory> {
@@ -53,10 +54,8 @@ class _InventoryState extends State<Inventory> {
     late QuerySnapshot products_snap;
 
     if (widget.product == null) {
-      products_snap = await FirebaseFirestore.instance
-          .collection(widget.collection_name)
-          .where('category_id', isEqualTo: '')
-          .get();
+      products_snap =
+          await FirebaseFirestore.instance.collection(widget.collection_name).where('category_id', isEqualTo: '').get();
     } else {
       products_snap = await FirebaseFirestore.instance
           .collection(widget.collection_name)
@@ -100,8 +99,7 @@ class _InventoryState extends State<Inventory> {
               flex: 1,
               child: Text(
                 widget.product == null
-                    ? (widget.text_list[1].substring(0, 1).toUpperCase() +
-                        widget.text_list[1].substring(1))
+                    ? (widget.text_list[1].substring(0, 1).toUpperCase() + widget.text_list[1].substring(1))
                     : widget.product!.name,
                 style: TextStyle(
                   color: widget.main_color,
@@ -118,16 +116,14 @@ class _InventoryState extends State<Inventory> {
                       itemBuilder: (context, index) {
                         Product product = products[index];
 
-                        String inventory_quantity =
-                            product.inventory_quantity.toString();
+                        String inventory_quantity = product.inventory_quantity.toString();
                         String title = '';
 
                         if (!product.is_a_product_category) {
                           if (product.inventory_quantity == -1) {
                             title = "${product.name}, ${product.price}\$";
                           } else {
-                            title =
-                                "${product.name}, ${product.price}\$, ${widget.text_list[1]}: $inventory_quantity";
+                            title = "${product.name}, ${product.price}\$, ${widget.text_list[1]}: $inventory_quantity";
                           }
                         } else {
                           title = product.name;
@@ -152,8 +148,7 @@ class _InventoryState extends State<Inventory> {
                                   if (widget.old_path == null) {
                                     path = "home/products/${product.name}";
                                   } else {
-                                    path =
-                                        "${widget.old_path!}/${product.name}";
+                                    path = "${widget.old_path!}/${product.name}";
                                   }
                                   add_new_app_screen(
                                     AppScreen(
@@ -163,15 +158,11 @@ class _InventoryState extends State<Inventory> {
                                         product: product,
                                         collection_name: "products",
                                         text_list: widget.text_list,
-                                        text_list_delete_product:
-                                            widget.text_list_delete_product,
-                                        text_list_add_product:
-                                            widget.text_list_add_product,
-                                        product_editor_text_list:
-                                            widget.product_editor_text_list,
+                                        text_list_delete_product: widget.text_list_delete_product,
+                                        text_list_add_product: widget.text_list_add_product,
+                                        product_editor_text_list: widget.product_editor_text_list,
                                         product_editor_confirmation_text_list:
-                                            widget
-                                                .product_editor_confirmation_text_list,
+                                            widget.product_editor_confirmation_text_list,
                                         main_color: widget.main_color,
                                       ),
                                     ),
@@ -190,21 +181,17 @@ class _InventoryState extends State<Inventory> {
                                 );
                               },
                               edit_function: () {
-                                String screen_name =
-                                    "home/products/${product.id}";
+                                String screen_name = "home/products/${product.id}";
                                 add_new_app_screen(
                                   AppScreen(
                                     name: screen_name,
                                     child: ProductEditorView(
                                       category_id: widget.product?.id,
                                       product: product,
-                                      is_a_product_category:
-                                          product.is_a_product_category,
+                                      is_a_product_category: product.is_a_product_category,
                                       main_color: widget.main_color,
-                                      text_list:
-                                          widget.product_editor_text_list,
-                                      confirmation_text_list: widget
-                                          .product_editor_confirmation_text_list,
+                                      text_list: widget.product_editor_text_list,
+                                      confirmation_text_list: widget.product_editor_confirmation_text_list,
                                     ),
                                   ),
                                 );
@@ -218,9 +205,7 @@ class _InventoryState extends State<Inventory> {
                     )
                   : Center(
                       child: Text(
-                        "${widget.text_list[0]} ${widget.product == null
-                                ? widget.text_list[1]
-                                : widget.text_list[2]}",
+                        "${widget.text_list[0]} ${widget.product == null ? widget.text_list[1] : widget.text_list[2]}",
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -289,8 +274,7 @@ class _InventoryState extends State<Inventory> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(text_list[0]),
-          content: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
+          content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
             return DropdownButton<String>(
               value: chosen_value,
               underline: Container(),
@@ -331,8 +315,7 @@ class _InventoryState extends State<Inventory> {
                       is_a_product_category: chosen_value == text_list[2],
                       main_color: widget.main_color,
                       text_list: widget.product_editor_text_list,
-                      confirmation_text_list:
-                          widget.product_editor_confirmation_text_list,
+                      confirmation_text_list: widget.product_editor_confirmation_text_list,
                     ),
                   ),
                 );

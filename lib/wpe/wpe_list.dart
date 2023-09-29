@@ -8,7 +8,7 @@ class WpeList extends StatefulWidget {
   const WpeList({super.key});
 
   @override
-  _WpeListState createState() => _WpeListState();
+  State createState() => _WpeListState();
 }
 
 class _WpeListState extends State<WpeList> {
@@ -121,12 +121,13 @@ class _WpeListState extends State<WpeList> {
 class WpeTile extends StatefulWidget {
   final WorkplaceExam wpe;
 
-  const WpeTile({super.key, 
+  const WpeTile({
+    super.key,
     required this.wpe,
   });
 
   @override
-  _WpeTileState createState() => _WpeTileState();
+  State<WpeTile> createState() => _WpeTileState();
 }
 
 class _WpeTileState extends State<WpeTile> {
@@ -146,8 +147,7 @@ class _WpeTileState extends State<WpeTile> {
 
   @override
   Widget build(BuildContext context) {
-    String title =
-        'Competent Person: $user_name\nWPE ID: ${widget.wpe.id}';
+    String title = 'Competent Person: $user_name\nWPE ID: ${widget.wpe.id}';
 
     return ListTile(
       title: Text(

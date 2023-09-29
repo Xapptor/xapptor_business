@@ -42,7 +42,7 @@ class CabinReservationsMenu extends StatefulWidget {
   final List<Season> seasons;
 
   @override
-  _CabinReservationsMenuState createState() => _CabinReservationsMenuState();
+  State<CabinReservationsMenu> createState() => _CabinReservationsMenuState();
 }
 
 class _CabinReservationsMenuState extends State<CabinReservationsMenu> {

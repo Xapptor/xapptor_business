@@ -7,7 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class CabinReservationCard extends StatefulWidget {
-  const CabinReservationCard({super.key, 
+  const CabinReservationCard({
+    super.key,
     required this.reservation,
     required this.select_date_available,
     required this.select_date_callback,
@@ -54,7 +55,7 @@ class CabinReservationCard extends StatefulWidget {
   final int number_of_days;
 
   @override
-  _CabinReservationCardState createState() => _CabinReservationCardState();
+  State<CabinReservationCard> createState() => _CabinReservationCardState();
 }
 
 class _CabinReservationCardState extends State<CabinReservationCard> {
@@ -77,10 +78,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
   }
 
   update_user_name() {
-    user_name = "${widget.text_list[28] +
-        ": " +
-        widget.user_info["firstname"]} " +
-        widget.user_info["lastname"];
+    user_name = "${widget.text_list[28] + ": " + widget.user_info["firstname"]} " + widget.user_info["lastname"];
 
     setState(() {});
   }
@@ -195,8 +193,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                           : DropdownButton<String>(
                               items: widget.available_cabins
                                   .map((cabin) => cabin.id)
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
+                                  .map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
@@ -220,17 +217,11 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                     ),
                   ),
                   Text(
-                    "${widget.text_list[4]}: ${widget.reservation != null
-                            ? widget.cabin
-                                .get_season_price(
-                                  date_1: widget.reservation!.date_init,
-                                  date_2: widget.reservation!.date_end,
-                                  seasons: widget.seasons,
-                                )
-                                .toString()
-                            : (widget.total_price_from_reservation /
-                                    widget.number_of_days)
-                                .toString()} ${widget.text_list[35]}${widget.text_list[36]}",
+                    "${widget.text_list[4]}: ${widget.reservation != null ? widget.cabin.get_season_price(
+                          date_1: widget.reservation!.date_init,
+                          date_2: widget.reservation!.date_end,
+                          seasons: widget.seasons,
+                        ).toString() : (widget.total_price_from_reservation / widget.number_of_days).toString()} ${widget.text_list[35]}${widget.text_list[36]}",
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.visible,
                     maxLines: 10,
@@ -410,8 +401,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                                   widget.cancel_button_callback();
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                  backgroundColor: MaterialStateProperty.all<Color>(
                                     widget.main_color,
                                   ),
                                 ),
@@ -425,12 +415,10 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                               margin: const EdgeInsets.all(20),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  widget.register_reservation(
-                                      widget.reservation?.id ?? "", true);
+                                  widget.register_reservation(widget.reservation?.id ?? "", true);
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                  backgroundColor: MaterialStateProperty.all<Color>(
                                     widget.main_color,
                                   ),
                                 ),
@@ -456,8 +444,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        widget.delete_button_callback(
-                            widget.reservation!.id, false);
+                        widget.delete_button_callback(widget.reservation!.id, false);
                       },
                       icon: const Icon(
                         FontAwesomeIcons.trashCan,
@@ -479,8 +466,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                         admin
                             ? IconButton(
                                 onPressed: () {
-                                  widget.register_payment_callback(
-                                      widget.reservation!.id);
+                                  widget.register_payment_callback(widget.reservation!.id);
                                 },
                                 icon: const Icon(
                                   FontAwesomeIcons.creditCard,

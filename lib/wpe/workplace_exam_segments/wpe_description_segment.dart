@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class WpeDescriptionSegment extends StatefulWidget {
@@ -5,13 +7,14 @@ class WpeDescriptionSegment extends StatefulWidget {
   final Color main_color;
   ValueNotifier<TextEditingController> potential_risk_description_controller;
 
-  WpeDescriptionSegment({super.key, 
+  WpeDescriptionSegment({
+    super.key,
     required this.main_button,
     required this.main_color,
     required this.potential_risk_description_controller,
   });
   @override
-  _WpeDescriptionSegmentState createState() => _WpeDescriptionSegmentState();
+  State<WpeDescriptionSegment> createState() => _WpeDescriptionSegmentState();
 }
 
 class _WpeDescriptionSegmentState extends State<WpeDescriptionSegment> {
@@ -36,8 +39,7 @@ class _WpeDescriptionSegmentState extends State<WpeDescriptionSegment> {
             child: TextField(
               controller: widget.potential_risk_description_controller.value,
               decoration: const InputDecoration(
-                hintText:
-                    'Describe related Present and / or\nPotential Hazards in your area',
+                hintText: 'Describe related Present and / or\nPotential Hazards in your area',
               ),
               keyboardType: TextInputType.multiline,
               maxLines: null,

@@ -19,14 +19,15 @@ class WPEDashboard extends StatefulWidget {
   final String logo_path;
   final List<Color> background_colors;
 
-  const WPEDashboard({super.key, 
+  const WPEDashboard({
+    super.key,
     required this.base_path,
     required this.main_color,
     required this.logo_path,
     required this.background_colors,
   });
   @override
-  _WPEDashboardState createState() => _WPEDashboardState();
+  State<WPEDashboard> createState() => _WPEDashboardState();
 }
 
 class _WPEDashboardState extends State<WPEDashboard> {
@@ -44,15 +45,11 @@ class _WPEDashboardState extends State<WPEDashboard> {
 
   check_if_is_supervisor() async {
     User auth_user = FirebaseAuth.instance.currentUser!;
-    DocumentSnapshot user_snap = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(auth_user.uid)
-        .get();
+    DocumentSnapshot user_snap = await FirebaseFirestore.instance.collection("users").doc(auth_user.uid).get();
 
     Map user_data = user_snap.data() as Map;
 
-    XapptorUser user = XapptorUser.from_snapshot(
-        auth_user.uid, auth_user.email ?? '', user_data);
+    XapptorUser user = XapptorUser.from_snapshot(auth_user.uid, auth_user.email ?? '', user_data);
 
     if (user.roles.isNotEmpty) {
       bool is_supervisor = false;

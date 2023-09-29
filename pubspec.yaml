@@ -1,6 +1,7 @@
 name: xapptor_business
 description: Module for business analytics and payment processing.
-repository: https://github.com/Xapptor/xapptor_business
+# repository: https://github.com/Xapptor/xapptor_business
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 0.0.3
 
 environment:
@@ -27,6 +28,8 @@ dependencies:
   permission_handler: ^11.0.0
   url_launcher: ^6.1.14
   http: ^1.1.0
+  font_awesome_flutter: ^10.5.0
+  shared_preferences: ^2.2.1
 
   # xapptor_auth: ^0.0.3
   # xapptor_logic: ^0.0.3

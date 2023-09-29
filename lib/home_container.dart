@@ -46,13 +46,13 @@ class HomeContainer extends StatefulWidget {
   final String? logo_path_white;
   final LinearGradient main_button_color;
   final Function(bool new_value) update_payment_enabled;
-  final Function({required int new_source_language_index})?
-      update_source_language;
+  final Function({required int new_source_language_index})? update_source_language;
   final PrivacyPolicyModel? privacy_policy_model;
   final bool has_back_button;
   final FloatingActionButton? fab;
 
-  const HomeContainer({super.key, 
+  const HomeContainer({
+    super.key,
     required this.topbar_color,
     required this.products_collection_name,
     this.product_catalog,
@@ -79,7 +79,7 @@ class HomeContainer extends StatefulWidget {
   });
 
   @override
-  _HomeContainerState createState() => _HomeContainerState();
+  State<HomeContainer> createState() => _HomeContainerState();
 }
 
 class _HomeContainerState extends State<HomeContainer> {
@@ -117,15 +117,13 @@ class _HomeContainerState extends State<HomeContainer> {
               widget.tile_list +
               [
                 ListTile(
-                  title: Text(
-                      widget.text_list_menu[widget.text_list_menu.length - 2]),
+                  title: Text(widget.text_list_menu[widget.text_list_menu.length - 2]),
                   onTap: () async {
                     open_screen("home/privacy_policy");
                   },
                 ),
                 ListTile(
-                  title: Text(
-                      widget.text_list_menu[widget.text_list_menu.length - 1]),
+                  title: Text(widget.text_list_menu[widget.text_list_menu.length - 1]),
                   onTap: () async {
                     sign_out(context: context);
                   },
@@ -138,9 +136,7 @@ class _HomeContainerState extends State<HomeContainer> {
 
   List<Widget> widgets_action(bool portrait) {
     return [
-      widget.has_language_picker &&
-              widget.translation_stream_list != null &&
-              widget.update_source_language != null
+      widget.has_language_picker && widget.translation_stream_list != null && widget.update_source_language != null
           ? SizedBox(
               width: 150,
               child: LanguagePicker(
@@ -236,17 +232,17 @@ class _HomeContainerState extends State<HomeContainer> {
   check_login() {
     if (FirebaseAuth.instance.currentUser != null) {
       loading = false;
-      //print("User is sign");
+      //debugPrint("User is sign");
       add_screens();
       check_user_fields();
     } else {
       Timer(const Duration(milliseconds: 3000), () {
         loading = false;
         if (FirebaseAuth.instance.currentUser != null) {
-          //print("User is sign");
+          //debugPrint("User is sign");
           add_screens();
         } else {
-          //print("User is not sign");
+          //debugPrint("User is not sign");
           open_screen("login");
         }
       });
@@ -255,10 +251,7 @@ class _HomeContainerState extends State<HomeContainer> {
 
   get_products_for_product_catalog() async {
     List<Product> products = [];
-    var query = await FirebaseFirestore.instance
-        .collection(widget.products_collection_name)
-        .orderBy("price")
-        .get();
+    var query = await FirebaseFirestore.instance.collection(widget.products_collection_name).orderBy("price").get();
 
     for (var course in query.docs) {
       products.add(
@@ -293,15 +286,11 @@ class _HomeContainerState extends State<HomeContainer> {
   check_user_fields() async {
     if (FirebaseAuth.instance.currentUser != null) {
       User auth_user = FirebaseAuth.instance.currentUser!;
-      DocumentSnapshot user = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(auth_user.uid)
-          .get();
+      DocumentSnapshot user = await FirebaseFirestore.instance.collection("users").doc(auth_user.uid).get();
 
       Map<String, dynamic> user_data = user.data() as Map<String, dynamic>;
 
-      XapptorUser xapptor_user = XapptorUser.from_snapshot(
-          auth_user.uid, auth_user.email ?? '', user_data);
+      XapptorUser xapptor_user = XapptorUser.from_snapshot(auth_user.uid, auth_user.email ?? '', user_data);
 
       bool firstname_is_empty = xapptor_user.firstname.isEmpty;
       bool lastname_is_empty = xapptor_user.lastname.isEmpty;
@@ -413,8 +402,7 @@ class _HomeContainerState extends State<HomeContainer> {
                         for (var element in widget.cardholder_list_1) {
                           element.is_focused = false;
                         }
-                        widget.cardholder_list_1[current_page].is_focused =
-                            true;
+                        widget.cardholder_list_1[current_page].is_focused = true;
                         setState(() {});
                       }
                     },
@@ -440,8 +428,7 @@ class _HomeContainerState extends State<HomeContainer> {
                               for (var element in widget.cardholder_list_2) {
                                 element.is_focused = false;
                               }
-                              widget.cardholder_list_2[current_page]
-                                  .is_focused = true;
+                              widget.cardholder_list_2[current_page].is_focused = true;
                               setState(() {});
                             }
                           },

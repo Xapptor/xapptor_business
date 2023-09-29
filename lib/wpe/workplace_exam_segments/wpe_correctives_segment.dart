@@ -9,7 +9,8 @@ class WpeCorrectivesSegment extends StatefulWidget {
   final ValueNotifier<bool> controlled;
   final ValueNotifier<bool> ppe;
 
-  const WpeCorrectivesSegment({super.key, 
+  const WpeCorrectivesSegment({
+    super.key,
     required this.main_button,
     required this.main_color,
     required this.eliminated,
@@ -19,7 +20,7 @@ class WpeCorrectivesSegment extends StatefulWidget {
     required this.ppe,
   });
   @override
-  _WpeCorrectivesSegmentState createState() => _WpeCorrectivesSegmentState();
+  State<WpeCorrectivesSegment> createState() => _WpeCorrectivesSegmentState();
 }
 
 class _WpeCorrectivesSegmentState extends State<WpeCorrectivesSegment> {
@@ -76,9 +77,7 @@ class _WpeCorrectivesSegmentState extends State<WpeCorrectivesSegment> {
             flex: 1,
             child: IconButton(
               icon: Icon(
-                corrective_check.value == true
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
+                corrective_check.value == true ? Icons.check_box : Icons.check_box_outline_blank,
                 color: widget.main_color,
               ),
               onPressed: () {

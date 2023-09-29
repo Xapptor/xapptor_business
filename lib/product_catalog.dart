@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,8 @@ import 'product_catalog_item.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 
 class ProductCatalog extends StatefulWidget {
-  ProductCatalog({super.key, 
+  ProductCatalog({
+    super.key,
     this.topbar_color,
     this.language_picker_items_text_color,
     required this.products,
@@ -52,7 +55,7 @@ class ProductCatalog extends StatefulWidget {
   final bool use_coupons;
 
   @override
-  _ProductCatalogState createState() => _ProductCatalogState();
+  State<ProductCatalog> createState() => _ProductCatalogState();
 }
 
 class _ProductCatalogState extends State<ProductCatalog> {
@@ -76,8 +79,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
     required String new_text,
     required int list_index,
   }) {
-    widget.translation_text_list_array.get(source_language_index)[index] =
-        new_text;
+    widget.translation_text_list_array.get(source_language_index)[index] = new_text;
     setState(() {});
   }
 
@@ -94,8 +96,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       user_email = current_user.email!;
     }
 
-    if (widget.topbar_color != null &&
-        widget.language_picker_items_text_color != null) {
+    if (widget.topbar_color != null && widget.language_picker_items_text_color != null) {
       translation_stream = TranslationStream(
         translation_text_list_array: widget.translation_text_list_array,
         update_text_list_function: update_text_list,
@@ -138,27 +139,25 @@ class _ProductCatalogState extends State<ProductCatalog> {
     int random_number_3 = random_number_with_range(100, 500);
 
     int random_number_timer =
-        ((random_number_1 + random_number_2 + random_number_3) *
-                (random_number_with_range(1, 9) / 10))
-            .toInt();
+        ((random_number_1 + random_number_2 + random_number_3) * (random_number_with_range(1, 9) / 10)).toInt();
 
-    print(random_number_timer);
+    debugPrint(random_number_timer.toString());
 
     purchase_details_list.forEach(
       (PurchaseDetails purchase_details) async {
         if (purchase_details.status == PurchaseStatus.pending) {
-          //print("payment process pending");
+          //debugPrint("payment process pending");
           loading = true;
           setState(() {});
         } else {
           if (purchase_details.status == PurchaseStatus.error) {
-            //print("payment process error" + purchase_details.error!.toString());
+            //debugPrint("payment process error" + purchase_details.error!.toString());
             loading = false;
             setState(() {});
 
             show_purchase_result_banner(false, null);
           } else if (purchase_details.status == PurchaseStatus.purchased) {
-            //print("payment process success");
+            //debugPrint("payment process success");
             loading = false;
             setState(() {});
 
@@ -214,8 +213,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
     ScaffoldMessenger.of(context).showMaterialBanner(
       MaterialBanner(
         content: Text(
-          custom_message ??
-              (purchase_success ? "Purchase Successful" : "Purchase Failed"),
+          custom_message ?? (purchase_success ? "Purchase Successful" : "Purchase Failed"),
           style: const TextStyle(
             color: Colors.white,
           ),
@@ -262,8 +260,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
               widthFactor: 1,
               child: Center(
                 child: Text(
-                  widget.translation_text_list_array
-                      .get(source_language_index)[0],
+                  widget.translation_text_list_array.get(source_language_index)[0],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: widget.title_color,
@@ -278,8 +275,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
             child: FractionallySizedBox(
               widthFactor: 0.7,
               child: Text(
-                widget.translation_text_list_array
-                    .get(source_language_index)[1],
+                widget.translation_text_list_array.get(source_language_index)[1],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: widget.subtitle_color,
@@ -301,8 +297,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                             color: Colors.white,
                           ),
                           decoration: InputDecoration(
-                            labelText: widget.translation_text_list_array
-                                .get(source_language_index)[4],
+                            labelText: widget.translation_text_list_array.get(source_language_index)[4],
                             labelStyle: const TextStyle(
                               color: Colors.white,
                             ),
@@ -330,21 +325,15 @@ class _ProductCatalogState extends State<ProductCatalog> {
                             on_pressed: () async {
                               // Checking if coupon is valid.
 
-                              String coupon_id =
-                                  coupon_controller.text.isNotEmpty
-                                      ? coupon_controller.text
-                                      : " ";
+                              String coupon_id = coupon_controller.text.isNotEmpty ? coupon_controller.text : " ";
 
                               coupon_controller.clear();
 
-                              String check_coupon_response =
-                                  await check_if_coupon_is_valid(
+                              String check_coupon_response = await check_if_coupon_is_valid(
                                 coupon_id,
                                 context,
-                                widget.translation_text_list_array
-                                    .get(source_language_index)[6],
-                                widget.translation_text_list_array
-                                    .get(source_language_index)[7],
+                                widget.translation_text_list_array.get(source_language_index)[6],
+                                widget.translation_text_list_array.get(source_language_index)[7],
                               );
 
                               if (check_coupon_response.isNotEmpty) {
@@ -355,8 +344,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                             splash_color: widget.text_color.withOpacity(0.3),
                             child: Center(
                               child: Text(
-                                widget.translation_text_list_array
-                                    .get(source_language_index)[5],
+                                widget.translation_text_list_array.get(source_language_index)[5],
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: widget.background_color,
@@ -402,13 +390,11 @@ class _ProductCatalogState extends State<ProductCatalog> {
               itemBuilder: (context, index) {
                 return SizedBox(
                   height: double.maxFinite,
-                  width:
-                      portrait ? (screen_width * 0.85) : (screen_width / 3.75),
+                  width: portrait ? (screen_width * 0.85) : (screen_width / 3.75),
                   child: ProductCatalogItem(
                     title: widget.products[index].name,
                     price: widget.products[index].price.toString(),
-                    buy_text: widget.translation_text_list_array
-                        .get(source_language_index)[2],
+                    buy_text: widget.translation_text_list_array.get(source_language_index)[2],
                     icon: Icons.shutter_speed,
                     text_color: widget.text_color,
                     image_url: widget.products[index].image_src,
@@ -422,8 +408,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                       success_url: widget.success_url,
                       cancel_url: widget.cancel_url,
                     ),
-                    coming_soon_text: widget.translation_text_list_array
-                        .get(source_language_index)[3],
+                    coming_soon_text: widget.translation_text_list_array.get(source_language_index)[3],
                     button_color: widget.button_color,
                     use_iap: widget.use_iap,
                   ),
@@ -454,8 +439,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                     child: widget.language_picker_items_text_color != null
                         ? LanguagePicker(
                             translation_stream_list: translation_stream_list,
-                            language_picker_items_text_color:
-                                widget.language_picker_items_text_color!,
+                            language_picker_items_text_color: widget.language_picker_items_text_color!,
                             update_source_language: update_source_language,
                           )
                         : Container(),
@@ -475,8 +459,7 @@ Future<bool> check_if_product_was_acquired({
   required String user_id,
   required String product_id,
 }) async {
-  DocumentSnapshot user_snap =
-      await FirebaseFirestore.instance.collection("users").doc(user_id).get();
+  DocumentSnapshot user_snap = await FirebaseFirestore.instance.collection("users").doc(user_id).get();
   Map user_snap_data = user_snap.data()! as Map;
   List products_acquired = user_snap_data["products_acquired"] ?? [];
   return products_acquired.contains(product_id);

@@ -8,7 +8,8 @@ import 'package:xapptor_ui/widgets/custom_card.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class VendingMachineCard extends StatefulWidget {
-  const VendingMachineCard({super.key, 
+  const VendingMachineCard({
+    super.key,
     required this.vending_machine,
     required this.remove_vending_machine_callback,
     required this.owner_name,
@@ -25,7 +26,7 @@ class VendingMachineCard extends StatefulWidget {
   final Color topbar_color;
 
   @override
-  _VendingMachineCardState createState() => _VendingMachineCardState();
+  State<VendingMachineCard> createState() => _VendingMachineCardState();
 }
 
 class _VendingMachineCardState extends State<VendingMachineCard> {
@@ -143,9 +144,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                     width: 20,
                     margin: margin,
                     decoration: BoxDecoration(
-                      color: widget.vending_machine.enabled
-                          ? Colors.green
-                          : Colors.red,
+                      color: widget.vending_machine.enabled ? Colors.green : Colors.red,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -174,8 +173,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
     );
   }
 
-  show_delete_vending_machine_dialog(
-      BuildContext context, String vending_machine_id) async {
+  show_delete_vending_machine_dialog(BuildContext context, String vending_machine_id) async {
     double sized_box_height = 10;
     showDialog(
       context: context,

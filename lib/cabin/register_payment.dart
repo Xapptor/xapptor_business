@@ -28,11 +28,9 @@ register_payment({
   required List<Season> seasons,
   required bool show_older_reservations,
 }) async {
-  parent.current_reservation =
-      reservations.firstWhere((element) => element.id == reservation_id);
+  parent.current_reservation = reservations.firstWhere((element) => element.id == reservation_id);
 
-  Cabin current_cabin = cabins.firstWhere(
-      (element) => element.id == parent.current_reservation!.cabin_id);
+  Cabin current_cabin = cabins.firstWhere((element) => element.id == parent.current_reservation!.cabin_id);
 
   double screen_height = MediaQuery.of(context).size.height;
   double screen_width = MediaQuery.of(context).size.width;
@@ -47,9 +45,8 @@ register_payment({
     source_language: source_language,
   );
 
-  List<DateTime> current_range_of_dates = get_range_of_dates(
-      parent.current_reservation.date_init,
-      parent.current_reservation.date_end);
+  List<DateTime> current_range_of_dates =
+      get_range_of_dates(parent.current_reservation.date_init, parent.current_reservation.date_end);
 
   int total_to_pay = current_cabin.get_season_price(
           date_1: parent.current_reservation!.date_init,
@@ -94,8 +91,7 @@ register_payment({
                               ),
                             ),
                             SelectableText(
-                              "${label_date_formatter.format(
-                                      reservation_payments[index].date)} - \$${reservation_payments[index].amount}",
+                              "${label_date_formatter.format(reservation_payments[index].date)} - \$${reservation_payments[index].amount}",
                               maxLines: 2,
                               style: const TextStyle(
                                 fontSize: 13,
@@ -114,9 +110,8 @@ register_payment({
                                 .doc(reservation_payments[index].id)
                                 .delete();
 
-                            parent.current_reservation!.payments.removeWhere(
-                                (element) =>
-                                    element == reservation_payments[index].id);
+                            parent.current_reservation!.payments
+                                .removeWhere((element) => element == reservation_payments[index].id);
 
                             await FirebaseFirestore.instance
                                 .collection("reservations")
@@ -155,25 +150,20 @@ register_payment({
                             alignment: Alignment.centerRight,
                             margin: const EdgeInsets.only(top: 10),
                             child: Text(
-                              "${text_list[33]} \$${reservation_payments
-                                      .map((payment) => payment.amount)
-                                      .toList()
-                                      .reduce((a, b) => a + b)}/$total_to_pay",
+                              "${text_list[33]} \$${reservation_payments.map((payment) => payment.amount).toList().reduce((a, b) => a + b)}/$total_to_pay",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           )
                         : Container(),
-                    Container(
-                      child: TextField(
-                        controller: amount_input_controller,
-                        autofocus: true,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: text_list[32],
-                          hintText: text_list[32],
-                        ),
+                    TextField(
+                      controller: amount_input_controller,
+                      autofocus: true,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: text_list[32],
+                        hintText: text_list[32],
                       ),
                     ),
                   ],
@@ -195,26 +185,17 @@ register_payment({
             onPressed: () {
               if (amount_input_controller.text.isNotEmpty) {
                 if (int.tryParse(amount_input_controller.text) != null) {
-                  if (int.parse(amount_input_controller.text) <
-                      total_to_pay * 2) {
+                  if (int.parse(amount_input_controller.text) < total_to_pay * 2) {
                     Payment new_payment = Payment(
                       id: "",
                       amount: int.parse(amount_input_controller.text),
-                      date: show_older_reservations
-                          ? parent.current_reservation!.date_init
-                          : DateTime.now(),
+                      date: show_older_reservations ? parent.current_reservation!.date_init : DateTime.now(),
                       product_id: parent.current_reservation!.cabin_id,
                       user_id: user_id,
                     );
 
-                    FirebaseFirestore.instance
-                        .collection("payments")
-                        .add(new_payment.to_json())
-                        .then((payment) {
-                      FirebaseFirestore.instance
-                          .collection("reservations")
-                          .doc(parent.current_reservation!.id)
-                          .update({
+                    FirebaseFirestore.instance.collection("payments").add(new_payment.to_json()).then((payment) {
+                      FirebaseFirestore.instance.collection("reservations").doc(parent.current_reservation!.id).update({
                         "payments": FieldValue.arrayUnion([payment.id]),
                       }).then((reservation) {
                         String email_message =

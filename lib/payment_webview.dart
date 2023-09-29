@@ -4,14 +4,15 @@ import 'package:xapptor_ui/widgets/webview/webview.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class PaymentWebview extends StatefulWidget {
-  const PaymentWebview({super.key, 
+  const PaymentWebview({
+    super.key,
     required this.url_base,
   });
 
   final String url_base;
 
   @override
-  _PaymentWebviewState createState() => _PaymentWebviewState();
+  State<PaymentWebview> createState() => _PaymentWebviewState();
 }
 
 class _PaymentWebviewState extends State<PaymentWebview> {

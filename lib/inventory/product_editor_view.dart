@@ -10,7 +10,8 @@ import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 
 class ProductEditorView extends StatefulWidget {
-  const ProductEditorView({super.key, 
+  const ProductEditorView({
+    super.key,
     required this.category_id,
     required this.product,
     required this.is_a_product_category,
@@ -27,7 +28,7 @@ class ProductEditorView extends StatefulWidget {
   final List<String> confirmation_text_list;
 
   @override
-  _ProductEditorViewState createState() => _ProductEditorViewState();
+  State<ProductEditorView> createState() => _ProductEditorViewState();
 }
 
 class _ProductEditorViewState extends State<ProductEditorView> {
@@ -59,9 +60,8 @@ class _ProductEditorViewState extends State<ProductEditorView> {
     if (widget.product.image_src != '') use_image_url = true;
     price_input_controller.text = widget.product.price.toString();
     description_input_controller.text = widget.product.description;
-    quantity_input_controller.text = widget.product.inventory_quantity != -1
-        ? widget.product.inventory_quantity.toString()
-        : '0';
+    quantity_input_controller.text =
+        widget.product.inventory_quantity != -1 ? widget.product.inventory_quantity.toString() : '0';
     setState(() {});
   }
 
@@ -161,8 +161,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                           flex: 10,
                           child: ElevatedButton(
                             onPressed: () async {
-                              FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles();
+                              FilePickerResult? result = await FilePicker.platform.pickFiles();
                               if (result != null) {
                                 image_data = result.files.single.bytes!;
                                 image_name = result.files.single.name;
@@ -177,8 +176,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                               backgroundColor: MaterialStateProperty.all<Color>(
                                 widget.main_color,
                               ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                     MediaQuery.of(context).size.width,
@@ -220,9 +218,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                                       : Image.asset(
                                           image_input_controller.text,
                                           fit: BoxFit.fitWidth,
-                                          errorBuilder:
-                                              (context, error, stackTrace) =>
-                                                  Container(),
+                                          errorBuilder: (context, error, stackTrace) => Container(),
                                         )
                                   : Image.memory(
                                       image_data!,
@@ -278,9 +274,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                         type: FormFieldValidatorsType.name,
                       ).validate(),
                     ),
-                    is_admin &&
-                            widget.product.id != '' &&
-                            !widget.is_a_product_category
+                    is_admin && widget.product.id != '' && !widget.is_a_product_category
                         ? TextFormField(
                             style: TextStyle(
                               color: widget.main_color,
@@ -322,8 +316,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                           backgroundColor: MaterialStateProperty.all<Color>(
                             widget.main_color,
                           ),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                 MediaQuery.of(context).size.width,

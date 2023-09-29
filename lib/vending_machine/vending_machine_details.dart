@@ -11,7 +11,8 @@ import 'package:xapptor_ui/widgets/topbar.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class VendingMachineDetails extends StatefulWidget {
-  const VendingMachineDetails({super.key, 
+  const VendingMachineDetails({
+    super.key,
     required this.vending_machine,
     required this.topbar_color,
     required this.text_color,
@@ -24,7 +25,7 @@ class VendingMachineDetails extends StatefulWidget {
   final Color textfield_color;
 
   @override
-  _VendingMachineDetailsState createState() => _VendingMachineDetailsState();
+  State<VendingMachineDetails> createState() => _VendingMachineDetailsState();
 }
 
 class _VendingMachineDetailsState extends State<VendingMachineDetails> {
@@ -110,8 +111,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
   // Validating vending machine data.
 
   check_vending_machine_data() async {
-    if (_controller_name.text.isNotEmpty &&
-        _controller_user_id.text.isNotEmpty) {
+    if (_controller_name.text.isNotEmpty && _controller_user_id.text.isNotEmpty) {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(_controller_user_id.text)
@@ -120,10 +120,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
         var user_snapshot_data = user_snapshot.data();
         if (user_snapshot_data != null) {
           if (widget.vending_machine != null) {
-            FirebaseFirestore.instance
-                .collection("vending_machines")
-                .doc(widget.vending_machine!.id)
-                .update({
+            FirebaseFirestore.instance.collection("vending_machines").doc(widget.vending_machine!.id).update({
               "name": _controller_name.text,
               "user_id": _controller_user_id.text,
               "enabled": enabled,
@@ -133,13 +130,8 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
               Navigator.of(context).pop();
             });
           } else {
-            await FirebaseFirestore.instance
-                .collection("products")
-                .get()
-                .then((collection) async {
-              await FirebaseFirestore.instance
-                  .collection("vending_machines")
-                  .add({
+            await FirebaseFirestore.instance.collection("products").get().then((collection) async {
+              await FirebaseFirestore.instance.collection("vending_machines").add({
                 "name": _controller_name.text,
                 "enabled": false,
                 "money_change": 0,
@@ -267,9 +259,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              "CAMBIO \$${widget.vending_machine?.money_change
-                                          .toString() ??
-                                      "0"}",
+                              "CAMBIO \$${widget.vending_machine?.money_change.toString() ?? "0"}",
                               style: TextStyle(
                                 color: Colors.pink,
                                 fontSize: title_size,
@@ -285,15 +275,12 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                                 text: enabled ? "HABILITADO" : "DESHABILITADO",
                                 value: enabled,
                                 enabled: is_editing,
-                                active_track_color:
-                                    widget.text_color.withOpacity(0.5),
+                                active_track_color: widget.text_color.withOpacity(0.5),
                                 active_color: Colors.lightGreen,
-                                inactive_color:
-                                    !is_editing ? Colors.grey : Colors.red,
+                                inactive_color: !is_editing ? Colors.grey : Colors.red,
                                 background_color: widget.topbar_color,
                                 callback: switch_button_callback,
-                                border_radius:
-                                    MediaQuery.of(context).size.width,
+                                border_radius: MediaQuery.of(context).size.width,
                               ),
                             ),
                           ),
@@ -302,45 +289,39 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                             child: FractionallySizedBox(
                               heightFactor: 0.8,
                               widthFactor: 0.7,
-                              child: Container(
-                                child: CustomCard(
-                                  border_radius:
-                                      MediaQuery.of(context).size.width,
-                                  on_pressed: () {
-                                    add_new_app_screen(
-                                      AppScreen(
-                                        name:
-                                            "home/vending_machine_details/dispensers_list",
-                                        child: ProductList(
-                                          vending_machine_id:
-                                              widget.vending_machine!.id,
-                                          allow_edit: true,
-                                          has_topbar: true,
-                                          for_dispensers: true,
-                                          text_color: widget.text_color,
-                                          topbar_color: widget.topbar_color,
-                                          title_color: widget.textfield_color,
-                                        ),
+                              child: CustomCard(
+                                border_radius: MediaQuery.of(context).size.width,
+                                on_pressed: () {
+                                  add_new_app_screen(
+                                    AppScreen(
+                                      name: "home/vending_machine_details/dispensers_list",
+                                      child: ProductList(
+                                        vending_machine_id: widget.vending_machine!.id,
+                                        allow_edit: true,
+                                        has_topbar: true,
+                                        for_dispensers: true,
+                                        text_color: widget.text_color,
+                                        topbar_color: widget.topbar_color,
+                                        title_color: widget.textfield_color,
                                       ),
-                                    );
-                                    open_screen(
-                                        "home/vending_machine_details/dispensers_list");
-                                  },
-                                  linear_gradient: LinearGradient(
-                                    colors: [
-                                      widget.topbar_color.withOpacity(0.4),
-                                      widget.textfield_color.withOpacity(0.4),
-                                    ],
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      "DISPENSADORES",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    ),
+                                  );
+                                  open_screen("home/vending_machine_details/dispensers_list");
+                                },
+                                linear_gradient: LinearGradient(
+                                  colors: [
+                                    widget.topbar_color.withOpacity(0.4),
+                                    widget.textfield_color.withOpacity(0.4),
+                                  ],
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    "DISPENSADORES",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),

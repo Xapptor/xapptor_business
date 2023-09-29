@@ -10,7 +10,8 @@ import 'package:xapptor_ui/values/ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AdminAnalytics extends StatefulWidget {
-  const AdminAnalytics({super.key, 
+  const AdminAnalytics({
+    super.key,
     required this.screen_title,
     required this.text_color,
     required this.icon_color,
@@ -45,7 +46,7 @@ class AdminAnalytics extends StatefulWidget {
   final ChartType chart_type;
 
   @override
-  _AdminAnalyticsState createState() => _AdminAnalyticsState();
+  State<AdminAnalytics> createState() => _AdminAnalyticsState();
 }
 
 class _AdminAnalyticsState extends State<AdminAnalytics> {
@@ -61,8 +62,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
 
     if (widget.sum_of_payments.isNotEmpty) {
       List filtered_sum_of_payments = widget.sum_of_payments;
-      filtered_sum_of_payments
-          .sort((a, b) => a["amount"].compareTo(b["amount"]));
+      filtered_sum_of_payments.sort((a, b) => a["amount"].compareTo(b["amount"]));
       max_y = filtered_sum_of_payments.last["amount"] * 1.35;
     }
 
@@ -95,8 +95,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                   Expanded(
                     flex: 2,
                     child: IconButton(
-                      onPressed: () =>
-                          widget.download_analytics_callback(context),
+                      onPressed: () => widget.download_analytics_callback(context),
                       icon: Icon(
                         FontAwesomeIcons.download,
                         color: widget.icon_color,
@@ -111,9 +110,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
               ),
               Flex(
                 direction: portrait ? Axis.vertical : Axis.horizontal,
-                crossAxisAlignment: portrait
-                    ? CrossAxisAlignment.center
-                    : CrossAxisAlignment.start,
+                crossAxisAlignment: portrait ? CrossAxisAlignment.center : CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: (widget.analytics_segments.length + 1) * 70,
@@ -139,11 +136,8 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                                   height: 1,
                                   color: widget.text_color,
                                 ),
-                                onChanged: (new_value) =>
-                                    widget.update_timeframe_value(new_value!),
-                                items: widget.timeframe_values
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
+                                onChanged: (new_value) => widget.update_timeframe_value(new_value!),
+                                items: widget.timeframe_values.map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -155,8 +149,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                                   Icons.arrow_drop_down,
                                   color: widget.text_color,
                                 ),
-                                value: widget.analytics_segments[index - 1]
-                                    .product_value,
+                                value: widget.analytics_segments[index - 1].product_value,
                                 iconSize: 24,
                                 elevation: 16,
                                 isExpanded: true,
@@ -168,14 +161,11 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                                   color: widget.text_color,
                                 ),
                                 onChanged: (new_value) {
-                                  widget.analytics_segments[index - 1]
-                                      .update_product_value(new_value!);
+                                  widget.analytics_segments[index - 1].update_product_value(new_value!);
                                   widget.filter_payments();
                                 },
-                                items: widget
-                                    .analytics_segments[index - 1].products
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
+                                items: widget.analytics_segments[index - 1].products
+                                    .map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -204,8 +194,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
               ),
               SizedBox(
                 height: widget.analytics_segments.length > 1
-                    ? ((widget.analytics_segments.length *
-                        (screen_height * (portrait ? 1.3 : 0.9))))
+                    ? ((widget.analytics_segments.length * (screen_height * (portrait ? 1.3 : 0.9))))
                     : screen_height * (portrait ? 0.65 : 0.5),
                 child: ListView.builder(
                   itemCount: widget.analytics_segments.length,
@@ -230,17 +219,12 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                             height: sized_box_space,
                           ),
                           SizedBox(
-                            height: portrait
-                                ? (screen_width * 0.8)
-                                : (screen_height / 3),
+                            height: portrait ? (screen_width * 0.8) : (screen_height / 3),
                             child: payments_chart_by_parameter(
-                              payments:
-                                  payment_list_to_json_list(widget.payments),
+                              payments: payment_list_to_json_list(widget.payments),
                               filtered_payments: null,
-                              parameter: widget
-                                  .analytics_segments[index].chart_parameter,
-                              collection: widget
-                                  .analytics_segments[index].chart_collection,
+                              parameter: widget.analytics_segments[index].chart_parameter,
+                              collection: widget.analytics_segments[index].chart_collection,
                               same_background_color: true,
                               seed_colors: [
                                 widget.text_color,

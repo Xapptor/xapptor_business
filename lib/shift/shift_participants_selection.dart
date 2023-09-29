@@ -8,17 +8,16 @@ import 'package:xapptor_ui/widgets/is_portrait.dart';
 class ShiftParticipantsSelection extends StatefulWidget {
   final Color main_color;
 
-  const ShiftParticipantsSelection({super.key, 
+  const ShiftParticipantsSelection({
+    super.key,
     required this.main_color,
   });
 
   @override
-  _ShiftParticipantsSelectionState createState() =>
-      _ShiftParticipantsSelectionState();
+  State<ShiftParticipantsSelection> createState() => _ShiftParticipantsSelectionState();
 }
 
-class _ShiftParticipantsSelectionState
-    extends State<ShiftParticipantsSelection> {
+class _ShiftParticipantsSelectionState extends State<ShiftParticipantsSelection> {
   List<Shift> shifts = [];
   Map<int, Map<int, bool>> participants_selection_matrix = {};
 
@@ -80,10 +79,8 @@ class _ShiftParticipantsSelectionState
                             itemCount: shifts.length,
                             itemBuilder: (context, index) {
                               Shift shift = shifts[index];
-                              String start_time =
-                                  DateFormat.jm().format(shift.start);
-                              String end_time =
-                                  DateFormat.jm().format(shift.end);
+                              String start_time = DateFormat.jm().format(shift.start);
+                              String end_time = DateFormat.jm().format(shift.end);
                               String shift_time = '$start_time - $end_time';
 
                               return ExpansionTile(
@@ -103,8 +100,7 @@ class _ShiftParticipantsSelectionState
                                     itemCount: shift.participants.length,
                                     itemBuilder: (context, participant_index) {
                                       return ShiftParticipantTile(
-                                        shift_participant: shift
-                                            .participants[participant_index],
+                                        shift_participant: shift.participants[participant_index],
                                         shift_index: index,
                                         participant_index: participant_index,
                                         on_changed: ({
@@ -155,8 +151,7 @@ class _ShiftParticipantsSelectionState
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirmation'),
-          content: const Text(
-              'Are you sure you want to confirm the participant selection?'),
+          content: const Text('Are you sure you want to confirm the participant selection?'),
           actions: <Widget>[
             TextButton(
               child: const Text('Cancel'),
@@ -168,7 +163,7 @@ class _ShiftParticipantsSelectionState
               child: const Text('Confirm'),
               onPressed: () {
                 participants_selection_matrix.forEach((key, value) {
-                  print('Shift $key - participants: $value');
+                  debugPrint('Shift $key - participants: $value');
                 });
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
@@ -192,7 +187,8 @@ class ShiftParticipantTile extends StatefulWidget {
     required bool update_state,
   }) on_changed;
 
-  const ShiftParticipantTile({super.key, 
+  const ShiftParticipantTile({
+    super.key,
     required this.shift_participant,
     required this.shift_index,
     required this.participant_index,
@@ -200,7 +196,7 @@ class ShiftParticipantTile extends StatefulWidget {
   });
 
   @override
-  _ShiftParticipantTileState createState() => _ShiftParticipantTileState();
+  State<ShiftParticipantTile> createState() => _ShiftParticipantTileState();
 }
 
 class _ShiftParticipantTileState extends State<ShiftParticipantTile> {

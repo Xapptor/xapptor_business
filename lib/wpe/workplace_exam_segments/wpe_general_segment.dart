@@ -7,7 +7,8 @@ class WpeGeneralSegment extends StatefulWidget {
   final ValueNotifier<String> area;
   final ValueNotifier<TextEditingController> specific_area_controller;
 
-  const WpeGeneralSegment({super.key, 
+  const WpeGeneralSegment({
+    super.key,
     required this.main_button,
     required this.main_color,
     required this.shift,
@@ -15,7 +16,7 @@ class WpeGeneralSegment extends StatefulWidget {
     required this.specific_area_controller,
   });
   @override
-  _WpeGeneralSegmentState createState() => _WpeGeneralSegmentState();
+  State<WpeGeneralSegment> createState() => _WpeGeneralSegmentState();
 }
 
 class _WpeGeneralSegmentState extends State<WpeGeneralSegment> {

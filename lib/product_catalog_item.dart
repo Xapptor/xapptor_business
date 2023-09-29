@@ -17,7 +17,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:in_app_purchase_ios/store_kit_wrappers.dart';
 
 class ProductCatalogItem extends StatefulWidget {
-  const ProductCatalogItem({super.key, 
+  const ProductCatalogItem({
+    super.key,
     required this.title,
     required this.price,
     required this.buy_text,
@@ -46,7 +47,7 @@ class ProductCatalogItem extends StatefulWidget {
   final bool use_iap;
 
   @override
-  _ProductCatalogItemState createState() => _ProductCatalogItemState();
+  State<ProductCatalogItem> createState() => _ProductCatalogItemState();
 }
 
 class _ProductCatalogItemState extends State<ProductCatalogItem> {
@@ -182,11 +183,11 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
   // In App Purchase.
 
   call_iap() async {
-    final ProductDetailsResponse response = await InAppPurchase.instance
-        .queryProductDetails({widget.stripe_payment.product_id});
+    final ProductDetailsResponse response =
+        await InAppPurchase.instance.queryProductDetails({widget.stripe_payment.product_id});
 
     if (response.notFoundIDs.isNotEmpty) {
-      print("Not Found IDs");
+      debugPrint("Not Found IDs");
     } else {
       var transactions = await SKPaymentQueueWrapper().transactions();
       for (var skPaymentTransactionWrapper in transactions) {
@@ -195,8 +196,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
 
       List<ProductDetails> productDetails = response.productDetails;
 
-      final PurchaseParam purchaseParam =
-          PurchaseParam(productDetails: productDetails[0]);
+      final PurchaseParam purchaseParam = PurchaseParam(productDetails: productDetails[0]);
       InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
     }
   }
@@ -208,15 +208,11 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
       if (widget.stripe_payment.user_id.isEmpty) {
         open_screen("login");
       } else {
-        var payments_doc = await FirebaseFirestore.instance
-            .collection("metadata")
-            .doc("payments")
-            .get();
+        var payments_doc = await FirebaseFirestore.instance.collection("metadata").doc("payments").get();
 
         Map payments_doc_data = payments_doc.data()!;
 
-        String str_k = payments_doc_data["stripe"]
-            [current_build_mode == BuildMode.release ? "sct" : "sct_test"];
+        String str_k = payments_doc_data["stripe"][current_build_mode == BuildMode.release ? "sct" : "sct_test"];
 
         if (d_m_f_bu != null) {
           str_k = d_m_f_bu!(
@@ -251,8 +247,8 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
           String url = body["url"];
 
           if (UniversalPlatform.isWeb) {
-            await launch(
-              url,
+            await launchUrl(
+              Uri.parse(url),
               webOnlyWindowName: "_self",
             );
           } else {

@@ -11,7 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 
 class CabinsAnalytics extends StatefulWidget {
-  const CabinsAnalytics({super.key, 
+  const CabinsAnalytics({
+    super.key,
     required this.screen_title,
     required this.text_color,
     required this.icon_color,
@@ -38,7 +39,7 @@ class CabinsAnalytics extends StatefulWidget {
   final ChartType chart_type;
 
   @override
-  _CabinsAnalyticsState createState() => _CabinsAnalyticsState();
+  State<CabinsAnalytics> createState() => _CabinsAnalyticsState();
 }
 
 class _CabinsAnalyticsState extends State<CabinsAnalytics> {
@@ -75,10 +76,7 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
 
     user_id = FirebaseAuth.instance.currentUser!.uid;
 
-    await FirebaseFirestore.instance
-        .collection('cabins')
-        .get()
-        .then((QuerySnapshot query_snapshot) {
+    await FirebaseFirestore.instance.collection('cabins').get().then((QuerySnapshot query_snapshot) {
       for (var doc in query_snapshot.docs) {
         cabins.add(
           Cabin.from_snapshot(
@@ -88,11 +86,9 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
         );
       }
 
-      cabins.sort((cabin_a, cabin_b) =>
-          int.parse(cabin_a.id).compareTo(int.parse(cabin_b.id)));
+      cabins.sort((cabin_a, cabin_b) => int.parse(cabin_a.id).compareTo(int.parse(cabin_b.id)));
 
-      cabin_values =
-          [widget.cabin_value] + cabins.map((cabin) => cabin.id).toList();
+      cabin_values = [widget.cabin_value] + cabins.map((cabin) => cabin.id).toList();
 
       cabin_value = cabin_values.first;
       get_payments();
@@ -150,9 +146,7 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
     if (cabin_values.indexOf(cabin_value) != 0) {
       filtered_payments = filtered_payments
           .where(
-            (payment) =>
-                payment.product_id ==
-                cabins.firstWhere((cabin) => cabin.id == cabin_value).id,
+            (payment) => payment.product_id == cabins.firstWhere((cabin) => cabin.id == cabin_value).id,
           )
           .toList();
     }
@@ -213,8 +207,7 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
         }
         get_filtered_payments();
       },
-      download_analytics_callback: (BuildContext context) =>
-          download_cabins_analytics_excel_file(
+      download_analytics_callback: (BuildContext context) => download_cabins_analytics_excel_file(
         context: context,
         titles: widget.download_analytics_titles,
         filtered_payments: filtered_payments,

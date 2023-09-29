@@ -12,7 +12,8 @@ import 'package:xapptor_business/vending_machine/download_vending_machines_analy
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 
 class VendingMachinesAnalytics extends StatefulWidget {
-  const VendingMachinesAnalytics({super.key, 
+  const VendingMachinesAnalytics({
+    super.key,
     required this.screen_title,
     required this.text_color,
     required this.icon_color,
@@ -43,8 +44,7 @@ class VendingMachinesAnalytics extends StatefulWidget {
   final ChartType chart_type;
 
   @override
-  _VendingMachinesAnalyticsState createState() =>
-      _VendingMachinesAnalyticsState();
+  State<VendingMachinesAnalytics> createState() => _VendingMachinesAnalyticsState();
 }
 
 class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
@@ -122,10 +122,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
 
     product_values.add(widget.product_value);
 
-    await FirebaseFirestore.instance
-        .collection("products")
-        .get()
-        .then((snapshot_products) {
+    await FirebaseFirestore.instance.collection("products").get().then((snapshot_products) {
       for (var snapshot_product in snapshot_products.docs) {
         products.add(
           Product.from_snapshot(
@@ -189,19 +186,15 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           .where(
             (payment) =>
                 payment.vending_machine_id ==
-                vending_machines
-                    .firstWhere((vending_machine) =>
-                        vending_machine.name == vending_machine_value)
-                    .id,
+                vending_machines.firstWhere((vending_machine) => vending_machine.name == vending_machine_value).id,
           )
           .toList();
     }
 
     if (widget.dispenser_values.indexOf(dispenser_value) != 0) {
       filtered_payments = filtered_payments.where((payment) {
-        int dispenser_value_number = dispenser_value.characters.last == "0"
-            ? 9
-            : (int.parse(dispenser_value.characters.last) - 1);
+        int dispenser_value_number =
+            dispenser_value.characters.last == "0" ? 9 : (int.parse(dispenser_value.characters.last) - 1);
         return payment.dispenser == dispenser_value_number;
       }).toList();
     }
@@ -209,11 +202,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
     if (product_values.indexOf(product_value) != 0) {
       filtered_payments = filtered_payments
           .where(
-            (payment) =>
-                payment.product_id ==
-                products
-                    .firstWhere((product) => product.name == product_value)
-                    .id,
+            (payment) => payment.product_id == products.firstWhere((product) => product.name == product_value).id,
           )
           .toList();
     }
@@ -297,8 +286,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
         get_filtered_payments();
         setState(() {});
       },
-      download_analytics_callback: (BuildContext context) =>
-          download_vending_machines_analytics_excel_file(
+      download_analytics_callback: (BuildContext context) => download_vending_machines_analytics_excel_file(
         context: context,
         titles: widget.download_analytics_titles,
         filtered_payments: filtered_payments,

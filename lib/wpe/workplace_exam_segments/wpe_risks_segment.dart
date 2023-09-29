@@ -10,7 +10,8 @@ class WpeRisksSegment extends StatefulWidget {
   final ValueNotifier<String> work_enviroment_conditions;
   final ValueNotifier<String> fall;
 
-  const WpeRisksSegment({super.key, 
+  const WpeRisksSegment({
+    super.key,
     required this.main_button,
     required this.main_color,
     required this.lototo,
@@ -21,7 +22,7 @@ class WpeRisksSegment extends StatefulWidget {
     required this.fall,
   });
   @override
-  _WpeRisksSegmentState createState() => _WpeRisksSegmentState();
+  State<WpeRisksSegment> createState() => _WpeRisksSegmentState();
 }
 
 class _WpeRisksSegmentState extends State<WpeRisksSegment> {
@@ -163,8 +164,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
                 widget.hit_or_caught.value = new_value!;
               });
             },
-            items: hit_or_caught_list
-                .map<DropdownMenuItem<String>>((String value) {
+            items: hit_or_caught_list.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -248,8 +248,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
                 widget.work_enviroment_conditions.value = new_value!;
               });
             },
-            items: work_enviroment_conditions_list
-                .map<DropdownMenuItem<String>>((String value) {
+            items: work_enviroment_conditions_list.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),

@@ -15,23 +15,22 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class WorkplaceExamView extends StatefulWidget {
   final Color main_color;
 
-  const WorkplaceExamView({super.key, 
+  const WorkplaceExamView({
+    super.key,
     required this.main_color,
   });
   @override
-  _WorkplaceExamViewState createState() => _WorkplaceExamViewState();
+  State<WorkplaceExamView> createState() => _WorkplaceExamViewState();
 }
 
 class _WorkplaceExamViewState extends State<WorkplaceExamView> {
-  ValueNotifier<WorkplaceExam> workplace_exam =
-      ValueNotifier(WorkplaceExam.empty());
+  ValueNotifier<WorkplaceExam> workplace_exam = ValueNotifier(WorkplaceExam.empty());
   ValueNotifier<int> current_step = ValueNotifier(0);
 
   // General Segment
   ValueNotifier<String> shift = ValueNotifier('First');
   ValueNotifier<String> area = ValueNotifier('Quarry or Mine');
-  ValueNotifier<TextEditingController> specific_area_controller =
-      ValueNotifier(TextEditingController());
+  ValueNotifier<TextEditingController> specific_area_controller = ValueNotifier(TextEditingController());
 
   // Risk Segment
   ValueNotifier<String> lototo = ValueNotifier('None');
@@ -42,8 +41,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
   ValueNotifier<String> fall = ValueNotifier('None');
 
   // Description Segment
-  ValueNotifier<TextEditingController> potential_risk_description_controller =
-      ValueNotifier(TextEditingController());
+  ValueNotifier<TextEditingController> potential_risk_description_controller = ValueNotifier(TextEditingController());
 
   // Correctives Segment
   ValueNotifier<bool> eliminated = ValueNotifier(false);
@@ -86,8 +84,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
       WpeDescriptionSegment(
         main_button: main_button(),
         main_color: widget.main_color,
-        potential_risk_description_controller:
-            potential_risk_description_controller,
+        potential_risk_description_controller: potential_risk_description_controller,
       ),
       WpeCorrectivesSegment(
         main_button: main_button(),
@@ -150,9 +147,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
           ),
         );
       }
-    } else if (current_step.value == 2 ||
-        current_step.value == 3 ||
-        current_step.value == 5) {
+    } else if (current_step.value == 2 || current_step.value == 3 || current_step.value == 5) {
       set_wpe_values(finish_wpe: !any_risk_identified.value);
     } else if (current_step.value == 4) {
       if (any_risk_identified.value) {
@@ -213,8 +208,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
       health.value,
     );
 
-    workplace_exam.value.work_enviroment_conditions =
-        get_most_similar_enum_value(
+    workplace_exam.value.work_enviroment_conditions = get_most_similar_enum_value(
       WorkEnviromentConditions.values,
       work_enviroment_conditions.value,
     );
@@ -224,8 +218,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
       fall.value,
     );
 
-    workplace_exam.value.potential_risk_description =
-        potential_risk_description_controller.value.text;
+    workplace_exam.value.potential_risk_description = potential_risk_description_controller.value.text;
 
     workplace_exam.value.eliminated = eliminated.value;
     workplace_exam.value.reduced = reduced.value;
@@ -239,8 +232,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
   save_in_firebase({
     bool finish_wpe = false,
   }) async {
-    CollectionReference wpes_ref =
-        FirebaseFirestore.instance.collection('wpes');
+    CollectionReference wpes_ref = FirebaseFirestore.instance.collection('wpes');
     late DocumentReference doc_ref;
     if (workplace_exam.value.id != '') {
       doc_ref = wpes_ref.doc(workplace_exam.value.id);
@@ -248,7 +240,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
       doc_ref = wpes_ref.doc();
     }
 
-    //print(workplace_exam.value.to_json());
+    //debugPrint(workplace_exam.value.to_json());
 
     if (finish_wpe) {
       finish_wpe_alert();
@@ -348,8 +340,7 @@ String keep_only_alphabetic_chars(String input) {
   String result = '';
   for (int i = 0; i < input.length; i++) {
     String char = input[i];
-    if (char.codeUnitAt(0) >= 65 && char.codeUnitAt(0) <= 90 ||
-        char.codeUnitAt(0) >= 97 && char.codeUnitAt(0) <= 122) {
+    if (char.codeUnitAt(0) >= 65 && char.codeUnitAt(0) <= 90 || char.codeUnitAt(0) >= 97 && char.codeUnitAt(0) <= 122) {
       result += char;
     }
   }
@@ -372,10 +363,8 @@ Map<String, int> count_alphabet_chars(String input) {
 get_most_similar_enum_value(List enum_values, String input) {
   String input_only_alphabet = keep_only_alphabetic_chars(input.toLowerCase());
 
-  List<String> enum_string_values = enum_values
-      .map((e) => keep_only_alphabetic_chars(
-          e.toString().split('.').last.toLowerCase()))
-      .toList();
+  List<String> enum_string_values =
+      enum_values.map((e) => keep_only_alphabetic_chars(e.toString().split('.').last.toLowerCase())).toList();
 
   var enum_index = 0;
   enum_string_values.asMap().forEach((index, element) {
