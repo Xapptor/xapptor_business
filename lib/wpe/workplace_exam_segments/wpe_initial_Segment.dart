@@ -4,7 +4,7 @@ class WpeInitialSegment extends StatefulWidget {
   final Widget main_button;
   final Color main_color;
 
-  WpeInitialSegment({
+  const WpeInitialSegment({super.key, 
     required this.main_button,
     required this.main_color,
   });
@@ -22,7 +22,7 @@ class _WpeInitialSegmentState extends State<WpeInitialSegment> {
         children: [
           Container(
             margin: const EdgeInsets.all(20),
-            child: Text(
+            child: const Text(
               'Complete the Workplace Exam',
               style: TextStyle(
                 fontSize: 20,

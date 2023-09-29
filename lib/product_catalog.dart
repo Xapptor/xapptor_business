@@ -19,7 +19,7 @@ import 'product_catalog_item.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 
 class ProductCatalog extends StatefulWidget {
-  ProductCatalog({
+  ProductCatalog({super.key, 
     this.topbar_color,
     this.language_picker_items_text_color,
     required this.products,
@@ -216,7 +216,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
         content: Text(
           custom_message ??
               (purchase_success ? "Purchase Successful" : "Purchase Failed"),
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
@@ -239,7 +239,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       ),
     );
 
-    Timer(Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 3), () {
       ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
     });
   }
@@ -297,24 +297,24 @@ class _ProductCatalogState extends State<ProductCatalog> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextField(
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                           decoration: InputDecoration(
                             labelText: widget.translation_text_list_array
                                 .get(source_language_index)[4],
-                            labelStyle: TextStyle(
+                            labelStyle: const TextStyle(
                               color: Colors.white,
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(1000),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.white,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(1000),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.white,
                               ),
                             ),
@@ -324,7 +324,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                         SizedBox(
                           height: sized_box_space,
                         ),
-                        Container(
+                        SizedBox(
                           height: 50,
                           child: CustomCard(
                             on_pressed: () async {
@@ -371,7 +371,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                 )
               : FractionallySizedBox(
                   widthFactor: portrait ? 0.8 : 0.2,
-                  child: Container(
+                  child: SizedBox(
                     height: 50,
                     child: CustomCard(
                       on_pressed: () async {
@@ -400,7 +400,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
               shrinkWrap: true,
               scrollDirection: portrait ? Axis.horizontal : Axis.horizontal,
               itemBuilder: (context, index) {
-                return Container(
+                return SizedBox(
                   height: double.maxFinite,
                   width:
                       portrait ? (screen_width * 0.85) : (screen_width / 3.75),
@@ -431,7 +431,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
               },
             ),
           ),
-          portrait ? Container() : Spacer(flex: 2),
+          portrait ? Container() : const Spacer(flex: 2),
         ],
       ),
     );
@@ -449,7 +449,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                 has_back_button: true,
                 actions: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(right: 20),
+                    margin: const EdgeInsets.only(right: 20),
                     width: 150,
                     child: widget.language_picker_items_text_color != null
                         ? LanguagePicker(

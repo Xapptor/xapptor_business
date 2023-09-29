@@ -5,6 +5,8 @@ import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class WpeList extends StatefulWidget {
+  const WpeList({super.key});
+
   @override
   _WpeListState createState() => _WpeListState();
 }
@@ -33,10 +35,10 @@ class _WpeListState extends State<WpeList> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        child: wpes.length == 0
-            ? CircularProgressIndicator()
+        child: wpes.isEmpty
+            ? const CircularProgressIndicator()
             : SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   width: width,
                   child: FractionallySizedBox(
                     widthFactor: portrait ? 0.9 : 0.4,
@@ -47,7 +49,7 @@ class _WpeListState extends State<WpeList> {
                             top: sized_box_space * 4,
                             bottom: sized_box_space * 2,
                           ),
-                          child: Text(
+                          child: const Text(
                             'Workplace Exam History',
                             style: TextStyle(
                               fontSize: 20,
@@ -119,7 +121,7 @@ class _WpeListState extends State<WpeList> {
 class WpeTile extends StatefulWidget {
   final WorkplaceExam wpe;
 
-  const WpeTile({
+  const WpeTile({super.key, 
     required this.wpe,
   });
 
@@ -138,14 +140,14 @@ class _WpeTileState extends State<WpeTile> {
 
   get_user_info() async {
     XapptorUser user = await get_xapptor_user(id: widget.wpe.user_id);
-    user_name = user.firstname + ' ' + user.lastname;
+    user_name = '${user.firstname} ${user.lastname}';
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     String title =
-        'Competent Person: ' + user_name + '\nWPE ID: ' + widget.wpe.id;
+        'Competent Person: $user_name\nWPE ID: ${widget.wpe.id}';
 
     return ListTile(
       title: Text(

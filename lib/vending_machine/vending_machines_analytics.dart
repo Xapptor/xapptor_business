@@ -12,7 +12,7 @@ import 'package:xapptor_business/vending_machine/download_vending_machines_analy
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 
 class VendingMachinesAnalytics extends StatefulWidget {
-  const VendingMachinesAnalytics({
+  const VendingMachinesAnalytics({super.key, 
     required this.screen_title,
     required this.text_color,
     required this.icon_color,
@@ -100,7 +100,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
         )
         .get()
         .then((QuerySnapshot query_snapshot) {
-      query_snapshot.docs.forEach((DocumentSnapshot doc) {
+      for (var doc in query_snapshot.docs) {
         vending_machines.add(
           VendingMachine.from_snapshot(
             doc.id,
@@ -108,7 +108,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           ),
         );
         vending_machine_values.add(vending_machines.last.name);
-      });
+      }
       vending_machine_value = vending_machine_values.first;
       get_products();
     });
@@ -152,14 +152,14 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           )
           .get()
           .then((QuerySnapshot query_snapshot) {
-        query_snapshot.docs.forEach((DocumentSnapshot doc) {
+        for (var doc in query_snapshot.docs) {
           payments.add(
             PaymentVendingMachine.from_snapshot(
               doc.id,
               doc.data() as Map<String, dynamic>,
             ),
           );
-        });
+        }
         if (vending_machine == vending_machines.last) {
           get_filtered_payments();
         }
@@ -197,15 +197,16 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
           .toList();
     }
 
-    if (widget.dispenser_values.indexOf(dispenser_value) != 0)
+    if (widget.dispenser_values.indexOf(dispenser_value) != 0) {
       filtered_payments = filtered_payments.where((payment) {
         int dispenser_value_number = dispenser_value.characters.last == "0"
             ? 9
             : (int.parse(dispenser_value.characters.last) - 1);
         return payment.dispenser == dispenser_value_number;
       }).toList();
+    }
 
-    if (product_values.indexOf(product_value) != 0)
+    if (product_values.indexOf(product_value) != 0) {
       filtered_payments = filtered_payments
           .where(
             (payment) =>
@@ -215,6 +216,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
                     .id,
           )
           .toList();
+    }
 
     filtered_payments.sort((a, b) => a.date.compareTo(b.date));
 

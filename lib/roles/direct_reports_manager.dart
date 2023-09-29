@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DirectReportsManager extends StatefulWidget {
   final String base_path;
 
-  DirectReportsManager({
+  const DirectReportsManager({super.key, 
     required this.base_path,
   });
   @override

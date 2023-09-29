@@ -8,7 +8,7 @@ import 'package:xapptor_ui/widgets/is_portrait.dart';
 class ShiftParticipantsSelection extends StatefulWidget {
   final Color main_color;
 
-  const ShiftParticipantsSelection({
+  const ShiftParticipantsSelection({super.key, 
     required this.main_color,
   });
 
@@ -49,10 +49,10 @@ class _ShiftParticipantsSelectionState
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        child: shifts.length == 0
-            ? CircularProgressIndicator()
+        child: shifts.isEmpty
+            ? const CircularProgressIndicator()
             : SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   width: width,
                   child: FractionallySizedBox(
                     widthFactor: portrait ? 0.9 : 0.4,
@@ -63,7 +63,7 @@ class _ShiftParticipantsSelectionState
                             top: sized_box_space * 4,
                             bottom: sized_box_space * 2,
                           ),
-                          child: Text(
+                          child: const Text(
                             'Shift Participants Selection',
                             style: TextStyle(
                               fontSize: 20,
@@ -84,18 +84,18 @@ class _ShiftParticipantsSelectionState
                                   DateFormat.jm().format(shift.start);
                               String end_time =
                                   DateFormat.jm().format(shift.end);
-                              String shift_time = start_time + ' - ' + end_time;
+                              String shift_time = '$start_time - $end_time';
 
                               return ExpansionTile(
                                 initiallyExpanded: true,
                                 title: Text(
                                   shift.name,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 subtitle: Text(
-                                  'Available ${shift.participants.length} participants\n${shift_time}',
+                                  'Available ${shift.participants.length} participants\n$shift_time',
                                 ),
                                 children: <Widget>[
                                   ListView.builder(
@@ -137,7 +137,7 @@ class _ShiftParticipantsSelectionState
                             onPressed: () {
                               show_confirmation_alert();
                             },
-                            child: Text('Confirm'),
+                            child: const Text('Confirm'),
                           ),
                         ),
                       ],
@@ -154,18 +154,18 @@ class _ShiftParticipantsSelectionState
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmation'),
-          content: Text(
+          title: const Text('Confirmation'),
+          content: const Text(
               'Are you sure you want to confirm the participant selection?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Confirm'),
+              child: const Text('Confirm'),
               onPressed: () {
                 participants_selection_matrix.forEach((key, value) {
                   print('Shift $key - participants: $value');
@@ -192,7 +192,7 @@ class ShiftParticipantTile extends StatefulWidget {
     required bool update_state,
   }) on_changed;
 
-  const ShiftParticipantTile({
+  const ShiftParticipantTile({super.key, 
     required this.shift_participant,
     required this.shift_index,
     required this.participant_index,

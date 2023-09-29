@@ -5,9 +5,9 @@ Future<List<Cabin>> get_cabins() async {
   List<Cabin> cabins = [];
   var cabins_snap = await FirebaseFirestore.instance.collection("cabins").get();
 
-  cabins_snap.docs.forEach((snap) {
+  for (var snap in cabins_snap.docs) {
     cabins
-        .add(Cabin.from_snapshot(snap.id, snap.data() as Map<String, dynamic>));
-  });
+        .add(Cabin.from_snapshot(snap.id, snap.data()));
+  }
   return cabins;
 }

@@ -19,7 +19,7 @@ class WPEDashboard extends StatefulWidget {
   final String logo_path;
   final List<Color> background_colors;
 
-  WPEDashboard({
+  const WPEDashboard({super.key, 
     required this.base_path,
     required this.main_color,
     required this.logo_path,
@@ -57,11 +57,11 @@ class _WPEDashboardState extends State<WPEDashboard> {
     if (user.roles.isNotEmpty) {
       bool is_supervisor = false;
 
-      user.roles.forEach((element) {
+      for (var element in user.roles) {
         if (element.value == "supervisor") {
           is_supervisor = true;
         }
-      });
+      }
 
       if (is_supervisor) {
         supervisor = Supervisor.from_snapshot(user.id, user_data);
@@ -100,7 +100,7 @@ class _WPEDashboardState extends State<WPEDashboard> {
     await add_new_app_screen(
       AppScreen(
         name: "${widget.base_path}/workplace_exam_list",
-        child: WpeList(),
+        child: const WpeList(),
       ),
     );
     open_screen("${widget.base_path}/workplace_exam_list");
@@ -110,7 +110,7 @@ class _WPEDashboardState extends State<WPEDashboard> {
     await add_new_app_screen(
       AppScreen(
         name: "${widget.base_path}/analytics",
-        child: WpeList(),
+        child: const WpeList(),
       ),
     );
     open_screen("${widget.base_path}/analytics");
@@ -123,12 +123,12 @@ class _WPEDashboardState extends State<WPEDashboard> {
         onPressed: () {
           open_workplace_exam();
         },
-        child: Icon(
+        tooltip: 'Add Workplace Exam',
+        backgroundColor: widget.background_colors[1],
+        child: const Icon(
           FontAwesomeIcons.clipboardList,
           color: Colors.white,
         ),
-        tooltip: 'Add Workplace Exam',
-        backgroundColor: widget.background_colors[1],
       ),
       topbar_color: widget.main_color,
       products_collection_name: "",
@@ -181,17 +181,17 @@ class _WPEDashboardState extends State<WPEDashboard> {
           is_focused: false,
         ),
       ].whereType<CardHolder>().toList(),
-      cardholder_list_2: [],
+      cardholder_list_2: const [],
       dot_colors_active_1: [
         widget.background_colors[0],
         widget.background_colors[1],
       ],
-      dot_colors_active_2: [],
+      dot_colors_active_2: const [],
       dot_color_inactive_1: Colors.blueGrey,
       dot_color_inactive_2: Colors.blueGrey,
-      tile_list: [],
+      tile_list: const [],
       text_list_menu: text_list_menu,
-      tooltip_list: [],
+      tooltip_list: const [],
       has_language_picker: false,
       base_url: '',
       logo_path: widget.logo_path,

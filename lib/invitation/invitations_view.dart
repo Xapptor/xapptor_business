@@ -4,7 +4,7 @@ class InvitationsView extends StatefulWidget {
   final String base_path;
   final Color main_color;
 
-  InvitationsView({
+  const InvitationsView({super.key, 
     required this.base_path,
     required this.main_color,
   });
@@ -23,7 +23,7 @@ class _InvitationsViewState extends State<InvitationsView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.main_color,
-        title: Text('Invitations View'),
+        title: const Text('Invitations View'),
       ),
       body: Container(),
     );

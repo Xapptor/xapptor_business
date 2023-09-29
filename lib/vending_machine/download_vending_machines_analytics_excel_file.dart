@@ -17,11 +17,11 @@ download_vending_machines_analytics_excel_file({
 }) async {
   SnackBar snackBar = SnackBar(
     content: Text(loading_message),
-    duration: Duration(seconds: 2),
+    duration: const Duration(seconds: 2),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-  final xlsio.Workbook workbook = new xlsio.Workbook();
+  final xlsio.Workbook workbook = xlsio.Workbook();
   final xlsio.Worksheet sheet = workbook.worksheets[0];
 
   for (var i = 0; i < titles.length; i++) {
@@ -84,7 +84,7 @@ download_vending_machines_analytics_excel_file({
     sheet.autoFitColumn(i + 1);
   }
 
-  String file_name = base_file_name + DateTime.now().toString() + ".xlsx";
+  String file_name = "$base_file_name${DateTime.now()}.xlsx";
   file_name = file_name
       .replaceAll(":", "_")
       .replaceAll("-", "_")

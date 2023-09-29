@@ -34,9 +34,9 @@ class VendingMachine {
   Map<String, dynamic> to_json() {
     List<Map<String, dynamic>> map_dispenser_list = [];
 
-    dispensers.forEach((Dispenser dispenser) {
+    for (var dispenser in dispensers) {
       map_dispenser_list.add(dispenser.to_json());
-    });
+    }
 
     return {
       'admin': user_id,
@@ -52,9 +52,9 @@ List<Map<String, dynamic>> vending_machine_list_to_json_list(
     List<VendingMachine> vending_machines) {
   List<Map<String, dynamic>> json_list = [];
 
-  vending_machines.forEach((product) {
+  for (var product in vending_machines) {
     json_list.add(product.to_json());
-  });
+  }
 
   return json_list;
 }

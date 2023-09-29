@@ -15,7 +15,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class WorkplaceExamView extends StatefulWidget {
   final Color main_color;
 
-  WorkplaceExamView({
+  const WorkplaceExamView({super.key, 
     required this.main_color,
   });
   @override
@@ -131,7 +131,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
         setState(() {});
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text(
               'Please sign in',
             ),
@@ -143,7 +143,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
         set_wpe_values();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text(
               'Please describe the specific area',
             ),
@@ -160,7 +160,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
           set_wpe_values();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text(
                 'Please describe the potential risk',
               ),
@@ -278,7 +278,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
 
   finish_wpe_alert() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         duration: Duration(seconds: 2),
         backgroundColor: Colors.green,
         content: Text(
@@ -300,7 +300,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
     double screen_width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: screen_height,
         width: screen_width,
         child: Column(
@@ -334,7 +334,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
             Expanded(
               flex: 1,
               child: Text(
-                'Step ${current_step.value + 1} of ${segment_length}',
+                'Step ${current_step.value + 1} of $segment_length',
               ),
             ),
           ],

@@ -62,7 +62,7 @@ register_payment({
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(text_list[31]),
-        content: Container(
+        content: SizedBox(
           height: screen_height * 0.38,
           width: screen_width * (portrait ? 0.8 : 0.3),
           child: ListView.builder(
@@ -88,18 +88,16 @@ register_payment({
                             SelectableText(
                               "ID: (${reservation_payments[index].id})",
                               maxLines: 2,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             SelectableText(
-                              label_date_formatter.format(
-                                      reservation_payments[index].date) +
-                                  " - \$" +
-                                  reservation_payments[index].amount.toString(),
+                              "${label_date_formatter.format(
+                                      reservation_payments[index].date)} - \$${reservation_payments[index].amount}",
                               maxLines: 2,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -128,19 +126,19 @@ register_payment({
                             });
 
                             String email_message =
-                                "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
+                                "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 4]} (${reservation_payments[index].id}), ${text_list[24]} ($reservation_id), ${text_list[37 + 13]} \$${reservation_payments[index].amount} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} $reservation_period_label $website_url";
 
                             send_email(
                               to: "info@collineblanche.com.mx",
                               subject:
-                                  "${text_list[37 + 12]} ${text_list[37 + 11]} (${reservation_payments[index].id}), ${text_list[24]} (${reservation_id})",
+                                  "${text_list[37 + 12]} ${text_list[37 + 11]} (${reservation_payments[index].id}), ${text_list[24]} ($reservation_id)",
                               text: email_message,
                             );
 
                             Navigator.pop(context);
                             get_reservations_callback();
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             FontAwesomeIcons.trashCan,
                           ),
                           tooltip: text_list[29],
@@ -152,21 +150,16 @@ register_payment({
               } else {
                 return Column(
                   children: [
-                    reservation_payments.length > 0
+                    reservation_payments.isNotEmpty
                         ? Container(
                             alignment: Alignment.centerRight,
                             margin: const EdgeInsets.only(top: 10),
                             child: Text(
-                              text_list[33] +
-                                  " \$" +
-                                  reservation_payments
+                              "${text_list[33]} \$${reservation_payments
                                       .map((payment) => payment.amount)
                                       .toList()
-                                      .reduce((a, b) => a + b)
-                                      .toString() +
-                                  "/" +
-                                  total_to_pay.toString(),
-                              style: TextStyle(
+                                      .reduce((a, b) => a + b)}/$total_to_pay",
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -225,12 +218,12 @@ register_payment({
                         "payments": FieldValue.arrayUnion([payment.id]),
                       }).then((reservation) {
                         String email_message =
-                            "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${payment.id}), ${text_list[24]} (${reservation_id}), ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} ${reservation_period_label} ${website_url}";
+                            "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[37 + 3]} (${payment.id}), ${text_list[24]} ($reservation_id), ${text_list[37 + 13]} \$${amount_input_controller.text} ${text_list[37 + 5]} ${parent.current_reservation!.cabin_id} ${text_list[37 + 6]} $reservation_period_label $website_url";
 
                         send_email(
                           to: "info@collineblanche.com.mx",
                           subject:
-                              "${text_list[37 + 12]} ${text_list[37 + 9]} (${payment.id}), ${text_list[24]} (${reservation_id})",
+                              "${text_list[37 + 12]} ${text_list[37 + 9]} (${payment.id}), ${text_list[24]} ($reservation_id)",
                           text: email_message,
                         );
 
@@ -242,7 +235,7 @@ register_payment({
                     });
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: SelectableText(
                           "The amount is too large",
                         ),

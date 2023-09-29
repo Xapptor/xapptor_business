@@ -8,7 +8,7 @@ import 'package:xapptor_ui/widgets/custom_card.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class VendingMachineCard extends StatefulWidget {
-  const VendingMachineCard({
+  const VendingMachineCard({super.key, 
     required this.vending_machine,
     required this.remove_vending_machine_callback,
     required this.owner_name,
@@ -40,7 +40,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
     double current_card_height = MediaQuery.of(context).size.height / 4;
     double name_size = 22;
     double title_size = 16;
-    EdgeInsets margin = EdgeInsets.all(10);
+    EdgeInsets margin = const EdgeInsets.all(10);
 
     return FractionallySizedBox(
       widthFactor: portrait ? 0.85 : 0.3,
@@ -90,7 +90,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        "ID: " + widget.vending_machine.id,
+                        "ID: ${widget.vending_machine.id}",
                         style: TextStyle(
                           color: widget.textfield_color,
                           fontSize: title_size,
@@ -104,9 +104,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              "CAMBIO \$" +
-                                  widget.vending_machine.money_change
-                                      .toString(),
+                              "CAMBIO \$${widget.vending_machine.money_change}",
                               style: TextStyle(
                                 color: widget.text_color,
                                 fontSize: title_size,
@@ -156,7 +154,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                   alignment: Alignment.topLeft,
                   child: IconButton(
                     alignment: Alignment.center,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.delete,
                       color: Colors.red,
                     ),
@@ -192,7 +190,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: sized_box_height),
-                  Text(
+                  const Text(
                     "¿Eliminar esta máquina?",
                     textAlign: TextAlign.center,
                   ),
@@ -204,7 +202,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text("Cancelar"),
+                        child: const Text("Cancelar"),
                       ),
                       TextButton(
                         onPressed: () async {
@@ -217,7 +215,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                             Navigator.pop(context);
                           });
                         },
-                        child: Text("Aceptar"),
+                        child: const Text("Aceptar"),
                       ),
                     ],
                   ),

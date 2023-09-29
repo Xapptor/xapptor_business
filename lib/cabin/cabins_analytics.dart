@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 
 class CabinsAnalytics extends StatefulWidget {
-  const CabinsAnalytics({
+  const CabinsAnalytics({super.key, 
     required this.screen_title,
     required this.text_color,
     required this.icon_color,
@@ -79,14 +79,14 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
         .collection('cabins')
         .get()
         .then((QuerySnapshot query_snapshot) {
-      query_snapshot.docs.forEach((DocumentSnapshot doc) {
+      for (var doc in query_snapshot.docs) {
         cabins.add(
           Cabin.from_snapshot(
             doc.id,
             doc.data() as Map<String, dynamic>,
           ),
         );
-      });
+      }
 
       cabins.sort((cabin_a, cabin_b) =>
           int.parse(cabin_a.id).compareTo(int.parse(cabin_b.id)));
@@ -111,14 +111,14 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
           )
           .get()
           .then((QuerySnapshot query_snapshot) {
-        query_snapshot.docs.forEach((DocumentSnapshot doc) {
+        for (var doc in query_snapshot.docs) {
           payments.add(
             Payment.from_snapshot(
               doc.id,
               doc.data() as Map<String, dynamic>,
             ),
           );
-        });
+        }
         if (cabin == cabins.last) {
           get_filtered_payments();
         }

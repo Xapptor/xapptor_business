@@ -52,7 +52,7 @@ class HomeContainer extends StatefulWidget {
   final bool has_back_button;
   final FloatingActionButton? fab;
 
-  const HomeContainer({
+  const HomeContainer({super.key, 
     required this.topbar_color,
     required this.products_collection_name,
     this.product_catalog,
@@ -141,7 +141,7 @@ class _HomeContainerState extends State<HomeContainer> {
       widget.has_language_picker &&
               widget.translation_stream_list != null &&
               widget.update_source_language != null
-          ? Container(
+          ? SizedBox(
               width: 150,
               child: LanguagePicker(
                 translation_stream_list: widget.translation_stream_list!,
@@ -260,14 +260,14 @@ class _HomeContainerState extends State<HomeContainer> {
         .orderBy("price")
         .get();
 
-    query.docs.forEach((course) {
+    for (var course in query.docs) {
       products.add(
         Product.from_snapshot(
           course.id,
           course.data(),
         ),
       );
-    });
+    }
     widget.product_catalog!.products = products;
     add_new_app_screen(
       AppScreen(
@@ -313,16 +313,16 @@ class _HomeContainerState extends State<HomeContainer> {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("You need to complete your profile"),
+              title: const Text("You need to complete your profile"),
               actions: <Widget>[
                 TextButton(
-                  child: Text("Logout"),
+                  child: const Text("Logout"),
                   onPressed: () async {
                     sign_out(context: context);
                   },
                 ),
                 TextButton(
-                  child: Text("Ok"),
+                  child: const Text("Ok"),
                   onPressed: () async {
                     Navigator.of(context).pop();
                     open_screen("home/account");
@@ -350,8 +350,9 @@ class _HomeContainerState extends State<HomeContainer> {
     check_payments();
     check_login();
 
-    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
+    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
       check_permissions();
+    }
   }
 
   int current_page_1 = 1;
@@ -388,7 +389,7 @@ class _HomeContainerState extends State<HomeContainer> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(FontAwesomeIcons.angleLeft),
+                    icon: const Icon(FontAwesomeIcons.angleLeft),
                   )
                 : null,
             logo_path: widget.logo_path_white ?? widget.logo_path,
@@ -409,9 +410,9 @@ class _HomeContainerState extends State<HomeContainer> {
                   child: WidgetsCarousel(
                     update_current_page: (current_page) {
                       if (!UniversalPlatform.isWeb || portrait) {
-                        widget.cardholder_list_1.forEach((element) {
+                        for (var element in widget.cardholder_list_1) {
                           element.is_focused = false;
-                        });
+                        }
                         widget.cardholder_list_1[current_page].is_focused =
                             true;
                         setState(() {});
@@ -436,9 +437,9 @@ class _HomeContainerState extends State<HomeContainer> {
                         child: WidgetsCarousel(
                           update_current_page: (current_page) {
                             if (!UniversalPlatform.isWeb || portrait) {
-                              widget.cardholder_list_2.forEach((element) {
+                              for (var element in widget.cardholder_list_2) {
                                 element.is_focused = false;
-                              });
+                              }
                               widget.cardholder_list_2[current_page]
                                   .is_focused = true;
                               setState(() {});

@@ -10,7 +10,7 @@ import 'package:xapptor_ui/widgets/topbar.dart';
 import 'delete_product.dart';
 
 class Inventory extends StatefulWidget {
-  const Inventory({
+  const Inventory({super.key, 
     required this.old_path,
     required this.product,
     required this.collection_name,
@@ -95,7 +95,7 @@ class _InventoryState extends State<Inventory> {
         ),
         body: Column(
           children: [
-            Spacer(flex: 1),
+            const Spacer(flex: 1),
             Expanded(
               flex: 1,
               child: Text(
@@ -112,7 +112,7 @@ class _InventoryState extends State<Inventory> {
             ),
             Expanded(
               flex: 20,
-              child: products.length > 0
+              child: products.isNotEmpty
                   ? ListView.builder(
                       itemCount: products.length,
                       itemBuilder: (context, index) {
@@ -127,13 +127,13 @@ class _InventoryState extends State<Inventory> {
                             title = "${product.name}, ${product.price}\$";
                           } else {
                             title =
-                                "${product.name}, ${product.price}\$, ${widget.text_list[1]}: ${inventory_quantity}";
+                                "${product.name}, ${product.price}\$, ${widget.text_list[1]}: $inventory_quantity";
                           }
                         } else {
-                          title = "${product.name}";
+                          title = product.name;
                         }
 
-                        return Container(
+                        return SizedBox(
                           height: screen_height / 2.5,
                           width: screen_width * (portrait ? 1 : 0.5),
                           child: FractionallySizedBox(
@@ -153,7 +153,7 @@ class _InventoryState extends State<Inventory> {
                                     path = "home/products/${product.name}";
                                   } else {
                                     path =
-                                        widget.old_path! + "/${product.name}";
+                                        "${widget.old_path!}/${product.name}";
                                   }
                                   add_new_app_screen(
                                     AppScreen(
@@ -218,12 +218,10 @@ class _InventoryState extends State<Inventory> {
                     )
                   : Center(
                       child: Text(
-                        widget.text_list[0] +
-                            " " +
-                            (widget.product == null
+                        "${widget.text_list[0]} ${widget.product == null
                                 ? widget.text_list[1]
-                                : widget.text_list[2]),
-                        style: TextStyle(
+                                : widget.text_list[2]}",
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -240,7 +238,7 @@ class _InventoryState extends State<Inventory> {
               text_list: widget.text_list_add_product,
             );
           },
-          child: Icon(
+          child: const Icon(
             Icons.add,
             color: Colors.white,
           ),
@@ -297,11 +295,11 @@ class _InventoryState extends State<Inventory> {
               value: chosen_value,
               underline: Container(),
               items: text_list.sublist(1, 3).map((String value) {
-                return new DropdownMenuItem<String>(
+                return DropdownMenuItem<String>(
                   value: value,
                   child: Text(
                     value,
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                 );
               }).toList(),

@@ -5,7 +5,7 @@ class WpeRiskIdentifiedSegment extends StatefulWidget {
   final Color main_color;
   final ValueNotifier<bool> any_risk_identified;
 
-  WpeRiskIdentifiedSegment({
+  const WpeRiskIdentifiedSegment({super.key, 
     required this.main_button,
     required this.main_color,
     required this.any_risk_identified,
@@ -32,7 +32,7 @@ class _WpeRiskIdentifiedSegmentState extends State<WpeRiskIdentifiedSegment> {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 10),
-            child: Text(
+            child: const Text(
               'Do you identify any Hazard(s)/Risk(s)?',
               style: TextStyle(
                 fontSize: 16,

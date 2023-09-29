@@ -17,7 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:in_app_purchase_ios/store_kit_wrappers.dart';
 
 class ProductCatalogItem extends StatefulWidget {
-  const ProductCatalogItem({
+  const ProductCatalogItem({super.key, 
     required this.title,
     required this.price,
     required this.buy_text,
@@ -67,7 +67,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
       );
       if (product_was_acquired) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("You already bought this item"),
           ),
         );
@@ -96,7 +96,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(border_radius),
           ),
-          margin: EdgeInsets.all(0),
+          margin: const EdgeInsets.all(0),
           elevation: 5,
           child: BackgroundImageWithGradientColor(
             height: double.maxFinite,
@@ -108,7 +108,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Spacer(flex: 8),
+                  const Spacer(flex: 8),
                   Text(
                     widget.title,
                     textAlign: TextAlign.center,
@@ -119,7 +119,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                  Spacer(flex: 1),
+                  const Spacer(flex: 1),
                   RichText(
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
@@ -142,12 +142,16 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
                       ],
                     ),
                   ),
-                  Spacer(flex: 1),
+                  const Spacer(flex: 1),
                   Expanded(
                     flex: portrait ? 3 : 2,
                     child: FractionallySizedBox(
                       widthFactor: 0.5,
                       child: Container(
+                        decoration: BoxDecoration(
+                          color: widget.button_color,
+                          borderRadius: BorderRadius.circular(border_radius),
+                        ),
                         child: TextButton(
                           onPressed: () {
                             buy_now();
@@ -162,14 +166,10 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
                             ),
                           ),
                         ),
-                        decoration: BoxDecoration(
-                          color: widget.button_color,
-                          borderRadius: BorderRadius.circular(border_radius),
-                        ),
                       ),
                     ),
                   ),
-                  Spacer(flex: 2),
+                  const Spacer(flex: 2),
                 ],
               ),
             ),
@@ -189,9 +189,9 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
       print("Not Found IDs");
     } else {
       var transactions = await SKPaymentQueueWrapper().transactions();
-      transactions.forEach((skPaymentTransactionWrapper) {
+      for (var skPaymentTransactionWrapper in transactions) {
         SKPaymentQueueWrapper().finishTransaction(skPaymentTransactionWrapper);
-      });
+      }
 
       List<ProductDetails> productDetails = response.productDetails;
 

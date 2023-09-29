@@ -4,7 +4,7 @@ import 'package:xapptor_ui/widgets/webview/webview.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class PaymentWebview extends StatefulWidget {
-  const PaymentWebview({
+  const PaymentWebview({super.key, 
     required this.url_base,
   });
 
@@ -42,7 +42,7 @@ class _PaymentWebviewState extends State<PaymentWebview> {
       child: Scaffold(
         body: Webview(
           src: widget.url_base,
-          id: Uuid().v4(),
+          id: const Uuid().v4(),
           loaded_callback: loaded_callback,
         ),
       ),

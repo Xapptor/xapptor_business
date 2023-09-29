@@ -46,7 +46,7 @@ register_reservation({
     callback();
 
     String email_message =
-        "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[1]} (${reservation_id}) ${text_list[5]} ${selected_cabin} ${text_list[6]} ${reservation_period_label} ${website_url}";
+        "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[1]} ($reservation_id) ${text_list[5]} $selected_cabin ${text_list[6]} $reservation_period_label $website_url";
 
     send_email(
       to: "info@collineblanche.com.mx",
@@ -77,7 +77,7 @@ register_reservation({
       callback();
 
       String email_message =
-          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[0]} (${value.id}) ${text_list[5]} ${selected_cabin} ${text_list[6]} ${reservation_period_label} ${website_url}";
+          "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[0]} (${value.id}) ${text_list[5]} $selected_cabin ${text_list[6]} $reservation_period_label $website_url";
 
       send_email(
         to: "info@collineblanche.com.mx",

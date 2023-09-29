@@ -29,20 +29,24 @@ List<Map<String, dynamic>> get_sum_of_payments_by_timeframe({
 
       switch (current_timeframe) {
         case TimeFrame.day:
-          if (same_hour && same_day && same_month && same_year)
+          if (same_hour && same_day && same_month && same_year) {
             payment_was_made_at_same_timeframe = true;
+          }
           break;
         case TimeFrame.week:
-          if (same_day && same_month && same_year)
+          if (same_day && same_month && same_year) {
             payment_was_made_at_same_timeframe = true;
+          }
           break;
         case TimeFrame.month:
-          if (same_day && same_month && same_year)
+          if (same_day && same_month && same_year) {
             payment_was_made_at_same_timeframe = true;
+          }
           break;
         case TimeFrame.year:
-          if (same_month && same_year)
+          if (same_month && same_year) {
             payment_was_made_at_same_timeframe = true;
+          }
           break;
         case TimeFrame.beginning:
           if (same_year) payment_was_made_at_same_timeframe = true;

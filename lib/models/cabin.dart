@@ -70,16 +70,16 @@ class Cabin {
       Bed bed_1 = beds[i];
       int bed_counter = 0;
 
-      beds.forEach((bed_2) {
+      for (var bed_2 in beds) {
         if (bed_1 == bed_2) {
           bed_counter++;
         }
-      });
+      }
 
-      bed_string.add("${bed_counter} " + bed_1.toShortString());
+      bed_string.add("$bed_counter ${bed_1.toShortString()}");
     }
 
-    return bed_string.toSet().join(", ") + ".";
+    return "${bed_string.toSet().join(", ")}.";
   }
 
   int get_season_price({
@@ -90,7 +90,7 @@ class Cabin {
     List<Map<String, int>> season_distances_1 = [];
     List<Map<String, int>> season_distances_2 = [];
 
-    seasons.forEach((season) {
+    for (var season in seasons) {
       int index = seasons.indexOf(season);
 
       if (date_1.year != date_2.year) {
@@ -112,7 +112,7 @@ class Cabin {
         "index": index,
         "value": date_1.difference(season.end).inDays.abs(),
       });
-    });
+    }
 
     season_distances_1.sort((a, b) => a["value"]!.compareTo(b["value"]!));
     season_distances_2.sort((a, b) => a["value"]!.compareTo(b["value"]!));
@@ -132,7 +132,7 @@ class Cabin {
     }
 
     return current_season.type == SeasonType.high
-        ? this.high_price
-        : this.low_price;
+        ? high_price
+        : low_price;
   }
 }

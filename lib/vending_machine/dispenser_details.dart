@@ -9,7 +9,7 @@ import 'package:xapptor_ui/widgets/topbar.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class DispenserDetails extends StatefulWidget {
-  const DispenserDetails({
+  const DispenserDetails({super.key, 
     required this.product,
     required this.dispenser,
     required this.dispenser_id,
@@ -86,11 +86,11 @@ class _DispenserDetailsState extends State<DispenserDetails> {
           widthFactor: portrait ? 0.7 : 0.2,
           child: Column(
             children: [
-              Spacer(flex: 1),
+              const Spacer(flex: 1),
               Expanded(
                 flex: widget.allow_edit ? 1 : 2,
                 child: Webview(
-                  id: Uuid().v4(),
+                  id: const Uuid().v4(),
                   src: widget.product.image_src,
                 ),
               ),
@@ -100,7 +100,7 @@ class _DispenserDetailsState extends State<DispenserDetails> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     children: [
-                      WidgetSpan(
+                      const WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
                         child: Text(
                           "DISPENSADOR ",
@@ -131,7 +131,7 @@ class _DispenserDetailsState extends State<DispenserDetails> {
                   child: Text(
                     widget.product.description,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 18,
                     ),
@@ -192,7 +192,7 @@ class _DispenserDetailsState extends State<DispenserDetails> {
                                       ),
                                     ),
                                   ),
-                                  WidgetSpan(
+                                  const WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
                                     child: Text(
                                       " LITROS",
@@ -210,7 +210,7 @@ class _DispenserDetailsState extends State<DispenserDetails> {
                       ),
                     )
                   : Container(),
-              Spacer(flex: 1),
+              const Spacer(flex: 1),
             ],
           ),
         ),

@@ -7,7 +7,7 @@ class WpeGeneralSegment extends StatefulWidget {
   final ValueNotifier<String> area;
   final ValueNotifier<TextEditingController> specific_area_controller;
 
-  WpeGeneralSegment({
+  const WpeGeneralSegment({super.key, 
     required this.main_button,
     required this.main_color,
     required this.shift,
@@ -57,7 +57,7 @@ class _WpeGeneralSegmentState extends State<WpeGeneralSegment> {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 10),
-            child: Text(
+            child: const Text(
               'Shift',
               style: TextStyle(
                 fontSize: 16,
@@ -85,7 +85,7 @@ class _WpeGeneralSegmentState extends State<WpeGeneralSegment> {
               top: 20,
               bottom: 10,
             ),
-            child: Text(
+            child: const Text(
               'Area',
               style: TextStyle(
                 fontSize: 16,
@@ -110,7 +110,7 @@ class _WpeGeneralSegmentState extends State<WpeGeneralSegment> {
           ),
           TextField(
             controller: widget.specific_area_controller.value,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Specific Area',
             ),
           ),

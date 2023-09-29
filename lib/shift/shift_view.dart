@@ -4,7 +4,7 @@ class ShiftView extends StatefulWidget {
   final String base_path;
   final Color main_color;
 
-  ShiftView({
+  const ShiftView({super.key, 
     required this.base_path,
     required this.main_color,
   });
@@ -23,7 +23,7 @@ class _ShiftViewState extends State<ShiftView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.main_color,
-        title: Text('Shift View'),
+        title: const Text('Shift View'),
       ),
       body: Container(),
     );

@@ -15,7 +15,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({
+  const ProductDetails({super.key, 
     required this.product,
     required this.is_editing,
     required this.title_color,
@@ -32,9 +32,9 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  TextEditingController _controller_name = TextEditingController();
-  TextEditingController _controller_description = TextEditingController();
-  TextEditingController _controller_price = TextEditingController();
+  final TextEditingController _controller_name = TextEditingController();
+  final TextEditingController _controller_description = TextEditingController();
+  final TextEditingController _controller_price = TextEditingController();
   bool is_editing = false;
   String url = "";
   String current_image_file_base64 = "";
@@ -85,24 +85,24 @@ class _ProductDetailsState extends State<ProductDetails> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("¿Deseas guardar los cambios?"),
+          title: const Text("¿Deseas guardar los cambios?"),
           actions: <Widget>[
             TextButton(
-              child: Text("Descartar cambios"),
+              child: const Text("Descartar cambios"),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("Cancelar"),
+              child: const Text("Cancelar"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("Aceptar"),
               onPressed: save_product_changes,
+              child: const Text("Aceptar"),
             ),
           ],
         );
@@ -119,7 +119,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           _controller_description.text.isEmpty ||
           _controller_price.text.isEmpty) {
         Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
+        SnackBar snackBar = const SnackBar(
           content: Text("Debes llenar todos los campos"),
           duration: Duration(seconds: 2),
         );
@@ -141,10 +141,10 @@ class _ProductDetailsState extends State<ProductDetails> {
             });
 
             while (products_length_text.length < 3) {
-              products_length_text = "0" + products_length_text;
+              products_length_text = "0$products_length_text";
             }
 
-            String new_product_id = "zzzzzzzzzzzzzzzzz" + products_length_text;
+            String new_product_id = "zzzzzzzzzzzzzzzzz$products_length_text";
 
             FirebaseFirestore.instance
                 .collection("products")
@@ -257,7 +257,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         color: Colors.white,
         alignment: Alignment.center,
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: FractionallySizedBox(
               widthFactor: portrait ? 0.7 : 0.2,
@@ -269,11 +269,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   widget.product == null
                       ? Container()
-                      : Container(
+                      : SizedBox(
                           height: screen_height / 3,
                           width: screen_height / 3,
                           child: Webview(
-                            id: Uuid().v4(),
+                            id: const Uuid().v4(),
                             src: widget.product!.image_src,
                           ),
                         ),
@@ -300,7 +300,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   SizedBox(
                     height: sized_box_space * 2,
                   ),
-                  Container(
+                  SizedBox(
                     height: 40,
                     child: Row(
                       children: [
@@ -336,27 +336,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
-                        Spacer(flex: 1),
+                        const Spacer(flex: 1),
                         Expanded(
                           flex: 16,
                           child: CustomCard(
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                upload_image_button_label,
-                                style: TextStyle(
-                                  color: widget.text_color,
-                                ),
-                              ),
-                            ),
                             border_radius: 10,
                             on_pressed: () {
                               if (is_editing) {
                                 open_file_picker(context);
                               }
                             },
-                            linear_gradient: LinearGradient(
+                            linear_gradient: const LinearGradient(
                               colors: [
                                 Colors.white,
                                 Colors.white,
@@ -364,9 +354,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                             splash_color: widget.text_color
                                 .withOpacity(is_editing ? 0.3 : 0),
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                upload_image_button_label,
+                                style: TextStyle(
+                                  color: widget.text_color,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                        Spacer(flex: 1),
+                        const Spacer(flex: 1),
                       ],
                     ),
                   ),

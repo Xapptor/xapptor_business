@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';
 
 class RTSPView extends StatefulWidget {
-  const RTSPView({
+  const RTSPView({super.key, 
     required this.url,
   });
 
@@ -22,7 +22,7 @@ class _RTSPViewState extends State<RTSPView> {
         .loadString('packages/xapptor_business/assets/rtsp/index.html');
     rtsp_html = rtsp_html.replaceAll("[URL]", widget.url);
 
-    Timer(Duration(milliseconds: 300), () {
+    Timer(const Duration(milliseconds: 300), () {
       setState(() {});
     });
   }

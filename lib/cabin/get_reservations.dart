@@ -45,15 +45,15 @@ Future<List<ReservationCabin>> get_reservations({
         .get();
   }
 
-  if (reservations_snap.docs.length > 0) {
-    reservations_snap.docs.forEach((snap) {
+  if (reservations_snap.docs.isNotEmpty) {
+    for (var snap in reservations_snap.docs) {
       reservations.add(ReservationCabin.from_snapshot(snap.id, snap.data()));
-    });
+    }
   }
 
   var reservations_copy = reservations.toList();
 
-  reservations.forEach((reservation) {
+  for (var reservation in reservations) {
     DateTime comparison_date = DateTime(
       DateTime.now().year,
       DateTime.now().month,
@@ -63,7 +63,7 @@ Future<List<ReservationCabin>> get_reservations({
         reservation.date_init.isBefore(comparison_date)) {
       reservations_copy.remove(reservation);
     }
-  });
+  }
   reservations = reservations_copy.toList();
   reservations.sort((a, b) => a.date_init.compareTo(b.date_init));
   if (show_older_reservations) {

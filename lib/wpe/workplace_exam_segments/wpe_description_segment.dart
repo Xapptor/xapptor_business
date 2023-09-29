@@ -5,7 +5,7 @@ class WpeDescriptionSegment extends StatefulWidget {
   final Color main_color;
   ValueNotifier<TextEditingController> potential_risk_description_controller;
 
-  WpeDescriptionSegment({
+  WpeDescriptionSegment({super.key, 
     required this.main_button,
     required this.main_color,
     required this.potential_risk_description_controller,
@@ -21,7 +21,7 @@ class _WpeDescriptionSegmentState extends State<WpeDescriptionSegment> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Text(
+          const Text(
             'Describe related Present and / or\nPotential Hazards in your area:',
             style: TextStyle(
               fontSize: 16,
@@ -35,7 +35,7 @@ class _WpeDescriptionSegmentState extends State<WpeDescriptionSegment> {
             ),
             child: TextField(
               controller: widget.potential_risk_description_controller.value,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText:
                     'Describe related Present and / or\nPotential Hazards in your area',
               ),

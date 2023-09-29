@@ -9,7 +9,7 @@ class WpeCorrectivesSegment extends StatefulWidget {
   final ValueNotifier<bool> controlled;
   final ValueNotifier<bool> ppe;
 
-  WpeCorrectivesSegment({
+  const WpeCorrectivesSegment({super.key, 
     required this.main_button,
     required this.main_color,
     required this.eliminated,
@@ -33,7 +33,7 @@ class _WpeCorrectivesSegmentState extends State<WpeCorrectivesSegment> {
             margin: const EdgeInsets.only(
               bottom: 30,
             ),
-            child: Text(
+            child: const Text(
               'Inmediate Corrective Actions:',
               style: TextStyle(
                 fontSize: 16,
@@ -54,7 +54,7 @@ class _WpeCorrectivesSegmentState extends State<WpeCorrectivesSegment> {
 
   Widget corrective_check(
     String label,
-    ValueNotifier<bool> _corrective_check,
+    ValueNotifier<bool> corrective_check,
   ) {
     Widget corrective = Container(
       margin: const EdgeInsets.only(
@@ -66,7 +66,7 @@ class _WpeCorrectivesSegmentState extends State<WpeCorrectivesSegment> {
             flex: 5,
             child: Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
@@ -76,13 +76,13 @@ class _WpeCorrectivesSegmentState extends State<WpeCorrectivesSegment> {
             flex: 1,
             child: IconButton(
               icon: Icon(
-                _corrective_check.value == true
+                corrective_check.value == true
                     ? Icons.check_box
                     : Icons.check_box_outline_blank,
                 color: widget.main_color,
               ),
               onPressed: () {
-                _corrective_check.value = !_corrective_check.value;
+                corrective_check.value = !corrective_check.value;
                 setState(() {});
               },
             ),

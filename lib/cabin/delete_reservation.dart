@@ -41,11 +41,11 @@ delete_reservation({
     Navigator.of(context).pop();
 
     String email_message =
-        "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[2]} (${reservation_id}) ${text_list[5]} ${reservation_for_deletion.cabin_id} ${text_list[6]} ${reservation_period_label} ${website_url}";
+        "${user_info["firstname"]} ${user_info["lastname"]} ${text_list[2]} ($reservation_id) ${text_list[5]} ${reservation_for_deletion.cabin_id} ${text_list[6]} $reservation_period_label $website_url";
 
     send_email(
       to: "info@collineblanche.com.mx",
-      subject: "${text_list[8]} ${text_list[11]} (${reservation_id})",
+      subject: "${text_list[8]} ${text_list[11]} ($reservation_id)",
       text: email_message,
     );
 

@@ -68,7 +68,7 @@ Future<Shift> get_shift_from_snapshot(
 }
 
 get_shifts(Function(List<Shift>) update_function) async {
-  User? user = await FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
   List<Shift> shifts = [];
 
   QuerySnapshot shifts_snaps = await FirebaseFirestore.instance

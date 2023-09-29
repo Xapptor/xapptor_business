@@ -126,5 +126,5 @@ int last_day_of_month(DateTime month) {
   var beginning_next_month = (month.month < 12)
       ? DateTime(month.year, month.month + 1, 1)
       : DateTime(month.year + 1, 1, 1);
-  return beginning_next_month.subtract(Duration(days: 1)).day;
+  return beginning_next_month.subtract(const Duration(days: 1)).day;
 }

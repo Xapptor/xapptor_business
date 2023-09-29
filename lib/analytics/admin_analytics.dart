@@ -10,7 +10,7 @@ import 'package:xapptor_ui/values/ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AdminAnalytics extends StatefulWidget {
-  const AdminAnalytics({
+  const AdminAnalytics({super.key, 
     required this.screen_title,
     required this.text_color,
     required this.icon_color,
@@ -91,7 +91,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                       ),
                     ),
                   ),
-                  Spacer(flex: 2),
+                  const Spacer(flex: 2),
                   Expanded(
                     flex: 2,
                     child: IconButton(
@@ -115,7 +115,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                     ? CrossAxisAlignment.center
                     : CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     height: (widget.analytics_segments.length + 1) * 70,
                     width: screen_width * (portrait ? 0.85 : 0.25),
                     child: ListView.builder(
@@ -202,7 +202,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
               SizedBox(
                 height: sized_box_space * 2,
               ),
-              Container(
+              SizedBox(
                 height: widget.analytics_segments.length > 1
                     ? ((widget.analytics_segments.length *
                         (screen_height * (portrait ? 1.3 : 0.9))))
@@ -229,7 +229,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                           SizedBox(
                             height: sized_box_space,
                           ),
-                          Container(
+                          SizedBox(
                             height: portrait
                                 ? (screen_width * 0.8)
                                 : (screen_height / 3),

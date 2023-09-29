@@ -10,7 +10,7 @@ class WpeRisksSegment extends StatefulWidget {
   final ValueNotifier<String> work_enviroment_conditions;
   final ValueNotifier<String> fall;
 
-  WpeRisksSegment({
+  const WpeRisksSegment({super.key, 
     required this.main_button,
     required this.main_color,
     required this.lototo,
@@ -120,7 +120,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 10),
-            child: Text(
+            child: const Text(
               'LOTOTO',
               style: TextStyle(
                 fontSize: 16,
@@ -148,7 +148,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
               top: 20,
               bottom: 10,
             ),
-            child: Text(
+            child: const Text(
               'Hit or Caught',
               style: TextStyle(
                 fontSize: 16,
@@ -177,7 +177,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
               top: 20,
               bottom: 10,
             ),
-            child: Text(
+            child: const Text(
               'Burn',
               style: TextStyle(
                 fontSize: 16,
@@ -205,7 +205,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
               top: 20,
               bottom: 10,
             ),
-            child: Text(
+            child: const Text(
               'Health',
               style: TextStyle(
                 fontSize: 16,
@@ -233,7 +233,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
               top: 20,
               bottom: 10,
             ),
-            child: Text(
+            child: const Text(
               'Work Enviroment Conditions',
               style: TextStyle(
                 fontSize: 16,
@@ -262,7 +262,7 @@ class _WpeRisksSegmentState extends State<WpeRisksSegment> {
               top: 20,
               bottom: 10,
             ),
-            child: Text(
+            child: const Text(
               'Fall',
               style: TextStyle(
                 fontSize: 16,

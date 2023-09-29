@@ -16,7 +16,7 @@ import 'product_details.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class ProductList extends StatefulWidget {
-  const ProductList({
+  const ProductList({super.key, 
     required this.vending_machine_id,
     required this.allow_edit,
     required this.has_topbar,
@@ -39,7 +39,7 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
-  ScrollController _scroll_controller = ScrollController();
+  final ScrollController _scroll_controller = ScrollController();
   List<Product> vending_machine_products = [];
   List<Product> products = [];
   List<Dispenser> dispensers = [];
@@ -159,8 +159,8 @@ class _ProductListState extends State<ProductList> {
                 );
                 open_screen("home/products/details");
               },
-              label: Text("Agregar Producto"),
-              icon: Icon(Icons.add),
+              label: const Text("Agregar Producto"),
+              icon: const Icon(Icons.add),
               backgroundColor: widget.text_color,
             ),
     );
@@ -176,7 +176,7 @@ class _ProductListState extends State<ProductList> {
     double fractional_factor = 0.85;
     double border_radius = 10;
 
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height / 3,
       child: FractionallySizedBox(
         heightFactor: fractional_factor,
@@ -184,7 +184,7 @@ class _ProductListState extends State<ProductList> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height / 3,
               child: CustomCard(
                 splash_color: widget.text_color.withOpacity(0.2),
@@ -203,7 +203,7 @@ class _ProductListState extends State<ProductList> {
                     heightFactor: 0.6,
                     child: IgnorePointer(
                       child: Webview(
-                        id: Uuid().v4(),
+                        id: const Uuid().v4(),
                         src: product.image_src,
                       ),
                     ),
@@ -214,11 +214,11 @@ class _ProductListState extends State<ProductList> {
             Align(
               alignment: Alignment.bottomRight,
               child: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Text(
                   (dispenser_id + 1).toString(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 22,
                     color: Colors.grey,
                   ),
@@ -230,7 +230,7 @@ class _ProductListState extends State<ProductList> {
                     alignment: Alignment.topLeft,
                     child: IconButton(
                       alignment: Alignment.center,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.edit,
                         color: Colors.grey,
                       ),
@@ -250,7 +250,7 @@ class _ProductListState extends State<ProductList> {
                     alignment: Alignment.bottomLeft,
                     child: IconButton(
                       alignment: Alignment.center,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.delete,
                         color: Colors.red,
                       ),
@@ -267,12 +267,12 @@ class _ProductListState extends State<ProductList> {
                 ? Align(
                     alignment: Alignment.topCenter,
                     child: Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                         top: 18,
                       ),
                       child: Text(
                         product.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -284,7 +284,7 @@ class _ProductListState extends State<ProductList> {
               child: Container(
                 height: 20,
                 width: 20,
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: dispenser != null
                       ? dispenser.enabled
@@ -354,7 +354,7 @@ class _ProductListState extends State<ProductList> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: sized_box_height),
-                  Text(
+                  const Text(
                     "¿Eliminar este producto?",
                     textAlign: TextAlign.center,
                   ),
@@ -366,7 +366,7 @@ class _ProductListState extends State<ProductList> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text("Cancelar"),
+                        child: const Text("Cancelar"),
                       ),
                       TextButton(
                         onPressed: () async {
@@ -388,7 +388,7 @@ class _ProductListState extends State<ProductList> {
                             });
                           });
                         },
-                        child: Text("Aceptar"),
+                        child: const Text("Aceptar"),
                       ),
                     ],
                   ),
@@ -419,7 +419,7 @@ class _ProductListState extends State<ProductList> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: sized_box_height),
-                  Text(
+                  const Text(
                     "Selecciona el producto para este dispensador",
                     textAlign: TextAlign.center,
                   ),
@@ -428,7 +428,7 @@ class _ProductListState extends State<ProductList> {
                     value: products_value,
                     iconSize: 24,
                     elevation: 16,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                     ),
                     underline: Container(
@@ -456,14 +456,14 @@ class _ProductListState extends State<ProductList> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text("Cancelar"),
+                        child: const Text("Cancelar"),
                       ),
                       TextButton(
                         onPressed: () {
                           update_product_in_dispenser(index);
                           Navigator.pop(context);
                         },
-                        child: Text("Aceptar"),
+                        child: const Text("Aceptar"),
                       ),
                     ],
                   ),
@@ -495,7 +495,7 @@ class _ProductListState extends State<ProductList> {
     dispenser_updated.product_id = current_product.id;
     update_dispenser(dispenser_updated, index);
 
-    Timer(Duration(milliseconds: 500), () {
+    Timer(const Duration(milliseconds: 500), () {
       get_products();
     });
   }

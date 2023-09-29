@@ -38,6 +38,7 @@ class PaymentVendingMachine extends Payment {
     );
   }
 
+  @override
   Map<String, dynamic> to_json() {
     return {
       'amount': amount,
@@ -54,9 +55,9 @@ List<Map<String, dynamic>> payment_list_to_json_list(
     List<PaymentVendingMachine> payments) {
   List<Map<String, dynamic>> json_list = [];
 
-  payments.forEach((payment) {
+  for (var payment in payments) {
     json_list.add(payment.to_json());
-  });
+  }
 
   return json_list;
 }

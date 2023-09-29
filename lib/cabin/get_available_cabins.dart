@@ -22,7 +22,7 @@ List<Cabin> get_available_cabins({
 
   List<String> unavailable_cabins = [];
 
-  reservations.forEach((reservation) {
+  for (var reservation in reservations) {
     List<DateTime> reservation_range_dates = get_range_of_dates(
       reservation.date_init,
       DateTime(
@@ -32,8 +32,8 @@ List<Cabin> get_available_cabins({
       ),
     );
 
-    reservation_range_dates.forEach((range_date) {
-      new_reservation_range_dates.forEach((new_range_date) {
+    for (var range_date in reservation_range_dates) {
+      for (var new_range_date in new_reservation_range_dates) {
         if (check_if_dates_are_in_the_same_day(range_date, new_range_date)) {
           if (ignore_reservation_with_id == null) {
             unavailable_cabins.add(reservation.cabin_id);
@@ -43,15 +43,15 @@ List<Cabin> get_available_cabins({
             }
           }
         }
-      });
-    });
-  });
+      }
+    }
+  }
 
   unavailable_cabins = unavailable_cabins.toSet().toList();
 
-  unavailable_cabins.forEach((unavailable_cabin) {
+  for (var unavailable_cabin in unavailable_cabins) {
     available_cabins.removeWhere((cabin) => cabin.id == unavailable_cabin);
-  });
+  }
 
   callback(available_cabins);
 

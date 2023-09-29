@@ -38,6 +38,7 @@ class ReservationCabin extends Reservation {
     );
   }
 
+  @override
   Map<String, dynamic> to_json() {
     return {
       'id': id,

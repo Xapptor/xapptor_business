@@ -8,11 +8,11 @@ Future delete_product(Product product, String collection_name) async {
       .doc(product.id)
       .delete();
   Reference doc_ref =
-      await FirebaseStorage.instance.ref('products/' + product.id);
+      FirebaseStorage.instance.ref('products/${product.id}');
   doc_ref.listAll().then((list_result) {
-    list_result.items.forEach((element) {
+    for (var element in list_result.items) {
       element.delete();
-    });
+    }
   });
 
   if (product.is_a_product_category) {
@@ -32,8 +32,8 @@ Future delete_product(Product product, String collection_name) async {
         )
         .toList();
 
-    products.forEach((product) {
+    for (var product in products) {
       delete_product(product, collection_name);
-    });
+    }
   }
 }

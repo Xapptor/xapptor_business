@@ -33,7 +33,7 @@ LineChart main_line_chart({
     first_year = (DateTime.now().difference((sum_of_payments.first["date"] as DateTime)).inDays / 365).round() + 1;
   }
 
-  double max_x = sum_of_payments.length > 0
+  double max_x = sum_of_payments.isNotEmpty
       ? get_max_x(
           timeframe: current_timeframe,
           first_year: first_year,
@@ -148,10 +148,10 @@ LineChart main_line_chart({
         touchCallback: (touch_event, touch_response) {},
         handleBuiltInTouches: true,
       ),
-      gridData: FlGridData(),
+      gridData: const FlGridData(),
       titlesData: FlTitlesData(
-        topTitles: AxisTitles(),
-        rightTitles: AxisTitles(),
+        topTitles: const AxisTitles(),
+        rightTitles: const AxisTitles(),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
@@ -224,7 +224,7 @@ LineChart main_line_chart({
               }
 
               return Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Text(
                   title,
                   style: TextStyle(
@@ -279,14 +279,14 @@ LineChart main_line_chart({
           ),
           barWidth: 6,
           isStrokeCapRound: true,
-          dotData: FlDotData(),
+          dotData: const FlDotData(),
           belowBarData: BarAreaData(
             gradient: LinearGradient(
               colors: [
                 icon_color.withOpacity(0.3),
                 text_color.withOpacity(0.3),
               ],
-              stops: [
+              stops: const [
                 0.2,
                 1.0,
               ],

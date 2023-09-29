@@ -10,7 +10,7 @@ import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 
 class ProductEditorView extends StatefulWidget {
-  const ProductEditorView({
+  const ProductEditorView({super.key, 
     required this.category_id,
     required this.product,
     required this.is_a_product_category,
@@ -38,7 +38,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
   TextEditingController quantity_input_controller = TextEditingController();
   bool is_admin = false;
 
-  Uint8List? image_data = null;
+  Uint8List? image_data;
   String image_name = '';
   bool use_image_url = false;
 
@@ -87,7 +87,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
           color: Colors.white,
           alignment: Alignment.center,
           child: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               width: screen_width,
               child: FractionallySizedBox(
                 widthFactor: portrait ? 0.9 : 0.5,
@@ -156,7 +156,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                             ).validate(),
                           ),
                         ),
-                        Spacer(flex: 1),
+                        const Spacer(flex: 1),
                         Expanded(
                           flex: 10,
                           child: ElevatedButton(
@@ -188,7 +188,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                             ),
                             child: Text(
                               widget.text_list[6],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
                             ),
@@ -306,7 +306,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                     SizedBox(
                       height: sized_box_space * 2,
                     ),
-                    Container(
+                    SizedBox(
                       width: portrait ? double.infinity : screen_width * 0.1,
                       child: ElevatedButton(
                         onPressed: () async {
@@ -333,7 +333,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                         ),
                         child: Text(
                           widget.text_list[7],
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),

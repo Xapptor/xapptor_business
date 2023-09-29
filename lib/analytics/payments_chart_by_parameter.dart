@@ -16,7 +16,7 @@ Widget payments_chart_by_parameter({
 }) {
   return FutureBuilder<List<dynamic>>(
     future: get_chart_sections(
-      payments: filtered_payments != null ? filtered_payments : payments,
+      payments: filtered_payments ?? payments,
       parameter: parameter,
       collection: collection,
       same_background_color: same_background_color,
@@ -31,7 +31,7 @@ Widget payments_chart_by_parameter({
     ) {
       Widget current_widget = Container();
 
-      Widget waiting_widget = Center(
+      Widget waiting_widget = const Center(
         child: CircularProgressIndicator(),
       );
 
@@ -61,7 +61,7 @@ Widget payments_chart_by_parameter({
                   ),
                   titlesData: FlTitlesData(
                     show: true,
-                    topTitles: AxisTitles(),
+                    topTitles: const AxisTitles(),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
@@ -81,14 +81,14 @@ Widget payments_chart_by_parameter({
                         reservedSize: 35,
                       ),
                     ),
-                    leftTitles: AxisTitles(
+                    leftTitles: const AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
                         reservedSize: 35,
                         interval: 20,
                       ),
                     ),
-                    rightTitles: AxisTitles(),
+                    rightTitles: const AxisTitles(),
                   ),
                 ),
               );
@@ -106,7 +106,7 @@ Widget payments_chart_by_parameter({
             );
           }
         } else {
-          current_widget = Center(
+          current_widget = const Center(
             child: Text('Error'),
           );
         }

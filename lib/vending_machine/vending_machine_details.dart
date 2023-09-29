@@ -11,7 +11,7 @@ import 'package:xapptor_ui/widgets/topbar.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class VendingMachineDetails extends StatefulWidget {
-  const VendingMachineDetails({
+  const VendingMachineDetails({super.key, 
     required this.vending_machine,
     required this.topbar_color,
     required this.text_color,
@@ -28,8 +28,8 @@ class VendingMachineDetails extends StatefulWidget {
 }
 
 class _VendingMachineDetailsState extends State<VendingMachineDetails> {
-  TextEditingController _controller_name = TextEditingController();
-  TextEditingController _controller_user_id = TextEditingController();
+  final TextEditingController _controller_name = TextEditingController();
+  final TextEditingController _controller_user_id = TextEditingController();
   bool is_editing = false;
   bool enabled = true;
 
@@ -80,23 +80,23 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("¿Deseas guardar los cambios?"),
+          title: const Text("¿Deseas guardar los cambios?"),
           actions: <Widget>[
             TextButton(
-              child: Text("Descartar cambios"),
+              child: const Text("Descartar cambios"),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("Cancelar"),
+              child: const Text("Cancelar"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("Aceptar"),
+              child: const Text("Aceptar"),
               onPressed: () async {
                 check_vending_machine_data();
               },
@@ -168,7 +168,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
           }
         } else {
           Navigator.of(context).pop();
-          SnackBar snackBar = SnackBar(
+          SnackBar snackBar = const SnackBar(
             content: Text("Debes ingresar un ID de usuario válido"),
             duration: Duration(seconds: 2),
           );
@@ -177,7 +177,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
       });
     } else {
       Navigator.of(context).pop();
-      SnackBar snackBar = SnackBar(
+      SnackBar snackBar = const SnackBar(
         content: Text("Debes llenar todos los campos"),
         duration: Duration(seconds: 2),
       );
@@ -210,7 +210,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
           widthFactor: portrait ? 0.7 : 0.2,
           child: Column(
             children: [
-              Spacer(flex: 4),
+              const Spacer(flex: 4),
               Expanded(
                 flex: 2,
                 child: TextField(
@@ -267,10 +267,9 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              "CAMBIO \$" +
-                                  (widget.vending_machine?.money_change
+                              "CAMBIO \$${widget.vending_machine?.money_change
                                           .toString() ??
-                                      "0"),
+                                      "0"}",
                               style: TextStyle(
                                 color: Colors.pink,
                                 fontSize: title_size,
@@ -305,17 +304,6 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                               widthFactor: 0.7,
                               child: Container(
                                 child: CustomCard(
-                                  child: Center(
-                                    child: Text(
-                                      "DISPENSADORES",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
                                   border_radius:
                                       MediaQuery.of(context).size.width,
                                   on_pressed: () {
@@ -344,6 +332,17 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                                       widget.textfield_color.withOpacity(0.4),
                                     ],
                                   ),
+                                  child: const Center(
+                                    child: Text(
+                                      "DISPENSADORES",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -351,7 +350,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                         ],
                       ),
                     ),
-              Spacer(flex: 4),
+              const Spacer(flex: 4),
             ],
           ),
         ),
