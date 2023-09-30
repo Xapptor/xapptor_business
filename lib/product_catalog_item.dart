@@ -252,7 +252,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
               webOnlyWindowName: "_self",
             );
           } else {
-            final result = await Navigator.of(context).push(
+            await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => PaymentWebview(
                   url_base: url,

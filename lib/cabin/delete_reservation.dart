@@ -30,8 +30,7 @@ delete_reservation({
     source_language: source_language,
   );
 
-  var reservations_snap =
-      await FirebaseFirestore.instance.collection("reservations").doc(reservation_id).delete().then((value) {
+  await FirebaseFirestore.instance.collection("reservations").doc(reservation_id).delete().then((value) {
     Navigator.of(context).pop();
 
     String email_message =

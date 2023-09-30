@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/shift/model/shift.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 

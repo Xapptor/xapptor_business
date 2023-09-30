@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/shift/model/shift.dart';
 import 'package:xapptor_business/wpe/model/workplace_exam.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
-import 'workplace_exam_segments/wpe_initial_Segment.dart';
+import 'workplace_exam_segments/wpe_initial_segment.dart';
 import 'workplace_exam_segments/wpe_general_segment.dart';
 import 'workplace_exam_segments/wpe_risk_identified_segment.dart';
 import 'workplace_exam_segments/wpe_risks_segment.dart';
