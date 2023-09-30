@@ -133,7 +133,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
 
   late StreamSubscription<List<PurchaseDetails>> _subscription;
 
-  _listen_to_purchase_updated(List<PurchaseDetails> purchase_details_list) {
+  _listen_to_purchase_updated(List<PurchaseDetails> purchase_details_list) async {
     int random_number_1 = random_number_with_range(1000, 2000);
     int random_number_2 = random_number_with_range(500, 1000);
     int random_number_3 = random_number_with_range(100, 500);
@@ -143,39 +143,37 @@ class _ProductCatalogState extends State<ProductCatalog> {
 
     debugPrint(random_number_timer.toString());
 
-    purchase_details_list.forEach(
-      (PurchaseDetails purchase_details) async {
-        if (purchase_details.status == PurchaseStatus.pending) {
-          //debugPrint("payment process pending");
-          loading = true;
+    for (var purchase_details in purchase_details_list) {
+      if (purchase_details.status == PurchaseStatus.pending) {
+        //debugPrint("payment process pending");
+        loading = true;
+        setState(() {});
+      } else {
+        if (purchase_details.status == PurchaseStatus.error) {
+          //debugPrint("payment process error" + purchase_details.error!.toString());
+          loading = false;
           setState(() {});
-        } else {
-          if (purchase_details.status == PurchaseStatus.error) {
-            //debugPrint("payment process error" + purchase_details.error!.toString());
-            loading = false;
-            setState(() {});
 
-            show_purchase_result_banner(false, null);
-          } else if (purchase_details.status == PurchaseStatus.purchased) {
-            //debugPrint("payment process success");
-            loading = false;
-            setState(() {});
+          show_purchase_result_banner(false, null);
+        } else if (purchase_details.status == PurchaseStatus.purchased) {
+          //debugPrint("payment process success");
+          loading = false;
+          setState(() {});
 
-            Timer(Duration(milliseconds: random_number_timer), () {
-              register_payment(purchase_details.productID);
-            });
-          } else if (purchase_details.status == PurchaseStatus.restored) {
-            loading = false;
-            setState(() {});
-            restore_purchase(purchase_details.productID);
-          }
-
-          if (purchase_details.pendingCompletePurchase) {
-            await InAppPurchase.instance.completePurchase(purchase_details);
-          }
+          Timer(Duration(milliseconds: random_number_timer), () {
+            register_payment(purchase_details.productID);
+          });
+        } else if (purchase_details.status == PurchaseStatus.restored) {
+          loading = false;
+          setState(() {});
+          restore_purchase(purchase_details.productID);
         }
-      },
-    );
+
+        if (purchase_details.pendingCompletePurchase) {
+          await InAppPurchase.instance.completePurchase(purchase_details);
+        }
+      }
+    }
   }
 
   restore_purchase(String product_id) async {

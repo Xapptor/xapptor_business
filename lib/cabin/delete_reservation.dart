@@ -20,12 +20,9 @@ delete_reservation({
     reservations: reservations,
   );
 
-  reservation_for_deletion.payments.forEach((payment_id) async {
-    await FirebaseFirestore.instance
-        .collection("payments")
-        .doc(payment_id)
-        .delete();
-  });
+  for (var payment_id in reservation_for_deletion.payments) {
+    await FirebaseFirestore.instance.collection("payments").doc(payment_id).delete();
+  }
 
   String reservation_period_label = get_reservation_period_label(
     date_1: reservation_for_deletion.date_init,
@@ -33,11 +30,8 @@ delete_reservation({
     source_language: source_language,
   );
 
-  var reservations_snap = await FirebaseFirestore.instance
-      .collection("reservations")
-      .doc(reservation_id)
-      .delete()
-      .then((value) {
+  var reservations_snap =
+      await FirebaseFirestore.instance.collection("reservations").doc(reservation_id).delete().then((value) {
     Navigator.of(context).pop();
 
     String email_message =
