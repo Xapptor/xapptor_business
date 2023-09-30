@@ -287,11 +287,9 @@ class WorkplaceExam {
 }
 
 get_wpes(Function(List<WorkplaceExam>) update_function) async {
-  User? user = FirebaseAuth.instance.currentUser;
   List<WorkplaceExam> wpes = [];
 
-  QuerySnapshot wpes_snaps =
-      await FirebaseFirestore.instance.collection('wpes').get();
+  QuerySnapshot wpes_snaps = await FirebaseFirestore.instance.collection('wpes').get();
 
   if (wpes_snaps.docs.isEmpty) {
     update_function(wpes);

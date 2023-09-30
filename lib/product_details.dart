@@ -224,7 +224,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     bool portrait = is_portrait(context);
     double screen_height = MediaQuery.of(context).size.height;
-    double screen_width = MediaQuery.of(context).size.width;
     double textfield_size = 18;
 
     return Scaffold(

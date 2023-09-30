@@ -67,7 +67,6 @@ class _ProductEditorViewState extends State<ProductEditorView> {
 
   @override
   Widget build(BuildContext context) {
-    double screen_height = MediaQuery.of(context).size.height;
     double screen_width = MediaQuery.of(context).size.width;
     bool portrait = is_portrait(context);
     String inventory_quantity = widget.product.inventory_quantity.toString();

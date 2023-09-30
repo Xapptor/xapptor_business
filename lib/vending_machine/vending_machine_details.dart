@@ -183,7 +183,6 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
     double title_size = 20;
     double subtitle_size = 18;
     bool portrait = is_portrait(context);
-    double screen_width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: TopBar(
