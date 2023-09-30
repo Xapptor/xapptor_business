@@ -78,7 +78,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
   }
 
   update_user_name() {
-    user_name = "${widget.text_list[28] + ": " + widget.user_info["firstname"]} " + widget.user_info["lastname"];
+    user_name = "${widget.text_list[28]}: ${widget.user_info["firstname"]} ${widget.user_info["lastname"]}";
 
     setState(() {});
   }
@@ -294,12 +294,11 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                   Row(
                     children: [
                       Text(
-                        "${widget.text_list[10]}: " +
-                            bool_to_text(
-                              value: widget.cabin.kitchen,
-                              true_text: widget.text_list[15],
-                              false_text: widget.text_list[16],
-                            ),
+                        "${widget.text_list[10]}: ${bool_to_text(
+                          value: widget.cabin.kitchen,
+                          true_text: widget.text_list[15],
+                          false_text: widget.text_list[16],
+                        )}",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
@@ -310,12 +309,11 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                       const SizedBox(width: 20),
                       Text(
-                        "${widget.text_list[11]}: " +
-                            bool_to_text(
-                              value: widget.cabin.sauna,
-                              true_text: widget.text_list[15],
-                              false_text: widget.text_list[16],
-                            ),
+                        "${widget.text_list[11]}: ${bool_to_text(
+                          value: widget.cabin.sauna,
+                          true_text: widget.text_list[15],
+                          false_text: widget.text_list[16],
+                        )}",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
@@ -329,12 +327,11 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                   Row(
                     children: [
                       Text(
-                        "${widget.text_list[12]}: " +
-                            bool_to_text(
-                              value: widget.cabin.livingroom,
-                              true_text: widget.text_list[15],
-                              false_text: widget.text_list[16],
-                            ),
+                        "${widget.text_list[12]}: ${bool_to_text(
+                          value: widget.cabin.livingroom,
+                          true_text: widget.text_list[15],
+                          false_text: widget.text_list[16],
+                        )}",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
@@ -345,12 +342,11 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                       const SizedBox(width: 20),
                       Text(
-                        "${widget.text_list[13]}: " +
-                            bool_to_text(
-                              value: widget.cabin.chimney,
-                              true_text: widget.text_list[15],
-                              false_text: widget.text_list[16],
-                            ),
+                        "${widget.text_list[13]}: ${bool_to_text(
+                          value: widget.cabin.chimney,
+                          true_text: widget.text_list[15],
+                          false_text: widget.text_list[16],
+                        )}",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
@@ -361,12 +357,11 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                       const SizedBox(width: 20),
                       Text(
-                        "${widget.text_list[14]}: " +
-                            bool_to_text(
-                              value: widget.cabin.balcony,
-                              true_text: widget.text_list[15],
-                              false_text: widget.text_list[16],
-                            ),
+                        "${widget.text_list[14]}: ${bool_to_text(
+                          value: widget.cabin.balcony,
+                          true_text: widget.text_list[15],
+                          false_text: widget.text_list[16],
+                        )}",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.visible,
                         maxLines: 10,
