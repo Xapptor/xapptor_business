@@ -8,10 +8,9 @@ class Supervisor {
   });
 
   Supervisor.from_snapshot(
-    String id,
+    this.id,
     Map snapshot,
-  )   : id = id,
-        shift_ids = snapshot['shifts'] ?? [];
+  ) : shift_ids = snapshot['shifts'] ?? [];
 
   Map<String, dynamic> to_json() {
     return {

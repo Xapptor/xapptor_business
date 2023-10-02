@@ -1,5 +1,3 @@
-// Product model.
-
 import 'package:xapptor_router/initial_values_routing.dart';
 
 class Product {
@@ -28,13 +26,9 @@ class Product {
   final String category_id;
 
   Product.from_snapshot(
-    String id,
+    this.id,
     Map<String, dynamic> snapshot,
-  )   : id = id,
-        price_id = snapshot[current_build_mode == BuildMode.release
-                ? "stripe_id"
-                : "stripe_id_test"] ??
-            "",
+  )   : price_id = snapshot[current_build_mode == BuildMode.release ? "stripe_id" : "stripe_id_test"] ?? "",
         name = snapshot['name'],
         image_src = snapshot['image_src'] ?? "",
         price = snapshot['price'],

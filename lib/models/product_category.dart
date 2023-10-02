@@ -14,10 +14,9 @@ class ProductCategory {
   final bool has_subcategory;
 
   ProductCategory.from_snapshot(
-    String id,
+    this.id,
     Map<String, dynamic> snapshot,
-  )   : id = id,
-        name = snapshot['name'],
+  )   : name = snapshot['name'],
         image_src = snapshot['image_src'] ?? "",
         category_id = snapshot['category_id'] ?? "",
         has_subcategory = snapshot['has_subcategory'] ?? false;

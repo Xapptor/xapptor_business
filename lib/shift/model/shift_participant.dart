@@ -10,21 +10,16 @@ class ShiftParticipant {
   });
 
   ShiftParticipant.from_snapshot(
-    String id,
+    this.id,
     Map snapshot,
-  )   : id = id,
-        full_name = snapshot['firstname'] + ' ' + snapshot['lastname'];
+  ) : full_name = snapshot['firstname'] + ' ' + snapshot['lastname'];
 }
 
-Future<List<ShiftParticipant>> get_shift_participants(
-    List<String> participants_id) async {
+Future<List<ShiftParticipant>> get_shift_participants(List<String> participants_id) async {
   List<ShiftParticipant> participants = [];
 
   for (var participant_id in participants_id) {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(participant_id)
-        .get();
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('users').doc(participant_id).get();
 
     participants.add(
       ShiftParticipant.from_snapshot(participant_id, snapshot.data() as Map),

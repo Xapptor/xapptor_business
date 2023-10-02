@@ -1,5 +1,3 @@
-// Reservation model.
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Reservation {
@@ -18,10 +16,9 @@ class Reservation {
   final DateTime date_end;
 
   Reservation.from_snapshot(
-    String id,
+    this.id,
     Map<String, dynamic> snapshot,
-  )   : id = id,
-        user_id = snapshot['user_id'],
+  )   : user_id = snapshot['user_id'],
         date_created = (snapshot['date_created'] as Timestamp).toDate(),
         date_init = (snapshot['date_init'] as Timestamp).toDate(),
         date_end = (snapshot['date_end'] as Timestamp).toDate();

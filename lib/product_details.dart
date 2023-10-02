@@ -196,7 +196,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   // Open file picker for image selection.
 
   open_file_picker(BuildContext context) async {
-    bool permission_granted = await check_permission(
+    await check_permission(
       context: context,
       message: "Debes dar permiso al almacenamiento para la selección de imágen",
       message_no: "Cancelar",

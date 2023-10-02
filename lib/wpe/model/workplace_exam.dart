@@ -164,10 +164,9 @@ class WorkplaceExam {
   });
 
   WorkplaceExam.from_snapshot(
-    String id,
+    this.id,
     Map snapshot,
-  )   : id = id,
-        user_id = snapshot['user_id'],
+  )   : user_id = snapshot['user_id'],
         date_created = snapshot['date_created'].toDate(),
         supervisors = (snapshot['supervisors'] ?? []).cast<String>(),
         participants = (snapshot['participants'] ?? []).cast<String>(),

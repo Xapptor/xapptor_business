@@ -181,7 +181,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
   Widget build(BuildContext context) {
     double textfield_size = 24;
     double title_size = 20;
-    double subtitle_size = 18;
+    // double subtitle_size = 18;
     bool portrait = is_portrait(context);
 
     return Scaffold(

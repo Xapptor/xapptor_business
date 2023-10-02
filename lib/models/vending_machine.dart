@@ -1,7 +1,5 @@
 import 'dispenser.dart';
 
-// VendingMachine model.
-
 class VendingMachine {
   final String id;
   final String user_id;
@@ -19,9 +17,8 @@ class VendingMachine {
     required this.name,
   });
 
-  VendingMachine.from_snapshot(String id, Map<String, dynamic> snapshot)
-      : id = id,
-        user_id = snapshot['user_id'],
+  VendingMachine.from_snapshot(this.id, Map<String, dynamic> snapshot)
+      : user_id = snapshot['user_id'],
         dispensers = List<Dispenser>.from(
           snapshot['dispensers'].map((dispenser) {
             return Dispenser.from_snapshot(dispenser);
@@ -48,8 +45,7 @@ class VendingMachine {
   }
 }
 
-List<Map<String, dynamic>> vending_machine_list_to_json_list(
-    List<VendingMachine> vending_machines) {
+List<Map<String, dynamic>> vending_machine_list_to_json_list(List<VendingMachine> vending_machines) {
   List<Map<String, dynamic>> json_list = [];
 
   for (var product in vending_machines) {

@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// Payment model.
-
 class Payment {
   final String id;
   final int amount;
@@ -17,9 +15,8 @@ class Payment {
     required this.user_id,
   });
 
-  Payment.from_snapshot(String id, Map<String, dynamic> snapshot)
-      : id = id,
-        amount = snapshot['amount'],
+  Payment.from_snapshot(this.id, Map<String, dynamic> snapshot)
+      : amount = snapshot['amount'],
         date = (snapshot['date'] as Timestamp).toDate(),
         product_id = snapshot['product_id'],
         user_id = snapshot['user_id'];

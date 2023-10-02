@@ -69,7 +69,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
   Widget build(BuildContext context) {
     double screen_width = MediaQuery.of(context).size.width;
     bool portrait = is_portrait(context);
-    String inventory_quantity = widget.product.inventory_quantity.toString();
+    // String inventory_quantity = widget.product.inventory_quantity.toString();
 
     return SafeArea(
       top: true,

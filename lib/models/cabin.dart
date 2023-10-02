@@ -1,5 +1,3 @@
-// Cabine model.
-
 import 'package:xapptor_business/models/bed.dart';
 import 'package:xapptor_business/models/season.dart';
 
@@ -31,15 +29,13 @@ class Cabin {
   final bool balcony;
 
   Cabin.from_snapshot(
-    String id,
+    this.id,
     Map<String, dynamic> snapshot,
-  )   : id = id,
-        high_price = snapshot['high_price'],
+  )   : high_price = snapshot['high_price'],
         low_price = snapshot['low_price'],
         capacity = snapshot['capacity'],
         beds = (snapshot['beds'] as List)
-            .map((bed) => Bed.values
-                .firstWhere((bed_type) => bed_type.toShortString() == bed))
+            .map((bed) => Bed.values.firstWhere((bed_type) => bed_type.toShortString() == bed))
             .toList(),
         bathrooms = snapshot['bathrooms'],
         kitchen = snapshot['kitchen'],
@@ -131,8 +127,6 @@ class Cabin {
       current_season = posible_season_2;
     }
 
-    return current_season.type == SeasonType.high
-        ? high_price
-        : low_price;
+    return current_season.type == SeasonType.high ? high_price : low_price;
   }
 }
