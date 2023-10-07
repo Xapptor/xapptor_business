@@ -67,11 +67,13 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
         product_id: widget.stripe_payment.product_id,
       );
       if (product_was_acquired) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("You already bought this item"),
-          ),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("You already bought this item"),
+            ),
+          );
+        }
       } else {
         if (widget.use_iap) {
           call_iap();
@@ -259,7 +261,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
                 ),
               ),
             );
-            Navigator.of(context).pop();
+            if (context.mounted) Navigator.of(context).pop();
           }
         });
       }

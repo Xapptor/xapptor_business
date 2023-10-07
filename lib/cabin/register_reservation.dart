@@ -34,14 +34,12 @@ register_reservation({
     reservation_map.remove("date_created");
     reservation_map.remove("payments");
 
-    var reservation_snap = await FirebaseFirestore.instance
-        .collection("reservations")
-        .doc(current_reservation.id)
-        .get();
+    var reservation_snap =
+        await FirebaseFirestore.instance.collection("reservations").doc(current_reservation.id).get();
 
     reservation_snap.reference.update(reservation_map);
 
-    Navigator.of(context).pop();
+    if (context.mounted) Navigator.of(context).pop();
 
     callback();
 
@@ -69,10 +67,7 @@ register_reservation({
     reservation_map["date_created"] = Timestamp.now();
     reservation_map.remove("payments");
 
-    FirebaseFirestore.instance
-        .collection("reservations")
-        .add(reservation_map)
-        .then((value) {
+    FirebaseFirestore.instance.collection("reservations").add(reservation_map).then((value) {
       Navigator.of(context).pop();
       callback();
 

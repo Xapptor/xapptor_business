@@ -380,8 +380,9 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                   image_name,
                   widget.category_id ?? '',
                 );
-                Navigator.pop(context);
-                Navigator.pop(context);
+                for (int i = 0; i < 2; i++) {
+                  if (context.mounted) Navigator.pop(context);
+                }
               },
             ),
           ],

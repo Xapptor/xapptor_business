@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_auth/model/xapptor_user.dart';
-import 'package:xapptor_business/home_container.dart';
+import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_business/wpe/model/supervisor.dart';
 import 'package:xapptor_business/shift/shift_participants_selection.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';

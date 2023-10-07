@@ -253,7 +253,7 @@ class _InventoryState extends State<Inventory> {
               child: Text(text_list[2]),
               onPressed: () async {
                 await delete_product(product, widget.collection_name);
-                Navigator.pop(context);
+                if (context.mounted) Navigator.pop(context);
                 get_products();
               },
             ),

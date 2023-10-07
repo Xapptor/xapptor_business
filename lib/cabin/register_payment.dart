@@ -130,7 +130,7 @@ register_payment({
                               text: email_message,
                             );
 
-                            Navigator.pop(context);
+                            if (context.mounted) Navigator.pop(context);
                             get_reservations_callback();
                           },
                           icon: const Icon(
