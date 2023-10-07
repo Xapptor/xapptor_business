@@ -5,7 +5,7 @@ import 'package:xapptor_business/home_container/check_user_fields.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_router/app_screens.dart';
 
-extension HomeContainerExtension on HomeContainerState {
+extension StateExtension on HomeContainerState {
   check_login() {
     if (FirebaseAuth.instance.currentUser != null) {
       loading = false;

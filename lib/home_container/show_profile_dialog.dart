@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_router/app_screens.dart';
 
-extension HomeContainerExtension on HomeContainerState {
+extension StateExtension on HomeContainerState {
   show_profile_dialog() {
     showDialog(
       context: context,

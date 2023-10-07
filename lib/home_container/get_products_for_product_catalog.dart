@@ -4,7 +4,7 @@ import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 
-extension HomeContainerExtension on HomeContainerState {
+extension StateExtension on HomeContainerState {
   get_products_for_product_catalog() async {
     List<Product> products = [];
     var query = await FirebaseFirestore.instance.collection(widget.products_collection_name).orderBy("price").get();

@@ -4,7 +4,7 @@ import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_ui/values/icons/font_awesome_flutter.dart';
 
-extension HomeContainerExtension on HomeContainerState {
+extension StateExtension on HomeContainerState {
   List<Widget> widgets_action(bool portrait) {
     return [
       widget.has_language_picker && widget.translation_stream_list != null && widget.update_source_language != null

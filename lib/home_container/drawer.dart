@@ -3,7 +3,7 @@ import 'package:xapptor_auth/sign_out.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_router/app_screens.dart';
 
-extension HomeContainerExtension on HomeContainerState {
+extension StateExtension on HomeContainerState {
   Widget drawer() {
     return SafeArea(
       child: Drawer(

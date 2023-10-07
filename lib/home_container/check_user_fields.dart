@@ -4,7 +4,7 @@ import 'package:xapptor_auth/model/xapptor_user.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_business/home_container/show_profile_dialog.dart';
 
-extension HomeContainerExtension on HomeContainerState {
+extension StateExtension on HomeContainerState {
   check_user_fields() async {
     if (FirebaseAuth.instance.currentUser != null) {
       User auth_user = FirebaseAuth.instance.currentUser!;

@@ -7,7 +7,7 @@ import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_ui/screens/privacy_policy/privacy_policy.dart';
 
-extension HomeContainerExtension on HomeContainerState {
+extension StateExtension on HomeContainerState {
   add_screens() {
     add_new_app_screen(
       AppScreen(

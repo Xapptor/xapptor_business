@@ -4,7 +4,7 @@ import 'package:xapptor_business/home_container/get_products_for_product_catalog
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_logic/check_if_payments_are_enabled.dart';
 
-extension HomeContainerExtension on HomeContainerState {
+extension StateExtension on HomeContainerState {
   check_payments() async {
     payment_enabled = await check_if_payments_are_enabled();
     widget.update_payment_enabled(payment_enabled);
