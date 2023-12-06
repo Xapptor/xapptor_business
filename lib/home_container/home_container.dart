@@ -111,8 +111,8 @@ class HomeContainerState extends State<HomeContainer> {
       }
     }
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: LoadingContainer(
         loading: loading,
         background_color: Colors.white,
