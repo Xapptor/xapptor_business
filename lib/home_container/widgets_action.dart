@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_translation/language_picker.dart';
-import 'package:xapptor_ui/values/icons/font_awesome_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 extension StateExtension on HomeContainerState {
   List<Widget> widgets_action(bool portrait) {
