@@ -26,6 +26,7 @@ extension StateExtension on HomeContainerState {
           first_button_color: widget.main_button_color,
           second_button_color: widget.topbar_color,
           logo_path: widget.logo_path,
+          image_border_radius: widget.image_border_radius,
           has_language_picker: widget.has_language_picker,
           topbar_color: widget.topbar_color,
           custom_background: null,

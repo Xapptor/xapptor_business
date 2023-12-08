@@ -34,6 +34,7 @@ class HomeContainer extends StatefulWidget {
   final String base_url;
   final String logo_path;
   final String? logo_path_white;
+  final double image_border_radius;
   final LinearGradient main_button_color;
   final Function(bool new_value) update_payment_enabled;
   final Function({required int new_source_language_index})? update_source_language;
@@ -59,6 +60,7 @@ class HomeContainer extends StatefulWidget {
     required this.has_language_picker,
     required this.base_url,
     required this.logo_path,
+    required this.image_border_radius,
     this.logo_path_white,
     required this.main_button_color,
     required this.update_payment_enabled,
@@ -130,7 +132,10 @@ class HomeContainerState extends State<HomeContainer> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: const Icon(FontAwesomeIcons.angleLeft),
+                    icon: const Icon(
+                      FontAwesomeIcons.angleLeft,
+                      color: Colors.white,
+                    ),
                   )
                 : null,
             logo_path: widget.logo_path_white ?? widget.logo_path,

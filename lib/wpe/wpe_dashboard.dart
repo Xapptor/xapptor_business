@@ -192,6 +192,7 @@ class _WPEDashboardState extends State<WPEDashboard> {
       has_language_picker: false,
       base_url: '',
       logo_path: widget.logo_path,
+      image_border_radius: 0,
       main_button_color: LinearGradient(colors: [
         widget.main_color,
       ]),

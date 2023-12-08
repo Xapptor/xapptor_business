@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_auth/sign_out.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_ui/widgets/app_version_container.dart';
 
 extension StateExtension on HomeContainerState {
   Widget drawer() {
     return SafeArea(
       child: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-                Align(
+        child: Column(
+          children: [
+                Container(
                   alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    right: 12,
+                  ),
                   child: IconButton(
                     icon: Icon(
                       Icons.close,
@@ -42,6 +46,14 @@ extension StateExtension on HomeContainerState {
                   onTap: () async {
                     sign_out(context: context);
                   },
+                ),
+                const Spacer(flex: 1),
+                Container(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: AppVersionContainer(
+                    text_color: widget.topbar_color,
+                    background_color: null,
+                  ),
                 ),
               ],
         ),
