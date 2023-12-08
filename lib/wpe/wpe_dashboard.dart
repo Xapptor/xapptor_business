@@ -7,7 +7,7 @@ import 'package:xapptor_business/wpe/model/supervisor.dart';
 import 'package:xapptor_business/shift/shift_participants_selection.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 import 'package:xapptor_business/wpe/wpe_list.dart';
-import 'package:xapptor_logic/show_alert.dart';
+import 'package:xapptor_ui/utils/show_alert.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_ui/widgets/card_holder.dart';
