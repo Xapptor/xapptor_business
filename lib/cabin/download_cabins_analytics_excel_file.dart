@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -45,8 +44,7 @@ download_cabins_analytics_excel_file({
     ];
 
     for (var i = 0; i < cell_values.length; i++) {
-      String current_cell_position =
-          '${String.fromCharCode(65 + i)}$current_row_number';
+      String current_cell_position = '${String.fromCharCode(65 + i)}$current_row_number';
       sheet.getRangeByName(current_cell_position).setText(cell_values[i]);
     }
 
@@ -58,11 +56,7 @@ download_cabins_analytics_excel_file({
   }
 
   String file_name = "$base_file_name${DateTime.now()}.xlsx";
-  file_name = file_name
-      .replaceAll(":", "_")
-      .replaceAll("-", "_")
-      .replaceAll(" ", "_")
-      .replaceFirst(".", "_");
+  file_name = file_name.replaceAll(":", "_").replaceAll("-", "_").replaceAll(" ", "_").replaceFirst(".", "_");
 
   Uint8List bytes = workbook.saveAsStream() as Uint8List;
 
@@ -75,7 +69,7 @@ download_cabins_analytics_excel_file({
     );
   }
   FileDownloader.save(
-    src: UniversalPlatform.isWeb ? temporary_file_url : base64Encode(bytes),
+    src: UniversalPlatform.isWeb ? temporary_file_url : bytes,
     file_name: file_name,
   ).then((value) {
     workbook.dispose();

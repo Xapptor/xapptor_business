@@ -6,7 +6,6 @@ import 'package:xapptor_business/models/payment_vending_machine.dart';
 import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
 import 'package:xapptor_logic/file_downloader/file_downloader.dart';
-import 'dart:convert';
 
 download_vending_machines_analytics_excel_file({
   required BuildContext context,
@@ -42,8 +41,7 @@ download_vending_machines_analytics_excel_file({
         vending_machine_snapshot.data() as Map<String, dynamic>,
       );
 
-      String current_date =
-          DateFormat("dd/MM/yyyy").format(filtred_payment.date);
+      String current_date = DateFormat("dd/MM/yyyy").format(filtred_payment.date);
       String current_date_hour = DateFormat.Hm().format(filtred_payment.date);
 
       await FirebaseFirestore.instance
@@ -70,8 +68,7 @@ download_vending_machines_analytics_excel_file({
         ];
 
         for (var i = 0; i < cell_values.length; i++) {
-          String current_cell_position =
-              '${String.fromCharCode(65 + i)}$current_row_number';
+          String current_cell_position = '${String.fromCharCode(65 + i)}$current_row_number';
           sheet.getRangeByName(current_cell_position).setText(cell_values[i]);
         }
 
@@ -85,14 +82,10 @@ download_vending_machines_analytics_excel_file({
   }
 
   String file_name = "$base_file_name${DateTime.now()}.xlsx";
-  file_name = file_name
-      .replaceAll(":", "_")
-      .replaceAll("-", "_")
-      .replaceAll(" ", "_")
-      .replaceFirst(".", "_");
+  file_name = file_name.replaceAll(":", "_").replaceAll("-", "_").replaceAll(" ", "_").replaceFirst(".", "_");
 
   FileDownloader.save(
-    src: base64Encode(workbook.saveAsStream()),
+    src: workbook.saveAsStream(),
     file_name: file_name,
   );
 
