@@ -14,9 +14,21 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:in_app_purchase_ios/store_kit_wrappers.dart';
 
 class ProductCatalogItem extends StatefulWidget {
+  final String title;
+  final String price;
+  final String buy_text;
+  final IconData icon;
+  final Color text_color;
+  final Color button_color;
+  final String image_url;
+  final LinearGradient linear_gradient;
+  final Payment stripe_payment;
+  final bool coming_soon;
+  final String coming_soon_text;
+  final bool use_iap;
+
   const ProductCatalogItem({
     super.key,
     required this.title,
@@ -32,19 +44,6 @@ class ProductCatalogItem extends StatefulWidget {
     required this.coming_soon_text,
     required this.use_iap,
   });
-
-  final String title;
-  final String price;
-  final String buy_text;
-  final IconData icon;
-  final Color text_color;
-  final Color button_color;
-  final String image_url;
-  final LinearGradient linear_gradient;
-  final Payment stripe_payment;
-  final bool coming_soon;
-  final String coming_soon_text;
-  final bool use_iap;
 
   @override
   State<ProductCatalogItem> createState() => _ProductCatalogItemState();
@@ -191,13 +190,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
     if (response.notFoundIDs.isNotEmpty) {
       debugPrint("Not Found IDs");
     } else {
-      var transactions = await SKPaymentQueueWrapper().transactions();
-      for (var skPaymentTransactionWrapper in transactions) {
-        SKPaymentQueueWrapper().finishTransaction(skPaymentTransactionWrapper);
-      }
-
       List<ProductDetails> productDetails = response.productDetails;
-
       final PurchaseParam purchaseParam = PurchaseParam(productDetails: productDetails[0]);
       InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
     }
