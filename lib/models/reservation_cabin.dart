@@ -4,20 +4,14 @@ import 'reservation.dart';
 
 class ReservationCabin extends Reservation {
   const ReservationCabin({
-    required String id,
-    required String user_id,
-    required DateTime date_created,
-    required DateTime date_init,
-    required DateTime date_end,
+    required super.id,
+    required super.user_id,
+    required super.date_created,
+    required super.date_init,
+    required super.date_end,
     required this.cabin_id,
     required this.payments,
-  }) : super(
-          id: id,
-          user_id: user_id,
-          date_created: date_created,
-          date_init: date_init,
-          date_end: date_end,
-        );
+  });
 
   final String cabin_id;
   final List<String> payments;

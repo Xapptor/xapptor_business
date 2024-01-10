@@ -7,20 +7,14 @@ class PaymentVendingMachine extends Payment {
   final String vending_machine_id;
 
   const PaymentVendingMachine({
-    required String id,
-    required int amount,
-    required DateTime date,
-    required String product_id,
-    required String user_id,
+    required super.id,
+    required super.amount,
+    required super.date,
+    required super.product_id,
+    required super.user_id,
     required this.dispenser,
     required this.vending_machine_id,
-  }) : super(
-          id: id,
-          amount: amount,
-          date: date,
-          product_id: product_id,
-          user_id: user_id,
-        );
+  });
 
   factory PaymentVendingMachine.from_snapshot(
     String id,
@@ -51,8 +45,7 @@ class PaymentVendingMachine extends Payment {
   }
 }
 
-List<Map<String, dynamic>> payment_list_to_json_list(
-    List<PaymentVendingMachine> payments) {
+List<Map<String, dynamic>> payment_list_to_json_list(List<PaymentVendingMachine> payments) {
   List<Map<String, dynamic>> json_list = [];
 
   for (var payment in payments) {
