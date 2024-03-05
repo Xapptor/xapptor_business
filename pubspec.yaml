@@ -11,10 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  firebase_core: ^2.25.5
-  firebase_auth: ^4.17.6
-  cloud_firestore: ^4.15.6
-  firebase_storage: ^11.6.7
+  firebase_core: ^2.26.0
+  firebase_auth: ^4.17.7
+  cloud_firestore: ^4.15.7
+  firebase_storage: ^11.6.8
 
   file_picker: ^6.2.0
   fl_chart: ^0.66.2
