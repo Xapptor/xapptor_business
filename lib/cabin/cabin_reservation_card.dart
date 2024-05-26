@@ -396,7 +396,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                                   widget.cancel_button_callback();
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<Color>(
+                                  backgroundColor: WidgetStateProperty.all<Color>(
                                     widget.main_color,
                                   ),
                                 ),
@@ -413,7 +413,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                                   widget.register_reservation(widget.reservation?.id ?? "", true);
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<Color>(
+                                  backgroundColor: WidgetStateProperty.all<Color>(
                                     widget.main_color,
                                   ),
                                 ),

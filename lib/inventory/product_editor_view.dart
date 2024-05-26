@@ -169,13 +169,13 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                               }
                             },
                             style: ButtonStyle(
-                              elevation: MaterialStateProperty.all<double>(
+                              elevation: WidgetStateProperty.all<double>(
                                 0,
                               ),
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                 widget.main_color,
                               ),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                     MediaQuery.of(context).size.width,
@@ -309,13 +309,13 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                           );
                         },
                         style: ButtonStyle(
-                          elevation: MaterialStateProperty.all<double>(
+                          elevation: WidgetStateProperty.all<double>(
                             0,
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                             widget.main_color,
                           ),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                 MediaQuery.of(context).size.width,
