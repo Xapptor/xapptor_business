@@ -143,7 +143,7 @@ LineChart main_line_chart({
     LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: icon_color.withOpacity(0.5),
+          getTooltipColor: (LineBarSpot spot) => icon_color.withOpacity(0.5),
         ),
         touchCallback: (touch_event, touch_response) {},
         handleBuiltInTouches: true,

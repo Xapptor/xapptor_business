@@ -17,18 +17,18 @@ dependencies:
   firebase_storage: ^11.7.4
 
   file_picker: ^8.0.3
-  fl_chart: ^0.66.2
+  fl_chart: ^0.68.0
   intl: ^0.19.0
-  syncfusion_flutter_xlsio: ^24.1.41
-  in_app_purchase: ^3.1.13
+  syncfusion_flutter_xlsio: ^25.2.6
+  in_app_purchase: ^3.2.0
   pay: ^2.0.0
-  uuid: ^4.3.3
+  uuid: ^4.4.0
   universal_platform: ^1.1.0
-  permission_handler: ^11.3.0
+  permission_handler: ^11.3.1
   url_launcher: ^6.2.6
   http: ^1.2.0
   font_awesome_flutter: ^10.7.0
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.2.3
 
   # xapptor_auth: ^0.0.3
   # xapptor_logic: ^0.0.3

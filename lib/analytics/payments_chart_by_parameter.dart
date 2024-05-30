@@ -40,13 +40,9 @@ Widget payments_chart_by_parameter({
       } else {
         if (snapshot.hasData) {
           if (chart_type == ChartType.bar) {
-            List<Map<String, dynamic>> snap_map =
-                snapshot.data!.cast<Map<String, dynamic>>();
+            List<Map<String, dynamic>> snap_map = snapshot.data!.cast<Map<String, dynamic>>();
 
-            List<BarChartGroupData> sections = snap_map
-                .map((map) => map["section"])
-                .toList()
-                .cast<BarChartGroupData>();
+            List<BarChartGroupData> sections = snap_map.map((map) => map["section"]).toList().cast<BarChartGroupData>();
 
             if (sections.isEmpty) {
               current_widget = waiting_widget;
@@ -56,7 +52,7 @@ Widget payments_chart_by_parameter({
                   barGroups: sections,
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
-                      tooltipBgColor: Colors.grey.withOpacity(0.15),
+                      getTooltipColor: (BarChartGroupData group) => Colors.grey.withOpacity(0.15),
                     ),
                   ),
                   titlesData: FlTitlesData(
