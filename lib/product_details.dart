@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -13,6 +15,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart' as file_picker;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/get_platform_name.dart';
+import 'package:xapptor_ui/utils/get_browser_name.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({
@@ -197,6 +201,8 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   open_file_picker(BuildContext context) async {
     await check_permission(
+      platform_name: get_platform_name(),
+      browser_name: await get_browser_name(),
       context: context,
       message: "Debes dar permiso al almacenamiento para la selección de imágen",
       message_no: "Cancelar",
