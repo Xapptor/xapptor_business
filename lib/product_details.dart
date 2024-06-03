@@ -204,9 +204,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       platform_name: get_platform_name(),
       browser_name: await get_browser_name(),
       context: context,
-      message: "Debes dar permiso al almacenamiento para la selección de imágen",
-      message_no: "Cancelar",
-      message_yes: "Aceptar",
+      title: "Debes dar permiso al almacenamiento para la selección de imágen",
+      label_no: "Cancelar",
+      label_yes: "Aceptar",
       permission_type: Permission.storage,
     );
 
