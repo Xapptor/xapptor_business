@@ -93,7 +93,7 @@ class HomeContainerState extends State<HomeContainer> {
     check_payments();
     check_login();
 
-    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+    if (UniversalPlatform.isMobile) {
       check_permissions();
     }
   }
