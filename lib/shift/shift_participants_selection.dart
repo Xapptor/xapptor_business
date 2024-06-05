@@ -56,7 +56,7 @@ class _ShiftParticipantsSelectionState extends State<ShiftParticipantsSelection>
                   child: FractionallySizedBox(
                     widthFactor: portrait ? 0.9 : 0.4,
                     child: Column(
-                      children: <Widget>[
+                      children: [
                         Container(
                           margin: EdgeInsets.only(
                             top: sized_box_space * 4,
@@ -94,7 +94,7 @@ class _ShiftParticipantsSelectionState extends State<ShiftParticipantsSelection>
                                 subtitle: Text(
                                   'Available ${shift.participants.length} participants\n$shift_time',
                                 ),
-                                children: <Widget>[
+                                children: [
                                   ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: shift.participants.length,
@@ -152,7 +152,7 @@ class _ShiftParticipantsSelectionState extends State<ShiftParticipantsSelection>
         return AlertDialog(
           title: const Text('Confirmation'),
           content: const Text('Are you sure you want to confirm the participant selection?'),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: const Text('Cancel'),
               onPressed: () {

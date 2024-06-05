@@ -10,7 +10,7 @@ extension StateExtension on HomeContainerState {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("You need to complete your profile"),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: const Text("Logout"),
               onPressed: () async {

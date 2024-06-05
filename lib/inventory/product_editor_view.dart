@@ -353,7 +353,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(widget.confirmation_text_list[0]),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: Text(widget.confirmation_text_list[1]),
               onPressed: () {

@@ -172,7 +172,7 @@ register_payment({
             },
           ),
         ),
-        actions: <Widget>[
+        actions: [
           TextButton(
             child: Text(text_list[22]),
             onPressed: () {

@@ -43,7 +43,7 @@ class _WpeListState extends State<WpeList> {
                   child: FractionallySizedBox(
                     widthFactor: portrait ? 0.9 : 0.4,
                     child: Column(
-                      children: <Widget>[
+                      children: [
                         Container(
                           margin: EdgeInsets.only(
                             top: sized_box_space * 4,
@@ -82,7 +82,7 @@ class _WpeListState extends State<WpeList> {
 
     // return SingleChildScrollView(
     //   child: Column(
-    //     children: <Widget>[
+    //     children: [
     //       Text(
     //         'Pending',
     //         style: TextStyle(

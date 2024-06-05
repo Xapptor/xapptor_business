@@ -251,7 +251,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       height: screen_height,
       width: screen_width,
       child: Column(
-        children: <Widget>[
+        children: [
           Expanded(
             flex: 2,
             child: FractionallySizedBox(
@@ -430,7 +430,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                 context: context,
                 background_color: widget.topbar_color!,
                 has_back_button: true,
-                actions: <Widget>[
+                actions: [
                   Container(
                     margin: const EdgeInsets.only(right: 20),
                     width: 150,

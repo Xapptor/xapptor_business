@@ -73,7 +73,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
         child: FractionallySizedBox(
           widthFactor: portrait ? 0.85 : 0.75,
           child: Column(
-            children: <Widget>[
+            children: [
               SizedBox(
                 height: sized_box_space * 3,
               ),

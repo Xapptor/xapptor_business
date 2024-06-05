@@ -90,7 +90,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("¿Deseas guardar los cambios?"),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: const Text("Descartar cambios"),
               onPressed: () {

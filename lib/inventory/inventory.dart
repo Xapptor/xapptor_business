@@ -242,7 +242,7 @@ class _InventoryState extends State<Inventory> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(text_list[0]),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: Text(text_list[1]),
               onPressed: () {
@@ -294,7 +294,7 @@ class _InventoryState extends State<Inventory> {
               },
             );
           }),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: Text(text_list[3]),
               onPressed: () {

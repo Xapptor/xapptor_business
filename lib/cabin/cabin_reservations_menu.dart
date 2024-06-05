@@ -149,7 +149,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(msg),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: const Text("Ok"),
               onPressed: () async {
@@ -285,7 +285,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(text_list.get(source_language_index)[register ? 21 : 27]),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: Text(text_list.get(source_language_index)[22]),
               onPressed: () async {
