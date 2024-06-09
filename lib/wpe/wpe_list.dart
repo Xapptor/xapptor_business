@@ -5,7 +5,9 @@ import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class WpeList extends StatefulWidget {
-  const WpeList({super.key});
+  const WpeList({
+    super.key,
+  });
 
   @override
   State createState() => _WpeListState();
