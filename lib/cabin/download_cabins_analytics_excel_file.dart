@@ -5,7 +5,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
 import 'package:universal_platform/universal_platform.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_logic/file_downloader/file_downloader.dart';
-import 'package:xapptor_logic/firebase_tasks.dart';
+import 'package:xapptor_logic/firebase_tasks/save.dart';
 
 download_cabins_analytics_excel_file({
   required BuildContext context,

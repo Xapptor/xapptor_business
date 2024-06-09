@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
-import 'package:xapptor_logic/get_main_color_from_remote_svg.dart';
+import 'package:xapptor_logic/color/get_main_color_from_remote_svg.dart';
 import 'models/product.dart';
 import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';
@@ -262,7 +262,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           height: screen_height / 3,
                           width: screen_height / 3,
                           child: Webview(
-                            id: const Uuid().v4(),
+                            id: const Uuid().v8(),
                             src: widget.product!.image_src,
                           ),
                         ),

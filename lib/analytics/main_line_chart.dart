@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
-import 'package:xapptor_logic/is_int.dart';
 
 List<double> generate_numbers() {
   List<double> current_number_list = [];
@@ -216,7 +215,7 @@ LineChart main_line_chart({
                     }
                   }
                 } else {
-                  if (value.isInt) {
+                  if (value is int) {
                     String new_title = current_bottom_labels[value.toInt()];
                     title = new_title;
                   }

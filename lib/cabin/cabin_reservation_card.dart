@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_business/models/season.dart';
-import 'package:xapptor_logic/bool_to_text.dart';
+import 'package:xapptor_logic/string/bool_to_string.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
@@ -294,7 +294,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                   Row(
                     children: [
                       Text(
-                        "${widget.text_list[10]}: ${bool_to_text(
+                        "${widget.text_list[10]}: ${bool_to_string(
                           value: widget.cabin.kitchen,
                           true_text: widget.text_list[15],
                           false_text: widget.text_list[16],
@@ -309,7 +309,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                       const SizedBox(width: 20),
                       Text(
-                        "${widget.text_list[11]}: ${bool_to_text(
+                        "${widget.text_list[11]}: ${bool_to_string(
                           value: widget.cabin.sauna,
                           true_text: widget.text_list[15],
                           false_text: widget.text_list[16],
@@ -327,7 +327,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                   Row(
                     children: [
                       Text(
-                        "${widget.text_list[12]}: ${bool_to_text(
+                        "${widget.text_list[12]}: ${bool_to_string(
                           value: widget.cabin.livingroom,
                           true_text: widget.text_list[15],
                           false_text: widget.text_list[16],
@@ -342,7 +342,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                       const SizedBox(width: 20),
                       Text(
-                        "${widget.text_list[13]}: ${bool_to_text(
+                        "${widget.text_list[13]}: ${bool_to_string(
                           value: widget.cabin.chimney,
                           true_text: widget.text_list[15],
                           false_text: widget.text_list[16],
@@ -357,7 +357,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                       const SizedBox(width: 20),
                       Text(
-                        "${widget.text_list[14]}: ${bool_to_text(
+                        "${widget.text_list[14]}: ${bool_to_string(
                           value: widget.cabin.balcony,
                           true_text: widget.text_list[15],
                           false_text: widget.text_list[16],

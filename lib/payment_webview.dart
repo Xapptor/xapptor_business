@@ -43,7 +43,7 @@ class _PaymentWebviewState extends State<PaymentWebview> {
       child: Scaffold(
         body: Webview(
           src: widget.url_base,
-          id: const Uuid().v4(),
+          id: const Uuid().v8(),
           loaded_callback: loaded_callback,
         ),
       ),

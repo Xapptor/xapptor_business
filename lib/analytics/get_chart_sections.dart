@@ -4,7 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/analytics/chart_type.dart';
 import 'get_sum_of_payments_by_parameter.dart';
-import 'package:xapptor_logic/get_random_color.dart';
+import 'package:xapptor_logic/color/get_random_color.dart';
 
 Future<List> get_chart_sections({
   required List<Map<String, dynamic>> payments,
@@ -16,8 +16,7 @@ Future<List> get_chart_sections({
   required double width,
   required bool portrait,
 }) async {
-  List<Map<String, dynamic>> sum_of_payments_by_parameter =
-      get_sum_of_payments_by_parameter(
+  List<Map<String, dynamic>> sum_of_payments_by_parameter = get_sum_of_payments_by_parameter(
     payments: payments,
     parameter: parameter,
   );
@@ -31,9 +30,7 @@ Future<List> get_chart_sections({
   }
 
   for (var payments_by_parameter in sum_of_payments_by_parameter) {
-    double payments_by_parameter_percentage =
-        ((payments_by_parameter["amount"] as int) * 100) /
-            total_amount_in_sales;
+    double payments_by_parameter_percentage = ((payments_by_parameter["amount"] as int) * 100) / total_amount_in_sales;
 
     String title = "";
     if (parameter == "dispenser") {
@@ -41,22 +38,14 @@ Future<List> get_chart_sections({
     } else {
       String id = payments_by_parameter[parameter];
 
-      await FirebaseFirestore.instance
-          .collection(collection)
-          .doc(id)
-          .get()
-          .then((DocumentSnapshot snapshot) {
-        Map<String, dynamic> snapshot_data =
-            snapshot.data() as Map<String, dynamic>;
+      await FirebaseFirestore.instance.collection(collection).doc(id).get().then((DocumentSnapshot snapshot) {
+        Map<String, dynamic> snapshot_data = snapshot.data() as Map<String, dynamic>;
         title = snapshot_data["name"] ?? snapshot.id;
       });
     }
 
     Color random_color = get_random_color(
-      seed_color: seed_colors[
-          sum_of_payments_by_parameter.indexOf(payments_by_parameter).isEven
-              ? 1
-              : 0],
+      seed_color: seed_colors[sum_of_payments_by_parameter.indexOf(payments_by_parameter).isEven ? 1 : 0],
     );
 
     if (chart_type == ChartType.bar) {
@@ -74,8 +63,7 @@ Future<List> get_chart_sections({
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
-              width: (width / sum_of_payments_by_parameter.length) *
-                  (portrait ? 0.2 : 0.1),
+              width: (width / sum_of_payments_by_parameter.length) * (portrait ? 0.2 : 0.1),
               backDrawRodData: BackgroundBarChartRodData(
                 show: true,
                 toY: 100,
@@ -94,8 +82,7 @@ Future<List> get_chart_sections({
           title: title,
           titleStyle: TextStyle(
             color: Colors.white,
-            backgroundColor:
-                same_background_color ? random_color : Colors.transparent,
+            backgroundColor: same_background_color ? random_color : Colors.transparent,
           ),
         ),
       );

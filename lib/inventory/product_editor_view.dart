@@ -3,7 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/inventory/set_product.dart';
 import 'package:xapptor_business/models/product.dart';
-import 'package:xapptor_logic/check_if_user_is_admin.dart';
+import 'package:xapptor_logic/user/check_if_user_is_admin.dart';
 import 'package:xapptor_logic/form_field_validators.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 import 'package:xapptor_ui/values/ui.dart';

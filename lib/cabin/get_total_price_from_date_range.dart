@@ -1,4 +1,4 @@
-import 'package:xapptor_logic/get_range_of_dates.dart';
+import 'package:xapptor_logic/date/get_range_of_dates.dart';
 
 int get_total_price_from_date_range({
   required int cabin_season_price,

@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:xapptor_business/models/dispenser.dart';
 import 'package:xapptor_business/models/product.dart';
-import 'package:xapptor_logic/get_main_color_from_remote_svg.dart';
+import 'package:xapptor_logic/color/get_main_color_from_remote_svg.dart';
 import 'package:xapptor_ui/widgets/switch_button.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';
 import 'package:xapptor_ui/widgets/topbar.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 
 class DispenserDetails extends StatefulWidget {
-  const DispenserDetails({super.key, 
+  const DispenserDetails({
+    super.key,
     required this.product,
     required this.dispenser,
     required this.dispenser_id,
@@ -90,7 +91,7 @@ class _DispenserDetailsState extends State<DispenserDetails> {
               Expanded(
                 flex: widget.allow_edit ? 1 : 2,
                 child: Webview(
-                  id: const Uuid().v4(),
+                  id: const Uuid().v8(),
                   src: widget.product.image_src,
                 ),
               ),
@@ -183,8 +184,7 @@ class _DispenserDetailsState extends State<DispenserDetails> {
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
                                     child: Text(
-                                      widget.dispenser.quantity_remaining
-                                          .toString(),
+                                      widget.dispenser.quantity_remaining.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: main_color,

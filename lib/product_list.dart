@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import 'package:xapptor_logic/firebase_tasks.dart';
+import 'package:xapptor_logic/firebase_tasks/update.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'models/dispenser.dart';
@@ -193,7 +193,7 @@ class _ProductListState extends State<ProductList> {
                     heightFactor: 0.6,
                     child: IgnorePointer(
                       child: Webview(
-                        id: const Uuid().v4(),
+                        id: const Uuid().v8(),
                         src: product.image_src,
                       ),
                     ),

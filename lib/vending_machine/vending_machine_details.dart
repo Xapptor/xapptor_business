@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
 import 'package:xapptor_business/product_list.dart';
-import 'package:xapptor_logic/firebase_tasks.dart';
+import 'package:xapptor_logic/firebase_tasks/duplicate.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_ui/widgets/custom_card.dart';

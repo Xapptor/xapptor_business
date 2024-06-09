@@ -7,7 +7,7 @@ import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_business/models/season.dart';
-import 'package:xapptor_logic/get_range_of_dates.dart';
+import 'package:xapptor_logic/date/get_range_of_dates.dart';
 import 'package:xapptor_ui/widgets/is_portrait.dart';
 import 'package:xapptor_logic/send_email.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

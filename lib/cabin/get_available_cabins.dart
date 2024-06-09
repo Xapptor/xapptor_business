@@ -1,7 +1,7 @@
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
-import 'package:xapptor_logic/check_if_dates_are_in_the_same_day.dart';
-import 'package:xapptor_logic/get_range_of_dates.dart';
+import 'package:xapptor_logic/date/check_if_dates_are_in_the_same_day.dart';
+import 'package:xapptor_logic/date/get_range_of_dates.dart';
 
 List<Cabin> get_available_cabins({
   String? ignore_reservation_with_id,
@@ -14,11 +14,9 @@ List<Cabin> get_available_cabins({
 }) {
   List<Cabin> available_cabins = cabins.toList();
 
-  available_cabins.sort((cabin_a, cabin_b) =>
-      int.parse(cabin_a.id).compareTo(int.parse(cabin_b.id)));
+  available_cabins.sort((cabin_a, cabin_b) => int.parse(cabin_a.id).compareTo(int.parse(cabin_b.id)));
 
-  List<DateTime> new_reservation_range_dates =
-      get_range_of_dates(selected_date_1, selected_date_2);
+  List<DateTime> new_reservation_range_dates = get_range_of_dates(selected_date_1, selected_date_2);
 
   List<String> unavailable_cabins = [];
 
