@@ -5,7 +5,7 @@ import 'package:xapptor_business/analytics/main_line_chart.dart';
 import 'package:xapptor_business/analytics/payments_chart_by_parameter.dart';
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 import 'package:xapptor_business/models/payment.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_ui/values/ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

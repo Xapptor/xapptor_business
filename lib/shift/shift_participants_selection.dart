@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:xapptor_business/shift/model/shift.dart';
 import 'package:xapptor_business/shift/model/shift_participant.dart';
 import 'package:xapptor_ui/values/ui.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 
 class ShiftParticipantsSelection extends StatefulWidget {
   final Color main_color;

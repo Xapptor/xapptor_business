@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_auth/model/xapptor_user.dart';
 import 'package:xapptor_business/wpe/model/workplace_exam.dart';
 import 'package:xapptor_ui/values/ui.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 
 class WpeList extends StatefulWidget {
   const WpeList({

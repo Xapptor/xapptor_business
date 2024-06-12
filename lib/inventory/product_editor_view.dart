@@ -5,9 +5,9 @@ import 'package:xapptor_business/inventory/set_product.dart';
 import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_logic/user/check_if_user_is_admin.dart';
 import 'package:xapptor_logic/form_field_validators.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_ui/values/ui.dart';
-import 'package:xapptor_ui/widgets/topbar.dart';
+import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 
 class ProductEditorView extends StatefulWidget {
   const ProductEditorView({

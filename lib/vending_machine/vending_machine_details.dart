@@ -5,10 +5,10 @@ import 'package:xapptor_business/product_list.dart';
 import 'package:xapptor_logic/firebase_tasks/duplicate.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
-import 'package:xapptor_ui/widgets/custom_card.dart';
+import 'package:xapptor_ui/widgets/card/custom_card.dart';
 import 'package:xapptor_ui/widgets/switch_button.dart';
-import 'package:xapptor_ui/widgets/topbar.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 
 class VendingMachineDetails extends StatefulWidget {
   const VendingMachineDetails({

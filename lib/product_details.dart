@@ -8,13 +8,13 @@ import 'package:xapptor_logic/color/get_main_color_from_remote_svg.dart';
 import 'models/product.dart';
 import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';
-import 'package:xapptor_ui/widgets/custom_card.dart';
-import 'package:xapptor_ui/widgets/check_permission.dart';
-import 'package:xapptor_ui/widgets/topbar.dart';
+import 'package:xapptor_ui/widgets/card/custom_card.dart';
+import 'package:xapptor_ui/utils/check_permission.dart';
+import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart' as file_picker;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_ui/utils/get_platform_name.dart';
 import 'package:xapptor_ui/utils/get_browser_name.dart';
 

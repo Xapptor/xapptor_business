@@ -10,7 +10,7 @@ import 'package:xapptor_business/wpe/wpe_list.dart';
 import 'package:xapptor_ui/utils/show_alert.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
-import 'package:xapptor_ui/widgets/card_holder.dart';
+import 'package:xapptor_ui/widgets/card/card_holder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WPEDashboard extends StatefulWidget {

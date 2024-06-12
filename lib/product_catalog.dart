@@ -13,12 +13,12 @@ import 'package:xapptor_translation/translation_stream.dart';
 import 'models/product.dart';
 import 'payment_webview.dart';
 import 'package:xapptor_ui/values/ui.dart';
-import 'package:xapptor_ui/widgets/custom_card.dart';
+import 'package:xapptor_ui/widgets/card/custom_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_ui/widgets/loading.dart';
 import 'product_catalog_item.dart';
-import 'package:xapptor_ui/widgets/topbar.dart';
+import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 
 class ProductCatalog extends StatefulWidget {
   ProductCatalog({

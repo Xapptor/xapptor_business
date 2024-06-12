@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/inventory/product_editor_view.dart';
 import 'package:xapptor_business/models/product.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
-import 'package:xapptor_ui/widgets/card_holder.dart';
-import 'package:xapptor_ui/widgets/topbar.dart';
+import 'package:xapptor_ui/widgets/card/card_holder.dart';
+import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'delete_product.dart';
 
 class Inventory extends StatefulWidget {

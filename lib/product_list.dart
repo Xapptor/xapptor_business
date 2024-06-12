@@ -8,12 +8,12 @@ import 'package:xapptor_router/app_screens.dart';
 import 'models/dispenser.dart';
 import 'models/product.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';
-import 'package:xapptor_ui/widgets/custom_card.dart';
-import 'package:xapptor_ui/widgets/topbar.dart';
+import 'package:xapptor_ui/widgets/card/custom_card.dart';
+import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'vending_machine/dispenser_details.dart';
 import 'product_details.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({

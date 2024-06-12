@@ -6,14 +6,14 @@ import 'package:xapptor_business/home_container/widgets_action.dart';
 import 'package:xapptor_business/product_catalog.dart';
 import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_ui/screens/privacy_policy/privacy_policy_model.dart';
-import 'package:xapptor_ui/widgets/card_holder.dart';
+import 'package:xapptor_ui/widgets/card/card_holder.dart';
 import 'package:xapptor_ui/widgets/loading.dart';
-import 'package:xapptor_ui/widgets/topbar.dart';
+import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:xapptor_ui/widgets/widgets_carousel.dart';
-import 'package:xapptor_ui/widgets/is_portrait.dart';
+import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeContainer extends StatefulWidget {
