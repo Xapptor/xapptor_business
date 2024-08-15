@@ -11,8 +11,7 @@ Future set_product(
 ) async {
   String doc_id = product.id;
   if (product.id == '') {
-    DocumentReference doc_ref =
-        FirebaseFirestore.instance.collection('products').doc();
+    DocumentReference doc_ref = FirebaseFirestore.instance.collection('products').doc();
     doc_id = doc_ref.id;
   }
 
@@ -21,8 +20,7 @@ Future set_product(
   product_json['category_id'] = category_id;
 
   if (image_data != null) {
-    Reference doc_ref = FirebaseStorage.instance
-        .ref('products/$doc_id/$image_name');
+    Reference doc_ref = FirebaseStorage.instance.ref('products/$doc_id/$image_name');
     await doc_ref.putData(image_data);
     String image_url = await doc_ref.getDownloadURL();
     product_json['image_src'] = image_url;
@@ -31,6 +29,9 @@ Future set_product(
   await FirebaseFirestore.instance
       .collection('products')
       .doc(doc_id)
-      .set(product_json, SetOptions(merge: true))
+      .set(
+        product_json,
+        SetOptions(merge: true),
+      )
       .then((doc_snap) async {});
 }
