@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
@@ -126,8 +128,8 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
               "enabled": enabled,
             }).then((result) {
               is_editing = false;
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
+              Navigator.pop(context);
+              Navigator.pop(context);
             });
           } else {
             await FirebaseFirestore.instance.collection("products").get().then((collection) async {
