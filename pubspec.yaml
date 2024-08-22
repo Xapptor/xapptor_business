@@ -19,7 +19,7 @@ dependencies:
   file_picker: ^8.0.3
   fl_chart: ^0.68.0
   intl: ^0.19.0
-  syncfusion_flutter_xlsio: ^25.2.6
+  syncfusion_flutter_xlsio: ^26.2.10
   in_app_purchase: ^3.2.0
   pay: ^2.0.0
   uuid: ^4.4.0
