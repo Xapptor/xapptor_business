@@ -13,6 +13,7 @@ import 'package:xapptor_logic/date/get_range_of_dates.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_logic/send_email.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 register_payment({
   required String reservation_id,
@@ -107,7 +108,7 @@ register_payment({
                         flex: 2,
                         child: IconButton(
                           onPressed: () async {
-                            await FirebaseFirestore.instance
+                            await XapptorDB.instance
                                 .collection("payments")
                                 .doc(reservation_payments[index].id)
                                 .delete();
@@ -115,7 +116,7 @@ register_payment({
                             parent.current_reservation!.payments
                                 .removeWhere((element) => element == reservation_payments[index].id);
 
-                            await FirebaseFirestore.instance
+                            await XapptorDB.instance
                                 .collection("reservations")
                                 .doc(parent.current_reservation!.id)
                                 .update({
@@ -196,8 +197,8 @@ register_payment({
                       user_id: user_id,
                     );
 
-                    FirebaseFirestore.instance.collection("payments").add(new_payment.to_json()).then((payment) {
-                      FirebaseFirestore.instance.collection("reservations").doc(parent.current_reservation!.id).update({
+                    XapptorDB.instance.collection("payments").add(new_payment.to_json()).then((payment) {
+                      XapptorDB.instance.collection("reservations").doc(parent.current_reservation!.id).update({
                         "payments": FieldValue.arrayUnion([payment.id]),
                       }).then((reservation) {
                         String email_message =

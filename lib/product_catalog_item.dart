@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
@@ -205,7 +205,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
       if (widget.stripe_payment.user_id.isEmpty) {
         open_screen("login");
       } else {
-        var payments_doc = await FirebaseFirestore.instance.collection("metadata").doc("payments").get();
+        var payments_doc = await XapptorDB.instance.collection("metadata").doc("payments").get();
 
         Map payments_doc_data = payments_doc.data()!;
 

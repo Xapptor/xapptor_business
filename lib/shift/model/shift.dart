@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/shift/model/shift_participant.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 enum ShiftType {
   first,
@@ -49,8 +50,7 @@ Future<Shift> get_shift_from_snapshot(
   String id,
   Map snapshot,
 ) async {
-  List<ShiftParticipant> participants =
-      await get_shift_participants((snapshot['participants']).cast<String>());
+  List<ShiftParticipant> participants = await get_shift_participants((snapshot['participants']).cast<String>());
 
   return Shift(
     id: id,
@@ -71,10 +71,8 @@ get_shifts(Function(List<Shift>) update_function) async {
   User? user = FirebaseAuth.instance.currentUser;
   List<Shift> shifts = [];
 
-  QuerySnapshot shifts_snaps = await FirebaseFirestore.instance
-      .collection('shifts')
-      .where('supervisor_id', isEqualTo: user!.uid)
-      .get();
+  QuerySnapshot shifts_snaps =
+      await XapptorDB.instance.collection('shifts').where('supervisor_id', isEqualTo: user!.uid).get();
 
   if (shifts_snaps.docs.isEmpty) {
     update_function(shifts);

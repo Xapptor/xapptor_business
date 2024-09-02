@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/cabin/get_reservation_from_id.dart';
 import 'package:xapptor_business/cabin/get_reservation_period_label.dart';
@@ -23,7 +23,7 @@ delete_reservation({
   );
 
   for (var payment_id in reservation_for_deletion.payments) {
-    await FirebaseFirestore.instance.collection("payments").doc(payment_id).delete();
+    await XapptorDB.instance.collection("payments").doc(payment_id).delete();
   }
 
   String reservation_period_label = get_reservation_period_label(
@@ -32,7 +32,7 @@ delete_reservation({
     source_language: source_language,
   );
 
-  await FirebaseFirestore.instance.collection("reservations").doc(reservation_id).delete().then((value) {
+  await XapptorDB.instance.collection("reservations").doc(reservation_id).delete().then((value) {
     Navigator.of(context).pop();
 
     String email_message =

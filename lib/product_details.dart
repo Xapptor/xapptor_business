@@ -11,7 +11,7 @@ import 'package:xapptor_ui/widgets/webview/webview.dart';
 import 'package:xapptor_ui/widgets/card/custom_card.dart';
 import 'package:xapptor_ui/utils/check_permission.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 import 'package:file_picker/file_picker.dart' as file_picker;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:xapptor_ui/utils/is_portrait.dart';
@@ -136,7 +136,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               .then((firebase_storage.TaskSnapshot task_snapshot) async {
             String products_length_text = "";
 
-            await FirebaseFirestore.instance.collection("products").get().then((collection_snapshot) {
+            await XapptorDB.instance.collection("products").get().then((collection_snapshot) {
               products_length_text = (collection_snapshot.size + 1).toString();
             });
 
@@ -146,7 +146,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             String new_product_id = "zzzzzzzzzzzzzzzzz$products_length_text";
 
-            FirebaseFirestore.instance.collection("products").doc(new_product_id).set({
+            XapptorDB.instance.collection("products").doc(new_product_id).set({
               "name": _controller_name.text,
               "description": _controller_description.text,
               "price": int.parse(_controller_price.text),
@@ -171,7 +171,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               .ref('images/products/$current_image_file_name')
               .putString(current_image_file_base64, format: firebase_storage.PutStringFormat.dataUrl)
               .then((firebase_storage.TaskSnapshot task_snapshot) async {
-            FirebaseFirestore.instance.collection("products").doc(widget.product!.id).update({
+            XapptorDB.instance.collection("products").doc(widget.product!.id).update({
               "name": _controller_name.text,
               "description": _controller_description.text,
               "price": int.parse(_controller_price.text),
@@ -184,7 +184,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           });
         });
       } else {
-        FirebaseFirestore.instance.collection("products").doc(widget.product!.id).update({
+        XapptorDB.instance.collection("products").doc(widget.product!.id).update({
           "name": _controller_name.text,
           "description": _controller_description.text,
           "price": int.parse(_controller_price.text),

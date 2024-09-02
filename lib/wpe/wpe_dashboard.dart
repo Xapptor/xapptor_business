@@ -12,6 +12,7 @@ import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_ui/widgets/card/card_holder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 class WPEDashboard extends StatefulWidget {
   final String base_path;
@@ -45,7 +46,7 @@ class _WPEDashboardState extends State<WPEDashboard> {
 
   check_if_is_supervisor() async {
     User auth_user = FirebaseAuth.instance.currentUser!;
-    DocumentSnapshot user_snap = await FirebaseFirestore.instance.collection("users").doc(auth_user.uid).get();
+    DocumentSnapshot user_snap = await XapptorDB.instance.collection("users").doc(auth_user.uid).get();
 
     Map user_data = user_snap.data() as Map;
 

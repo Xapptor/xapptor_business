@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 Future<List<ReservationCabin>> get_reservations({
   required String user_id,
@@ -20,10 +21,9 @@ Future<List<ReservationCabin>> get_reservations({
 
   if (get_all_reservations) {
     if (show_older_reservations) {
-      reservations_snap =
-          await FirebaseFirestore.instance.collection("reservations").get();
+      reservations_snap = await XapptorDB.instance.collection("reservations").get();
     } else {
-      reservations_snap = await FirebaseFirestore.instance
+      reservations_snap = await XapptorDB.instance
           .collection("reservations")
           .where(
             "date_init",
@@ -36,7 +36,7 @@ Future<List<ReservationCabin>> get_reservations({
           .get();
     }
   } else {
-    reservations_snap = await FirebaseFirestore.instance
+    reservations_snap = await XapptorDB.instance
         .collection("reservations")
         .where(
           "user_id",
@@ -59,8 +59,7 @@ Future<List<ReservationCabin>> get_reservations({
       DateTime.now().month,
       DateTime.now().day - 1,
     );
-    if (!show_older_reservations &&
-        reservation.date_init.isBefore(comparison_date)) {
+    if (!show_older_reservations && reservation.date_init.isBefore(comparison_date)) {
       reservations_copy.remove(reservation);
     }
   }

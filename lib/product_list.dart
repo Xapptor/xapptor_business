@@ -16,6 +16,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'vending_machine/dispenser_details.dart';
 import 'product_details.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({
@@ -59,7 +60,7 @@ class _ProductListState extends State<ProductList> {
 
     setState(() {});
 
-    await FirebaseFirestore.instance.collection("products").get().then((snapshot_products) async {
+    await XapptorDB.instance.collection("products").get().then((snapshot_products) async {
       for (var snapshot_product in snapshot_products.docs) {
         products.add(
           Product.from_snapshot(
@@ -71,7 +72,7 @@ class _ProductListState extends State<ProductList> {
 
       if (widget.for_dispensers) {
         DocumentSnapshot vending_machine =
-            await FirebaseFirestore.instance.collection("vending_machines").doc(widget.vending_machine_id).get();
+            await XapptorDB.instance.collection("vending_machines").doc(widget.vending_machine_id).get();
 
         List vending_machine_dispensers = vending_machine["dispensers"];
 
@@ -361,11 +362,7 @@ class _ProductListState extends State<ProductList> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          await FirebaseFirestore.instance
-                              .collection("products")
-                              .doc(product.id)
-                              .delete()
-                              .then((value) async {
+                          await XapptorDB.instance.collection("products").doc(product.id).delete().then((value) async {
                             await FirebaseStorage.instance.refFromURL(product.image_src).delete().then((value) async {
                               get_products();
                               Navigator.pop(context);

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xapptor_business/shift/model/shift.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 enum Area {
   quarry_or_mine,
@@ -287,7 +288,7 @@ class WorkplaceExam {
 get_wpes(Function(List<WorkplaceExam>) update_function) async {
   List<WorkplaceExam> wpes = [];
 
-  QuerySnapshot wpes_snaps = await FirebaseFirestore.instance.collection('wpes').get();
+  QuerySnapshot wpes_snaps = await XapptorDB.instance.collection('wpes').get();
 
   if (wpes_snaps.docs.isEmpty) {
     update_function(wpes);

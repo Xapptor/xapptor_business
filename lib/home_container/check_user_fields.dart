@@ -3,12 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_auth/model/xapptor_user.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_business/home_container/show_profile_dialog.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 extension StateExtension on HomeContainerState {
   check_user_fields() async {
     if (FirebaseAuth.instance.currentUser != null) {
       User auth_user = FirebaseAuth.instance.currentUser!;
-      DocumentSnapshot user = await FirebaseFirestore.instance.collection("users").doc(auth_user.uid).get();
+      DocumentSnapshot user = await XapptorDB.instance.collection("users").doc(auth_user.uid).get();
 
       Map<String, dynamic> user_data = user.data() as Map<String, dynamic>;
 

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 class ShiftParticipant {
   String id;
@@ -19,7 +20,7 @@ Future<List<ShiftParticipant>> get_shift_participants(List<String> participants_
   List<ShiftParticipant> participants = [];
 
   for (var participant_id in participants_id) {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('users').doc(participant_id).get();
+    DocumentSnapshot snapshot = await XapptorDB.instance.collection('users').doc(participant_id).get();
 
     participants.add(
       ShiftParticipant.from_snapshot(participant_id, snapshot.data() as Map),

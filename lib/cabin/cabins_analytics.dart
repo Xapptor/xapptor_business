@@ -9,6 +9,7 @@ import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 class CabinsAnalytics extends StatefulWidget {
   const CabinsAnalytics({
@@ -76,7 +77,7 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
 
     user_id = FirebaseAuth.instance.currentUser!.uid;
 
-    await FirebaseFirestore.instance.collection('cabins').get().then((QuerySnapshot query_snapshot) {
+    await XapptorDB.instance.collection('cabins').get().then((QuerySnapshot query_snapshot) {
       for (var doc in query_snapshot.docs) {
         cabins.add(
           Cabin.from_snapshot(
@@ -99,7 +100,7 @@ class _CabinsAnalyticsState extends State<CabinsAnalytics> {
 
   get_payments() async {
     for (var cabin in cabins) {
-      await FirebaseFirestore.instance
+      await XapptorDB.instance
           .collection('payments')
           .where(
             'product_id',

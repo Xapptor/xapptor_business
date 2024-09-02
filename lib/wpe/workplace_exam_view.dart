@@ -13,6 +13,7 @@ import 'workplace_exam_segments/wpe_risks_segment.dart';
 import 'workplace_exam_segments/wpe_description_segment.dart';
 import 'workplace_exam_segments/wpe_correctives_segment.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 class WorkplaceExamView extends StatefulWidget {
   final Color main_color;
@@ -234,7 +235,7 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
   save_in_firebase({
     bool finish_wpe = false,
   }) async {
-    CollectionReference wpes_ref = FirebaseFirestore.instance.collection('wpes');
+    CollectionReference wpes_ref = XapptorDB.instance.collection('wpes');
     late DocumentReference doc_ref;
     if (workplace_exam.value.id != '') {
       doc_ref = wpes_ref.doc(workplace_exam.value.id);

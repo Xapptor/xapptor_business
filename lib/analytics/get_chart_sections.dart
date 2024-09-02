@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/analytics/chart_type.dart';
 import 'get_sum_of_payments_by_parameter.dart';
 import 'package:xapptor_logic/color/get_random_color.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 Future<List> get_chart_sections({
   required List<Map<String, dynamic>> payments,
@@ -38,7 +39,7 @@ Future<List> get_chart_sections({
     } else {
       String id = payments_by_parameter[parameter];
 
-      await FirebaseFirestore.instance.collection(collection).doc(id).get().then((DocumentSnapshot snapshot) {
+      await XapptorDB.instance.collection(collection).doc(id).get().then((DocumentSnapshot snapshot) {
         Map<String, dynamic> snapshot_data = snapshot.data() as Map<String, dynamic>;
         title = snapshot_data["name"] ?? snapshot.id;
       });

@@ -8,6 +8,7 @@ import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_ui/widgets/card/card_holder.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'delete_product.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 class Inventory extends StatefulWidget {
   const Inventory({
@@ -55,9 +56,9 @@ class _InventoryState extends State<Inventory> {
 
     if (widget.product == null) {
       products_snap =
-          await FirebaseFirestore.instance.collection(widget.collection_name).where('category_id', isEqualTo: '').get();
+          await XapptorDB.instance.collection(widget.collection_name).where('category_id', isEqualTo: '').get();
     } else {
-      products_snap = await FirebaseFirestore.instance
+      products_snap = await XapptorDB.instance
           .collection(widget.collection_name)
           .where('category_id', isEqualTo: widget.product!.id)
           .get();

@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
 import 'package:xapptor_business/product_list.dart';
@@ -51,7 +51,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
   // Callback button switch "enabled" parameter.
 
   switch_button_callback(bool new_value) async {
-    await FirebaseFirestore.instance
+    await XapptorDB.instance
         .collection("vending_machines")
         .doc(widget.vending_machine!.id)
         .update({"enabled": new_value}).then((value) {
@@ -114,15 +114,11 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
 
   check_vending_machine_data() async {
     if (_controller_name.text.isNotEmpty && _controller_user_id.text.isNotEmpty) {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(_controller_user_id.text)
-          .get()
-          .then((user_snapshot) async {
+      await XapptorDB.instance.collection("users").doc(_controller_user_id.text).get().then((user_snapshot) async {
         var user_snapshot_data = user_snapshot.data();
         if (user_snapshot_data != null) {
           if (widget.vending_machine != null) {
-            FirebaseFirestore.instance.collection("vending_machines").doc(widget.vending_machine!.id).update({
+            XapptorDB.instance.collection("vending_machines").doc(widget.vending_machine!.id).update({
               "name": _controller_name.text,
               "user_id": _controller_user_id.text,
               "enabled": enabled,
@@ -132,8 +128,8 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
               Navigator.pop(context);
             });
           } else {
-            await FirebaseFirestore.instance.collection("products").get().then((collection) async {
-              await FirebaseFirestore.instance.collection("vending_machines").add({
+            await XapptorDB.instance.collection("products").get().then((collection) async {
+              await XapptorDB.instance.collection("vending_machines").add({
                 "name": _controller_name.text,
                 "enabled": false,
                 "money_change": 0,

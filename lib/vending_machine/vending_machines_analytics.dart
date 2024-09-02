@@ -10,6 +10,7 @@ import 'package:xapptor_business/models/vending_machine.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/vending_machine/download_vending_machines_analytics_excel_file.dart';
 import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 class VendingMachinesAnalytics extends StatefulWidget {
   const VendingMachinesAnalytics({
@@ -92,7 +93,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
 
     user_id = FirebaseAuth.instance.currentUser!.uid;
 
-    await FirebaseFirestore.instance
+    await XapptorDB.instance
         .collection('vending_machines')
         .where(
           'user_id',
@@ -122,7 +123,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
 
     product_values.add(widget.product_value);
 
-    await FirebaseFirestore.instance.collection("products").get().then((snapshot_products) {
+    await XapptorDB.instance.collection("products").get().then((snapshot_products) {
       for (var snapshot_product in snapshot_products.docs) {
         products.add(
           Product.from_snapshot(
@@ -141,7 +142,7 @@ class _VendingMachinesAnalyticsState extends State<VendingMachinesAnalytics> {
 
   get_payments() async {
     for (var vending_machine in vending_machines) {
-      await FirebaseFirestore.instance
+      await XapptorDB.instance
           .collection('payments')
           .where(
             'vending_machine_id',

@@ -6,6 +6,7 @@ import 'package:xapptor_business/models/payment_vending_machine.dart';
 import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
 import 'package:xapptor_logic/file_downloader/file_downloader.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 download_vending_machines_analytics_excel_file({
   required BuildContext context,
@@ -31,7 +32,7 @@ download_vending_machines_analytics_excel_file({
   int current_row_number = 2;
 
   for (var filtred_payment in filtered_payments) {
-    await FirebaseFirestore.instance
+    await XapptorDB.instance
         .collection('vending_machines')
         .doc(filtred_payment.vending_machine_id)
         .get()
@@ -44,7 +45,7 @@ download_vending_machines_analytics_excel_file({
       String current_date = DateFormat("dd/MM/yyyy").format(filtred_payment.date);
       String current_date_hour = DateFormat.Hm().format(filtred_payment.date);
 
-      await FirebaseFirestore.instance
+      await XapptorDB.instance
           .collection('products')
           .doc(filtred_payment.product_id)
           .get()

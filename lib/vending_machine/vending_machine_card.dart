@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
 import 'package:xapptor_router/app_screen.dart';
@@ -206,7 +206,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          await FirebaseFirestore.instance
+                          await XapptorDB.instance
                               .collection("vending_machines")
                               .doc(vending_machine_id)
                               .delete()

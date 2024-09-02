@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:xapptor_business/models/product.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 Future set_product(
   Product product,
@@ -11,7 +12,7 @@ Future set_product(
 ) async {
   String doc_id = product.id;
   if (product.id == '') {
-    DocumentReference doc_ref = FirebaseFirestore.instance.collection('products').doc();
+    DocumentReference doc_ref = XapptorDB.instance.collection('products').doc();
     doc_id = doc_ref.id;
   }
 
@@ -26,7 +27,7 @@ Future set_product(
     product_json['image_src'] = image_url;
   }
 
-  await FirebaseFirestore.instance
+  await XapptorDB.instance
       .collection('products')
       .doc(doc_id)
       .set(

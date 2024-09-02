@@ -19,6 +19,7 @@ import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_ui/widgets/loading.dart';
 import 'product_catalog_item.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
+import 'package:xapptor_db/xapptor_db.dart';
 
 class ProductCatalog extends StatefulWidget {
   ProductCatalog({
@@ -177,7 +178,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
   }
 
   restore_purchase(String product_id) async {
-    FirebaseFirestore.instance.collection("users").doc(user_id).update({
+    XapptorDB.instance.collection("users").doc(user_id).update({
       "products_acquired": FieldValue.arrayUnion([product_id]),
     }).then((value) {
       show_purchase_result_banner(true, "Purchase Restored");
@@ -190,10 +191,10 @@ class _ProductCatalogState extends State<ProductCatalog> {
       product_id: product_id,
     );
     if (!product_was_acquired) {
-      FirebaseFirestore.instance.collection("users").doc(user_id).update({
+      XapptorDB.instance.collection("users").doc(user_id).update({
         "products_acquired": FieldValue.arrayUnion([product_id]),
       }).then((value) {
-        FirebaseFirestore.instance.collection("payments").add({
+        XapptorDB.instance.collection("payments").add({
           "payment_intent_id": "",
           "user_id": user_id,
           "product_id": product_id,
@@ -457,7 +458,7 @@ Future<bool> check_if_product_was_acquired({
   required String user_id,
   required String product_id,
 }) async {
-  DocumentSnapshot user_snap = await FirebaseFirestore.instance.collection("users").doc(user_id).get();
+  DocumentSnapshot user_snap = await XapptorDB.instance.collection("users").doc(user_id).get();
   Map user_snap_data = user_snap.data()! as Map;
   List products_acquired = user_snap_data["products_acquired"] ?? [];
   return products_acquired.contains(product_id);
