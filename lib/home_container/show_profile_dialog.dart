@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xapptor_auth/sign_out.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_router/app_screens.dart';
 
@@ -14,7 +15,9 @@ extension StateExtension on HomeContainerState {
             TextButton(
               child: const Text("Logout"),
               onPressed: () async {
-                //sign_out(context: context);
+                sign_out(
+                  context: context,
+                );
               },
             ),
             TextButton(
