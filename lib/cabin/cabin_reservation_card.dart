@@ -112,16 +112,15 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              widget.reservation != null
-                  ? SelectableText(
-                      "ID: ${widget.reservation!.id}",
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  : Container(),
+              if (widget.reservation != null)
+                SelectableText(
+                  "ID: ${widget.reservation!.id}",
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               GestureDetector(
                 onTap: () {
                   if (widget.editing_mode) {
@@ -240,18 +239,17 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  widget.reservation == null
-                      ? Container()
-                      : Text(
-                          "${widget.text_list[34]}: ${widget.reservation_payments_total} ${widget.text_list[35]}",
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.visible,
-                          maxLines: 10,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                  if (widget.reservation != null)
+                    Text(
+                      "${widget.text_list[34]}: ${widget.reservation_payments_total} ${widget.text_list[35]}",
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.visible,
+                      maxLines: 10,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   Flex(
                     direction: portrait ? Axis.vertical : Axis.horizontal,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -372,18 +370,17 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                       ),
                     ],
                   ),
-                  widget.reservation != null && admin
-                      ? Text(
-                          user_name,
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.visible,
-                          maxLines: 10,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : Container(),
+                  if (widget.reservation != null && admin)
+                    Text(
+                      user_name,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.visible,
+                      maxLines: 10,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   widget.editing_mode
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -458,17 +455,16 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                           ),
                           tooltip: widget.text_list[30],
                         ),
-                        admin
-                            ? IconButton(
-                                onPressed: () {
-                                  widget.register_payment_callback(widget.reservation!.id);
-                                },
-                                icon: const Icon(
-                                  FontAwesomeIcons.creditCard,
-                                ),
-                                tooltip: widget.text_list[31],
-                              )
-                            : Container(),
+                        if (admin)
+                          IconButton(
+                            onPressed: () {
+                              widget.register_payment_callback(widget.reservation!.id);
+                            },
+                            icon: const Icon(
+                              FontAwesomeIcons.creditCard,
+                            ),
+                            tooltip: widget.text_list[31],
+                          ),
                       ],
                     ),
                   ],
