@@ -256,16 +256,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                   SizedBox(
                     height: sized_box_space * 4,
                   ),
-                  widget.product == null
-                      ? Container()
-                      : SizedBox(
-                          height: screen_height / 3,
-                          width: screen_height / 3,
-                          child: Webview(
-                            id: const Uuid().v8(),
-                            src: widget.product!.image_src,
-                          ),
-                        ),
+                  if (widget.product != null)
+                    SizedBox(
+                      height: screen_height / 3,
+                      width: screen_height / 3,
+                      child: Webview(
+                        id: const Uuid().v8(),
+                        src: widget.product!.image_src,
+                      ),
+                    ),
                   TextField(
                     onTap: () {
                       //

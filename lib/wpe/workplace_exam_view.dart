@@ -300,25 +300,24 @@ class _WorkplaceExamViewState extends State<WorkplaceExamView> {
         width: screen_width,
         child: Column(
           children: [
-            current_step.value == 0
-                ? Container()
-                : Expanded(
-                    flex: 3,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.all(10),
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.angleLeft,
-                          color: widget.main_color,
-                        ),
-                        onPressed: () {
-                          current_step.value--;
-                          setState(() {});
-                        },
-                      ),
+            if (current_step.value != 0)
+              Expanded(
+                flex: 3,
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.all(10),
+                  child: IconButton(
+                    icon: Icon(
+                      FontAwesomeIcons.angleLeft,
+                      color: widget.main_color,
                     ),
+                    onPressed: () {
+                      current_step.value--;
+                      setState(() {});
+                    },
                   ),
+                ),
+              ),
             Expanded(
               flex: 30,
               child: FractionallySizedBox(

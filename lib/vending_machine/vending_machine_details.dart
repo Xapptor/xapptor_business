@@ -246,88 +246,87 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                   enabled: is_editing,
                 ),
               ),
-              widget.vending_machine == null
-                  ? Container()
-                  : Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              "CAMBIO \$${widget.vending_machine?.money_change.toString() ?? "0"}",
-                              style: TextStyle(
-                                color: Colors.pink,
-                                fontSize: title_size,
-                              ),
-                            ),
+              if (widget.vending_machine != null)
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          "CAMBIO \$${widget.vending_machine?.money_change.toString() ?? "0"}",
+                          style: TextStyle(
+                            color: Colors.pink,
+                            fontSize: title_size,
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: FractionallySizedBox(
-                              heightFactor: 0.8,
-                              widthFactor: 0.7,
-                              child: switch_button(
-                                text: enabled ? "HABILITADO" : "DESHABILITADO",
-                                value: enabled,
-                                enabled: is_editing,
-                                active_track_color: widget.text_color.withOpacity(0.5),
-                                active_color: Colors.lightGreen,
-                                inactive_color: !is_editing ? Colors.grey : Colors.red,
-                                background_color: widget.topbar_color,
-                                callback: switch_button_callback,
-                                border_radius: MediaQuery.of(context).size.width,
-                              ),
-                            ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: FractionallySizedBox(
+                          heightFactor: 0.8,
+                          widthFactor: 0.7,
+                          child: switch_button(
+                            text: enabled ? "HABILITADO" : "DESHABILITADO",
+                            value: enabled,
+                            enabled: is_editing,
+                            active_track_color: widget.text_color.withOpacity(0.5),
+                            active_color: Colors.lightGreen,
+                            inactive_color: !is_editing ? Colors.grey : Colors.red,
+                            background_color: widget.topbar_color,
+                            callback: switch_button_callback,
+                            border_radius: MediaQuery.of(context).size.width,
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: FractionallySizedBox(
-                              heightFactor: 0.8,
-                              widthFactor: 0.7,
-                              child: CustomCard(
-                                border_radius: MediaQuery.of(context).size.width,
-                                on_pressed: () {
-                                  add_new_app_screen(
-                                    AppScreen(
-                                      name: "home/vending_machine_details/dispensers_list",
-                                      child: ProductList(
-                                        vending_machine_id: widget.vending_machine!.id,
-                                        allow_edit: true,
-                                        has_topbar: true,
-                                        for_dispensers: true,
-                                        text_color: widget.text_color,
-                                        topbar_color: widget.topbar_color,
-                                        title_color: widget.textfield_color,
-                                      ),
-                                    ),
-                                  );
-                                  open_screen("home/vending_machine_details/dispensers_list");
-                                },
-                                linear_gradient: LinearGradient(
-                                  colors: [
-                                    widget.topbar_color.withOpacity(0.4),
-                                    widget.textfield_color.withOpacity(0.4),
-                                  ],
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "DISPENSADORES",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: FractionallySizedBox(
+                          heightFactor: 0.8,
+                          widthFactor: 0.7,
+                          child: CustomCard(
+                            border_radius: MediaQuery.of(context).size.width,
+                            on_pressed: () {
+                              add_new_app_screen(
+                                AppScreen(
+                                  name: "home/vending_machine_details/dispensers_list",
+                                  child: ProductList(
+                                    vending_machine_id: widget.vending_machine!.id,
+                                    allow_edit: true,
+                                    has_topbar: true,
+                                    for_dispensers: true,
+                                    text_color: widget.text_color,
+                                    topbar_color: widget.topbar_color,
+                                    title_color: widget.textfield_color,
                                   ),
                                 ),
+                              );
+                              open_screen("home/vending_machine_details/dispensers_list");
+                            },
+                            linear_gradient: LinearGradient(
+                              colors: [
+                                widget.topbar_color.withOpacity(0.4),
+                                widget.textfield_color.withOpacity(0.4),
+                              ],
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "DISPENSADORES",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
+                ),
               const Spacer(flex: 4),
             ],
           ),

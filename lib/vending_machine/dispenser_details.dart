@@ -139,77 +139,75 @@ class _DispenserDetailsState extends State<DispenserDetails> {
                   ),
                 ),
               ),
-              widget.allow_edit
-                  ? Expanded(
-                      flex: 1,
-                      child: FractionallySizedBox(
-                        heightFactor: 0.6,
-                        widthFactor: 0.7,
-                        child: switch_button(
-                          text: "HABILITADO",
-                          value: dispenser_enabled,
-                          enabled: enable_dispenser_edit,
-                          active_track_color: main_color,
-                          active_color: Colors.lightGreen,
-                          inactive_color: Colors.red,
-                          background_color: main_color,
-                          callback: switch_button_callback,
-                          border_radius: MediaQuery.of(context).size.width,
+              if (widget.allow_edit)
+                Expanded(
+                  flex: 1,
+                  child: FractionallySizedBox(
+                    heightFactor: 0.6,
+                    widthFactor: 0.7,
+                    child: switch_button(
+                      text: "HABILITADO",
+                      value: dispenser_enabled,
+                      enabled: enable_dispenser_edit,
+                      active_track_color: main_color,
+                      active_color: Colors.lightGreen,
+                      inactive_color: Colors.red,
+                      background_color: main_color,
+                      callback: switch_button_callback,
+                      border_radius: MediaQuery.of(context).size.width,
+                    ),
+                  ),
+                ),
+              if (widget.allow_edit)
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          "CANTIDAD DISPONIBLE",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: main_color,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
-                    )
-                  : Container(),
-              widget.allow_edit
-                  ? Expanded(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              "CANTIDAD DISPONIBLE",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: main_color,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                children: [
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Text(
-                                      widget.dispenser.quantity_remaining.toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: main_color,
-                                        fontSize: 70,
-                                      ),
-                                    ),
+                      Expanded(
+                        flex: 2,
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            children: [
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Text(
+                                  widget.dispenser.quantity_remaining.toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: main_color,
+                                    fontSize: 70,
                                   ),
-                                  const WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: Text(
-                                      " LITROS",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                              const WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Text(
+                                  " LITROS",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 30,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    )
-                  : Container(),
+                    ],
+                  ),
+                ),
               const Spacer(flex: 1),
             ],
           ),
