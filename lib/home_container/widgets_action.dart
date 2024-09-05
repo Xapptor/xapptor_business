@@ -16,25 +16,24 @@ extension StateExtension on HomeContainerState {
             update_source_language: widget.update_source_language!,
           ),
         ),
-      portrait || widget.tooltip_list.isEmpty
-          ? const SizedBox()
-          : Row(
-              children: [
-                    Tooltip(
-                      message: widget.text_list_menu[0],
-                      child: TextButton(
-                        onPressed: () {
-                          open_screen("home/account");
-                        },
-                        child: const Icon(
-                          FontAwesomeIcons.user,
-                          color: Colors.white,
-                        ),
-                      ),
+      if (!portrait && widget.tooltip_list.isNotEmpty)
+        Row(
+          children: [
+                Tooltip(
+                  message: widget.text_list_menu[0],
+                  child: TextButton(
+                    onPressed: () {
+                      open_screen("home/account");
+                    },
+                    child: const Icon(
+                      FontAwesomeIcons.user,
+                      color: Colors.white,
                     ),
-                  ] +
-                  widget.tooltip_list,
-            ),
+                  ),
+                ),
+              ] +
+              widget.tooltip_list,
+        ),
       if (widget.tile_list.isNotEmpty)
         IconButton(
           icon: const Icon(

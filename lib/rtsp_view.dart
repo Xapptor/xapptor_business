@@ -16,15 +16,12 @@ class RTSPView extends StatefulWidget {
 }
 
 class _RTSPViewState extends State<RTSPView> {
-  String rtsp_html = "";
-
-  read_rtsp_html() async {
-    rtsp_html = await rootBundle.loadString('packages/xapptor_business/assets/rtsp/index.html');
+  Future<String> read_rtsp_html() async {
+    String rtsp_html = await rootBundle.loadString('packages/xapptor_business/assets/rtsp/index.html');
     rtsp_html = rtsp_html.replaceAll("[URL]", widget.url);
 
-    Timer(const Duration(milliseconds: 300), () {
-      setState(() {});
-    });
+    await Future.delayed(const Duration(milliseconds: 300));
+    return rtsp_html;
   }
 
   @override
@@ -35,11 +32,21 @@ class _RTSPViewState extends State<RTSPView> {
 
   @override
   Widget build(BuildContext context) {
-    return rtsp_html != ""
-        ? Webview(
+    return FutureBuilder<String>(
+      future: read_rtsp_html(),
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<String> snapshot,
+      ) {
+        if (snapshot.hasError) {
+          return const SizedBox();
+        } else {
+          return Webview(
             id: "",
-            src: rtsp_html,
-          )
-        : const SizedBox();
+            src: snapshot.data!,
+          );
+        }
+      },
+    );
   }
 }

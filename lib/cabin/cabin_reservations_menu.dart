@@ -562,7 +562,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                 ],
               )
             : date_label_1.isEmpty || date_label_2.isEmpty
-                ? const SizedBox()
+                ? null
                 : SizedBox(
                     height: screen_height * (portrait ? 0.6 : 0.55),
                     width: screen_width * (portrait ? 0.9 : 0.4),
