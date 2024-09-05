@@ -148,18 +148,17 @@ register_payment({
               } else {
                 return Column(
                   children: [
-                    reservation_payments.isNotEmpty
-                        ? Container(
-                            alignment: Alignment.centerRight,
-                            margin: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              "${text_list[33]} \$${reservation_payments.map((payment) => payment.amount).toList().reduce((a, b) => a + b)}/$total_to_pay",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        : Container(),
+                    if (reservation_payments.isNotEmpty)
+                      Container(
+                        alignment: Alignment.centerRight,
+                        margin: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          "${text_list[33]} \$${reservation_payments.map((payment) => payment.amount).toList().reduce((a, b) => a + b)}/$total_to_pay",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     TextField(
                       controller: amount_input_controller,
                       autofocus: true,

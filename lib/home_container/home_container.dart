@@ -143,12 +143,7 @@ class HomeContainerState extends State<HomeContainer> {
           floatingActionButton: widget.fab,
           body: Column(
             children: [
-              widget.cardholder_list_2.isEmpty
-                  ? Expanded(
-                      flex: 1,
-                      child: Container(),
-                    )
-                  : Container(),
+              if (widget.cardholder_list_2.isEmpty) const Spacer(flex: 1),
               Expanded(
                 flex: first_carousel_flex,
                 child: FractionallySizedBox(
@@ -171,10 +166,7 @@ class HomeContainerState extends State<HomeContainer> {
                 ),
               ),
               widget.cardholder_list_2.isEmpty
-                  ? Expanded(
-                      flex: 1,
-                      child: Container(),
-                    )
+                  ? const Spacer(flex: 1)
                   : Expanded(
                       flex: 1,
                       child: FractionallySizedBox(

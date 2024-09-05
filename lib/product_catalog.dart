@@ -415,7 +415,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
               },
             ),
           ),
-          portrait ? Container() : const Spacer(flex: 2),
+          if (!portrait) const Spacer(flex: 2),
         ],
       ),
     );
@@ -441,7 +441,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                             language_picker_items_text_color: widget.language_picker_items_text_color!,
                             update_source_language: update_source_language,
                           )
-                        : Container(),
+                        : null,
                   ),
                 ],
                 custom_leading: null,

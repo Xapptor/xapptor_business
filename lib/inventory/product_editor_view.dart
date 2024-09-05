@@ -196,62 +196,60 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                     SizedBox(
                       height: sized_box_space * 2,
                     ),
-                    image_input_controller.text != "" || image_data != null
-                        ? Container(
-                            decoration: BoxDecoration(
-                              color: widget.main_color,
-                              borderRadius: BorderRadius.circular(
-                                20,
-                              ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                20,
-                              ),
-                              child: use_image_url
-                                  ? image_input_controller.text.contains('http')
-                                      ? Image.network(
-                                          image_input_controller.text,
-                                          fit: BoxFit.fitWidth,
-                                        )
-                                      : Image.asset(
-                                          image_input_controller.text,
-                                          fit: BoxFit.fitWidth,
-                                          errorBuilder: (context, error, stackTrace) => Container(),
-                                        )
-                                  : Image.memory(
-                                      image_data!,
+                    if (image_input_controller.text != "" || image_data != null)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: widget.main_color,
+                          borderRadius: BorderRadius.circular(
+                            20,
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                            20,
+                          ),
+                          child: use_image_url
+                              ? image_input_controller.text.contains('http')
+                                  ? Image.network(
+                                      image_input_controller.text,
                                       fit: BoxFit.fitWidth,
-                                    ),
-                            ),
-                          )
-                        : Container(),
+                                    )
+                                  : Image.asset(
+                                      image_input_controller.text,
+                                      fit: BoxFit.fitWidth,
+                                      errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                                    )
+                              : Image.memory(
+                                  image_data!,
+                                  fit: BoxFit.fitWidth,
+                                ),
+                        ),
+                      ),
                     SizedBox(
                       height: sized_box_space,
                     ),
-                    !widget.is_a_product_category
-                        ? TextFormField(
-                            style: TextStyle(
+                    if (!widget.is_a_product_category)
+                      TextFormField(
+                        style: TextStyle(
+                          color: widget.main_color,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: widget.text_list[3],
+                          labelStyle: TextStyle(
+                            color: widget.main_color,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
                               color: widget.main_color,
                             ),
-                            decoration: InputDecoration(
-                              labelText: widget.text_list[3],
-                              labelStyle: TextStyle(
-                                color: widget.main_color,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: widget.main_color,
-                                ),
-                              ),
-                            ),
-                            controller: price_input_controller,
-                            validator: (value) => FormFieldValidators(
-                              value: value!,
-                              type: FormFieldValidatorsType.name,
-                            ).validate(),
-                          )
-                        : Container(),
+                          ),
+                        ),
+                        controller: price_input_controller,
+                        validator: (value) => FormFieldValidators(
+                          value: value!,
+                          type: FormFieldValidatorsType.name,
+                        ).validate(),
+                      ),
                     TextFormField(
                       style: TextStyle(
                         color: widget.main_color,
@@ -273,29 +271,28 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                         type: FormFieldValidatorsType.name,
                       ).validate(),
                     ),
-                    is_admin && widget.product.id != '' && !widget.is_a_product_category
-                        ? TextFormField(
-                            style: TextStyle(
+                    if (is_admin && widget.product.id != '' && !widget.is_a_product_category)
+                      TextFormField(
+                        style: TextStyle(
+                          color: widget.main_color,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: widget.text_list[5],
+                          labelStyle: TextStyle(
+                            color: widget.main_color,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
                               color: widget.main_color,
                             ),
-                            decoration: InputDecoration(
-                              labelText: widget.text_list[5],
-                              labelStyle: TextStyle(
-                                color: widget.main_color,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: widget.main_color,
-                                ),
-                              ),
-                            ),
-                            controller: quantity_input_controller,
-                            validator: (value) => FormFieldValidators(
-                              value: value!,
-                              type: FormFieldValidatorsType.name,
-                            ).validate(),
-                          )
-                        : Container(),
+                          ),
+                        ),
+                        controller: quantity_input_controller,
+                        validator: (value) => FormFieldValidators(
+                          value: value!,
+                          type: FormFieldValidatorsType.name,
+                        ).validate(),
+                      ),
                     SizedBox(
                       height: sized_box_space * 2,
                     ),

@@ -345,8 +345,8 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
 
   bool show_older_reservations = false;
 
-  Widget show_older_reservations_button() {
-    Widget container = Container();
+  Widget older_reservations_switch() {
+    Widget container = const SizedBox();
     if (user_info["admin"] != null) {
       if (user_info["admin"]) {
         container = Row(
@@ -414,7 +414,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
             ? Column(
                 mainAxisAlignment: reservations.isEmpty ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
                 children: [
-                  show_older_reservations_button(),
+                  older_reservations_switch(),
                   SizedBox(
                     height: screen_height * (portrait ? 0.8 : 0.8),
                     child: reservations.isEmpty
@@ -470,8 +470,10 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                       future: get_payments_by_reservation(
                                         reservations[index],
                                       ),
-                                      builder:
-                                          (BuildContext context, AsyncSnapshot<List<Payment>> reservation_payments) {
+                                      builder: (
+                                        BuildContext context,
+                                        AsyncSnapshot<List<Payment>> reservation_payments,
+                                      ) {
                                         if (reservation_payments.hasData) {
                                           return Container(
                                             height: screen_height * (portrait ? 0.55 : 0.5),
@@ -545,7 +547,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                                               ),
                                             );
                                           } else {
-                                            return Container();
+                                            return const SizedBox();
                                           }
                                         }
                                       },
@@ -560,7 +562,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                 ],
               )
             : date_label_1.isEmpty || date_label_2.isEmpty
-                ? Container()
+                ? const SizedBox()
                 : SizedBox(
                     height: screen_height * (portrait ? 0.6 : 0.55),
                     width: screen_width * (portrait ? 0.9 : 0.4),
@@ -634,7 +636,7 @@ class _CabinReservationsMenuState extends State<CabinReservationsMenu> {
                 FontAwesomeIcons.filePen,
               ),
             )
-          : Container(),
+          : null,
     );
   }
 }
