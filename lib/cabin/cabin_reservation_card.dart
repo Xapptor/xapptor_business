@@ -426,50 +426,49 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
             ],
           ),
         ),
-        !widget.editing_mode
-            ? Container(
-                alignment: Alignment.topCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        if (!widget.editing_mode)
+          Container(
+            alignment: Alignment.topCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    widget.delete_button_callback(widget.reservation!.id, false);
+                  },
+                  icon: const Icon(
+                    FontAwesomeIcons.trashCan,
+                    color: Colors.red,
+                  ),
+                  tooltip: widget.text_list[29],
+                ),
+                Column(
                   children: [
                     IconButton(
                       onPressed: () {
-                        widget.delete_button_callback(widget.reservation!.id, false);
+                        widget.edit_button_callback(widget.reservation!.id);
                       },
                       icon: const Icon(
-                        FontAwesomeIcons.trashCan,
-                        color: Colors.red,
+                        FontAwesomeIcons.penToSquare,
                       ),
-                      tooltip: widget.text_list[29],
+                      tooltip: widget.text_list[30],
                     ),
-                    Column(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            widget.edit_button_callback(widget.reservation!.id);
-                          },
-                          icon: const Icon(
-                            FontAwesomeIcons.penToSquare,
-                          ),
-                          tooltip: widget.text_list[30],
+                    if (admin)
+                      IconButton(
+                        onPressed: () {
+                          widget.register_payment_callback(widget.reservation!.id);
+                        },
+                        icon: const Icon(
+                          FontAwesomeIcons.creditCard,
                         ),
-                        if (admin)
-                          IconButton(
-                            onPressed: () {
-                              widget.register_payment_callback(widget.reservation!.id);
-                            },
-                            icon: const Icon(
-                              FontAwesomeIcons.creditCard,
-                            ),
-                            tooltip: widget.text_list[31],
-                          ),
-                      ],
-                    ),
+                        tooltip: widget.text_list[31],
+                      ),
                   ],
                 ),
-              )
-            : Container(),
+              ],
+            ),
+          ),
       ],
     );
   }
