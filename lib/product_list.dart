@@ -218,59 +218,56 @@ class _ProductListState extends State<ProductList> {
                 ),
               ),
             ),
-            widget.allow_edit && widget.for_dispensers
-                ? Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      alignment: Alignment.center,
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          products_value =
-                              products_values[products_values.indexOf(vending_machine_products[dispenser_id].name)];
-                          show_product_picker_dialog(context, dispenser_id);
-                        });
-                      },
+            if (widget.allow_edit && widget.for_dispensers)
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  alignment: Alignment.center,
+                  icon: const Icon(
+                    Icons.edit,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      products_value =
+                          products_values[products_values.indexOf(vending_machine_products[dispenser_id].name)];
+                      show_product_picker_dialog(context, dispenser_id);
+                    });
+                  },
+                ),
+              ),
+            if (!widget.for_dispensers)
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: IconButton(
+                  alignment: Alignment.center,
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    show_delete_product_dialog(
+                      context,
+                      product,
+                    );
+                  },
+                ),
+              ),
+            if (!widget.for_dispensers)
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    top: 18,
+                  ),
+                  child: Text(
+                    product.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
-                  )
-                : Container(),
-            !widget.for_dispensers
-                ? Align(
-                    alignment: Alignment.bottomLeft,
-                    child: IconButton(
-                      alignment: Alignment.center,
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        show_delete_product_dialog(
-                          context,
-                          product,
-                        );
-                      },
-                    ),
-                  )
-                : Container(),
-            !widget.for_dispensers
-                ? Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        top: 18,
-                      ),
-                      child: Text(
-                        product.name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(),
+                  ),
+                ),
+              ),
             Align(
               alignment: Alignment.topRight,
               child: Container(
