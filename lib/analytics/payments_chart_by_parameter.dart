@@ -29,7 +29,7 @@ Widget payments_chart_by_parameter({
       BuildContext context,
       AsyncSnapshot<List<dynamic>> snapshot,
     ) {
-      Widget current_widget = Container();
+      Widget current_widget = const SizedBox();
 
       Widget waiting_widget = const Center(
         child: CircularProgressIndicator(),

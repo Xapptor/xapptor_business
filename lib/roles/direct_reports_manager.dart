@@ -19,6 +19,6 @@ class _DirectReportsManagerState extends State<DirectReportsManager> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const SizedBox();
   }
 }

@@ -26,7 +26,7 @@ class _ShiftViewState extends State<ShiftView> {
         backgroundColor: widget.main_color,
         title: const Text('Shift View'),
       ),
-      body: Container(),
+      body: const SizedBox(),
     );
   }
 }

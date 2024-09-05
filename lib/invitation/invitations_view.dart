@@ -26,7 +26,7 @@ class _InvitationsViewState extends State<InvitationsView> {
         backgroundColor: widget.main_color,
         title: const Text('Invitations View'),
       ),
-      body: Container(),
+      body: const SizedBox(),
     );
   }
 }

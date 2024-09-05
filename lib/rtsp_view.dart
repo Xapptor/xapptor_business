@@ -40,6 +40,6 @@ class _RTSPViewState extends State<RTSPView> {
             id: "",
             src: rtsp_html,
           )
-        : Container();
+        : const SizedBox();
   }
 }

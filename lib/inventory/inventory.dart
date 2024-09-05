@@ -278,7 +278,7 @@ class _InventoryState extends State<Inventory> {
           content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
             return DropdownButton<String>(
               value: chosen_value,
-              underline: Container(),
+              underline: const SizedBox(),
               items: text_list.sublist(1, 3).map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
