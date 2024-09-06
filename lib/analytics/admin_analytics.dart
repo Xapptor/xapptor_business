@@ -10,6 +10,22 @@ import 'package:xapptor_ui/values/ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AdminAnalytics extends StatefulWidget {
+  final String screen_title;
+  final Color text_color;
+  final Color icon_color;
+  final List<Payment> payments;
+  final List<Payment> filtered_payments;
+  final Function filter_payments;
+  final List<Map<String, dynamic>> sum_of_payments;
+  final List<AnalyticsSegment> analytics_segments;
+  final List<String> timeframe_values;
+  final String timeframe_value;
+  final TimeFrame current_timeframe;
+  final Function(String new_value) update_timeframe_value;
+  final Function(BuildContext context) download_analytics_callback;
+  final String download_button_tooltip;
+  final ChartType chart_type;
+
   const AdminAnalytics({
     super.key,
     required this.screen_title,
@@ -28,22 +44,6 @@ class AdminAnalytics extends StatefulWidget {
     required this.download_button_tooltip,
     required this.chart_type,
   });
-
-  final String screen_title;
-  final Color text_color;
-  final Color icon_color;
-  final List<Payment> payments;
-  final List<Payment> filtered_payments;
-  final Function filter_payments;
-  final List<Map<String, dynamic>> sum_of_payments;
-  final List<AnalyticsSegment> analytics_segments;
-  final List<String> timeframe_values;
-  final String timeframe_value;
-  final TimeFrame current_timeframe;
-  final Function(String new_value) update_timeframe_value;
-  final Function(BuildContext context) download_analytics_callback;
-  final String download_button_tooltip;
-  final ChartType chart_type;
 
   @override
   State<AdminAnalytics> createState() => _AdminAnalyticsState();
