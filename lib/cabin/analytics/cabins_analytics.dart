@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/analytics/admin_analytics.dart';
 import 'package:xapptor_business/analytics/analytics_segment.dart';
 import 'package:xapptor_business/analytics/get_sum_of_payments_by_timeframe.dart';
-import 'package:xapptor_business/cabin/download_cabins_analytics_excel_file.dart';
+import 'package:xapptor_business/cabin/analytics/download_cabins_analytics_excel_file.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +12,18 @@ import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 import 'package:xapptor_db/xapptor_db.dart';
 
 class CabinsAnalytics extends StatefulWidget {
+  final String screen_title;
+  final Color text_color;
+  final Color icon_color;
+  final List<String> chart_titles;
+  final List<String> download_analytics_titles;
+  final List<String> timeframe_values;
+  final String cabin_value;
+  final String loading_message;
+  final String base_file_name;
+  final String download_button_tooltip;
+  final ChartType chart_type;
+
   const CabinsAnalytics({
     super.key,
     required this.screen_title,
@@ -26,18 +38,6 @@ class CabinsAnalytics extends StatefulWidget {
     required this.download_button_tooltip,
     required this.chart_type,
   });
-
-  final String screen_title;
-  final Color text_color;
-  final Color icon_color;
-  final List<String> chart_titles;
-  final List<String> download_analytics_titles;
-  final List<String> timeframe_values;
-  final String cabin_value;
-  final String loading_message;
-  final String base_file_name;
-  final String download_button_tooltip;
-  final ChartType chart_type;
 
   @override
   State<CabinsAnalytics> createState() => _CabinsAnalyticsState();

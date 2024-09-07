@@ -1,15 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:xapptor_business/initial_values.dart';
+import 'package:xapptor_business/models/stripe_payment.dart';
+import 'package:xapptor_business/payment_webview.dart';
+import 'package:xapptor_business/product_catalog/check_if_product_was_acquired.dart';
 import 'package:xapptor_db/xapptor_db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_router/initial_values_routing.dart';
-import 'initial_values.dart';
-import 'payment_webview.dart';
 import 'package:xapptor_router/app_screens.dart';
-import 'product_catalog.dart';
 import 'package:xapptor_ui/widgets/by_layer/background_image_with_gradient_color.dart';
 import 'package:xapptor_ui/widgets/by_layer/coming_soon_container.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class ProductCatalogItem extends StatefulWidget {
   final Color button_color;
   final String image_url;
   final LinearGradient linear_gradient;
-  final Payment stripe_payment;
+  final StripePayment stripe_payment;
   final bool coming_soon;
   final String coming_soon_text;
   final bool use_iap;

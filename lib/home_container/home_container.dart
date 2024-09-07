@@ -3,7 +3,7 @@ import 'package:xapptor_business/home_container/check_login.dart';
 import 'package:xapptor_business/home_container/check_payments.dart';
 import 'package:xapptor_business/home_container/drawer.dart';
 import 'package:xapptor_business/home_container/widgets_action.dart';
-import 'package:xapptor_business/product_catalog.dart';
+import 'package:xapptor_business/product_catalog/product_catalog.dart';
 import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_ui/screens/privacy_policy/privacy_policy_model.dart';
 import 'package:xapptor_ui/widgets/card/card_holder.dart';

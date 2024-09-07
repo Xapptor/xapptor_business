@@ -3,7 +3,7 @@
 import 'package:xapptor_db/xapptor_db.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
-import 'package:xapptor_business/product_list.dart';
+import 'package:xapptor_business/product_list/product_list.dart';
 import 'package:xapptor_logic/firebase_tasks/duplicate.dart';
 import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
@@ -13,6 +13,11 @@ import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
 
 class VendingMachineDetails extends StatefulWidget {
+  final VendingMachine? vending_machine;
+  final Color topbar_color;
+  final Color text_color;
+  final Color textfield_color;
+
   const VendingMachineDetails({
     super.key,
     required this.vending_machine,
@@ -20,11 +25,6 @@ class VendingMachineDetails extends StatefulWidget {
     required this.text_color,
     required this.textfield_color,
   });
-
-  final VendingMachine? vending_machine;
-  final Color topbar_color;
-  final Color text_color;
-  final Color textfield_color;
 
   @override
   State<VendingMachineDetails> createState() => _VendingMachineDetailsState();

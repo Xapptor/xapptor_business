@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:xapptor_business/cabin/get_reservation_period_label.dart';
+import 'package:xapptor_business/cabin/reservation/get_reservation_period_label.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/payment.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';

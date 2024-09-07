@@ -1,4 +1,4 @@
-import 'package:xapptor_business/cabin/get_total_price_from_date_range.dart';
+import 'package:xapptor_business/cabin/payments/get_total_price_from_date_range.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 
 int get_total_price_from_reservation({

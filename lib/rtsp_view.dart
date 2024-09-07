@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_ui/widgets/webview/webview.dart';
 
 class RTSPView extends StatefulWidget {
+  final String url;
+
   const RTSPView({
     super.key,
     required this.url,
   });
-
-  final String url;
 
   @override
   State<RTSPView> createState() => _RTSPViewState();

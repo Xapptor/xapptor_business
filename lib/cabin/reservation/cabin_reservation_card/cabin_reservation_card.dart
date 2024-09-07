@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:xapptor_business/cabin/reservation/cabin_reservation_card/editing_mode_buttons.dart';
+import 'package:xapptor_business/cabin/reservation/cabin_reservation_card/editing_mode_icons.dart';
+import 'package:xapptor_business/cabin/reservation/cabin_reservation_card/reservation_period_button.dart';
 import 'package:xapptor_business/models/cabin.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_business/models/season.dart';
 import 'package:xapptor_logic/string/bool_to_string.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
 
 class CabinReservationCard extends StatefulWidget {
+  final ReservationCabin? reservation;
+  final bool select_date_available;
+  final Function select_date_callback;
+  final Color main_color;
+  final List<String> text_list;
+  final Cabin cabin;
+  final String reservation_period_label;
+  final String selected_cabin;
+  final Function update_selected_cabin;
+  final Function(String reservation_id, bool register) register_reservation;
+  final List<Cabin> available_cabins;
+  final Function cancel_button_callback;
+  final Function(String reservation_id, bool register) delete_button_callback;
+  final Function(String reservation_id) edit_button_callback;
+  final bool editing_mode;
+  final Function(String reservation_id) register_payment_callback;
+  final int total_price_from_reservation;
+  final int reservation_payments_total;
+  final Map<String, dynamic> user_info;
+  final List<Season> seasons;
+  final int number_of_days;
+
   const CabinReservationCard({
     super.key,
     required this.reservation,
@@ -32,33 +56,11 @@ class CabinReservationCard extends StatefulWidget {
     required this.number_of_days,
   });
 
-  final ReservationCabin? reservation;
-  final bool select_date_available;
-  final Function select_date_callback;
-  final Color main_color;
-  final List<String> text_list;
-  final Cabin cabin;
-  final String reservation_period_label;
-  final String selected_cabin;
-  final Function update_selected_cabin;
-  final Function(String reservation_id, bool register) register_reservation;
-  final List<Cabin> available_cabins;
-  final Function cancel_button_callback;
-  final Function(String reservation_id, bool register) delete_button_callback;
-  final Function(String reservation_id) edit_button_callback;
-  final bool editing_mode;
-  final Function(String reservation_id) register_payment_callback;
-  final int total_price_from_reservation;
-  final int reservation_payments_total;
-  final Map<String, dynamic> user_info;
-  final List<Season> seasons;
-  final int number_of_days;
-
   @override
-  State<CabinReservationCard> createState() => _CabinReservationCardState();
+  State<CabinReservationCard> createState() => CabinReservationCardState();
 }
 
-class _CabinReservationCardState extends State<CabinReservationCard> {
+class CabinReservationCardState extends State<CabinReservationCard> {
   @override
   void initState() {
     super.initState();
@@ -79,7 +81,6 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
 
   update_user_name() {
     user_name = "${widget.text_list[28]}: ${widget.user_info["firstname"]} ${widget.user_info["lastname"]}";
-
     setState(() {});
   }
 
@@ -121,46 +122,7 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              GestureDetector(
-                onTap: () {
-                  if (widget.editing_mode) {
-                    widget.select_date_callback();
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: widget.main_color.withOpacity(0.4),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        widget.text_list[2],
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.visible,
-                        maxLines: 10,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        widget.reservation_period_label,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.visible,
-                        maxLines: 10,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              reservation_period_button(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -381,94 +343,13 @@ class _CabinReservationCardState extends State<CabinReservationCard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  if (widget.editing_mode)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.all(20),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              widget.cancel_button_callback();
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.all<Color>(
-                                widget.main_color,
-                              ),
-                            ),
-                            child: Text(
-                              widget.text_list[22],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.all(20),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              widget.register_reservation(widget.reservation?.id ?? "", true);
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.all<Color>(
-                                widget.main_color,
-                              ),
-                            ),
-                            child: Text(
-                              widget.text_list[20],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  if (widget.editing_mode) editing_mode_buttons(),
                 ],
               ),
             ],
           ),
         ),
-        if (!widget.editing_mode)
-          Container(
-            alignment: Alignment.topCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    widget.delete_button_callback(widget.reservation!.id, false);
-                  },
-                  icon: const Icon(
-                    FontAwesomeIcons.trashCan,
-                    color: Colors.red,
-                  ),
-                  tooltip: widget.text_list[29],
-                ),
-                Column(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        widget.edit_button_callback(widget.reservation!.id);
-                      },
-                      icon: const Icon(
-                        FontAwesomeIcons.penToSquare,
-                      ),
-                      tooltip: widget.text_list[30],
-                    ),
-                    if (admin)
-                      IconButton(
-                        onPressed: () {
-                          widget.register_payment_callback(widget.reservation!.id);
-                        },
-                        icon: const Icon(
-                          FontAwesomeIcons.creditCard,
-                        ),
-                        tooltip: widget.text_list[31],
-                      ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+        if (!widget.editing_mode) editing_mode_icons(),
       ],
     );
   }

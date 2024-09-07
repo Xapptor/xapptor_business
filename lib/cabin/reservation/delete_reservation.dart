@@ -2,8 +2,8 @@
 
 import 'package:xapptor_db/xapptor_db.dart';
 import 'package:flutter/material.dart';
-import 'package:xapptor_business/cabin/get_reservation_from_id.dart';
-import 'package:xapptor_business/cabin/get_reservation_period_label.dart';
+import 'package:xapptor_business/cabin/reservation/get_reservation_from_id.dart';
+import 'package:xapptor_business/cabin/reservation/get_reservation_period_label.dart';
 import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_logic/send_email.dart';
 

@@ -1,17 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:xapptor_logic/firebase_tasks/check.dart';
-import 'package:xapptor_logic/random/random_number_with_range.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_business/models/product.dart';
+import 'package:xapptor_business/models/stripe_payment.dart';
+import 'package:xapptor_business/product_catalog/listen_to_purchase_updated.dart';
+import 'package:xapptor_business/product_catalog/validate_coupon.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:xapptor_translation/model/text_list.dart';
 import 'package:xapptor_translation/translation_stream.dart';
-import 'models/product.dart';
-import 'payment_webview.dart';
 import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/card/custom_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,9 +17,23 @@ import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_ui/widgets/loading.dart';
 import 'product_catalog_item.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
-import 'package:xapptor_db/xapptor_db.dart';
 
 class ProductCatalog extends StatefulWidget {
+  final Color? topbar_color;
+  final Color? language_picker_items_text_color;
+  List<Product> products;
+  final List<LinearGradient> linear_gradients;
+  final TranslationTextListArray translation_text_list_array;
+  final Color background_color;
+  final Color title_color;
+  final Color subtitle_color;
+  final Color text_color;
+  final Color button_color;
+  final String success_url;
+  final String cancel_url;
+  final bool use_iap;
+  final bool use_coupons;
+
   ProductCatalog({
     super.key,
     this.topbar_color,
@@ -40,26 +52,11 @@ class ProductCatalog extends StatefulWidget {
     required this.use_coupons,
   });
 
-  final Color? topbar_color;
-  final Color? language_picker_items_text_color;
-  List<Product> products;
-  final List<LinearGradient> linear_gradients;
-  final TranslationTextListArray translation_text_list_array;
-  final Color background_color;
-  final Color title_color;
-  final Color subtitle_color;
-  final Color text_color;
-  final Color button_color;
-  final String success_url;
-  final String cancel_url;
-  final bool use_iap;
-  final bool use_coupons;
-
   @override
-  State<ProductCatalog> createState() => _ProductCatalogState();
+  State<ProductCatalog> createState() => ProductCatalogState();
 }
 
-class _ProductCatalogState extends State<ProductCatalog> {
+class ProductCatalogState extends State<ProductCatalog> {
   TextEditingController coupon_controller = TextEditingController();
   bool loading = false;
 
@@ -110,17 +107,16 @@ class _ProductCatalogState extends State<ProductCatalog> {
     if (widget.use_iap) {
       _subscription = InAppPurchase.instance.purchaseStream.listen(
         (purchase_details_list) {
-          _listen_to_purchase_updated(purchase_details_list);
+          listen_to_purchase_updated(purchase_details_list);
         },
         onDone: () {
           _subscription.cancel();
         },
         onError: (error) {
-          // handle error here.
+          debugPrint("Error: $error");
         },
       );
     }
-
     super.initState();
   }
 
@@ -133,113 +129,6 @@ class _ProductCatalogState extends State<ProductCatalog> {
   }
 
   late StreamSubscription<List<PurchaseDetails>> _subscription;
-
-  _listen_to_purchase_updated(List<PurchaseDetails> purchase_details_list) async {
-    int random_number_1 = random_number_with_range(1000, 2000);
-    int random_number_2 = random_number_with_range(500, 1000);
-    int random_number_3 = random_number_with_range(100, 500);
-
-    int random_number_timer =
-        ((random_number_1 + random_number_2 + random_number_3) * (random_number_with_range(1, 9) / 10)).toInt();
-
-    debugPrint(random_number_timer.toString());
-
-    for (var purchase_details in purchase_details_list) {
-      if (purchase_details.status == PurchaseStatus.pending) {
-        //debugPrint("payment process pending");
-        loading = true;
-        setState(() {});
-      } else {
-        if (purchase_details.status == PurchaseStatus.error) {
-          //debugPrint("payment process error" + purchase_details.error!.toString());
-          loading = false;
-          setState(() {});
-
-          show_purchase_result_banner(false, null);
-        } else if (purchase_details.status == PurchaseStatus.purchased) {
-          //debugPrint("payment process success");
-          loading = false;
-          setState(() {});
-
-          Timer(Duration(milliseconds: random_number_timer), () {
-            register_payment(purchase_details.productID);
-          });
-        } else if (purchase_details.status == PurchaseStatus.restored) {
-          loading = false;
-          setState(() {});
-          restore_purchase(purchase_details.productID);
-        }
-
-        if (purchase_details.pendingCompletePurchase) {
-          await InAppPurchase.instance.completePurchase(purchase_details);
-        }
-      }
-    }
-  }
-
-  restore_purchase(String product_id) async {
-    XapptorDB.instance.collection("users").doc(user_id).update({
-      "products_acquired": FieldValue.arrayUnion([product_id]),
-    }).then((value) {
-      show_purchase_result_banner(true, "Purchase Restored");
-    });
-  }
-
-  register_payment(String product_id) async {
-    bool product_was_acquired = await check_if_product_was_acquired(
-      user_id: user_id,
-      product_id: product_id,
-    );
-    if (!product_was_acquired) {
-      XapptorDB.instance.collection("users").doc(user_id).update({
-        "products_acquired": FieldValue.arrayUnion([product_id]),
-      }).then((value) {
-        XapptorDB.instance.collection("payments").add({
-          "payment_intent_id": "",
-          "user_id": user_id,
-          "product_id": product_id,
-          "date": Timestamp.now(),
-        }).then((value) {
-          show_purchase_result_banner(true, null);
-        });
-      });
-    }
-  }
-
-  show_purchase_result_banner(bool purchase_success, String? custom_message) {
-    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-
-    ScaffoldMessenger.of(context).showMaterialBanner(
-      MaterialBanner(
-        content: Text(
-          custom_message ?? (purchase_success ? "Purchase Successful" : "Purchase Failed"),
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        leading: Icon(
-          purchase_success ? Icons.check_circle_rounded : Icons.info,
-          color: Colors.white,
-        ),
-        backgroundColor: purchase_success ? Colors.green : Colors.red,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-            },
-          ),
-        ],
-      ),
-    );
-
-    Timer(const Duration(seconds: 3), () {
-      ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -321,24 +210,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                         SizedBox(
                           height: 50,
                           child: CustomCard(
-                            on_pressed: () async {
-                              // Checking if coupon is valid.
-
-                              String coupon_id = coupon_controller.text.isNotEmpty ? coupon_controller.text : " ";
-
-                              coupon_controller.clear();
-
-                              String check_coupon_response = await check_if_coupon_is_valid(
-                                coupon_id,
-                                context,
-                                widget.translation_text_list_array.get(source_language_index)[6],
-                                widget.translation_text_list_array.get(source_language_index)[7],
-                              );
-
-                              if (check_coupon_response.isNotEmpty) {
-                                open_screen(check_coupon_response);
-                              }
-                            },
+                            on_pressed: validate_coupon,
                             border_radius: 1000,
                             splash_color: widget.text_color.withOpacity(0.3),
                             child: Center(
@@ -362,8 +234,6 @@ class _ProductCatalogState extends State<ProductCatalog> {
                     height: 50,
                     child: CustomCard(
                       on_pressed: () async {
-                        // Restoring previous purchases.
-
                         await InAppPurchase.instance.restorePurchases();
                       },
                       border_radius: 1000,
@@ -399,7 +269,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                     image_url: widget.products[index].image_src,
                     linear_gradient: widget.linear_gradients[index],
                     coming_soon: !widget.products[index].enabled,
-                    stripe_payment: Payment(
+                    stripe_payment: StripePayment(
                       price_id: widget.products[index].price_id,
                       user_id: user_id,
                       product_id: widget.products[index].id,
@@ -452,14 +322,4 @@ class _ProductCatalogState extends State<ProductCatalog> {
           : body,
     );
   }
-}
-
-Future<bool> check_if_product_was_acquired({
-  required String user_id,
-  required String product_id,
-}) async {
-  DocumentSnapshot user_snap = await XapptorDB.instance.collection("users").doc(user_id).get();
-  Map user_snap_data = user_snap.data()! as Map;
-  List products_acquired = user_snap_data["products_acquired"] ?? [];
-  return products_acquired.contains(product_id);
 }
