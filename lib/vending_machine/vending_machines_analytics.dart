@@ -13,6 +13,20 @@ import 'package:xapptor_business/analytics/timeframe_chart_functions.dart';
 import 'package:xapptor_db/xapptor_db.dart';
 
 class VendingMachinesAnalytics extends StatefulWidget {
+  final String screen_title;
+  final Color text_color;
+  final Color icon_color;
+  final List<String> chart_titles;
+  final List<String> download_analytics_titles;
+  final List<String> timeframe_values;
+  final String vending_machine_value;
+  final List<String> dispenser_values;
+  final String product_value;
+  final String loading_message;
+  final String base_file_name;
+  final String download_button_tooltip;
+  final ChartType chart_type;
+
   const VendingMachinesAnalytics({
     super.key,
     required this.screen_title,
@@ -29,20 +43,6 @@ class VendingMachinesAnalytics extends StatefulWidget {
     required this.download_button_tooltip,
     required this.chart_type,
   });
-
-  final String screen_title;
-  final Color text_color;
-  final Color icon_color;
-  final List<String> chart_titles;
-  final List<String> download_analytics_titles;
-  final List<String> timeframe_values;
-  final String vending_machine_value;
-  final List<String> dispenser_values;
-  final String product_value;
-  final String loading_message;
-  final String base_file_name;
-  final String download_button_tooltip;
-  final ChartType chart_type;
 
   @override
   State<VendingMachinesAnalytics> createState() => _VendingMachinesAnalyticsState();

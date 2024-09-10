@@ -11,6 +11,16 @@ import 'delete_product.dart';
 import 'package:xapptor_db/xapptor_db.dart';
 
 class Inventory extends StatefulWidget {
+  final String? old_path;
+  final Product? product;
+  final String collection_name;
+  final List<String> text_list;
+  final List<String> text_list_delete_product;
+  final List<String> text_list_add_product;
+  final List<String> product_editor_text_list;
+  final List<String> product_editor_confirmation_text_list;
+  final Color main_color;
+
   const Inventory({
     super.key,
     required this.old_path,
@@ -23,16 +33,6 @@ class Inventory extends StatefulWidget {
     required this.product_editor_confirmation_text_list,
     required this.main_color,
   });
-
-  final String? old_path;
-  final Product? product;
-  final String collection_name;
-  final List<String> text_list;
-  final List<String> text_list_delete_product;
-  final List<String> text_list_add_product;
-  final List<String> product_editor_text_list;
-  final List<String> product_editor_confirmation_text_list;
-  final Color main_color;
 
   @override
   State<Inventory> createState() => _InventoryState();

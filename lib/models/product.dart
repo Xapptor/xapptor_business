@@ -1,6 +1,17 @@
 import 'package:xapptor_router/initial_values_routing.dart';
 
 class Product {
+  final String id;
+  final String price_id;
+  final String name;
+  final String image_src;
+  final int price;
+  final String description;
+  final bool enabled;
+  final int inventory_quantity;
+  final bool is_a_product_category;
+  final String category_id;
+
   const Product({
     required this.id,
     this.price_id = "",
@@ -13,17 +24,6 @@ class Product {
     this.is_a_product_category = false,
     this.category_id = "",
   });
-
-  final String id;
-  final String price_id;
-  final String name;
-  final String image_src;
-  final int price;
-  final String description;
-  final bool enabled;
-  final int inventory_quantity;
-  final bool is_a_product_category;
-  final String category_id;
 
   Product.from_snapshot(
     this.id,

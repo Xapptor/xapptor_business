@@ -10,6 +10,13 @@ import 'package:xapptor_ui/widgets/card/custom_card.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
 
 class VendingMachineCard extends StatefulWidget {
+  final VendingMachine vending_machine;
+  final Function remove_vending_machine_callback;
+  final String owner_name;
+  final Color text_color;
+  final Color textfield_color;
+  final Color topbar_color;
+
   const VendingMachineCard({
     super.key,
     required this.vending_machine,
@@ -19,13 +26,6 @@ class VendingMachineCard extends StatefulWidget {
     required this.textfield_color,
     required this.topbar_color,
   });
-
-  final VendingMachine vending_machine;
-  final Function remove_vending_machine_callback;
-  final String owner_name;
-  final Color text_color;
-  final Color textfield_color;
-  final Color topbar_color;
 
   @override
   State<VendingMachineCard> createState() => _VendingMachineCardState();

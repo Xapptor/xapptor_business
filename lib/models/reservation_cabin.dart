@@ -3,6 +3,9 @@
 import 'reservation.dart';
 
 class ReservationCabin extends Reservation {
+  final String cabin_id;
+  final List<String> payments;
+
   const ReservationCabin({
     required super.id,
     required super.user_id,
@@ -12,9 +15,6 @@ class ReservationCabin extends Reservation {
     required this.cabin_id,
     required this.payments,
   });
-
-  final String cabin_id;
-  final List<String> payments;
 
   factory ReservationCabin.from_snapshot(
     String id,

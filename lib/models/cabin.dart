@@ -2,6 +2,18 @@ import 'package:xapptor_business/models/bed.dart';
 import 'package:xapptor_business/models/season.dart';
 
 class Cabin {
+  final String id;
+  final int high_price;
+  final int low_price;
+  final int capacity;
+  final List<Bed> beds;
+  final int bathrooms;
+  final bool kitchen;
+  final bool sauna;
+  final bool livingroom;
+  final bool chimney;
+  final bool balcony;
+
   const Cabin({
     required this.id,
     required this.high_price,
@@ -15,18 +27,6 @@ class Cabin {
     required this.chimney,
     required this.balcony,
   });
-
-  final String id;
-  final int high_price;
-  final int low_price;
-  final int capacity;
-  final List<Bed> beds;
-  final int bathrooms;
-  final bool kitchen;
-  final bool sauna;
-  final bool livingroom;
-  final bool chimney;
-  final bool balcony;
 
   Cabin.from_snapshot(
     this.id,

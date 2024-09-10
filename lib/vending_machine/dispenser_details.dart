@@ -9,6 +9,12 @@ import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
 
 class DispenserDetails extends StatefulWidget {
+  final Product product;
+  final Dispenser dispenser;
+  final int dispenser_id;
+  final bool allow_edit;
+  final Function(int index, bool enabled) update_enabled_in_dispenser;
+
   const DispenserDetails({
     super.key,
     required this.product,
@@ -17,12 +23,6 @@ class DispenserDetails extends StatefulWidget {
     required this.allow_edit,
     required this.update_enabled_in_dispenser,
   });
-
-  final Product product;
-  final Dispenser dispenser;
-  final int dispenser_id;
-  final bool allow_edit;
-  final Function(int index, bool enabled) update_enabled_in_dispenser;
 
   @override
   State<StatefulWidget> createState() => _DispenserDetailsState();

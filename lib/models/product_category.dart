@@ -1,4 +1,10 @@
 class ProductCategory {
+  final String id;
+  final String name;
+  final String image_src;
+  final String category_id;
+  final bool has_subcategory;
+
   const ProductCategory({
     required this.id,
     required this.name,
@@ -6,12 +12,6 @@ class ProductCategory {
     this.category_id = "",
     this.has_subcategory = false,
   });
-
-  final String id;
-  final String name;
-  final String image_src;
-  final String category_id;
-  final bool has_subcategory;
 
   ProductCategory.from_snapshot(
     this.id,

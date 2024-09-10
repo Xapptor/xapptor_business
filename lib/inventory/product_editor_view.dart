@@ -10,6 +10,13 @@ import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 
 class ProductEditorView extends StatefulWidget {
+  final String? category_id;
+  final Product product;
+  final bool is_a_product_category;
+  final Color main_color;
+  final List<String> text_list;
+  final List<String> confirmation_text_list;
+
   const ProductEditorView({
     super.key,
     required this.category_id,
@@ -19,13 +26,6 @@ class ProductEditorView extends StatefulWidget {
     required this.text_list,
     required this.confirmation_text_list,
   });
-
-  final String? category_id;
-  final Product product;
-  final bool is_a_product_category;
-  final Color main_color;
-  final List<String> text_list;
-  final List<String> confirmation_text_list;
 
   @override
   State<ProductEditorView> createState() => _ProductEditorViewState();
