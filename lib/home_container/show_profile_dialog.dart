@@ -23,7 +23,6 @@ extension StateExtension on HomeContainerState {
             TextButton(
               child: const Text("Ok"),
               onPressed: () async {
-                //Navigator.of(context).pop();
                 open_screen("home/account");
               },
             ),

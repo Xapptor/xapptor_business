@@ -16,12 +16,6 @@ extension StateExtension on HomeContainerState {
           text_list: account_values,
           tc_and_pp_text: RichText(text: const TextSpan()),
           gender_values: gender_values,
-          country_values: const [
-            'United States',
-            'Mexico',
-            'Canada',
-            'Brazil',
-          ],
           text_color: widget.topbar_color,
           first_button_color: widget.main_button_color,
           second_button_color: widget.topbar_color,
