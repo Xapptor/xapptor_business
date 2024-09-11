@@ -1,0 +1,31 @@
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'package:xapptor_business/workplace_exam/models/wpe.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/update_language_callback_and_load.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
+
+extension StateExtension on ResumeEditorState {
+  update_source_language({
+    required int new_source_language_index,
+  }) {
+    String past_language_code =
+        text_list.list[source_language_index].source_language;
+    source_language_index = new_source_language_index;
+    String new_language_code =
+        text_list.list[source_language_index].source_language;
+
+    setState(() {});
+
+    Resume? last_resume;
+
+    if (slot_index < resumes.length) {
+      last_resume = resumes[slot_index];
+    }
+
+    update_language_callback_and_load(
+      last_resume: last_resume,
+      past_language_code: past_language_code,
+      new_language_code: new_language_code,
+    );
+  }
+}
