@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/wpe_section_form_item.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/update_item.dart';
 
-extension StateExtension on ResumeSectionFormItemState {
+extension StateExtension on WpeSectionFormItemState {
   show_select_date_alert_dialog(String msg) {
     showDialog(
       context: context,

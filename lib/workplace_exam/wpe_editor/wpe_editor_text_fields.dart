@@ -4,22 +4,27 @@ import 'package:xapptor_logic/form_field_validators.dart';
 import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/text_field/custom_text_field.dart';
 import 'package:xapptor_ui/widgets/text_field/custom_text_field_model.dart';
+import 'package:xapptor_business/models/site.dart';
+import 'package:xapptor_business/site/get_site.dart';
 
-extension StateExtension on ResumeEditorState {
-  resume_editor_text_fields() => Column(
+extension StateExtension on WpeEditorState {
+  //final sitio = get_site('zKxyFr2xtIcCEcWZqCNq');
+  //print(sitio);
+
+  wpe_editor_text_fields() => Column(
         children: [
-          SizedBox(height: sized_box_space),
+          SizedBox(height: sized_box_space * 4),
           CustomTextField(
             model: CustomTextFieldModel(
               title: text_list.get(source_language_index)[0],
               hint: text_list.get(source_language_index)[0],
               focus_node: focus_node_1,
               on_field_submitted: (fieldValue) => focus_node_2.requestFocus(),
-              controller: name_input_controller,
-              length_limit: FormFieldValidatorsType.name.get_Length(),
+              controller: number_input_controller,
+              length_limit: FormFieldValidatorsType.sms_code.get_Length(),
               validator: (value) => FormFieldValidators(
                 value: value!,
-                type: FormFieldValidatorsType.name,
+                type: FormFieldValidatorsType.sms_code,
               ).validate(),
             ),
           ),
@@ -30,7 +35,7 @@ extension StateExtension on ResumeEditorState {
               hint: text_list.get(source_language_index)[1],
               focus_node: focus_node_2,
               on_field_submitted: (fieldValue) => focus_node_3.requestFocus(),
-              controller: job_title_input_controller,
+              controller: date_wpe_input_controller,
               length_limit: FormFieldValidatorsType.name.get_Length(),
               validator: (value) => FormFieldValidators(
                 value: value!,
@@ -45,11 +50,11 @@ extension StateExtension on ResumeEditorState {
               hint: text_list.get(source_language_index)[2],
               focus_node: focus_node_3,
               on_field_submitted: (fieldValue) => focus_node_4.requestFocus(),
-              controller: email_input_controller,
-              length_limit: FormFieldValidatorsType.email.get_Length(),
+              controller: shift_input_controller,
+              length_limit: FormFieldValidatorsType.name.get_Length(),
               validator: (value) => FormFieldValidators(
                 value: value!,
-                type: FormFieldValidatorsType.email,
+                type: FormFieldValidatorsType.name,
               ).validate(),
             ),
           ),
@@ -60,12 +65,29 @@ extension StateExtension on ResumeEditorState {
               hint: text_list.get(source_language_index)[3],
               focus_node: focus_node_4,
               on_field_submitted: (fieldValue) => focus_node_5.requestFocus(),
-              controller: website_input_controller,
-              length_limit: FormFieldValidatorsType.website.get_Length(),
+              controller: area_input_controller,
+              length_limit: FormFieldValidatorsType.name.get_Length(),
               validator: (value) => FormFieldValidators(
                 value: value!,
-                type: FormFieldValidatorsType.website,
+                type: FormFieldValidatorsType.name,
               ).validate(),
+            ),
+          ),
+          SizedBox(height: sized_box_space),
+          CustomTextField(
+            model: CustomTextFieldModel(
+              title: text_list.get(source_language_index)[4],
+              hint: text_list.get(source_language_index)[4],
+              focus_node: focus_node_5,
+              on_field_submitted: (fieldValue) => focus_node_6.requestFocus(),
+              controller: specific_input_controller,
+              length_limit: FormFieldValidatorsType.name.get_Length(),
+              validator: (value) => FormFieldValidators(
+                value: value!,
+                type: FormFieldValidatorsType.name,
+              ).validate(),
+              keyboard_type: TextInputType.multiline,
+              max_lines: null,
             ),
           ),
           SizedBox(height: sized_box_space),
@@ -73,18 +95,33 @@ extension StateExtension on ResumeEditorState {
             model: CustomTextFieldModel(
               title: text_list.get(source_language_index)[5],
               hint: text_list.get(source_language_index)[5],
-              focus_node: focus_node_5,
-              on_field_submitted: (fieldValue) => null,
-              controller: profile_input_controller,
-              length_limit: FormFieldValidatorsType.multiline_long.get_Length(),
+              focus_node: focus_node_6,
+              on_field_submitted: (fieldValue) => focus_node_7.requestFocus(),
+              controller: supervisor_input_controller,
+              length_limit: FormFieldValidatorsType.name.get_Length(),
               validator: (value) => FormFieldValidators(
                 value: value!,
-                type: FormFieldValidatorsType.multiline_long,
+                type: FormFieldValidatorsType.name,
               ).validate(),
-              keyboard_type: TextInputType.multiline,
-              max_lines: null,
             ),
           ),
+          // SizedBox(height: sized_box_space),
+          // CustomTextField(
+          //   model: CustomTextFieldModel(
+          //     title: text_list.get(source_language_index)[5],
+          //     hint: text_list.get(source_language_index)[5],
+          //     focus_node: focus_node_5,
+          //     on_field_submitted: (fieldValue) => null,
+          //     controller: sections_by_page_input_controller,
+          //     length_limit: FormFieldValidatorsType.multiline_long.get_Length(),
+          //     validator: (value) => FormFieldValidators(
+          //       value: value!,
+          //       type: FormFieldValidatorsType.multiline_long,
+          //     ).validate(),
+          //     keyboard_type: TextInputType.multiline,
+          //     max_lines: null,
+          //   ),
+          // ),
         ],
       );
 }

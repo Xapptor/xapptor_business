@@ -2,15 +2,15 @@
 
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe.dart';
+import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_logic/check_browser_type.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpes.dart';
 
-extension StateExtension on ResumeEditorState {
+extension StateExtension on WpeEditorState {
   update_language_callback_and_load({
-    required Resume? last_resume,
+    required Wpe? last_wpe,
     required String past_language_code,
     required String new_language_code,
   }) async {
@@ -20,32 +20,31 @@ extension StateExtension on ResumeEditorState {
     Timer(Duration(milliseconds: timer_duration), () async {
       current_user = FirebaseAuth.instance.currentUser!;
 
-      resumes = await get_resumes(
+      wpes = await get_wpes(
         user_id: current_user!.uid,
       );
 
-      bool resumes_contains_any_with_new_language_code = resumes.any(
+      bool wpes_contains_any_with_new_language_code = wpes.any(
         (element) => element.id.contains('_${new_language_code}_'),
       );
 
-      if (!resumes_contains_any_with_new_language_code) {
-        if (last_resume != null) {
-          last_resume.id = last_resume.id
+      if (!wpes_contains_any_with_new_language_code) {
+        if (last_wpe != null) {
+          last_wpe.id = last_wpe.id
               .replaceAll('_$past_language_code', '_$new_language_code');
 
-          resumes.add(last_resume);
+          wpes.add(last_wpe);
         } else {
-          Resume new_resume = resumes.firstWhere(
+          Wpe new_wpe = wpes.firstWhere(
             (element) => !element.id.contains('_bu'),
           );
 
-          new_resume.id =
-              '${new_resume.id.split('_').first}_$new_language_code';
-          resumes.add(new_resume);
+          new_wpe.id = '${new_wpe.id.split('_').first}_$new_language_code';
+          wpes.add(new_wpe);
         }
-        load_resume(new_slot_index: 0);
+        load_wpe(new_slot_index: 0);
       } else {
-        load_resume(new_slot_index: 0);
+        load_wpe(new_slot_index: 0);
       }
     });
   }

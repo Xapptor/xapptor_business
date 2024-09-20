@@ -4,26 +4,26 @@ import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_ui/values/ui.dart';
 
 bool show_time_amount = true;
-List<ResumeFont> font_families_value = [];
-ResumeFont current_font_value = ResumeFont.empty();
+List<WpeFont> font_families_value = [];
+WpeFont current_font_value = WpeFont.empty();
 
-class ResumeEditorAdditionalOptions extends StatefulWidget {
+class WpeEditorAdditionalOptions extends StatefulWidget {
   final Function callback;
 
-  const ResumeEditorAdditionalOptions({
+  const WpeEditorAdditionalOptions({
     super.key,
     required this.callback,
   });
 
   @override
-  State<ResumeEditorAdditionalOptions> createState() =>
-      ResumeEditorAdditionalOptionsState();
+  State<WpeEditorAdditionalOptions> createState() =>
+      WpeEditorAdditionalOptionsState();
 }
 
-class ResumeEditorAdditionalOptionsState
-    extends State<ResumeEditorAdditionalOptions> {
+class WpeEditorAdditionalOptionsState
+    extends State<WpeEditorAdditionalOptions> {
   String font_family_title = """
-      Select the Font Family for the PDF Resume:
+      Select the Font Family for the PDF Wpe:
       Note: Only for PDF File not for Web version.
     """;
 
@@ -53,7 +53,7 @@ class ResumeEditorAdditionalOptionsState
             if (!portrait) SizedBox(width: sized_box_space),
             DropdownButton<String>(
               value: current_font_value.name,
-              items: font_families_value.map((ResumeFont font) {
+              items: font_families_value.map((WpeFont font) {
                 return DropdownMenuItem<String>(
                   value: font.name,
                   child: Text(
@@ -66,7 +66,7 @@ class ResumeEditorAdditionalOptionsState
               }).toList(),
               onChanged: (String? value) {
                 current_font_value = font_families_value.firstWhere(
-                  (ResumeFont font) => font.name == value,
+                  (WpeFont font) => font.name == value,
                 );
                 setState(() {});
               },

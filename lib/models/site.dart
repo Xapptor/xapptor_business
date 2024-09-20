@@ -3,15 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Site {
   String id;
   String state;
+  List<String> shifts;
 
   Site({
     required this.id,
     required this.state,
+    required this.shifts,
   });
 
   Site.from_snapshot(DocumentSnapshot snapshot)
       : id = snapshot.id,
-        state = snapshot.get("state");
+        state = snapshot.get("state"),
+        shifts = (snapshot['shifts'] as List).map((e) => e as String).toList();
+
+  Map<String, dynamic> to_json() {
+    return {
+      "id": id,
+      "state": state,
+      "shifts": shifts,
+    };
+  }
 }
 
 // To parse this JSON data, do

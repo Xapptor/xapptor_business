@@ -8,7 +8,7 @@ enum ResultSnackBarType {
   deleted,
 }
 
-extension StateExtension on ResumeEditorState {
+extension StateExtension on WpeEditorState {
   show_result_snack_bar({
     required ResultSnackBarType result_snack_bar_type,
     required int slot_index,

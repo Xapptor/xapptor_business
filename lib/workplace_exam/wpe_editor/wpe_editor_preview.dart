@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe.dart';
-import 'package:xapptor_business/workplace_exam/wpe_visualizer/wpe_visualizer.dart';
+import 'package:xapptor_business/models/wpe.dart';
+//import 'package:xapptor_business/workplace_exam/wpe_visualizer/wpe_visualizer.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_ui/values/ui.dart';
 
-extension StateExtension on ResumeEditorState {
-  resume_editor_preview({
+extension StateExtension on WpeEditorState {
+  wpe_editor_preview({
     required BuildContext context,
     required bool portrait,
-    required Resume resume,
+    required Wpe wpe,
     required String base_url,
   }) {
     return Container(
@@ -45,12 +45,12 @@ extension StateExtension on ResumeEditorState {
               ),
             ),
           ),
-          ResumeVisualizer(
-            resume: resume,
-            language_code:
-                text_list.list[source_language_index].source_language,
-            base_url: widget.base_url,
-          ),
+          // WpeVisualizer(
+          //   wpe: wpe,
+          //   language_code:
+          //       text_list.list[source_language_index].source_language,
+          //   base_url: widget.base_url,
+          // ),
         ],
       ),
     );

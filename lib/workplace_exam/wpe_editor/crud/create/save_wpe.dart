@@ -1,12 +1,12 @@
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe.dart';
+import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_profile_image_ref.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/create/set_wpe.dart';
 
-extension StateExtension on ResumeEditorState {
-  save_resume({
-    required Resume resume,
+extension StateExtension on WpeEditorState {
+  save_wpe({
+    required Wpe wpe,
     Function? callback,
   }) async {
     if (chosen_image_path.isNotEmpty && chosen_image_bytes != null) {
@@ -16,17 +16,17 @@ extension StateExtension on ResumeEditorState {
 
       await profile_image_ref.putData(chosen_image_bytes!).then((snap) async {
         chosen_image_url = await snap.ref.getDownloadURL();
-        resume.image_url = chosen_image_url;
+        wpe.before_picture1 = chosen_image_url;
 
-        set_resume(
+        set_wpe(
           new_slot_index: slot_index,
-          resume: resume,
+          wpe: wpe,
         );
       });
     } else {
-      set_resume(
+      set_wpe(
         new_slot_index: slot_index,
-        resume: resume,
+        wpe: wpe,
       );
     }
     if (callback != null) callback();

@@ -1,7 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe_skill.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_logic/extensions/list.dart';
 
@@ -11,7 +10,7 @@ enum ChangeItemPositionType {
   move_down,
 }
 
-extension StateExtension on ResumeEditorState {
+extension StateExtension on WpeEditorState {
   update_section({
     required int item_index,
     required int section_index,
@@ -23,13 +22,13 @@ extension StateExtension on ResumeEditorState {
     late List<dynamic> dynamic_sections;
 
     if (section_index == 0) {
-      dynamic_sections = skill_sections;
+      //dynamic_sections = skill_sections;
     } else if (section_index == 1) {
-      dynamic_sections = employment_sections;
+      //dynamic_sections = employment_sections;
     } else if (section_index == 2) {
-      dynamic_sections = education_sections;
+      dynamic_sections = condition_sections;
     } else if (section_index == 3) {
-      dynamic_sections = custom_sections;
+      //dynamic_sections = custom_sections;
     }
 
     dynamic_sections = _update_dynamic(
@@ -41,13 +40,13 @@ extension StateExtension on ResumeEditorState {
     );
 
     if (section_index == 0) {
-      skill_sections = dynamic_sections as List<ResumeSkill>;
+      //skill_sections = dynamic_sections as List<WpeSkill>;
     } else if (section_index == 1) {
-      employment_sections = dynamic_sections as List<ResumeSection>;
+      //employment_sections = dynamic_sections as List<WpeCondition>;
     } else if (section_index == 2) {
-      education_sections = dynamic_sections as List<ResumeSection>;
+      condition_sections = dynamic_sections as List<WpeCondition>;
     } else if (section_index == 3) {
-      custom_sections = dynamic_sections as List<ResumeSection>;
+      //custom_sections = dynamic_sections as List<WpeCondition>;
     }
 
     if (update_widget) {

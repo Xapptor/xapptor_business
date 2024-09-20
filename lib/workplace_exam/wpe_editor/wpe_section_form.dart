@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe_skill.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/wpe_section_form_item.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/update_section.dart';
 import 'package:xapptor_ui/values/ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-enum ResumeSectionFormType {
-  skill,
-  employment_history,
+enum WpeSectionFormType {
   education,
-  custom,
 }
 
-class ResumeSectionForm extends StatefulWidget {
-  final ResumeSectionFormType resume_section_form_type;
+class WpeSectionForm extends StatefulWidget {
+  final WpeSectionFormType wpe_section_form_type;
   final List<String> text_list;
   final List<String> time_text_list;
 
@@ -42,9 +38,9 @@ class ResumeSectionForm extends StatefulWidget {
 
   final List<dynamic> section_list;
 
-  const ResumeSectionForm({
+  const WpeSectionForm({
     super.key,
-    required this.resume_section_form_type,
+    required this.wpe_section_form_type,
     required this.text_list,
     required this.time_text_list,
     required this.text_color,
@@ -57,10 +53,10 @@ class ResumeSectionForm extends StatefulWidget {
   });
 
   @override
-  State<ResumeSectionForm> createState() => _ResumeSectionFormState();
+  State<WpeSectionForm> createState() => _WpeSectionFormState();
 }
 
-class _ResumeSectionFormState extends State<ResumeSectionForm> {
+class _WpeSectionFormState extends State<WpeSectionForm> {
   TextEditingController title_input_controller = TextEditingController();
   TextEditingController subtitle_input_controller = TextEditingController();
   TextEditingController description_input_controller = TextEditingController();
@@ -95,25 +91,12 @@ class _ResumeSectionFormState extends State<ResumeSectionForm> {
   }
 
   _add_item() {
-    if (widget.resume_section_form_type == ResumeSectionFormType.skill) {
-      widget.update_section(
-        item_index: widget.section_list.length,
-        section_index: widget.section_index,
-        section: const ResumeSkill(
-          name: "",
-          percentage: 0.2,
-          color: Colors.blue,
-        ),
-        update_widget: true,
-      );
-    } else {
-      widget.update_section(
-        item_index: widget.section_list.length,
-        section_index: widget.section_index,
-        section: ResumeSection(),
-        update_widget: true,
-      );
-    }
+    widget.update_section(
+      item_index: widget.section_list.length,
+      section_index: widget.section_index,
+      section: WpeCondition(),
+      update_widget: true,
+    );
   }
 
   show_snack_bar() {
@@ -131,18 +114,9 @@ class _ResumeSectionFormState extends State<ResumeSectionForm> {
   Widget build(BuildContext context) {
     String title = "";
 
-    switch (widget.resume_section_form_type) {
-      case ResumeSectionFormType.skill:
-        title = widget.text_list.last;
-        break;
-      case ResumeSectionFormType.employment_history:
-        title = widget.text_list[0];
-        break;
-      case ResumeSectionFormType.education:
+    switch (widget.wpe_section_form_type) {
+      case WpeSectionFormType.education:
         title = widget.text_list[8];
-        break;
-      case ResumeSectionFormType.custom:
-        title = widget.text_list[9];
         break;
     }
 
@@ -164,25 +138,13 @@ class _ResumeSectionFormState extends State<ResumeSectionForm> {
             IconButton(
               onPressed: () {
                 if (widget.section_list.isNotEmpty) {
-                  if (widget.resume_section_form_type ==
-                      ResumeSectionFormType.skill) {
-                    ResumeSkill last_section = widget.section_list.last;
-
-                    if (last_section.name.isNotEmpty) {
-                      _add_item();
-                    } else {
-                      show_snack_bar();
-                    }
+                  WpeCondition last_section = widget.section_list.last;
+                  if (last_section.title != null ||
+                      last_section.subtitle != null ||
+                      last_section.description != null) {
+                    _add_item();
                   } else {
-                    ResumeSection last_section = widget.section_list.last;
-
-                    if (last_section.title != null ||
-                        last_section.subtitle != null ||
-                        last_section.description != null) {
-                      _add_item();
-                    } else {
-                      show_snack_bar();
-                    }
+                    show_snack_bar();
                   }
                 } else {
                   _add_item();
@@ -216,8 +178,8 @@ class _ResumeSectionFormState extends State<ResumeSectionForm> {
               show_down_arrow = false;
             }
 
-            return ResumeSectionFormItem(
-              resume_section_form_type: widget.resume_section_form_type,
+            return WpeSectionFormItem(
+              wpe_section_form_type: widget.wpe_section_form_type,
               text_list: widget.text_list.sublist(0, 10) +
                   widget.text_list.sublist(11),
               time_text_list: widget.time_text_list,

@@ -5,7 +5,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/wpe_section_form_item.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/update_item.dart';
 
-extension StateExtension on ResumeSectionFormItemState {
+extension StateExtension on WpeSectionFormItemState {
   choose_color() async {
     await showDialog(
       context: context,

@@ -2,23 +2,18 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'wpe_section.dart';
-import 'wpe_skill.dart';
 import 'package:xapptor_logic/color/hex_color.dart';
 
-class Resume {
+class Wpe {
   String id;
   String image_url;
   final String name;
   final String job_title;
   final String email;
   final String website;
-  String skills_title;
-  final List<ResumeSkill> skills;
   final List<int> sections_by_page;
-  final ResumeSection profile_section;
-  final List<ResumeSection> employment_sections;
-  final List<ResumeSection> education_sections;
-  final List<ResumeSection> custom_sections;
+  final WpeCondition profile_section;
+  final List<WpeCondition> condition_sections;
   final Color icon_color;
   final String language_code;
   List<String> text_list;
@@ -29,20 +24,16 @@ class Resume {
   String font_name = 'Nunito';
   bool show_time_amount = true;
 
-  Resume({
+  Wpe({
     this.id = "",
     required this.image_url,
     required this.name,
     required this.job_title,
     required this.email,
     required this.website,
-    required this.skills_title,
-    required this.skills,
     required this.sections_by_page,
     required this.profile_section,
-    required this.employment_sections,
-    required this.education_sections,
-    required this.custom_sections,
+    required this.condition_sections,
     required this.icon_color,
     required this.language_code,
     required this.text_list,
@@ -54,7 +45,7 @@ class Resume {
     required this.show_time_amount,
   });
 
-  Resume.from_snapshot(
+  Wpe.from_snapshot(
     this.id,
     Map<dynamic, dynamic> snapshot,
   )   : image_url = snapshot['image_url'] ?? '',
@@ -62,23 +53,13 @@ class Resume {
         job_title = snapshot['job_title'] ?? '',
         email = snapshot['email'] ?? '',
         website = snapshot['website'] ?? '',
-        skills_title = snapshot['skills_title'] ?? '',
-        skills = ((snapshot['skills'] ?? []) as List)
-            .map((skill) => ResumeSkill.from_snapshot(skill))
-            .toList(),
         sections_by_page = ((snapshot['sections_by_page'] ?? []) as List)
             .map((e) => e as int)
             .toList(),
         profile_section =
-            ResumeSection.from_snapshot(snapshot['profile_section']),
-        employment_sections = (snapshot['employment_sections'] as List)
-            .map((section) => ResumeSection.from_snapshot(section))
-            .toList(),
-        education_sections = (snapshot['education_sections'] as List)
-            .map((section) => ResumeSection.from_snapshot(section))
-            .toList(),
-        custom_sections = (snapshot['custom_sections'] as List)
-            .map((section) => ResumeSection.from_snapshot(section))
+            WpeCondition.from_snapshot(snapshot['profile_section']),
+        condition_sections = (snapshot['condition_sections'] as List)
+            .map((section) => WpeCondition.from_snapshot(section))
             .toList(),
         icon_color = HexColor.fromHex(snapshot['icon_color']),
         language_code = snapshot['language_code'] ?? 'en',
@@ -98,13 +79,9 @@ class Resume {
       'job_title': job_title,
       'email': email,
       'website': website,
-      'skills_title': skills_title,
-      'skills': skills.map((e) => e.to_json()),
       'sections_by_page': sections_by_page,
       'profile_section': profile_section.to_json(),
-      'employment_sections': employment_sections.map((e) => e.to_json()),
-      'education_sections': education_sections.map((e) => e.to_json()),
-      'custom_sections': custom_sections.map((e) => e.to_json()),
+      'condition_sections': condition_sections.map((e) => e.to_json()),
       'icon_color': icon_color.toHex(),
       'language_code': language_code,
       'text_list': text_list,
@@ -123,16 +100,10 @@ class Resume {
       'job_title': job_title,
       'email': email,
       'website': website,
-      'skills_title': skills_title,
-      'skills': skills.map((e) => e.to_json()).toList(),
       'sections_by_page': sections_by_page,
       'profile_section': profile_section.to_pretty_json(),
-      'employment_sections':
-          employment_sections.map((e) => e.to_pretty_json()).toList(),
-      'education_sections':
-          education_sections.map((e) => e.to_pretty_json()).toList(),
-      'custom_sections':
-          custom_sections.map((e) => e.to_pretty_json()).toList(),
+      'condition_sections':
+          condition_sections.map((e) => e.to_pretty_json()).toList(),
       'icon_color': icon_color.toHex(),
       'language_code': language_code,
       'text_list': text_list,
@@ -144,7 +115,7 @@ class Resume {
     };
   }
 
-  Resume.from_json(
+  Wpe.from_json(
     this.id,
     Map<String, dynamic> json,
   )   : image_url = json['image_url'] ?? '',
@@ -152,21 +123,11 @@ class Resume {
         job_title = json['job_title'] ?? '',
         email = json['email'] ?? '',
         website = json['website'] ?? '',
-        skills_title = json['skills_title'] ?? '',
-        skills = (json['skills'] as List)
-            .map((skill) => ResumeSkill.from_snapshot(skill))
-            .toList(),
         sections_by_page =
             (json['sections_by_page'] as List).map((e) => e as int).toList(),
-        profile_section = ResumeSection.from_json(json['profile_section']),
-        employment_sections = (json['employment_sections'] as List)
-            .map((section) => ResumeSection.from_json(section))
-            .toList(),
-        education_sections = (json['education_sections'] as List)
-            .map((section) => ResumeSection.from_json(section))
-            .toList(),
-        custom_sections = (json['custom_sections'] as List)
-            .map((section) => ResumeSection.from_json(section))
+        profile_section = WpeCondition.from_json(json['profile_section']),
+        condition_sections = (json['condition_sections'] as List)
+            .map((section) => WpeCondition.from_json(section))
             .toList(),
         icon_color = HexColor.fromHex(json['icon_color']),
         language_code = json['language_code'] ?? 'en',
@@ -181,20 +142,16 @@ class Resume {
         font_name = json['font_name'] ?? 'Nunito',
         show_time_amount = json['show_time_amount'] ?? true;
 
-  factory Resume.empty() {
-    return Resume(
+  factory Wpe.empty() {
+    return Wpe(
       image_url: '',
       name: '',
       job_title: '',
       email: '',
       website: '',
-      skills_title: '',
-      skills: [],
       sections_by_page: [],
-      profile_section: ResumeSection.empty(),
-      employment_sections: [],
-      education_sections: [],
-      custom_sections: [],
+      profile_section: WpeCondition.empty(),
+      condition_sections: [],
       icon_color: Colors.blue,
       language_code: 'en',
       text_list: [],

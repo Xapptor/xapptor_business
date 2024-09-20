@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/update_section.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/wpe_section_form_item.dart';
 
-extension StateExtension on ResumeSectionFormItemState {
+extension StateExtension on WpeSectionFormItemState {
   Widget functional_icon_buttons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -12,8 +11,7 @@ extension StateExtension on ResumeSectionFormItemState {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (widget.item_index != 0 ||
-                widget.resume_section_form_type == ResumeSectionFormType.custom)
+            if (widget.item_index != 0)
               IconButton(
                 onPressed: () {
                   widget.remove_item(

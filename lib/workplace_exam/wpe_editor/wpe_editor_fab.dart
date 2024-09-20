@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe.dart';
+import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/generate_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_alert.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
-import 'package:xapptor_business/workplace_exam/wpe_visualizer/download_wpe_pdf.dart';
+//import 'package:xapptor_business/workplace_exam/wpe_visualizer/download_wpe_pdf.dart';
 
-extension StateExtension on ResumeEditorState {
-  resume_editor_fab() {
+extension StateExtension on WpeEditorState {
+  wpe_editor_fab() {
     String language_code =
         text_list.list[source_language_index].source_language;
     List alert_text_array = alert_text_list.get(source_language_index);
@@ -63,11 +63,11 @@ extension StateExtension on ResumeEditorState {
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Resume resume = generate_resume(slot_index: slot_index);
+            Wpe wpe = generate_wpe(slot_index: slot_index);
 
-            resume_editor_alert(
-              resume: resume,
-              resume_editor_alert_type: ResumeEditorAlertType.load,
+            wpe_editor_alert(
+              wpe: wpe,
+              wpe_editor_alert_type: WpeEditorAlertType.load,
             );
           },
           backgroundColor: Colors.pink,
@@ -95,13 +95,13 @@ extension StateExtension on ResumeEditorState {
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Resume resume = generate_resume(slot_index: slot_index);
-            resume.id = "${resume.user_id}_$language_code";
-            current_resume_id = resume.id;
+            Wpe wpe = generate_wpe(slot_index: slot_index);
+            wpe.id = "${wpe.user_id}_$language_code";
+            current_wpe_id = wpe.id;
 
-            resume_editor_alert(
-              resume: resume,
-              resume_editor_alert_type: ResumeEditorAlertType.save,
+            wpe_editor_alert(
+              wpe: wpe,
+              wpe_editor_alert_type: WpeEditorAlertType.save,
             );
           },
           backgroundColor: Colors.green,
@@ -129,11 +129,11 @@ extension StateExtension on ResumeEditorState {
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Resume resume = generate_resume(slot_index: slot_index);
+            Wpe wpe = generate_wpe(slot_index: slot_index);
 
-            resume_editor_alert(
-              resume: resume,
-              resume_editor_alert_type: ResumeEditorAlertType.delete,
+            wpe_editor_alert(
+              wpe: wpe,
+              wpe_editor_alert_type: WpeEditorAlertType.delete,
             );
           },
           backgroundColor: Colors.red,
@@ -161,23 +161,23 @@ extension StateExtension on ResumeEditorState {
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Resume resume = generate_resume(slot_index: slot_index);
-            resume.id = "${resume.user_id}_$language_code";
+            Wpe wpe = generate_wpe(slot_index: slot_index);
+            wpe.id = "${wpe.user_id}_$language_code";
 
-            String resume_link = "${widget.base_url}/resumes/${resume.id}";
+            String wpe_link = "${widget.base_url}/wpes/${wpe.id}";
 
             // var encoder = const JsonEncoder.withIndent('  ');
-            // String pretty_json = encoder.convert(resume.to_json_2());
+            // String pretty_json = encoder.convert(wpe.to_json_2());
             // print(pretty_json);
 
-            download_resume_pdf(
-              resume: resume,
-              text_bottom_margin_for_section:
-                  widget.text_bottom_margin_for_section,
-              resume_link: resume_link,
-              context: context,
-              language_code: language_code,
-            );
+            // download_wpe_pdf(
+            //   wpe: wpe,
+            //   text_bottom_margin_for_section:
+            //       widget.text_bottom_margin_for_section,
+            //   wpe_link: wpe_link,
+            //   context: context,
+            //   language_code: language_code,
+            // );
           },
           backgroundColor: Colors.lightBlue,
           tooltip: download_label,

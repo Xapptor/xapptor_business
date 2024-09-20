@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 
-extension StateExtension on ResumeEditorState {
+extension StateExtension on WpeEditorState {
   choose_color() async {
     await showDialog(
       context: context,

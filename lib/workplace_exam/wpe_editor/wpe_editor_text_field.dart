@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 
-extension StateExtension on ResumeEditorState {
-  resume_editor_text_field({
+extension StateExtension on WpeEditorState {
+  wpe_editor_text_field({
     required String label_text,
     required TextEditingController controller,
     required String? Function(String?)? validator,

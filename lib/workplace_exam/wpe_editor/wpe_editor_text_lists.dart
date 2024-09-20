@@ -1,6 +1,6 @@
 import 'package:xapptor_translation/model/text_list.dart';
 
-class ResumeEditorTextLists {
+class WpeEditorTextLists {
   TranslationTextListArray text_list({
     required String organization_name,
   }) =>
@@ -9,14 +9,14 @@ class ResumeEditorTextLists {
           TranslationTextList(
             source_language: "en",
             text_list: [
-              "Full Name",
-              "Job Title",
-              "Email",
-              "Website Url",
-              "Dexterity Points",
-              "Profile",
-              "Resume Preview",
-              "Employment History",
+              "Doc Id",
+              "Date / Time",
+              "Shift",
+              "Area",
+              "Equiment/Specific",
+              "Supervisor",
+              "WPE Preview",
+              "History",
               "Title",
               "Subtitle",
               "Description",
@@ -24,23 +24,23 @@ class ResumeEditorTextLists {
               "Choose Dates",
               "Choose initial date",
               "Choose end date",
-              "Education",
-              "Custom Sections",
+              "Conditions",
+              "Sections",
               "Before adding a new section you must first complete the last one",
-              "Resume available online at:",
-              "Resume Developed and Hosted by $organization_name:",
-              "Use Example Resume",
+              "Wpe available online at:",
+              "Wpe Developed and Hosted by $organization_name:",
+              "Use Example Wpe",
             ],
           ),
           TranslationTextList(
             source_language: "es",
             text_list: [
-              "Nombre Completo",
-              "Puesto de Trabajo",
-              "Correo Electrónico",
-              "Página Web",
-              "Puntos de Destreza",
-              "Perfil",
+              "Doc Id",
+              "Fecha / Hora",
+              "Turno",
+              "Area",
+              "Equipo Especifico",
+              "Supervisor",
               "Vista Previa del CV",
               "Historial de Empleo",
               "Título",
@@ -50,7 +50,7 @@ class ResumeEditorTextLists {
               "Seleccionar Fechas",
               "Selecciona fecha de inicio",
               "Selecciona fecha de finalización",
-              "Educación",
+              "Condicion",
               "Secciones Personalizadas",
               "Antes de agregar una nueva sección primero debes de completar la última",
               "CV disponible en línea en:",
@@ -68,9 +68,9 @@ class ResumeEditorTextLists {
         text_list: [
           "Which slot do you want to load?",
           "Which slot do you want to delete?",
-          "Are you sure you want to delete this Resume?",
-          "In which slot do you want to save your Resume?",
-          "Your Resume has been saved, do you want to save an extra backup?",
+          "Are you sure you want to delete this Wpe?",
+          "In which slot do you want to save your Wpe?",
+          "Your Wpe has been saved, do you want to save an extra backup?",
           "No",
           "Yes",
           "Cancel",
@@ -79,10 +79,10 @@ class ResumeEditorTextLists {
           "You don't have backups at the moment",
           "First you must save one",
           "Ok",
-          "Current Resume Slot",
-          "Resume Loaded",
-          "Resume Saved",
-          "Resume Deleted",
+          "Current Wpe Slot",
+          "Wpe Loaded",
+          "Wpe Saved",
+          "Wpe Deleted",
           "Load",
           "Save",
           "Delete",
@@ -122,64 +122,22 @@ class ResumeEditorTextLists {
     ],
   );
 
-  TranslationTextListArray skill_text_list = TranslationTextListArray(
-    [
-      TranslationTextList(
-        source_language: "en",
-        text_list: [
-          "Skill",
-        ],
-      ),
-      TranslationTextList(
-        source_language: "es",
-        text_list: [
-          "Habilidad",
-        ],
-      ),
-    ],
-  );
-
-  TranslationTextListArray employment_text_list = TranslationTextListArray(
-    [
-      TranslationTextList(
-        source_language: "en",
-        text_list: [
-          "Job Title",
-          "at",
-          "Company Name",
-          "Job Location",
-          "Responsabilities",
-        ],
-      ),
-      TranslationTextList(
-        source_language: "es",
-        text_list: [
-          "Puesto de Trabajo",
-          "en",
-          "Nombre de la Empresa",
-          "Ubicación de Trabajo",
-          "Responsabilidades",
-        ],
-      ),
-    ],
-  );
-
   TranslationTextListArray education_text_list = TranslationTextListArray(
     [
       TranslationTextList(
         source_language: "en",
         text_list: [
-          "Career Name",
-          "Univesrity Name",
-          "Univesrity Location",
+          "Condition Promptly Corrected",
+          "Condition Not Promptly Corrected",
+          "If Not Corrected, Mitigating Action(s) Taken",
         ],
       ),
       TranslationTextList(
         source_language: "es",
         text_list: [
-          "Nombre de la Carrera",
-          "Nombre de la Universidad",
-          "Ubicación de la Universidad",
+          "Condición Inmediatamente Corregida",
+          "Condición no Corregida",
+          "Condición no Corregida, se tomaron acciones de mitigación",
         ],
       ),
     ],
@@ -206,7 +164,8 @@ class ResumeEditorTextLists {
     ],
   );
 
-  TranslationTextListArray sections_by_page_text_list = TranslationTextListArray(
+  TranslationTextListArray sections_by_page_text_list =
+      TranslationTextListArray(
     [
       TranslationTextList(
         source_language: "en",

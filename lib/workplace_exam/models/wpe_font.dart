@@ -1,20 +1,20 @@
 import 'package:pdf/widgets.dart';
 
-class ResumeFont {
+class WpeFont {
   final String name;
   final Font? base;
   final Font? bold;
   final String google_font_family;
 
-  const ResumeFont({
+  const WpeFont({
     required this.name,
     required this.base,
     required this.bold,
     required this.google_font_family,
   });
 
-  factory ResumeFont.empty() {
-    return const ResumeFont(
+  factory WpeFont.empty() {
+    return const WpeFont(
       name: '',
       base: null,
       bold: null,

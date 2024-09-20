@@ -2,17 +2,21 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe.dart';
+import 'package:xapptor_business/models/site.dart';
+import 'package:xapptor_business/models/wpe.dart';
+import 'package:xapptor_business/site/get_site.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_slot_label.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_additional_options.dart';
+//todo: eliminar sino se va a usar cambio de tipo de letras
+//import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_additional_options.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_fab.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_init_state.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_preview.dart';
+//todo: eliminar sino se va a usar preview
+//import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_preview.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_text_fields.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_text_lists.dart';
 import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe_skill.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_top_option_buttons.dart';
+//todo: eliminar sino se va a usar botones arriba
+//import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_top_option_buttons.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_sections.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/update_source_language.dart';
 import 'package:xapptor_translation/language_picker.dart';
@@ -21,13 +25,13 @@ import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class ResumeEditor extends StatefulWidget {
+class WpeEditor extends StatefulWidget {
   final Color color_topbar;
   final String base_url;
   final double text_bottom_margin_for_section;
   final String organization_name;
 
-  const ResumeEditor({
+  const WpeEditor({
     super.key,
     required this.color_topbar,
     required this.base_url,
@@ -36,15 +40,16 @@ class ResumeEditor extends StatefulWidget {
   });
 
   @override
-  State<ResumeEditor> createState() => ResumeEditorState();
+  State<WpeEditor> createState() => WpeEditorState();
 }
 
-class ResumeEditorState extends State<ResumeEditor> {
-  TextEditingController name_input_controller = TextEditingController();
-  TextEditingController job_title_input_controller = TextEditingController();
-  TextEditingController email_input_controller = TextEditingController();
-  TextEditingController website_input_controller = TextEditingController();
-  TextEditingController profile_input_controller = TextEditingController();
+class WpeEditorState extends State<WpeEditor> {
+  TextEditingController number_input_controller = TextEditingController();
+  TextEditingController date_wpe_input_controller = TextEditingController();
+  TextEditingController shift_input_controller = TextEditingController();
+  TextEditingController area_input_controller = TextEditingController();
+  TextEditingController specific_input_controller = TextEditingController();
+  TextEditingController supervisor_input_controller = TextEditingController();
   TextEditingController sections_by_page_input_controller =
       TextEditingController();
 
@@ -64,23 +69,16 @@ class ResumeEditorState extends State<ResumeEditor> {
 
   late TranslationTextListArray text_list;
   TranslationTextListArray alert_text_list =
-      ResumeEditorTextLists().alert_text_list;
-  TranslationTextListArray skill_text_list =
-      ResumeEditorTextLists().skill_text_list;
-  TranslationTextListArray employment_text_list =
-      ResumeEditorTextLists().employment_text_list;
+      WpeEditorTextLists().alert_text_list;
   TranslationTextListArray education_text_list =
-      ResumeEditorTextLists().education_text_list;
+      WpeEditorTextLists().education_text_list;
   TranslationTextListArray picker_text_list =
-      ResumeEditorTextLists().picker_text_list;
+      WpeEditorTextLists().picker_text_list;
   TranslationTextListArray sections_by_page_text_list =
-      ResumeEditorTextLists().sections_by_page_text_list;
-  TranslationTextListArray time_text_list =
-      ResumeEditorTextLists().time_text_list;
+      WpeEditorTextLists().sections_by_page_text_list;
+  TranslationTextListArray time_text_list = WpeEditorTextLists().time_text_list;
 
   late TranslationStream translation_stream;
-  late TranslationStream skill_translation_stream;
-  late TranslationStream employment_translation_stream;
   late TranslationStream education_translation_stream;
   late TranslationStream picker_translation_stream;
   late TranslationStream sections_by_page_translation_stream;
@@ -94,10 +92,7 @@ class ResumeEditorState extends State<ResumeEditor> {
   String chosen_image_url = "";
   Uint8List? chosen_image_bytes;
 
-  List<ResumeSkill> skill_sections = [];
-  List<ResumeSection> employment_sections = [];
-  List<ResumeSection> education_sections = [];
-  List<ResumeSection> custom_sections = [];
+  List<WpeCondition> condition_sections = [];
 
   Color picker_color = Colors.blue;
   Color current_color = Colors.blue;
@@ -110,11 +105,19 @@ class ResumeEditorState extends State<ResumeEditor> {
   GlobalKey<ExpandableFabState> expandable_fab_key =
       GlobalKey<ExpandableFabState>();
 
-  List<Resume> resumes = [];
+  List<Wpe> wpes = [];
 
   bool asked_for_backup_alert = false;
 
-  String current_resume_id = "";
+  String current_wpe_id = "";
+
+  Site? site;
+
+  retrieve_site() async {
+    site = await get_site('zKxyFr2xtIcCEcWZqCNq');
+
+    if (site != null) print(site!.to_json());
+  }
 
   @override
   void initState() {
@@ -122,11 +125,13 @@ class ResumeEditorState extends State<ResumeEditor> {
 
     super.initState();
 
-    resume_editor_init_state();
+    wpe_editor_init_state();
+
+    retrieve_site();
   }
 
   init_text_lists() {
-    text_list = ResumeEditorTextLists().text_list(
+    text_list = WpeEditorTextLists().text_list(
       organization_name: widget.organization_name,
     );
   }
@@ -147,10 +152,10 @@ class ResumeEditorState extends State<ResumeEditor> {
       ),
     );
 
-    if (resumes.isNotEmpty) {
-      Resume current_resume = resumes
-          .firstWhere((element) => element.id == current_resume_id, orElse: () {
-        return resumes.firstWhere((element) => !element.id.contains("_bu"));
+    if (wpes.isNotEmpty) {
+      Wpe current_wpe = wpes
+          .firstWhere((element) => element.id == current_wpe_id, orElse: () {
+        return wpes.firstWhere((element) => !element.id.contains("_bu"));
       });
 
       String slot_label = get_slot_label(
@@ -168,22 +173,22 @@ class ResumeEditorState extends State<ResumeEditor> {
                   widthFactor: portrait ? 0.9 : 0.4,
                   child: Column(
                     children: [
-                      // resume_editor_top_option_buttons(),
-                      resume_editor_text_fields(),
-                      if (font_families_value.isNotEmpty)
-                        ResumeEditorAdditionalOptions(
-                          callback: () {
-                            setState(() {});
-                          },
-                        ),
-                      // resume_sections(),
+                      //wpe_editor_top_option_buttons(),
+                      wpe_editor_text_fields(),
+                      wpe_sections(),
+                      // if (font_families_value.isNotEmpty)
+                      //   WpeEditorAdditionalOptions(
+                      //     callback: () {
+                      //       setState(() {});
+                      //     },
+                      //   ),
                     ],
                   ),
                 ),
-                // resume_editor_preview(
+                // wpe_editor_preview(
                 //   context: context,
                 //   portrait: portrait,
-                //   resume: current_resume,
+                //   wpe: current_wpe,
                 //   base_url: widget.base_url,
                 // ),
                 const SizedBox(height: 100),
@@ -228,7 +233,7 @@ class ResumeEditorState extends State<ResumeEditor> {
         logo_path: "assets/images/logo.png",
       ),
       floatingActionButtonLocation: ExpandableFab.location,
-      floatingActionButton: current_user != null ? resume_editor_fab() : null,
+      floatingActionButton: current_user != null ? wpe_editor_fab() : null,
       body: body,
     );
   }

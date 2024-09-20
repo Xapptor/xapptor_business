@@ -1,150 +1,122 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 import 'package:xapptor_business/workplace_exam/font_configuration.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe.dart';
+import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/models/wpe_font.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe_skill.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_additional_options.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/show_result_snack_bar.dart';
 import 'package:xapptor_db/xapptor_db.dart';
 
-extension StateExtension on ResumeEditorState {
-  Future<Resume> load_resume_from_json(String resume_id) async {
-    String resume_string = await rootBundle
-        .loadString('packages/xapptor_business/assets/wpe_example.json');
-    Map<String, dynamic> resume_map = jsonDecode(resume_string);
-    Resume resume = Resume.from_json(
-      resume_id,
-      resume_map,
-    );
-    return resume;
-  }
+extension StateExtension on WpeEditorState {
+  //todo: eliminar si no se va a usar a WPE de ejemplo
+  // Future<Wpe> load_wpe_from_json(String wpe_id) async {
+  //   String wpe_string = await rootBundle
+  //       .loadString('packages/xapptor_business/assets/wpe_example.json');
+  //   Map<String, dynamic> wpe_map = jsonDecode(wpe_string);
+  //   Wpe wpe = Wpe.from_json(
+  //     wpe_id,
+  //     wpe_map,
+  //   );
+  //   return wpe;
+  // }
 
-  load_resume({
-    bool load_example = false,
+  load_wpe({
     required int new_slot_index,
   }) async {
     slot_index = new_slot_index;
 
-    String resume_id = load_example
-        ? "9999qDVf8FNmF9999TsmZhyk9999_en"
-        : ("${current_user!.uid}_${text_list.list[source_language_index].source_language}");
+    String wpe_id =
+        ("${current_user!.uid}_${text_list.list[source_language_index].source_language}");
 
-    if (new_slot_index != 0 && !load_example) {
-      resume_id += "_bu_$new_slot_index";
+    if (new_slot_index != 0) {
+      wpe_id += "_bu_$new_slot_index";
     }
 
-    Resume current_resume = Resume.empty();
+    Wpe current_wpe = Wpe.empty();
 
-    if (resumes.map((e) => e.id).contains(resume_id)) {
-      current_resume = resumes.firstWhere((element) => element.id == resume_id);
+    if (wpes.map((e) => e.id).contains(wpe_id)) {
+      current_wpe = wpes.firstWhere((element) => element.id == wpe_id);
     } else {
-      if (load_example) {
-        current_resume = await load_resume_from_json(resume_id);
-        chosen_image_path =
-            'packages/xapptor_community/assets/resume_photo_small.png';
-        chosen_image_bytes = await rootBundle.load(chosen_image_path).then(
-              (ByteData byteData) => byteData.buffer.asUint8List(),
-            );
-        resumes.add(current_resume);
-      } else {
-        DocumentSnapshot resume_doc =
-            await XapptorDB.instance.collection("resumes").doc(resume_id).get();
+      DocumentSnapshot wpe_doc =
+          await XapptorDB.instance.collection("wpes").doc(wpe_id).get();
 
-        Map? resume_map = resume_doc.data() as Map?;
-        if (resume_map != null) {
-          current_resume = Resume.from_snapshot(resume_id, resume_map);
-        }
+      Map? wpe_map = wpe_doc.data() as Map?;
+      if (wpe_map != null) {
+        current_wpe = Wpe.from_snapshot(wpe_id, wpe_map);
       }
     }
 
-    Timestamp current_resume_date = current_resume.creation_date;
-    Timestamp empty_resume_date = Resume.empty().creation_date;
+    // Timestamp current_wpe_date = current_wpe.creation_date;
+    // Timestamp empty_wpe_date = Wpe.empty().creation_date;
+    //Todo: cambiar el tipo
+    // String current_wpe_date = current_wpe.date_wpe;
+    // String empty_wpe_date = Wpe.empty().date_wpe;
 
-    if (current_resume_date != empty_resume_date) {
-      // SETTING TRANSLATED TITLES
+    // if (current_wpe_date != empty_wpe_date) {
+    //   // SETTING TRANSLATED TITLES
 
-      List<String> text_array = text_list.get(source_language_index);
-      current_resume.skills_title = text_array[4];
-      current_resume.profile_section.title = text_array[5];
+    //   List<String> text_array = text_list.get(source_language_index);
+    //   //current_wpe.profile_section.title = text_array[5];
 
-      current_resume.employment_sections.first.title = text_array[7];
-      current_resume.education_sections.first.title = text_array[15];
+    //   //current_wpe.condition_sections.first.title = text_array[15];
 
-      List<String> time_text_array = time_text_list.get(source_language_index);
+    //   List<String> time_text_array = time_text_list.get(source_language_index);
 
-      current_resume.text_list = [
-            text_array[11],
-          ] +
-          text_array.sublist(18, 20) +
-          [
-            widget.base_url,
-          ] +
-          time_text_array;
+    //   // current_wpe.text_list = [
+    //   //       text_array[11],
+    //   //     ] +
+    //   //     text_array.sublist(18, 20) +
+    //   //     [
+    //   //       widget.base_url,
+    //   //     ] +
+    //   //     time_text_array;
 
-      current_resume_id = current_resume.id;
+    //   current_wpe_id = current_wpe.id;
 
-      chosen_image_url = current_resume.image_url;
+    //   chosen_image_url = current_wpe.before_picture1;
 
-      current_color = current_resume.icon_color;
-      picker_color = current_resume.icon_color;
+    //   // current_color = current_wpe.icon_color;
+    //   // picker_color = current_wpe.icon_color;
 
-      name_input_controller.text = current_resume.name;
-      job_title_input_controller.text = current_resume.job_title;
-      email_input_controller.text = current_resume.email;
-      website_input_controller.text = current_resume.website;
-      profile_input_controller.text =
-          current_resume.profile_section.description!;
+    //   // number_input_controller.text = current_wpe.number;
+    //   // date_wpe_input_controller.text = current_wpe.date_wpe;
+    //   shift_input_controller.text = current_wpe.shift;
+    //   area_input_controller.text = current_wpe.area;
+    //   specific_input_controller.text = current_wpe.specific;
 
-      sections_by_page_input_controller.text =
-          current_resume.sections_by_page.join(", ");
+    //   // sections_by_page_input_controller.text =
+    //   //     current_wpe.sections_by_page.join(", ");
 
-      if (load_example) {
-        skill_sections.clear();
-        employment_sections.clear();
-        education_sections.clear();
-        custom_sections.clear();
-        setState(() {});
-      }
+    //   font_families_value = await font_families();
 
-      font_families_value = await font_families();
+    //   current_font_value = font_families_value.first;
 
-      current_font_value = font_families_value.first;
+    //   // current_font_value = font_families_value.firstWhere(
+    //   //   (WpeFont font) =>
+    //   //       font.name.toLowerCase() == current_wpe.font_name.toLowerCase(),
+    //   // );
 
-      current_font_value = font_families_value.firstWhere(
-        (ResumeFont font) =>
-            font.name.toLowerCase() == current_resume.font_name.toLowerCase(),
-      );
+    //   //show_time_amount = current_wpe.show_time_amount;
 
-      show_time_amount = current_resume.show_time_amount;
+    //   // Timer(const Duration(milliseconds: 0), () {
+    //   //   condition_sections = current_wpe.condition_sections;
+    //   //   setState(() {});
+    //   // });
+    // } else {
+    //todo cambiar a su verdadero valor
+    number_input_controller.text = current_wpe.number.toString();
+    date_wpe_input_controller.text = current_wpe.date_wpe.toString();
+    shift_input_controller.text = current_wpe.shift;
+    area_input_controller.text = current_wpe.area;
+    specific_input_controller.text = current_wpe.specific;
+    supervisor_input_controller.text = current_wpe.supervisor;
+    condition_sections = [];
 
-      Timer(Duration(milliseconds: load_example ? 100 : 0), () {
-        skill_sections = current_resume.skills;
-        employment_sections = current_resume.employment_sections;
-        education_sections = current_resume.education_sections;
-        custom_sections = current_resume.custom_sections;
-        setState(() {});
-      });
-    } else {
-      name_input_controller.text = current_resume.name;
-      job_title_input_controller.text = current_resume.job_title;
-      email_input_controller.text = current_resume.email;
-      website_input_controller.text = current_resume.website;
-      profile_input_controller.text =
-          current_resume.profile_section.description ?? "";
-
-      skill_sections = [ResumeSkill.empty()];
-      employment_sections = [];
-      education_sections = [];
-      custom_sections = [];
-
-      setState(() {});
-    }
+    setState(() {});
+    //}
 
     show_result_snack_bar(
       result_snack_bar_type: ResultSnackBarType.loaded,

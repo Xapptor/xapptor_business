@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
+//import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/choose_color.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/choose_profile_image.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_ui/values/ui.dart';
 
-extension StateExtension on ResumeEditorState {
-  resume_editor_top_option_buttons() => Column(
+extension StateExtension on WpeEditorState {
+  wpe_editor_top_option_buttons() => Column(
         children: [
           SizedBox(
-            height: sized_box_space * 4,
+            height: sized_box_space * 2,
           ),
           SizedBox(
             width: screen_width,
@@ -36,10 +36,10 @@ extension StateExtension on ResumeEditorState {
                 ),
               ),
               onPressed: () {
-                load_resume(
-                  load_example: true,
-                  new_slot_index: 0,
-                );
+                // load_wpe(
+                //   load_example: true,
+                //   new_slot_index: 0,
+                // );
               },
               child: Text(
                 text_list.get(source_language_index)[20],

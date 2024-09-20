@@ -1,6 +1,6 @@
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 
-extension StateExtension on ResumeEditorState {
+extension StateExtension on WpeEditorState {
   String get_slot_label({
     required int slot_index,
   }) {

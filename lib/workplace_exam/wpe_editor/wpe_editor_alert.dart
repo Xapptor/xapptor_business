@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe.dart';
+import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/delete/delete_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpes.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpes_labels.dart';
@@ -10,20 +10,20 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/create/save_wpe.dart';
 import 'dart:async';
 
-enum ResumeEditorAlertType {
+enum WpeEditorAlertType {
   save,
   load,
   delete,
 }
 
-extension StateExtension on ResumeEditorState {
-  resume_editor_alert({
-    required Resume resume,
-    required ResumeEditorAlertType resume_editor_alert_type,
+extension StateExtension on WpeEditorState {
+  wpe_editor_alert({
+    required Wpe wpe,
+    required WpeEditorAlertType wpe_editor_alert_type,
   }) {
     _main_alert(
-      resume: resume,
-      resume_editor_alert_type: resume_editor_alert_type,
+      wpe: wpe,
+      wpe_editor_alert_type: wpe_editor_alert_type,
     );
   }
 
@@ -59,7 +59,7 @@ extension StateExtension on ResumeEditorState {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    delete_resume(
+                    delete_wpe(
                       slot_index: slot_index,
                     );
                   },
@@ -79,7 +79,7 @@ extension StateExtension on ResumeEditorState {
   }
 
   _asking_for_backup_alert({
-    required Resume resume,
+    required Wpe wpe,
   }) {
     String no_label = alert_text_list.get(source_language_index)[5];
     String yes_label = alert_text_list.get(source_language_index)[6];
@@ -114,8 +114,8 @@ extension StateExtension on ResumeEditorState {
                   onPressed: () {
                     Navigator.pop(context);
                     _main_alert(
-                      resume: resume,
-                      resume_editor_alert_type: ResumeEditorAlertType.save,
+                      wpe: wpe,
+                      wpe_editor_alert_type: WpeEditorAlertType.save,
                     );
                   },
                   child: Text(
@@ -134,30 +134,30 @@ extension StateExtension on ResumeEditorState {
   }
 
   _main_alert({
-    required Resume resume,
-    required ResumeEditorAlertType resume_editor_alert_type,
+    required Wpe wpe,
+    required WpeEditorAlertType wpe_editor_alert_type,
   }) async {
     String main_label = alert_text_list.get(source_language_index)[9];
     String backup_label = alert_text_list.get(source_language_index)[8];
 
-    resumes = await get_resumes(
+    wpes = await get_wpes(
       user_id: current_user!.uid,
     );
 
-    List<String> resumes_labels = get_resumes_labels(
-      resumes: resumes,
+    List<String> wpes_labels = get_wpes_labels(
+      wpes: wpes,
       main_label: main_label,
       backup_label: backup_label,
-      resume_editor_alert_type: resume_editor_alert_type,
+      wpe_editor_alert_type: wpe_editor_alert_type,
     );
 
-    if (resumes_labels.isNotEmpty) {
-      slot_value = resumes_labels[slot_index];
+    if (wpes_labels.isNotEmpty) {
+      slot_value = wpes_labels[slot_index];
     }
 
     set_slot_index() {
       if (slot_value.contains(backup_label)) {
-        slot_index = resumes_labels.indexOf(slot_value);
+        slot_index = wpes_labels.indexOf(slot_value);
       } else if (slot_value.contains(main_label)) {
         slot_index = 0;
       }
@@ -171,20 +171,18 @@ extension StateExtension on ResumeEditorState {
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
               title: Text(
-                alert_text_list.get(source_language_index)[
-                    resumes_labels.isEmpty
-                        ? 9
-                        : resume_editor_alert_type == ResumeEditorAlertType.save
-                            ? 3
-                            : resume_editor_alert_type ==
-                                    ResumeEditorAlertType.delete
-                                ? 1
-                                : 0],
+                alert_text_list.get(source_language_index)[wpes_labels.isEmpty
+                    ? 9
+                    : wpe_editor_alert_type == WpeEditorAlertType.save
+                        ? 3
+                        : wpe_editor_alert_type == WpeEditorAlertType.delete
+                            ? 1
+                            : 0],
                 style: const TextStyle(
                   color: Colors.black,
                 ),
               ),
-              content: resumes_labels.isEmpty
+              content: wpes_labels.isEmpty
                   ? Text(
                       alert_text_list.get(source_language_index)[10],
                       style: const TextStyle(
@@ -198,7 +196,7 @@ extension StateExtension on ResumeEditorState {
                         slot_value = value!;
                         setState(() {});
                       },
-                      items: resumes_labels
+                      items: wpes_labels
                           .map<DropdownMenuItem<String>>(
                             (String value) => DropdownMenuItem<String>(
                               value: value,
@@ -208,7 +206,7 @@ extension StateExtension on ResumeEditorState {
                           .toList(),
                     ),
               actions: [
-                if (resumes_labels.isNotEmpty)
+                if (wpes_labels.isNotEmpty)
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -227,20 +225,20 @@ extension StateExtension on ResumeEditorState {
                       expandable_fab_key.currentState!.toggle();
                     }
 
-                    if (resumes_labels.isNotEmpty) {
-                      switch (resume_editor_alert_type) {
-                        case ResumeEditorAlertType.save:
+                    if (wpes_labels.isNotEmpty) {
+                      switch (wpe_editor_alert_type) {
+                        case WpeEditorAlertType.save:
                           set_slot_index();
 
-                          save_resume(
-                            resume: resume,
+                          save_wpe(
+                            wpe: wpe,
                             callback: () {
                               if (!asked_for_backup_alert) {
                                 asked_for_backup_alert = true;
 
                                 Timer(const Duration(milliseconds: 2000), () {
                                   _asking_for_backup_alert(
-                                    resume: resume,
+                                    wpe: wpe,
                                   );
                                 });
                               } else {
@@ -249,31 +247,28 @@ extension StateExtension on ResumeEditorState {
                             },
                           );
                           break;
-                        case ResumeEditorAlertType.load:
+                        case WpeEditorAlertType.load:
                           set_slot_index();
 
-                          load_resume(
-                            load_example: false,
+                          load_wpe(
                             new_slot_index: slot_index,
                           );
                           break;
-                        case ResumeEditorAlertType.delete:
+                        case WpeEditorAlertType.delete:
                           _asking_for_deletion_alert();
                           break;
                       }
                     }
                   },
                   child: Text(
-                    alert_text_list.get(source_language_index)[
-                        resumes_labels.isEmpty
-                            ? 12
-                            : resume_editor_alert_type ==
-                                    ResumeEditorAlertType.delete
-                                ? 19
-                                : resume_editor_alert_type ==
-                                        ResumeEditorAlertType.save
-                                    ? 18
-                                    : 17],
+                    alert_text_list.get(source_language_index)[wpes_labels
+                            .isEmpty
+                        ? 12
+                        : wpe_editor_alert_type == WpeEditorAlertType.delete
+                            ? 19
+                            : wpe_editor_alert_type == WpeEditorAlertType.save
+                                ? 18
+                                : 17],
                     style: const TextStyle(
                       color: Colors.black,
                     ),
