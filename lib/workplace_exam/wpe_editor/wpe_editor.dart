@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,10 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_init_state
 //todo: eliminar sino se va a usar preview
 //import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_preview.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_header.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_other.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_ericp.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_maintenance.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_supervisor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_text_lists.dart';
 import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
 //todo: eliminar sino se va a usar botones arriba
@@ -45,14 +48,33 @@ class WpeEditor extends StatefulWidget {
 }
 
 class WpeEditorState extends State<WpeEditor> {
+  //Header Section
   String wpe_number = '';
   DateTime wpe_date = DateTime.now();
-
   String shift_input_controller = '';
   String area_input_controller = '';
-
+  String supervisor_input_controller = '';
   TextEditingController specific_input_controller = TextEditingController();
-  TextEditingController supervisor_input_controller = TextEditingController();
+
+  //Other Section
+  TextEditingController order_input_controller = TextEditingController();
+  String transversal_input_controller = '';
+  String maintenance_input_controller = '';
+
+  //ERICP Section
+  TextEditingController eliminated_input_controller = TextEditingController();
+  TextEditingController reduced_input_controller = TextEditingController();
+  TextEditingController isolated_input_controller = TextEditingController();
+  TextEditingController controled_input_controller = TextEditingController();
+  TextEditingController ppe_input_controller = TextEditingController();
+
+  //Maintenance Section
+  TextEditingController maint_cmmt_input_controller = TextEditingController();
+
+  //Supervisor Section
+  TextEditingController supervisor_cmmt_input_controller =
+      TextEditingController();
+
   TextEditingController sections_by_page_input_controller =
       TextEditingController();
 
@@ -114,16 +136,28 @@ class WpeEditorState extends State<WpeEditor> {
 
   String current_wpe_id = "";
 
+  //List envoirement
   Site? site;
   late List<String> area_list;
+  late List<String> transversal_list;
+  //todo Cambiar por consulta a la BD
+  List<String> supervisor_list = [
+    'Caldwell Parker',
+    'Juan Suarez',
+    'Kasimir Frazier'
+  ];
+  List<String> maintenance_list = ['Andrew Quinn', 'Juan Suarez'];
 
   retrieve_site() async {
     site = await get_site('zKxyFr2xtIcCEcWZqCNq');
 
     if (site != null) {
       area_list = site!.areas.map((areaObj) => areaObj.area).toList();
+      transversal_list =
+          site!.transversals.map((transObj) => transObj.location).toList();
     } else {
       area_list = [];
+      transversal_list = [];
     }
 
     // if (site != null) print(site!.to_json());
@@ -185,7 +219,11 @@ class WpeEditorState extends State<WpeEditor> {
                     children: [
                       //wpe_editor_top_option_buttons(),
                       wpe_editor_section_header(),
+                      wpe_editor_section_other(),
+                      wpe_editor_section_ericp(),
                       wpe_sections(),
+                      wpe_editor_section_maintenance(),
+                      wpe_editor_section_supervisor(),
                       // if (font_families_value.isNotEmpty)
                       //   WpeEditorAdditionalOptions(
                       //     callback: () {

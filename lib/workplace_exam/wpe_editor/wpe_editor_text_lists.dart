@@ -9,23 +9,47 @@ class WpeEditorTextLists {
           TranslationTextList(
             source_language: "en",
             text_list: [
+              //Header Section
               "Doc Id",
               "Date / Time",
               "Shift",
               "Area",
               "Equiment/Specific",
               "Supervisor",
-              "WPE Preview",
-              "History",
+              //Other Sections
+              "ERP or Order Number",
+              "Transversal/Location",
+              "Maintenance Supervisor",
+
               "Title",
               "Subtitle",
               "Description",
-              "Present",
               "Choose Dates",
               "Choose initial date",
               "Choose end date",
               "Conditions",
+
+              // ERICP Section
+              "Eliminated",
+              "Reduced",
+              "Isolated",
+              "Controled",
+              "PPE",
+
+              // Maintenance Section
+              "Maintenance Comment",
+
+              // Maintenance Section
+              "Supervisor Comment", //22
+
               "Sections",
+              "Persons Section", //24
+              "Other Section", //25
+              "Hazards Section", //26
+              "ERICP Section", //27
+              "Maintenance Section", //28
+              "Supervisor Section", //29
+
               "Before adding a new section you must first complete the last one",
               "Wpe available online at:",
               "Wpe Developed and Hosted by $organization_name:",

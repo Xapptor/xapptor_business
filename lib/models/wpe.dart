@@ -16,12 +16,12 @@ class Wpe {
   //final String supervisor_department;
   int slot_index;
   //final List<Person> persons;
-  // final String order;
-  // final String transversal;
+  final String order;
+  final String transversal;
   // final String transversal_userid;
   // final String transversal_responsible;
   // final String maintenance_userid;
-  // final String maintenance_supervisor;
+  final String maintenance_supervisor;
   // final String lototo;
   // final String hit_or_caught;
   // final String burn;
@@ -32,18 +32,18 @@ class Wpe {
   // final String before_picture2;
   // final String before_picture3;
   // final String before_picture4;
-  // final String eliminated;
-  // final String reduced;
-  // final String isolated;
-  // final String controled;
-  // final String ppe;
+  final String eliminated;
+  final String reduced;
+  final String isolated;
+  final String controled;
+  final String ppe;
   // final String after_picture1;
   // final String after_picture2;
   // final List<Condition> conditions;
-  // final String maintenance_comment;
+  final String maintenance_comment;
   // final String after_maint_picture2;
   // final String after_maint_picture1;
-  // final String supervisor_comment;
+  final String supervisor_comment;
   // final bool close;
   // DateTime? date_corrected;
   // Timestamp? date_close;
@@ -69,12 +69,12 @@ class Wpe {
     //required this.supervisor_department,
     required this.slot_index,
     // required this.persons,
-    // required this.order,
-    // required this.transversal,
+    required this.order,
+    required this.transversal,
     // required this.transversal_userid,
     // required this.transversal_responsible,
     // required this.maintenance_userid,
-    // required this.maintenance_supervisor,
+    required this.maintenance_supervisor,
     // required this.lototo,
     // required this.hit_or_caught,
     // required this.burn,
@@ -85,18 +85,18 @@ class Wpe {
     // required this.before_picture2,
     // required this.before_picture3,
     // required this.before_picture4,
-    // required this.eliminated,
-    // required this.reduced,
-    // required this.isolated,
-    // required this.controled,
-    // required this.ppe,
+    required this.eliminated,
+    required this.reduced,
+    required this.isolated,
+    required this.controled,
+    required this.ppe,
     // required this.after_picture1,
     // required this.after_picture2,
     // required this.conditions,
-    // required this.maintenance_comment,
+    required this.maintenance_comment,
     // required this.after_maint_picture2,
     // required this.after_maint_picture1,
-    // required this.supervisor_comment,
+    required this.supervisor_comment,
     // required this.close,
     //this.date_corrected,
     //this.date_close,
@@ -126,12 +126,12 @@ class Wpe {
         // persons = ((snapshot['persons'] ?? []) as List)
         //     .map((person) => Person.from_snapshot(person))
         //     .toList(),
-        // order = snapshot['order'] ?? '',
-        // transversal = snapshot['transversal'] ?? '',
+        order = snapshot['order'] ?? '',
+        transversal = snapshot['transversal'] ?? '',
         // transversal_userid = snapshot['transversal_userid'] ?? '',
         // transversal_responsible = snapshot['transversal_responsible'] ?? '',
         // maintenance_userid = snapshot['maintenance_userid'] ?? '',
-        // maintenance_supervisor = snapshot['maintenance_supervisor'] ?? '',
+        maintenance_supervisor = snapshot['maintenance_supervisor'] ?? '',
         // lototo = snapshot['lototo'] ?? '',
         // hit_or_caught = snapshot['hit_or_caught'] ?? '',
         // burn = snapshot['burn'] ?? '',
@@ -142,20 +142,20 @@ class Wpe {
         // before_picture2 = snapshot['before_picture2'] ?? '',
         // before_picture3 = snapshot['before_picture3'] ?? '',
         // before_picture4 = snapshot['before_picture4'] ?? '',
-        // eliminated = snapshot['eliminated'] ?? '',
-        // reduced = snapshot['reduced'] ?? '',
-        // isolated = snapshot['isolated'] ?? '',
-        // controled = snapshot['controled'] ?? '',
-        // ppe = snapshot['ppe'] ?? '',
+        eliminated = snapshot['eliminated'] ?? '',
+        reduced = snapshot['reduced'] ?? '',
+        isolated = snapshot['isolated'] ?? '',
+        controled = snapshot['controled'] ?? '',
+        ppe = snapshot['ppe'] ?? '',
         // after_picture1 = snapshot['after_picture1'] ?? '',
         // after_picture2 = snapshot['after_picture2'] ?? '',
         // conditions = ((snapshot['conditions'] ?? []) as List)
         //     .map((condition) => Condition.from_snapshot(condition))
         //     .toList(),
-        // maintenance_comment = snapshot['maintenance_comment'] ?? '',
+        maintenance_comment = snapshot['maintenance_comment'] ?? '',
         // after_maint_picture2 = snapshot['after_maint_picture2'] ?? '',
         // after_maint_picture1 = snapshot['after_maint_picture1'] ?? '',
-        // supervisor_comment = snapshot['supervisor_comment'] ?? '',
+        supervisor_comment = snapshot['supervisor_comment'] ?? '',
         // close = snapshot['close'] ?? '',
         // date_corrected = snapshot['date_corrected'] != null
         //     ? (snapshot['date_corrected'] as Timestamp).toDate()
@@ -185,12 +185,12 @@ class Wpe {
       //"supervisor_department": supervisor_department,
       "slot_index": slot_index,
       // "persons": List<dynamic>.from(persons.map((x) => x.to_json())),
-      // "order": order,
-      // "transversal": transversal,
+      "order": order,
+      "transversal": transversal,
       // "transversal_userid": transversal_userid,
       // "transversal_responsible": transversal_responsible,
       // "maintenance_userid": maintenance_userid,
-      // "maintenance_supervisor": maintenance_supervisor,
+      "maintenance_supervisor": maintenance_supervisor,
       // "lototo": lototo,
       // "hit_or_caught": hit_or_caught,
       // "burn": burn,
@@ -201,18 +201,18 @@ class Wpe {
       // "before_picture2": before_picture2,
       // "before_picture3": before_picture3,
       // "before_picture4": before_picture4,
-      // "eliminated": eliminated,
-      // "reduced": reduced,
-      // "isolated": isolated,
-      // "controled": controled,
-      // "ppe": ppe,
+      "eliminated": eliminated,
+      "reduced": reduced,
+      "isolated": isolated,
+      "controled": controled,
+      "ppe": ppe,
       // "after_picture1": after_picture1,
       // "after_picture2": after_picture2,
       // "conditions": List<dynamic>.from(conditions.map((x) => x.to_json())),
-      // "maintenance_comment": maintenance_comment,
+      "maintenance_comment": maintenance_comment,
       // "after_maint_picture2": after_maint_picture2,
       // "after_maint_picture1": after_maint_picture1,
-      // "supervisor_comment": supervisor_comment,
+      "supervisor_comment": supervisor_comment,
       // "close": close,
       // "date_corrected": date_corrected,
       // "date_close": date_close,
@@ -240,12 +240,12 @@ class Wpe {
       //supervisor_department: '',
       slot_index: 0,
       //persons: [],
-      //order: '',
-      //transversal: '',
+      order: '',
+      transversal: '',
       //transversal_userid: '',
       //transversal_responsible: '',
       // maintenance_userid: '',
-      // maintenance_supervisor: '',
+      maintenance_supervisor: '',
       // lototo: '',
       // hit_or_caught: '',
       // burn: '',
@@ -256,18 +256,18 @@ class Wpe {
       // before_picture2: '',
       // before_picture3: '',
       // before_picture4: '',
-      // eliminated: '',
-      // reduced: '',
-      // isolated: '',
-      // controled: '',
-      // ppe: '',
+      eliminated: '',
+      reduced: '',
+      isolated: '',
+      controled: '',
+      ppe: '',
       // after_picture1: '',
       // after_picture2: '',
       // conditions: [],
-      // maintenance_comment: '',
+      maintenance_comment: '',
       // after_maint_picture2: '',
       // after_maint_picture1: '',
-      // supervisor_comment: '',
+      supervisor_comment: '',
       // close: false,
       // date_corrected: null,
       // date_close: null,

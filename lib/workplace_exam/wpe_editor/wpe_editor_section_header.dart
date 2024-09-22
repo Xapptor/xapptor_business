@@ -82,20 +82,6 @@ extension StateExtension on WpeEditorState {
                   color: Color.fromRGBO(0, 51, 160, 1),
                 )),
           ),
-          // CustomTextField(
-          //   model: CustomTextFieldModel(
-          //     title: text_list.get(source_language_index)[3],
-          //     hint: text_list.get(source_language_index)[3],
-          //     focus_node: focus_node_4,
-          //     on_field_submitted: (fieldValue) => focus_node_5.requestFocus(),
-          //     controller: area_input_controller,
-          //     length_limit: FormFieldValidatorsType.name.get_Length(),
-          //     validator: (value) => FormFieldValidators(
-          //       value: value!,
-          //       type: FormFieldValidatorsType.name,
-          //     ).validate(),
-          //   ),
-          // ),
           SizedBox(height: sized_box_space),
           CustomTextField(
             model: CustomTextFieldModel(
@@ -114,21 +100,32 @@ extension StateExtension on WpeEditorState {
             ),
           ),
           SizedBox(height: sized_box_space),
-          CustomTextField(
-            model: CustomTextFieldModel(
-              title: text_list.get(source_language_index)[5],
-              hint: text_list.get(source_language_index)[5],
-              focus_node: focus_node_6,
-              on_field_submitted: (fieldValue) => focus_node_7.requestFocus(),
-              controller: supervisor_input_controller,
-              length_limit: FormFieldValidatorsType.name.get_Length(),
-              validator: (value) => FormFieldValidators(
-                value: value!,
-                type: FormFieldValidatorsType.name,
-              ).validate(),
-            ),
+          DropdownButtonFormField<String>(
+            value: supervisor_input_controller,
+            onChanged: (String? new_value) {
+              //setState(() {
+              supervisor_input_controller = new_value!;
+              //});
+            },
+            items:
+                supervisor_list.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            isExpanded: true,
+            decoration: InputDecoration(
+                labelText: text_list.get(source_language_index)[5],
+                hintText: text_list.get(source_language_index)[5],
+                border: const OutlineInputBorder(),
+                labelStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(0, 51, 160, 1),
+                )),
           ),
-          // SizedBox(height: sized_box_space),
+          //SizedBox(height: sized_box_space),
           // CustomTextField(
           //   model: CustomTextFieldModel(
           //     title: text_list.get(source_language_index)[5],
