@@ -1,165 +1,101 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xapptor_business/models/area.dart';
+import 'package:xapptor_business/models/transversal.dart';
 
 class Site {
   String id;
+  String site_name;
+  String company_id;
+  String company_name;
+  String address_line1;
+  String address_line2;
+  String address_line3;
+  String city;
   String state;
+  String zipcode;
+  String country;
+  String phone1;
+  String phone2;
+  int lastwpe;
+  int lastws;
+  String hazard;
   List<String> shifts;
+  List<String> departments;
+  List<Area> areas;
+  List<Transversal> transversals;
 
   Site({
     required this.id,
+    required this.site_name,
+    required this.company_id,
+    required this.company_name,
+    required this.address_line1,
+    required this.address_line2,
+    required this.address_line3,
+    required this.city,
     required this.state,
+    required this.zipcode,
+    required this.country,
+    required this.phone1,
+    required this.phone2,
+    required this.lastwpe,
+    required this.lastws,
+    required this.hazard,
     required this.shifts,
+    required this.departments,
+    required this.areas,
+    required this.transversals,
   });
 
   Site.from_snapshot(DocumentSnapshot snapshot)
       : id = snapshot.id,
+        site_name = snapshot.get("site_name"),
+        company_id = snapshot.get("company_id"),
+        company_name = snapshot.get("company_name"),
+        address_line1 = snapshot.get("address_line1"),
+        address_line2 = snapshot.get("address_line2"),
+        address_line3 = snapshot.get("address_line3"),
+        city = snapshot.get("city"),
         state = snapshot.get("state"),
-        shifts = (snapshot['shifts'] as List).map((e) => e as String).toList();
+        zipcode = snapshot.get("zipcode"),
+        country = snapshot.get("country"),
+        phone1 = snapshot.get("phone1"),
+        phone2 = snapshot.get("phone2"),
+        lastwpe = snapshot.get("lastwpe"),
+        lastws = snapshot.get("lastws"),
+        hazard = snapshot.get("hazard"),
+        shifts = (snapshot['shifts'] as List).map((e) => e as String).toList(),
+        departments =
+            (snapshot['departments'] as List).map((e) => e as String).toList(),
+        areas = ((snapshot['areas'] ?? []) as List)
+            .map((area) => Area.from_snapshot(area))
+            .toList(),
+        transversals = ((snapshot['transversals'] ?? []) as List)
+            .map((transversal) => Transversal.from_snapshot(transversal))
+            .toList();
 
   Map<String, dynamic> to_json() {
     return {
       "id": id,
+      "site_name": site_name,
+      "company_id": company_id,
+      "company_name": company_name,
+      "address_line1": address_line1,
+      "address_line2": address_line2,
+      "address_line3": address_line3,
+      "city": city,
       "state": state,
+      "zipcode": zipcode,
+      "country": country,
+      "phone1": phone1,
+      "phone2": phone2,
+      "lastwpe": lastwpe,
+      "lastws": lastws,
+      "hazard": hazard,
       "shifts": shifts,
+      "departments": departments,
+      "areas": List<dynamic>.from(areas.map((x) => x.to_json())),
+      "transversals": List<dynamic>.from(transversals.map((x) => x.to_json())),
     };
   }
 }
-
-// To parse this JSON data, do
-
-//     final site = siteFromJson(jsonString);
-
-// import 'dart:convert';
-
-// Site siteFromJson(String str) => Site.fromJson(json.decode(str));
-
-// String siteToJson(Site data) => json.encode(data.toJson());
-
-// class Site {
-//   final String country;
-//   final String companyId;
-//   final int lastwpe;
-//   final String city;
-//   final String phone2;
-//   final List<Area> areas;
-//   final int lastws;
-//   final String phone1;
-//   final String siteName;
-//   final String zipcode;
-//   final String addressLine3;
-//   final String addressLine2;
-//   final String addressLine1;
-//   final String hazard;
-//   final String companyName;
-//   final List<String> shifts;
-//   final String state;
-//   final List<String> departments;
-//   final List<Transversal> transversals;
-
-//   Site({
-//     required this.country,
-//     required this.companyId,
-//     required this.lastwpe,
-//     required this.city,
-//     required this.phone2,
-//     required this.areas,
-//     required this.lastws,
-//     required this.phone1,
-//     required this.siteName,
-//     required this.zipcode,
-//     required this.addressLine3,
-//     required this.addressLine2,
-//     required this.addressLine1,
-//     required this.hazard,
-//     required this.companyName,
-//     required this.shifts,
-//     required this.state,
-//     required this.departments,
-//     required this.transversals,
-//   });
-
-//   factory Site.fromJson(Map<String, dynamic> json) => Site(
-//         country: json["country"],
-//         companyId: json["company_id"],
-//         lastwpe: json["lastwpe"],
-//         city: json["city"],
-//         phone2: json["phone2"],
-//         areas: List<Area>.from(json["areas"].map((x) => Area.fromJson(x))),
-//         lastws: json["lastws"],
-//         phone1: json["phone1"],
-//         siteName: json["site_name"],
-//         zipcode: json["zipcode"],
-//         addressLine3: json["address_line3"],
-//         addressLine2: json["address_line2"],
-//         addressLine1: json["address_line1"],
-//         hazard: json["hazard"],
-//         companyName: json["company_name"],
-//         shifts: List<String>.from(json["shifts"].map((x) => x)),
-//         state: json["state"],
-//         departments: List<String>.from(json["departments"].map((x) => x)),
-//         transversals: List<Transversal>.from(
-//             json["transversals"].map((x) => Transversal.fromJson(x))),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "country": country,
-//         "company_id": companyId,
-//         "lastwpe": lastwpe,
-//         "city": city,
-//         "phone2": phone2,
-//         "areas": List<dynamic>.from(areas.map((x) => x.toJson())),
-//         "lastws": lastws,
-//         "phone1": phone1,
-//         "site_name": siteName,
-//         "zipcode": zipcode,
-//         "address_line3": addressLine3,
-//         "address_line2": addressLine2,
-//         "address_line1": addressLine1,
-//         "hazard": hazard,
-//         "company_name": companyName,
-//         "shifts": List<dynamic>.from(shifts.map((x) => x)),
-//         "state": state,
-//         "departments": List<dynamic>.from(departments.map((x) => x)),
-//         "transversals": List<dynamic>.from(transversals.map((x) => x.toJson())),
-//       };
-// }
-
-// class Area {
-//   final String area;
-//   final String department;
-
-//   Area({
-//     required this.area,
-//     required this.department,
-//   });
-
-//   factory Area.fromJson(Map<String, dynamic> json) => Area(
-//         area: json["area"],
-//         department: json["department"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "area": area,
-//         "department": department,
-//       };
-// }
-
-// class Transversal {
-//   final String responsible;
-//   final String location;
-
-//   Transversal({
-//     required this.responsible,
-//     required this.location,
-//   });
-
-//   factory Transversal.fromJson(Map<String, dynamic> json) => Transversal(
-//         responsible: json["responsible"],
-//         location: json["location"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "responsible": responsible,
-//         "location": location,
-//       };
-// }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_fab.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_init_state.dart';
 //todo: eliminar sino se va a usar preview
 //import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_preview.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_text_fields.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_header.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_text_lists.dart';
 import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
 //todo: eliminar sino se va a usar botones arriba
@@ -44,10 +45,12 @@ class WpeEditor extends StatefulWidget {
 }
 
 class WpeEditorState extends State<WpeEditor> {
-  TextEditingController number_input_controller = TextEditingController();
-  TextEditingController date_wpe_input_controller = TextEditingController();
-  TextEditingController shift_input_controller = TextEditingController();
-  TextEditingController area_input_controller = TextEditingController();
+  String wpe_number = '';
+  DateTime wpe_date = DateTime.now();
+
+  String shift_input_controller = '';
+  String area_input_controller = '';
+
   TextEditingController specific_input_controller = TextEditingController();
   TextEditingController supervisor_input_controller = TextEditingController();
   TextEditingController sections_by_page_input_controller =
@@ -112,11 +115,18 @@ class WpeEditorState extends State<WpeEditor> {
   String current_wpe_id = "";
 
   Site? site;
+  late List<String> area_list;
 
   retrieve_site() async {
     site = await get_site('zKxyFr2xtIcCEcWZqCNq');
 
-    if (site != null) print(site!.to_json());
+    if (site != null) {
+      area_list = site!.areas.map((areaObj) => areaObj.area).toList();
+    } else {
+      area_list = [];
+    }
+
+    // if (site != null) print(site!.to_json());
   }
 
   @override
@@ -174,7 +184,7 @@ class WpeEditorState extends State<WpeEditor> {
                   child: Column(
                     children: [
                       //wpe_editor_top_option_buttons(),
-                      wpe_editor_text_fields(),
+                      wpe_editor_section_header(),
                       wpe_sections(),
                       // if (font_families_value.isNotEmpty)
                       //   WpeEditorAdditionalOptions(

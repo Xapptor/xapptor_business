@@ -81,8 +81,8 @@ extension StateExtension on WpeEditorState {
     //   // current_color = current_wpe.icon_color;
     //   // picker_color = current_wpe.icon_color;
 
-    //   // number_input_controller.text = current_wpe.number;
-    //   // date_wpe_input_controller.text = current_wpe.date_wpe;
+    //   // wpe_number.text = current_wpe.number;
+    //   // wpe_date.text = current_wpe.date_wpe;
     //   shift_input_controller.text = current_wpe.shift;
     //   area_input_controller.text = current_wpe.area;
     //   specific_input_controller.text = current_wpe.specific;
@@ -107,10 +107,10 @@ extension StateExtension on WpeEditorState {
     //   // });
     // } else {
     //todo cambiar a su verdadero valor
-    number_input_controller.text = current_wpe.number.toString();
-    date_wpe_input_controller.text = current_wpe.date_wpe.toString();
-    shift_input_controller.text = current_wpe.shift;
-    area_input_controller.text = current_wpe.area;
+    wpe_number = current_wpe.number.toString();
+    wpe_date = current_wpe.date_wpe.toDate();
+    shift_input_controller = current_wpe.shift;
+    area_input_controller = current_wpe.area;
     specific_input_controller.text = current_wpe.specific;
     supervisor_input_controller.text = current_wpe.supervisor;
     condition_sections = [];
