@@ -45,7 +45,7 @@ class Wpe {
   // final String after_maint_picture1;
   final String supervisor_comment;
   // final bool close;
-  // DateTime? date_corrected;
+  // DateTime? date_wpe_corrected;
   // Timestamp? date_close;
   final String user_id;
   // final String created_userid;
@@ -98,7 +98,7 @@ class Wpe {
     // required this.after_maint_picture1,
     required this.supervisor_comment,
     // required this.close,
-    //this.date_corrected,
+    //this.date_wpe_corrected,
     //this.date_close,
     required this.user_id,
     // required this.created_userid,
@@ -157,11 +157,11 @@ class Wpe {
         // after_maint_picture1 = snapshot['after_maint_picture1'] ?? '',
         supervisor_comment = snapshot['supervisor_comment'] ?? '',
         // close = snapshot['close'] ?? '',
-        // date_corrected = snapshot['date_corrected'] != null
-        //     ? (snapshot['date_corrected'] as Timestamp).toDate()
+        // date_wpe_corrected = snapshot['date_corrected'] != null
+        //     ? (snapshot['date_wpe_corrected'] as Timestamp).toDate()
         //     : null,
         // date_close = snapshot['dateClose'] != null
-        //     ? (snapshot['date_corrected'] as Timestamp)
+        //     ? (snapshot['date_wpe_corrected'] as Timestamp)
         //     : null,
         user_id = snapshot['user_id'] ?? '',
         // created_userid = snapshot["created_userid"],
@@ -214,7 +214,7 @@ class Wpe {
       // "after_maint_picture1": after_maint_picture1,
       "supervisor_comment": supervisor_comment,
       // "close": close,
-      // "date_corrected": date_corrected,
+      // "date_wpe_corrected": date_wpe_corrected,
       // "date_close": date_close,
       "user_id": user_id,
       // "created_userid": created_userid,
@@ -269,7 +269,7 @@ class Wpe {
       // after_maint_picture1: '',
       supervisor_comment: '',
       // close: false,
-      // date_corrected: null,
+      // date_wpe_corrected: null,
       // date_close: null,
       user_id: '',
       //created_userid: '',
