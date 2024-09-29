@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
+import 'package:xapptor_business/models/condition.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/wpe_section_form_item.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/update_section.dart';
 import 'package:xapptor_ui/values/ui.dart';
@@ -57,9 +57,9 @@ class WpeSectionForm extends StatefulWidget {
 }
 
 class _WpeSectionFormState extends State<WpeSectionForm> {
-  TextEditingController title_input_controller = TextEditingController();
-  TextEditingController subtitle_input_controller = TextEditingController();
-  TextEditingController description_input_controller = TextEditingController();
+  TextEditingController promptly_input_controller = TextEditingController();
+  TextEditingController not_promptly_input_controller = TextEditingController();
+  TextEditingController mitigation_input_controller = TextEditingController();
 
   DateTime? selected_date_1;
   DateTime? selected_date_2;
@@ -94,7 +94,7 @@ class _WpeSectionFormState extends State<WpeSectionForm> {
     widget.update_section(
       item_index: widget.section_list.length,
       section_index: widget.section_index,
-      section: WpeCondition(),
+      section: Condition.empty(),
       update_widget: true,
     );
   }
@@ -138,10 +138,10 @@ class _WpeSectionFormState extends State<WpeSectionForm> {
             IconButton(
               onPressed: () {
                 if (widget.section_list.isNotEmpty) {
-                  WpeCondition last_section = widget.section_list.last;
-                  if (last_section.title != null ||
-                      last_section.subtitle != null ||
-                      last_section.description != null) {
+                  Condition last_section = widget.section_list.last;
+                  if (last_section.promptly_corrected != null ||
+                      last_section.not_promptly_corrected != null ||
+                      last_section.mitigating_action != null) {
                     _add_item();
                   } else {
                     show_snack_bar();

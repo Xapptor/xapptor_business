@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'person.dart';
-//import 'conditions.dart';
+import 'condition.dart';
 
 class Wpe {
   String id;
@@ -22,12 +22,12 @@ class Wpe {
   // final String transversal_responsible;
   // final String maintenance_userid;
   final String maintenance_supervisor;
-  // final String lototo;
-  // final String hit_or_caught;
-  // final String burn;
-  // final String health;
-  // final String work_condition;
-  // final String fall;
+  final String lototo;
+  final String hit_or_caught;
+  final String burn;
+  final String health;
+  final String work_condition;
+  final String fall;
   String before_picture1;
   // final String before_picture2;
   // final String before_picture3;
@@ -39,7 +39,7 @@ class Wpe {
   final String ppe;
   // final String after_picture1;
   // final String after_picture2;
-  // final List<Condition> conditions;
+  final List<Condition> conditions;
   final String maintenance_comment;
   // final String after_maint_picture2;
   // final String after_maint_picture1;
@@ -75,12 +75,12 @@ class Wpe {
     // required this.transversal_responsible,
     // required this.maintenance_userid,
     required this.maintenance_supervisor,
-    // required this.lototo,
-    // required this.hit_or_caught,
-    // required this.burn,
-    // required this.health,
-    // required this.work_condition,
-    // required this.fall,
+    required this.lototo,
+    required this.hit_or_caught,
+    required this.burn,
+    required this.health,
+    required this.work_condition,
+    required this.fall,
     required this.before_picture1,
     // required this.before_picture2,
     // required this.before_picture3,
@@ -92,7 +92,7 @@ class Wpe {
     required this.ppe,
     // required this.after_picture1,
     // required this.after_picture2,
-    // required this.conditions,
+    required this.conditions,
     required this.maintenance_comment,
     // required this.after_maint_picture2,
     // required this.after_maint_picture1,
@@ -132,12 +132,12 @@ class Wpe {
         // transversal_responsible = snapshot['transversal_responsible'] ?? '',
         // maintenance_userid = snapshot['maintenance_userid'] ?? '',
         maintenance_supervisor = snapshot['maintenance_supervisor'] ?? '',
-        // lototo = snapshot['lototo'] ?? '',
-        // hit_or_caught = snapshot['hit_or_caught'] ?? '',
-        // burn = snapshot['burn'] ?? '',
-        // health = snapshot['health'] ?? '',
-        // work_condition = snapshot['work_condition'] ?? '',
-        // fall = snapshot['fall'] ?? '',
+        lototo = snapshot['lototo'] ?? '',
+        hit_or_caught = snapshot['hit_or_caught'] ?? '',
+        burn = snapshot['burn'] ?? '',
+        health = snapshot['health'] ?? '',
+        work_condition = snapshot['work_condition'] ?? '',
+        fall = snapshot['fall'] ?? '',
         before_picture1 = snapshot['before_picture1'] ?? '',
         // before_picture2 = snapshot['before_picture2'] ?? '',
         // before_picture3 = snapshot['before_picture3'] ?? '',
@@ -149,9 +149,9 @@ class Wpe {
         ppe = snapshot['ppe'] ?? '',
         // after_picture1 = snapshot['after_picture1'] ?? '',
         // after_picture2 = snapshot['after_picture2'] ?? '',
-        // conditions = ((snapshot['conditions'] ?? []) as List)
-        //     .map((condition) => Condition.from_snapshot(condition))
-        //     .toList(),
+        conditions = ((snapshot['conditions'] ?? []) as List)
+            .map((condition) => Condition.from_snapshot(condition))
+            .toList(),
         maintenance_comment = snapshot['maintenance_comment'] ?? '',
         // after_maint_picture2 = snapshot['after_maint_picture2'] ?? '',
         // after_maint_picture1 = snapshot['after_maint_picture1'] ?? '',
@@ -191,12 +191,12 @@ class Wpe {
       // "transversal_responsible": transversal_responsible,
       // "maintenance_userid": maintenance_userid,
       "maintenance_supervisor": maintenance_supervisor,
-      // "lototo": lototo,
-      // "hit_or_caught": hit_or_caught,
-      // "burn": burn,
-      // "health": health,
-      // "work_condition": work_condition,
-      // "fall": fall,
+      "lototo": lototo,
+      "hit_or_caught": hit_or_caught,
+      "burn": burn,
+      "health": health,
+      "work_condition": work_condition,
+      "fall": fall,
       "before_picture1": before_picture1,
       // "before_picture2": before_picture2,
       // "before_picture3": before_picture3,
@@ -208,7 +208,7 @@ class Wpe {
       "ppe": ppe,
       // "after_picture1": after_picture1,
       // "after_picture2": after_picture2,
-      // "conditions": List<dynamic>.from(conditions.map((x) => x.to_json())),
+      "conditions": List<dynamic>.from(conditions.map((x) => x.to_json())),
       "maintenance_comment": maintenance_comment,
       // "after_maint_picture2": after_maint_picture2,
       // "after_maint_picture1": after_maint_picture1,
@@ -246,12 +246,12 @@ class Wpe {
       //transversal_responsible: '',
       // maintenance_userid: '',
       maintenance_supervisor: '',
-      // lototo: '',
-      // hit_or_caught: '',
-      // burn: '',
-      // health: '',
-      // work_condition: '',
-      // fall: '',
+      lototo: '',
+      hit_or_caught: '',
+      burn: '',
+      health: '',
+      work_condition: '',
+      fall: '',
       before_picture1: '',
       // before_picture2: '',
       // before_picture3: '',
@@ -263,7 +263,7 @@ class Wpe {
       ppe: '',
       // after_picture1: '',
       // after_picture2: '',
-      // conditions: [],
+      conditions: [],
       maintenance_comment: '',
       // after_maint_picture2: '',
       // after_maint_picture1: '',

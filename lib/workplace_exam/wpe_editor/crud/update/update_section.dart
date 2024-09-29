@@ -1,6 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
+import 'package:xapptor_business/models/condition.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_logic/extensions/list.dart';
 
@@ -42,11 +42,11 @@ extension StateExtension on WpeEditorState {
     if (section_index == 0) {
       //skill_sections = dynamic_sections as List<WpeSkill>;
     } else if (section_index == 1) {
-      //employment_sections = dynamic_sections as List<WpeCondition>;
+      //employment_sections = dynamic_sections as List<Condition>;
     } else if (section_index == 2) {
-      condition_sections = dynamic_sections as List<WpeCondition>;
+      condition_sections = dynamic_sections as List<Condition>;
     } else if (section_index == 3) {
-      //custom_sections = dynamic_sections as List<WpeCondition>;
+      //custom_sections = dynamic_sections as List<Condition>;
     }
 
     if (update_widget) {

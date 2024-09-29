@@ -12,8 +12,8 @@ class Wpe {
   final String email;
   final String website;
   final List<int> sections_by_page;
-  final WpeCondition profile_section;
-  final List<WpeCondition> condition_sections;
+  final Condition profile_section;
+  final List<Condition> condition_sections;
   final Color icon_color;
   final String language_code;
   List<String> text_list;
@@ -56,10 +56,9 @@ class Wpe {
         sections_by_page = ((snapshot['sections_by_page'] ?? []) as List)
             .map((e) => e as int)
             .toList(),
-        profile_section =
-            WpeCondition.from_snapshot(snapshot['profile_section']),
+        profile_section = Condition.from_snapshot(snapshot['profile_section']),
         condition_sections = (snapshot['condition_sections'] as List)
-            .map((section) => WpeCondition.from_snapshot(section))
+            .map((section) => Condition.from_snapshot(section))
             .toList(),
         icon_color = HexColor.fromHex(snapshot['icon_color']),
         language_code = snapshot['language_code'] ?? 'en',
@@ -125,9 +124,9 @@ class Wpe {
         website = json['website'] ?? '',
         sections_by_page =
             (json['sections_by_page'] as List).map((e) => e as int).toList(),
-        profile_section = WpeCondition.from_json(json['profile_section']),
+        profile_section = Condition.from_json(json['profile_section']),
         condition_sections = (json['condition_sections'] as List)
-            .map((section) => WpeCondition.from_json(section))
+            .map((section) => Condition.from_json(section))
             .toList(),
         icon_color = HexColor.fromHex(json['icon_color']),
         language_code = json['language_code'] ?? 'en',
@@ -150,7 +149,7 @@ class Wpe {
       email: '',
       website: '',
       sections_by_page: [],
-      profile_section: WpeCondition.empty(),
+      profile_section: Condition.empty(),
       condition_sections: [],
       icon_color: Colors.blue,
       language_code: 'en',

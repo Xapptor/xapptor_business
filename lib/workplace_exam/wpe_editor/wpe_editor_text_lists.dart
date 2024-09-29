@@ -50,6 +50,14 @@ class WpeEditorTextLists {
               "Maintenance Section", //28
               "Supervisor Section", //29
 
+              // Hazard Section
+              "LOTOTO", //30
+              "HIT OR CAUGHT", //31
+              "BURN", //32
+              "HEALTH", //33
+              "WORK ENVIRONMENT CONDITION", //34
+              "FALL", //35
+
               "Before adding a new section you must first complete the last one",
               "Wpe available online at:",
               "Wpe Developed and Hosted by $organization_name:",

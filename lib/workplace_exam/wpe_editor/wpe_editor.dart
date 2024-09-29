@@ -2,6 +2,8 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:xapptor_business/hazard/get_hazard.dart';
+import 'package:xapptor_business/models/hazard.dart';
 import 'package:xapptor_business/models/site.dart';
 import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/site/get_site.dart';
@@ -14,11 +16,12 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_init_state
 //import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_preview.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_header.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_other.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_hazard.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_ericp.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_maintenance.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_supervisor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_text_lists.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
+import 'package:xapptor_business/models/condition.dart';
 //todo: eliminar sino se va a usar botones arriba
 //import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_top_option_buttons.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_sections.dart';
@@ -60,6 +63,14 @@ class WpeEditorState extends State<WpeEditor> {
   TextEditingController order_input_controller = TextEditingController();
   String transversal_input_controller = '';
   String maintenance_input_controller = '';
+
+  //Hazard Section
+  String lototo_input_controller = '';
+  String hit_or_caught_input_controller = '';
+  String burn_input_controller = '';
+  String health_input_controller = '';
+  String work_condition_input_controller = '';
+  String fall_input_controller = '';
 
   //ERICP Section
   TextEditingController eliminated_input_controller = TextEditingController();
@@ -117,7 +128,7 @@ class WpeEditorState extends State<WpeEditor> {
   String chosen_image_url = "";
   Uint8List? chosen_image_bytes;
 
-  List<WpeCondition> condition_sections = [];
+  List<Condition> condition_sections = [];
 
   Color picker_color = Colors.blue;
   Color current_color = Colors.blue;
@@ -138,8 +149,9 @@ class WpeEditorState extends State<WpeEditor> {
 
   //List envoirement
   Site? site;
-  late List<String> area_list;
+  List<String> area_list = [];
   late List<String> transversal_list;
+  Hazard? hazard;
   //todo Cambiar por consulta a la BD
   List<String> supervisor_list = [
     'Caldwell Parker',
@@ -159,8 +171,12 @@ class WpeEditorState extends State<WpeEditor> {
       area_list = [];
       transversal_list = [];
     }
-
     // if (site != null) print(site!.to_json());
+  }
+
+  retrieve_hazard(String id) async {
+    hazard = await get_hazard(id);
+    //if (hazard != null) print(hazard!.to_json());
   }
 
   @override
@@ -172,6 +188,10 @@ class WpeEditorState extends State<WpeEditor> {
     wpe_editor_init_state();
 
     retrieve_site();
+    //Todo revisar con Javier
+    //if (site != null) {
+    retrieve_hazard('abe_1');
+    //}
   }
 
   init_text_lists() {
@@ -220,6 +240,7 @@ class WpeEditorState extends State<WpeEditor> {
                       //wpe_editor_top_option_buttons(),
                       wpe_editor_section_header(),
                       wpe_editor_section_other(),
+                      wpe_editor_section_hazard(),
                       wpe_editor_section_ericp(),
                       wpe_sections(),
                       wpe_editor_section_maintenance(),

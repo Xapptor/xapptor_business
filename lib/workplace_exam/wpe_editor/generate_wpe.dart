@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xapptor_business/models/wpe.dart';
-//import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
+//import 'package:xapptor_business/models/condition.dart';
+//import 'package:xapptor_business/models/condition.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 
 extension StateExtension on WpeEditorState {
@@ -16,11 +17,18 @@ extension StateExtension on WpeEditorState {
       area: area_input_controller,
       specific: specific_input_controller.text,
       supervisor: supervisor_input_controller,
-      //condition_sections: condition_sections,
+      conditions: condition_sections,
       //Other Section
       order: order_input_controller.text,
       transversal: transversal_input_controller,
       maintenance_supervisor: maintenance_input_controller,
+      //Hazard Section
+      lototo: lototo_input_controller,
+      hit_or_caught: hit_or_caught_input_controller,
+      burn: burn_input_controller,
+      health: health_input_controller,
+      work_condition: work_condition_input_controller,
+      fall: fall_input_controller,
       //ERICP Section
       eliminated: eliminated_input_controller.text,
       reduced: reduced_input_controller.text,

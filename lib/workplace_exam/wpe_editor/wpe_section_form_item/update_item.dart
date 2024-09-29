@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:xapptor_business/workplace_exam/models/wpe_section.dart';
+import 'package:xapptor_business/models/condition.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/wpe_section_form_item.dart';
 
@@ -19,12 +18,12 @@ extension StateExtension on WpeSectionFormItemState {
         widget.update_item(
           item_index: widget.item_index,
           section_index: widget.section_index,
-          section: WpeCondition(
-            title: widget.item_index == 0 ? title : null,
-            subtitle:
-                "${field_1_input_controller.text}, ${field_2_input_controller.text}, ${field_3_input_controller.text}",
-            begin: selected_date_1,
-            end: selected_date_2,
+          section: Condition(
+            promptly_corrected: field_1_input_controller.text,
+            not_promptly_corrected: field_2_input_controller.text,
+            mitigating_action: field_3_input_controller.text,
+            date_corrected: selected_date_1,
+            //date_corrected: selected_date_2,
           ),
           update_widget: update_widget,
         );

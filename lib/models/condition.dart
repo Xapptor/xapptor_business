@@ -7,10 +7,10 @@ class Condition {
   String? mitigating_action;
 
   Condition({
-    this.date_corrected,
-    this.promptly_corrected,
-    this.not_promptly_corrected,
-    this.mitigating_action,
+    required this.date_corrected,
+    required this.promptly_corrected,
+    required this.not_promptly_corrected,
+    required this.mitigating_action,
   });
 
   Condition.from_snapshot(

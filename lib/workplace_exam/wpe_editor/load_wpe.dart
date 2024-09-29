@@ -45,6 +45,14 @@ extension StateExtension on WpeEditorState {
     transversal_input_controller = current_wpe.transversal;
     maintenance_input_controller = current_wpe.maintenance_supervisor;
 
+    //Hazard Section
+    lototo_input_controller = current_wpe.lototo;
+    hit_or_caught_input_controller = current_wpe.hit_or_caught;
+    burn_input_controller = current_wpe.burn;
+    health_input_controller = current_wpe.health;
+    work_condition_input_controller = current_wpe.work_condition;
+    fall_input_controller = current_wpe.fall;
+
     //ERICP Section
     eliminated_input_controller.text = current_wpe.eliminated;
     reduced_input_controller.text = current_wpe.reduced;
@@ -57,7 +65,7 @@ extension StateExtension on WpeEditorState {
     //Supervisor Section
     supervisor_cmmt_input_controller.text = current_wpe.supervisor_comment;
 
-    condition_sections = [];
+    condition_sections = current_wpe.conditions;
 
     setState(() {});
     //}

@@ -18,7 +18,7 @@ class Site {
   String phone2;
   int lastwpe;
   int lastws;
-  String hazard;
+  String hazard_id;
   List<String> shifts;
   List<String> departments;
   List<Area> areas;
@@ -40,7 +40,7 @@ class Site {
     required this.phone2,
     required this.lastwpe,
     required this.lastws,
-    required this.hazard,
+    required this.hazard_id,
     required this.shifts,
     required this.departments,
     required this.areas,
@@ -63,7 +63,7 @@ class Site {
         phone2 = snapshot.get("phone2"),
         lastwpe = snapshot.get("lastwpe"),
         lastws = snapshot.get("lastws"),
-        hazard = snapshot.get("hazard"),
+        hazard_id = snapshot.get("hazard_id"),
         shifts = (snapshot['shifts'] as List).map((e) => e as String).toList(),
         departments =
             (snapshot['departments'] as List).map((e) => e as String).toList(),
@@ -91,7 +91,7 @@ class Site {
       "phone2": phone2,
       "lastwpe": lastwpe,
       "lastws": lastws,
-      "hazard": hazard,
+      "hazard_id": hazard_id,
       "shifts": shifts,
       "departments": departments,
       "areas": List<dynamic>.from(areas.map((x) => x.to_json())),

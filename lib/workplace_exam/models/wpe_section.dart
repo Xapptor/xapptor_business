@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class WpeCondition {
+class Condition {
   String? title;
   String? subtitle;
   String? description;
   DateTime? begin;
   DateTime? end;
 
-  WpeCondition({
+  Condition({
     this.title,
     this.subtitle,
     this.description,
@@ -16,7 +15,7 @@ class WpeCondition {
     this.end,
   });
 
-  WpeCondition.from_snapshot(
+  Condition.from_snapshot(
     Map<dynamic, dynamic> snapshot,
   )   : title = snapshot['title'],
         subtitle = snapshot['subtitle'],
@@ -48,7 +47,7 @@ class WpeCondition {
     };
   }
 
-  WpeCondition.from_json(
+  Condition.from_json(
     Map<String, dynamic> json,
   )   : title = json['title'],
         subtitle = json['subtitle'],
@@ -56,8 +55,8 @@ class WpeCondition {
         begin = json['begin'] != null ? DateTime.parse(json['begin']) : null,
         end = json['end'] != null ? DateTime.parse(json['end']) : null;
 
-  factory WpeCondition.empty() {
-    return WpeCondition(
+  factory Condition.empty() {
+    return Condition(
       title: null,
       subtitle: null,
       description: null,
