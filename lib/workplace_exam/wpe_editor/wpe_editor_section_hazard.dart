@@ -28,9 +28,7 @@ extension StateExtension on WpeEditorState {
             DropdownButtonFormField<String>(
               value: lototo_input_controller,
               onChanged: (String? new_value) {
-                //setState(() {
                 lototo_input_controller = new_value!;
-                //});
               },
               items:
                   hazard!.lototos.map<DropdownMenuItem<String>>((String value) {
@@ -54,9 +52,7 @@ extension StateExtension on WpeEditorState {
             DropdownButtonFormField<String>(
               value: hit_or_caught_input_controller,
               onChanged: (String? new_value) {
-                //setState(() {
                 hit_or_caught_input_controller = new_value!;
-                //});
               },
               items: hazard!.hit_or_caughts
                   .map<DropdownMenuItem<String>>((String value) {
@@ -80,9 +76,7 @@ extension StateExtension on WpeEditorState {
             DropdownButtonFormField<String>(
               value: burn_input_controller,
               onChanged: (String? new_value) {
-                //setState(() {
                 burn_input_controller = new_value!;
-                //});
               },
               items:
                   hazard!.burns.map<DropdownMenuItem<String>>((String value) {
@@ -106,9 +100,7 @@ extension StateExtension on WpeEditorState {
             DropdownButtonFormField<String>(
               value: health_input_controller,
               onChanged: (String? new_value) {
-                //setState(() {
                 health_input_controller = new_value!;
-                //});
               },
               items:
                   hazard!.healths.map<DropdownMenuItem<String>>((String value) {
@@ -132,9 +124,7 @@ extension StateExtension on WpeEditorState {
             DropdownButtonFormField<String>(
               value: work_condition_input_controller,
               onChanged: (String? new_value) {
-                //setState(() {
                 work_condition_input_controller = new_value!;
-                //});
               },
               items: hazard!.work_conditions
                   .map<DropdownMenuItem<String>>((String value) {
@@ -158,9 +148,7 @@ extension StateExtension on WpeEditorState {
             DropdownButtonFormField<String>(
               value: fall_input_controller,
               onChanged: (String? new_value) {
-                //setState(() {
                 fall_input_controller = new_value!;
-                //});
               },
               items:
                   hazard!.falls.map<DropdownMenuItem<String>>((String value) {

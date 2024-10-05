@@ -32,8 +32,8 @@ extension StateExtension on WpeEditorState {
               model: CustomTextFieldModel(
                 title: text_list.get(source_language_index)[6],
                 hint: text_list.get(source_language_index)[6],
-                focus_node: focus_node_5,
-                on_field_submitted: (fieldValue) => focus_node_6.requestFocus(),
+                focus_node: focus_node_3,
+                on_field_submitted: (fieldValue) => focus_node_4.requestFocus(),
                 controller: order_input_controller,
                 length_limit: FormFieldValidatorsType.name.get_Length(),
                 validator: (value) => FormFieldValidators(
@@ -48,9 +48,7 @@ extension StateExtension on WpeEditorState {
             DropdownButtonFormField<String>(
               value: transversal_input_controller,
               onChanged: (String? new_value) {
-                //setState(() {
                 transversal_input_controller = new_value!;
-                //});
               },
               items: transversal_list
                   .map<DropdownMenuItem<String>>((String value) {
@@ -60,6 +58,7 @@ extension StateExtension on WpeEditorState {
                 );
               }).toList(),
               isExpanded: true,
+              focusNode: focus_node_4,
               decoration: InputDecoration(
                   labelText: text_list.get(source_language_index)[7],
                   hintText: text_list.get(source_language_index)[7],
@@ -74,9 +73,7 @@ extension StateExtension on WpeEditorState {
             DropdownButtonFormField<String>(
               value: maintenance_input_controller,
               onChanged: (String? new_value) {
-                //setState(() {
                 maintenance_input_controller = new_value!;
-                //});
               },
               items: maintenance_list
                   .map<DropdownMenuItem<String>>((String value) {

@@ -18,6 +18,8 @@ extension StateExtension on WpeEditorState {
       specific: specific_input_controller.text,
       supervisor: supervisor_input_controller,
       conditions: condition_sections,
+      //Person Section
+      persons: persons_wpe_list,
       //Other Section
       order: order_input_controller.text,
       transversal: transversal_input_controller,

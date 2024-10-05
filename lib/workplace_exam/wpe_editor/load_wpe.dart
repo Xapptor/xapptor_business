@@ -40,6 +40,9 @@ extension StateExtension on WpeEditorState {
     specific_input_controller.text = current_wpe.specific;
     supervisor_input_controller = current_wpe.supervisor;
 
+    //Person Section
+    persons_wpe_list = current_wpe.persons;
+
     //Other Section
     order_input_controller.text = current_wpe.order;
     transversal_input_controller = current_wpe.transversal;

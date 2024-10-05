@@ -32,8 +32,8 @@ extension StateExtension on WpeEditorState {
               model: CustomTextFieldModel(
                 title: text_list.get(source_language_index)[22],
                 hint: text_list.get(source_language_index)[22],
-                focus_node: focus_node_5,
-                on_field_submitted: (fieldValue) => focus_node_6.requestFocus(),
+                focus_node: focus_node_6,
+                on_field_submitted: (fieldValue) => null,
                 controller: supervisor_cmmt_input_controller,
                 length_limit:
                     FormFieldValidatorsType.multiline_long.get_Length(),

@@ -43,7 +43,7 @@ class WpeEditorTextLists {
               "Supervisor Comment", //22
 
               "Sections",
-              "Persons Section", //24
+              "Competent Person(s) Section", //24
               "Other Section", //25
               "Hazards Section", //26
               "ERICP Section", //27
@@ -58,6 +58,8 @@ class WpeEditorTextLists {
               "WORK ENVIRONMENT CONDITION", //34
               "FALL", //35
 
+              "Add to List", //36
+              "Competent Person", //37
               "Before adding a new section you must first complete the last one",
               "Wpe available online at:",
               "Wpe Developed and Hosted by $organization_name:",

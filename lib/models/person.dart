@@ -1,28 +1,28 @@
 class Person {
-  final String person;
-  final String person_userid;
+  final String name;
+  final String user_id;
 
   Person({
-    required this.person,
-    required this.person_userid,
+    required this.name,
+    required this.user_id,
   });
 
   Person.from_snapshot(
     Map<String, dynamic> snapshot,
-  )   : person = snapshot["person"],
-        person_userid = snapshot["person_userid"];
+  )   : name = snapshot["name"],
+        user_id = snapshot["user_id"];
 
   Map<String, dynamic> to_json() {
     return {
-      "person": person,
-      "person_userid": person_userid,
+      "name": name,
+      "user_id": user_id,
     };
   }
 
   factory Person.empty() {
     return Person(
-      person: '',
-      person_userid: '',
+      name: '',
+      user_id: '',
     );
   }
 }

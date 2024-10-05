@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'person.dart';
+import 'person.dart';
 import 'condition.dart';
 
 class Wpe {
@@ -15,7 +15,7 @@ class Wpe {
   final String supervisor;
   //final String supervisor_department;
   int slot_index;
-  //final List<Person> persons;
+  final List<Person> persons;
   final String order;
   final String transversal;
   // final String transversal_userid;
@@ -68,7 +68,7 @@ class Wpe {
     required this.supervisor,
     //required this.supervisor_department,
     required this.slot_index,
-    // required this.persons,
+    required this.persons,
     required this.order,
     required this.transversal,
     // required this.transversal_userid,
@@ -123,9 +123,9 @@ class Wpe {
         supervisor = snapshot['supervisor'] ?? '',
         //supervisor_department = snapshot['supervisor_department'],
         slot_index = snapshot['slot_index'] ?? 0,
-        // persons = ((snapshot['persons'] ?? []) as List)
-        //     .map((person) => Person.from_snapshot(person))
-        //     .toList(),
+        persons = ((snapshot['persons'] ?? []) as List)
+            .map((person) => Person.from_snapshot(person))
+            .toList(),
         order = snapshot['order'] ?? '',
         transversal = snapshot['transversal'] ?? '',
         // transversal_userid = snapshot['transversal_userid'] ?? '',
@@ -184,7 +184,7 @@ class Wpe {
       "supervisor": supervisor,
       //"supervisor_department": supervisor_department,
       "slot_index": slot_index,
-      // "persons": List<dynamic>.from(persons.map((x) => x.to_json())),
+      "persons": List<dynamic>.from(persons.map((x) => x.to_json())),
       "order": order,
       "transversal": transversal,
       // "transversal_userid": transversal_userid,
@@ -239,7 +239,7 @@ class Wpe {
       supervisor: '',
       //supervisor_department: '',
       slot_index: 0,
-      //persons: [],
+      persons: [],
       order: '',
       transversal: '',
       //transversal_userid: '',

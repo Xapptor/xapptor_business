@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:xapptor_business/workplace_exam/get_timeframe_text.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/populate_fields.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/functional_icon_buttons.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/show_select_date_alert_dialog.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/select_condition_date.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/update_item.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/update_section.dart';
 import 'package:xapptor_ui/values/ui.dart';
@@ -89,17 +90,21 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
 
     double screen_width = MediaQuery.of(context).size.width;
 
-    if (selected_date_1 != null && selected_date_2 != null) {
-      timeframe_text = get_timeframe_text(
-        begin: selected_date_1!,
-        end: selected_date_2!,
-        language_code: widget.language_code,
-        present_text: widget.text_list[4],
-        text_list: widget.time_text_list,
-      );
-    } else {
-      timeframe_text = widget.text_list[5];
-    }
+    // if (selected_date_1 != null && selected_date_2 != null) {
+    //   timeframe_text = get_timeframe_text(
+    //     begin: selected_date_1!,
+    //     end: selected_date_2!,
+    //     language_code: widget.language_code,
+    //     present_text: widget.text_list[4],
+    //     text_list: widget.time_text_list,
+    //   );
+    // } else {
+    //   timeframe_text = widget.text_list[5];
+    // }
+
+    DateFormat date_formatter = DateFormat.yMMMMd('en_US');
+    String date_now_formatted = date_formatter.format(selected_date_1!);
+    timeframe_text = date_now_formatted;
 
     String field_1_hint = "";
     String field_2_hint = "";
@@ -245,7 +250,7 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
                 ),
               ),
               onPressed: () {
-                show_select_date_alert_dialog(widget.text_list[6]);
+                select_condition_date();
               },
               child: Text(
                 timeframe_text,

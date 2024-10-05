@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:xapptor_business/hazard/get_hazard.dart';
 import 'package:xapptor_business/models/hazard.dart';
+import 'package:xapptor_business/models/person.dart';
 import 'package:xapptor_business/models/site.dart';
 import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/site/get_site.dart';
@@ -19,6 +20,7 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_ot
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_hazard.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_ericp.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_maintenance.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_person.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_supervisor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_text_lists.dart';
 import 'package:xapptor_business/models/condition.dart';
@@ -58,6 +60,11 @@ class WpeEditorState extends State<WpeEditor> {
   String area_input_controller = '';
   String supervisor_input_controller = '';
   TextEditingController specific_input_controller = TextEditingController();
+  //Person Section
+  List<Person> persons_wpe_list = [];
+  Person? selectedPerson;
+  TextEditingController person_controller =
+      TextEditingController(); // Controlador para el Autocomplete
 
   //Other Section
   TextEditingController order_input_controller = TextEditingController();
@@ -89,16 +96,15 @@ class WpeEditorState extends State<WpeEditor> {
   TextEditingController sections_by_page_input_controller =
       TextEditingController();
 
+  //Conditions Section
+  List<Condition> condition_sections = [];
+
   FocusNode focus_node_1 = FocusNode();
   FocusNode focus_node_2 = FocusNode();
   FocusNode focus_node_3 = FocusNode();
   FocusNode focus_node_4 = FocusNode();
   FocusNode focus_node_5 = FocusNode();
   FocusNode focus_node_6 = FocusNode();
-  FocusNode focus_node_7 = FocusNode();
-  FocusNode focus_node_8 = FocusNode();
-  FocusNode focus_node_9 = FocusNode();
-  FocusNode focus_node_10 = FocusNode();
 
   double screen_height = 0;
   double screen_width = 0;
@@ -127,8 +133,6 @@ class WpeEditorState extends State<WpeEditor> {
   String chosen_image_path = "";
   String chosen_image_url = "";
   Uint8List? chosen_image_bytes;
-
-  List<Condition> condition_sections = [];
 
   Color picker_color = Colors.blue;
   Color current_color = Colors.blue;
@@ -159,6 +163,20 @@ class WpeEditorState extends State<WpeEditor> {
     'Kasimir Frazier'
   ];
   List<String> maintenance_list = ['Andrew Quinn', 'Juan Suarez'];
+  List<Person> person_list = [
+    Person(
+      name: "Luis Suarez",
+      user_id: "luissdfsdfsdf",
+    ),
+    Person(
+      name: "Pedro Perez",
+      user_id: "pedrosdfssfdfsdfsdf",
+    ),
+    Person(
+      name: "Ana Reina",
+      user_id: "anasdfsdfsdf",
+    ),
+  ];
 
   retrieve_site() async {
     site = await get_site('zKxyFr2xtIcCEcWZqCNq');
@@ -239,6 +257,7 @@ class WpeEditorState extends State<WpeEditor> {
                     children: [
                       //wpe_editor_top_option_buttons(),
                       wpe_editor_section_header(),
+                      wpe_editor_section_person(),
                       wpe_editor_section_other(),
                       wpe_editor_section_hazard(),
                       wpe_editor_section_ericp(),
