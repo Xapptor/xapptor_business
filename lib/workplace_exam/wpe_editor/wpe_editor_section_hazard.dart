@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
+import 'package:xapptor_logic/form_field_validators.dart';
 import 'package:xapptor_ui/values/ui.dart';
+import 'package:xapptor_ui/widgets/text_field/custom_text_field.dart';
+import 'package:xapptor_ui/widgets/text_field/custom_text_field_model.dart';
 
 extension StateExtension on WpeEditorState {
   wpe_editor_section_hazard() => Container(
@@ -167,6 +170,24 @@ extension StateExtension on WpeEditorState {
                     fontWeight: FontWeight.bold,
                     color: Color.fromRGBO(0, 51, 160, 1),
                   )),
+            ),
+            SizedBox(height: sized_box_space),
+            CustomTextField(
+              model: CustomTextFieldModel(
+                title: text_list.get(source_language_index)[40],
+                hint: text_list.get(source_language_index)[40],
+                focus_node: focus_node_4,
+                on_field_submitted: (fieldValue) => null,
+                controller: hazard_input_controller,
+                length_limit:
+                    FormFieldValidatorsType.multiline_long.get_Length(),
+                validator: (value) => FormFieldValidators(
+                  value: value!,
+                  type: FormFieldValidatorsType.multiline_long,
+                ).validate(),
+                keyboard_type: TextInputType.multiline,
+                max_lines: null,
+              ),
             ),
           ],
         ),

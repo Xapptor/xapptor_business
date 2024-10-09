@@ -4,23 +4,24 @@ import 'condition.dart';
 
 class Wpe {
   String id;
-  // final String site;
+  String site_id;
   final int number;
   final Timestamp date_wpe;
   final String shift;
   final String area;
-  //final String area_department;
+  final String area_department;
   final String specific;
-  //final String supervisor_userid;
-  final String supervisor;
-  //final String supervisor_department;
+  final String supervisor_userid;
+  final String supervisor_name;
+  final String supervisor_department;
   int slot_index;
   final List<Person> persons;
   final String order;
-  final String transversal;
-  // final String transversal_userid;
-  // final String transversal_responsible;
-  // final String maintenance_userid;
+  String? transversal;
+  String? transversal_userid;
+  String? transversal_responsible;
+  String? maintenance_userid;
+
   final String maintenance_supervisor;
   final String lototo;
   final String hit_or_caught;
@@ -28,6 +29,7 @@ class Wpe {
   final String health;
   final String work_condition;
   final String fall;
+  final String hazard_comment;
   String before_picture1;
   // final String before_picture2;
   // final String before_picture3;
@@ -41,6 +43,7 @@ class Wpe {
   // final String after_picture2;
   final List<Condition> conditions;
   final String maintenance_comment;
+  final Timestamp? maintenance_date;
   // final String after_maint_picture2;
   // final String after_maint_picture1;
   final String supervisor_comment;
@@ -57,30 +60,32 @@ class Wpe {
 
   Wpe({
     this.id = "",
-    //required this.site,
+    required this.site_id,
     required this.number,
     required this.date_wpe,
     required this.shift,
     required this.area,
-    //required this.area_department,
+    required this.area_department,
     required this.specific,
-    //required this.supervisor_userid,
-    required this.supervisor,
-    //required this.supervisor_department,
+    required this.supervisor_userid,
+    required this.supervisor_name,
+    required this.supervisor_department,
     required this.slot_index,
     required this.persons,
     required this.order,
-    required this.transversal,
-    // required this.transversal_userid,
-    // required this.transversal_responsible,
-    // required this.maintenance_userid,
+    this.transversal,
+    this.transversal_userid,
+    this.transversal_responsible,
+    this.maintenance_userid,
     required this.maintenance_supervisor,
+    this.maintenance_date,
     required this.lototo,
     required this.hit_or_caught,
     required this.burn,
     required this.health,
     required this.work_condition,
     required this.fall,
+    required this.hazard_comment,
     required this.before_picture1,
     // required this.before_picture2,
     // required this.before_picture3,
@@ -112,32 +117,34 @@ class Wpe {
   Wpe.from_snapshot(
     this.id,
     Map<dynamic, dynamic> snapshot,
-  )   : //site = snapshot['site'] ?? '',
+  )   : site_id = snapshot['site_id'] ?? '',
         number = snapshot['number'],
         date_wpe = snapshot['date_wpe'] ?? Timestamp.now(),
         shift = snapshot['shift'] ?? '',
         area = snapshot['area'] ?? '',
-        //area_department = snapshot['area_department'] ?? '',
+        area_department = snapshot['area_department'] ?? '',
         specific = snapshot['specific'] ?? '',
-        //supervisor_userid = snapshot['supervisor_userid'] ?? '',
-        supervisor = snapshot['supervisor'] ?? '',
-        //supervisor_department = snapshot['supervisor_department'],
+        supervisor_userid = snapshot['supervisor_userid'] ?? '',
+        supervisor_name = snapshot['supervisor_name'] ?? '',
+        supervisor_department = snapshot['supervisor_department'],
         slot_index = snapshot['slot_index'] ?? 0,
         persons = ((snapshot['persons'] ?? []) as List)
             .map((person) => Person.from_snapshot(person))
             .toList(),
         order = snapshot['order'] ?? '',
-        transversal = snapshot['transversal'] ?? '',
-        // transversal_userid = snapshot['transversal_userid'] ?? '',
-        // transversal_responsible = snapshot['transversal_responsible'] ?? '',
-        // maintenance_userid = snapshot['maintenance_userid'] ?? '',
+        transversal = snapshot['transversal'],
+        transversal_userid = snapshot['transversal_userid'],
+        transversal_responsible = snapshot['transversal_responsible'],
+        maintenance_userid = snapshot['maintenance_userid'],
         maintenance_supervisor = snapshot['maintenance_supervisor'] ?? '',
+        maintenance_date = snapshot['maintenance_date'],
         lototo = snapshot['lototo'] ?? '',
         hit_or_caught = snapshot['hit_or_caught'] ?? '',
         burn = snapshot['burn'] ?? '',
         health = snapshot['health'] ?? '',
         work_condition = snapshot['work_condition'] ?? '',
         fall = snapshot['fall'] ?? '',
+        hazard_comment = snapshot['hazard_comment'] ?? '',
         before_picture1 = snapshot['before_picture1'] ?? '',
         // before_picture2 = snapshot['before_picture2'] ?? '',
         // before_picture3 = snapshot['before_picture3'] ?? '',
@@ -173,30 +180,32 @@ class Wpe {
 
   Map<String, dynamic> to_json() {
     return {
-      //"site": site,
+      "site_id": site_id,
       "number": number,
       "date_wpe": date_wpe,
       "shift": shift,
       "area": area,
-      //"area_department": area_department,
+      "area_department": area_department,
       "specific": specific,
-      //"supervisor_userid": supervisor_userid,
-      "supervisor": supervisor,
-      //"supervisor_department": supervisor_department,
+      "supervisor_userid": supervisor_userid,
+      "supervisor_name": supervisor_name,
+      "supervisor_department": supervisor_department,
       "slot_index": slot_index,
       "persons": List<dynamic>.from(persons.map((x) => x.to_json())),
       "order": order,
       "transversal": transversal,
-      // "transversal_userid": transversal_userid,
-      // "transversal_responsible": transversal_responsible,
-      // "maintenance_userid": maintenance_userid,
+      "transversal_userid": transversal_userid,
+      "transversal_responsible": transversal_responsible,
+      "maintenance_userid": maintenance_userid,
       "maintenance_supervisor": maintenance_supervisor,
+      "maintenance_date": maintenance_date,
       "lototo": lototo,
       "hit_or_caught": hit_or_caught,
       "burn": burn,
       "health": health,
       "work_condition": work_condition,
       "fall": fall,
+      "hazard_comment": hazard_comment,
       "before_picture1": before_picture1,
       // "before_picture2": before_picture2,
       // "before_picture3": before_picture3,
@@ -228,30 +237,32 @@ class Wpe {
 
   factory Wpe.empty() {
     return Wpe(
-      //site: '',
+      site_id: '',
       number: 0,
       date_wpe: Timestamp.now(),
       shift: '',
       area: '',
-      //area_department: '',
+      area_department: '',
       specific: '',
-      //supervisor_userid: '',
-      supervisor: '',
-      //supervisor_department: '',
+      supervisor_userid: '',
+      supervisor_name: '',
+      supervisor_department: '',
       slot_index: 0,
       persons: [],
       order: '',
       transversal: '',
-      //transversal_userid: '',
-      //transversal_responsible: '',
-      // maintenance_userid: '',
+      transversal_userid: '',
+      transversal_responsible: '',
+      maintenance_userid: '',
       maintenance_supervisor: '',
+      maintenance_date: null,
       lototo: '',
       hit_or_caught: '',
       burn: '',
       health: '',
       work_condition: '',
       fall: '',
+      hazard_comment: '',
       before_picture1: '',
       // before_picture2: '',
       // before_picture3: '',

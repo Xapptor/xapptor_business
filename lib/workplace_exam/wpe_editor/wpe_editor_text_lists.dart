@@ -39,7 +39,7 @@ class WpeEditorTextLists {
               // Maintenance Section
               "Maintenance Comment",
 
-              // Maintenance Section
+              // Supervisor Section
               "Supervisor Comment", //22
 
               "Sections",
@@ -60,6 +60,10 @@ class WpeEditorTextLists {
 
               "Add to List", //36
               "Competent Person", //37
+              "Department", //38
+              "Responsible", //39
+              "Describe related Present and/or Potential Hazards in your area:", //40
+
               "Before adding a new section you must first complete the last one",
               "Wpe available online at:",
               "Wpe Developed and Hosted by $organization_name:",

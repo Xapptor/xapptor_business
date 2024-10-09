@@ -1,11 +1,17 @@
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:xapptor_business/hazard/get_hazard.dart';
+import 'package:xapptor_business/models/area.dart';
 import 'package:xapptor_business/models/hazard.dart';
+import 'package:xapptor_business/models/maint_supervisor.dart';
+import 'package:xapptor_business/models/maint_supervisor.dart';
 import 'package:xapptor_business/models/person.dart';
 import 'package:xapptor_business/models/site.dart';
+import 'package:xapptor_business/models/supervisor.dart';
+import 'package:xapptor_business/models/transversal.dart';
 import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/site/get_site.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_slot_label.dart';
@@ -33,6 +39,7 @@ import 'package:xapptor_translation/model/text_list.dart';
 import 'package:xapptor_translation/translation_stream.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class WpeEditor extends StatefulWidget {
   final Color color_topbar;
@@ -57,8 +64,14 @@ class WpeEditorState extends State<WpeEditor> {
   String wpe_number = '';
   DateTime wpe_date = DateTime.now();
   String shift_input_controller = '';
-  String area_input_controller = '';
-  String supervisor_input_controller = '';
+
+  Area? selectedArea;
+  TextEditingController departmentAreaController = TextEditingController();
+
+  Supervisor? selectedSupervisor;
+  TextEditingController departmentSupervisorController =
+      TextEditingController();
+
   TextEditingController specific_input_controller = TextEditingController();
   //Person Section
   List<Person> persons_wpe_list = [];
@@ -68,8 +81,11 @@ class WpeEditorState extends State<WpeEditor> {
 
   //Other Section
   TextEditingController order_input_controller = TextEditingController();
-  String transversal_input_controller = '';
-  String maintenance_input_controller = '';
+
+  Transversal? selectedTransversal;
+  TextEditingController responsibleController = TextEditingController();
+
+  MaintSupervisor? selectedMaintSupervisor;
 
   //Hazard Section
   String lototo_input_controller = '';
@@ -78,6 +94,7 @@ class WpeEditorState extends State<WpeEditor> {
   String health_input_controller = '';
   String work_condition_input_controller = '';
   String fall_input_controller = '';
+  TextEditingController hazard_input_controller = TextEditingController();
 
   //ERICP Section
   TextEditingController eliminated_input_controller = TextEditingController();
@@ -88,6 +105,9 @@ class WpeEditorState extends State<WpeEditor> {
 
   //Maintenance Section
   TextEditingController maint_cmmt_input_controller = TextEditingController();
+  String? maint_cmmt;
+  Timestamp? maint_cmmt_date;
+  TextEditingController maint_date_controller = TextEditingController();
 
   //Supervisor Section
   TextEditingController supervisor_cmmt_input_controller =
@@ -153,16 +173,40 @@ class WpeEditorState extends State<WpeEditor> {
 
   //List envoirement
   Site? site;
-  List<String> area_list = [];
-  late List<String> transversal_list;
+  String wpe_site = '';
+  List<Area> area_list = [];
+  List<Transversal> transversal_list = [];
   Hazard? hazard;
   //todo Cambiar por consulta a la BD
-  List<String> supervisor_list = [
-    'Caldwell Parker',
-    'Juan Suarez',
-    'Kasimir Frazier'
+  List<Supervisor> supervisor_list = [
+    Supervisor(
+      name: "Caldwell Parker",
+      user_id: "HJ5kVHW8lPgZdYp8kQfR",
+      department_name: "Production",
+    ),
+    Supervisor(
+      name: "Juan Suarez",
+      user_id: "jhrg4RNmfgs4yvKzFtoM",
+      department_name: "Quality",
+    ),
+    Supervisor(
+      name: "Kasimir Frazier",
+      user_id: "k160V7dqKZcKFTKbGy1x",
+      department_name: "Maintenance",
+    ),
   ];
-  List<String> maintenance_list = ['Andrew Quinn', 'Juan Suarez'];
+
+  List<MaintSupervisor> maintenance_list = [
+    MaintSupervisor(
+      name: "Andrew Quinn",
+      user_id: "xkK3XDITmWbD2MbZnwSl",
+    ),
+    MaintSupervisor(
+      name: "Juan Suarez",
+      user_id: "jhrg4RNmfgs4yvKzFtoM",
+    ),
+  ];
+
   List<Person> person_list = [
     Person(
       name: "Luis Suarez",
@@ -182,19 +226,42 @@ class WpeEditorState extends State<WpeEditor> {
     site = await get_site('zKxyFr2xtIcCEcWZqCNq');
 
     if (site != null) {
-      area_list = site!.areas.map((areaObj) => areaObj.area).toList();
-      transversal_list =
-          site!.transversals.map((transObj) => transObj.location).toList();
+      area_list = site!.areas;
+      transversal_list = site!.transversals;
+      wpe_site = site!.id;
     } else {
       area_list = [];
       transversal_list = [];
+      wpe_site = '';
     }
-    // if (site != null) print(site!.to_json());
+
+    //if (site != null) print(site!.to_json());
   }
 
   retrieve_hazard(String id) async {
     hazard = await get_hazard(id);
     //if (hazard != null) print(hazard!.to_json());
+  }
+
+  init_listeners() {
+    DateFormat date_formatter = DateFormat('d/M/yyyy HH:mm');
+
+    maint_cmmt_input_controller.addListener(
+      () {
+        if (maint_cmmt != maint_cmmt_input_controller.text) {
+          String date_now_formatted = date_formatter.format(DateTime.now());
+          maint_date_controller.text = date_now_formatted;
+        } else {
+          if (maint_cmmt_date != null) {
+            String date_now_formatted =
+                date_formatter.format(maint_cmmt_date!.toDate());
+            maint_date_controller.text = date_now_formatted;
+          } else {
+            maint_date_controller.text = "";
+          }
+        }
+      },
+    );
   }
 
   @override
@@ -204,7 +271,7 @@ class WpeEditorState extends State<WpeEditor> {
     super.initState();
 
     wpe_editor_init_state();
-
+    init_listeners();
     retrieve_site();
     //Todo revisar con Javier
     //if (site != null) {

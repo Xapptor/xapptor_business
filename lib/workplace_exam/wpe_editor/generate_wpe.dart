@@ -11,19 +11,27 @@ extension StateExtension on WpeEditorState {
     Wpe wpe = Wpe(
       before_picture1: chosen_image_url,
       //Header Section
+      site_id: wpe_site,
       number: 100,
       date_wpe: Timestamp.now(),
       shift: shift_input_controller,
-      area: area_input_controller,
+      area: selectedArea!.area,
+      area_department: selectedArea!.department,
       specific: specific_input_controller.text,
-      supervisor: supervisor_input_controller,
+      supervisor_name: selectedSupervisor!.name,
+      supervisor_userid: selectedSupervisor!.user_id,
+      supervisor_department: selectedSupervisor!.department_name,
       conditions: condition_sections,
       //Person Section
       persons: persons_wpe_list,
       //Other Section
       order: order_input_controller.text,
-      transversal: transversal_input_controller,
-      maintenance_supervisor: maintenance_input_controller,
+      transversal: selectedTransversal!.location,
+      transversal_userid: selectedTransversal!.userid,
+      transversal_responsible: selectedTransversal!.responsible,
+      maintenance_supervisor: selectedMaintSupervisor!.name,
+      maintenance_userid: selectedMaintSupervisor!.user_id,
+
       //Hazard Section
       lototo: lototo_input_controller,
       hit_or_caught: hit_or_caught_input_controller,
@@ -31,6 +39,7 @@ extension StateExtension on WpeEditorState {
       health: health_input_controller,
       work_condition: work_condition_input_controller,
       fall: fall_input_controller,
+      hazard_comment: hazard_input_controller.text,
       //ERICP Section
       eliminated: eliminated_input_controller.text,
       reduced: reduced_input_controller.text,
@@ -39,8 +48,11 @@ extension StateExtension on WpeEditorState {
       ppe: ppe_input_controller.text,
       //Maintenance Section
       maintenance_comment: maint_cmmt_input_controller.text,
+      maintenance_date: (maint_cmmt != maint_cmmt_input_controller.text)
+          ? Timestamp.now()
+          : maint_cmmt_date,
       //Supervisor Section
-      supervisor_comment: maint_cmmt_input_controller.text,
+      supervisor_comment: supervisor_cmmt_input_controller.text,
 
       created_date: Timestamp.now(),
       user_id: current_user!.uid,

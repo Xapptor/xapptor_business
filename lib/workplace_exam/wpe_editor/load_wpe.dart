@@ -36,17 +36,27 @@ extension StateExtension on WpeEditorState {
     wpe_number = current_wpe.number.toString();
     wpe_date = current_wpe.date_wpe.toDate();
     shift_input_controller = current_wpe.shift;
-    area_input_controller = current_wpe.area;
+    //area_input_controller = current_wpe.area;
     specific_input_controller.text = current_wpe.specific;
-    supervisor_input_controller = current_wpe.supervisor;
+
+    selectedArea =
+        area_list.firstWhere((area) => area.area == current_wpe.area);
+    departmentAreaController.text = selectedArea!.department;
+
+    selectedSupervisor = supervisor_list.firstWhere(
+        (supervisor) => supervisor.user_id == current_wpe.supervisor_userid);
+    departmentSupervisorController.text = selectedSupervisor!.department_name;
 
     //Person Section
     persons_wpe_list = current_wpe.persons;
 
     //Other Section
     order_input_controller.text = current_wpe.order;
-    transversal_input_controller = current_wpe.transversal;
-    maintenance_input_controller = current_wpe.maintenance_supervisor;
+    selectedTransversal = transversal_list.firstWhere(
+        (transversal) => transversal.location == current_wpe.transversal);
+    responsibleController.text = selectedTransversal!.responsible;
+    selectedMaintSupervisor = maintenance_list.firstWhere(
+        (p_maintsup) => p_maintsup.user_id == current_wpe.maintenance_userid);
 
     //Hazard Section
     lototo_input_controller = current_wpe.lototo;
@@ -55,6 +65,7 @@ extension StateExtension on WpeEditorState {
     health_input_controller = current_wpe.health;
     work_condition_input_controller = current_wpe.work_condition;
     fall_input_controller = current_wpe.fall;
+    hazard_input_controller.text = current_wpe.hazard_comment;
 
     //ERICP Section
     eliminated_input_controller.text = current_wpe.eliminated;
@@ -65,6 +76,13 @@ extension StateExtension on WpeEditorState {
 
     //Maintenance Section
     maint_cmmt_input_controller.text = current_wpe.maintenance_comment;
+    maint_cmmt = current_wpe.maintenance_comment;
+    maint_cmmt_date = current_wpe.maintenance_date;
+    maint_date_controller.text = current_wpe.maintenance_date != null
+        ? "${current_wpe.maintenance_date!.toDate().month}/${current_wpe.maintenance_date!.toDate().day}/${current_wpe.maintenance_date!.toDate().year} "
+            "${current_wpe.maintenance_date!.toDate().hour}:${current_wpe.maintenance_date!.toDate().minute.toString().padLeft(2, '0')}"
+        : "";
+
     //Supervisor Section
     supervisor_cmmt_input_controller.text = current_wpe.supervisor_comment;
 

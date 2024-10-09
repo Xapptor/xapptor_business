@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_use_of_protected_member
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_logic/form_field_validators.dart';
@@ -46,6 +47,19 @@ extension StateExtension on WpeEditorState {
               ),
             ),
             SizedBox(height: sized_box_space),
+            TextFormField(
+              controller: maint_date_controller,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: text_list.get(source_language_index)[1],
+                labelStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(0, 51, 160, 1),
+                ),
+              ),
+              readOnly: true, // Solo lectura
+            ),
           ],
         ),
       );
