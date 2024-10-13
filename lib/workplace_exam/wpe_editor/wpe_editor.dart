@@ -112,6 +112,8 @@ class WpeEditorState extends State<WpeEditor> {
   //Supervisor Section
   TextEditingController supervisor_cmmt_input_controller =
       TextEditingController();
+  Timestamp? wpe_date_close;
+  bool wpe_close = false;
 
   TextEditingController sections_by_page_input_controller =
       TextEditingController();
@@ -244,7 +246,7 @@ class WpeEditorState extends State<WpeEditor> {
   }
 
   init_listeners() {
-    DateFormat date_formatter = DateFormat('d/M/yyyy HH:mm');
+    DateFormat date_formatter = DateFormat('M/d/yyyy HH:mm');
 
     maint_cmmt_input_controller.addListener(
       () {

@@ -53,6 +53,8 @@ extension StateExtension on WpeEditorState {
           : maint_cmmt_date,
       //Supervisor Section
       supervisor_comment: supervisor_cmmt_input_controller.text,
+      close: wpe_close,
+      date_close: wpe_date_close,
 
       created_date: Timestamp.now(),
       user_id: current_user!.uid,

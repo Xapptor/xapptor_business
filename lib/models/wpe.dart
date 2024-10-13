@@ -47,9 +47,9 @@ class Wpe {
   // final String after_maint_picture2;
   // final String after_maint_picture1;
   final String supervisor_comment;
-  // final bool close;
+  final bool close;
   // DateTime? date_wpe_corrected;
-  // Timestamp? date_close;
+  Timestamp? date_close;
   final String user_id;
   // final String created_userid;
   // final String created_name;
@@ -102,9 +102,9 @@ class Wpe {
     // required this.after_maint_picture2,
     // required this.after_maint_picture1,
     required this.supervisor_comment,
-    // required this.close,
+    required this.close,
     //this.date_wpe_corrected,
-    //this.date_close,
+    this.date_close,
     required this.user_id,
     // required this.created_userid,
     // required this.created_name,
@@ -163,13 +163,13 @@ class Wpe {
         // after_maint_picture2 = snapshot['after_maint_picture2'] ?? '',
         // after_maint_picture1 = snapshot['after_maint_picture1'] ?? '',
         supervisor_comment = snapshot['supervisor_comment'] ?? '',
-        // close = snapshot['close'] ?? '',
+        close = snapshot['close'] ?? false,
         // date_wpe_corrected = snapshot['date_corrected'] != null
         //     ? (snapshot['date_wpe_corrected'] as Timestamp).toDate()
         //     : null,
-        // date_close = snapshot['dateClose'] != null
-        //     ? (snapshot['date_wpe_corrected'] as Timestamp)
-        //     : null,
+        date_close = snapshot['date_close'] != null
+            ? (snapshot['date_close'] as Timestamp)
+            : null,
         user_id = snapshot['user_id'] ?? '',
         // created_userid = snapshot["created_userid"],
         // created_name = snapshot["created_name"],
@@ -222,9 +222,9 @@ class Wpe {
       // "after_maint_picture2": after_maint_picture2,
       // "after_maint_picture1": after_maint_picture1,
       "supervisor_comment": supervisor_comment,
-      // "close": close,
+      "close": close,
       // "date_wpe_corrected": date_wpe_corrected,
-      // "date_close": date_close,
+      "date_close": date_close,
       "user_id": user_id,
       // "created_userid": created_userid,
       // "created_name": created_name,
@@ -279,9 +279,9 @@ class Wpe {
       // after_maint_picture2: '',
       // after_maint_picture1: '',
       supervisor_comment: '',
-      // close: false,
+      close: false,
       // date_wpe_corrected: null,
-      // date_close: null,
+      date_close: null,
       user_id: '',
       //created_userid: '',
       //created_name: '',

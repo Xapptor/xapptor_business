@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:xapptor_business/workplace_exam/get_timeframe_text.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/populate_fields.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item/functional_icon_buttons.dart';
@@ -9,6 +8,7 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_section_form_item
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/update_section.dart';
 import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_logic/form_field_validators.dart';
+import 'package:xapptor_ui/values/xapptor_colors.dart';
 
 class WpeSectionFormItem extends StatefulWidget {
   final WpeSectionFormType wpe_section_form_type;
@@ -125,7 +125,7 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(
-          color: widget.text_color,
+          color: current_color,
           width: 3,
         ),
         borderRadius: BorderRadius.circular(14),
@@ -141,13 +141,12 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
                 update_widget: false,
               );
             },
-            style: TextStyle(
-              color: widget.text_color,
-            ),
             decoration: InputDecoration(
               labelText: field_1_hint,
               labelStyle: TextStyle(
-                color: widget.text_color,
+                color: XapptorColors.blue[700],
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
@@ -170,13 +169,12 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
                     update_widget: false,
                   );
                 },
-                style: TextStyle(
-                  color: widget.text_color,
-                ),
                 decoration: InputDecoration(
                   labelText: field_2_hint,
                   labelStyle: TextStyle(
-                    color: widget.text_color,
+                    color: XapptorColors.blue[700],
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
@@ -197,13 +195,12 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
                     update_widget: false,
                   );
                 },
-                style: TextStyle(
-                  color: widget.text_color,
-                ),
                 decoration: InputDecoration(
                   labelText: field_3_hint,
                   labelStyle: TextStyle(
-                    color: widget.text_color,
+                    color: XapptorColors.blue[700],
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
@@ -255,7 +252,9 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
               child: Text(
                 timeframe_text,
                 style: TextStyle(
-                  color: widget.text_color,
+                  //color: widget.text_color,
+                  color: XapptorColors.neutral[800],
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

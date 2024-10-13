@@ -85,7 +85,10 @@ extension StateExtension on WpeEditorState {
 
     //Supervisor Section
     supervisor_cmmt_input_controller.text = current_wpe.supervisor_comment;
+    wpe_date_close = current_wpe.date_close;
+    wpe_close = current_wpe.close;
 
+    //Condition Section
     condition_sections = current_wpe.conditions;
 
     setState(() {});

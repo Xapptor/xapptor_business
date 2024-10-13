@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:xapptor_business/models/area.dart';
@@ -18,7 +19,7 @@ extension StateExtension on WpeEditorState {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SelectableText(
-                "DOC ID: $wpe_number",
+                "Doc ID: $wpe_number",
                 textAlign: TextAlign.start,
                 style: const TextStyle(
                   fontSize: 18,
@@ -26,8 +27,7 @@ extension StateExtension on WpeEditorState {
                 ),
               ),
               SelectableText(
-                "DATE: ${DateFormat('MM-dd-yyyy').format(wpe_date).toString()}",
-                //"DATE: ${wpe_date.toString()}",
+                "Date: ${DateFormat('MM-dd-yyyy').format(wpe_date).toString()}",
                 textAlign: TextAlign.start,
                 style: const TextStyle(
                   fontSize: 18,
@@ -37,6 +37,69 @@ extension StateExtension on WpeEditorState {
             ],
           ),
           SizedBox(height: sized_box_space),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SelectableText(
+                text_list.get(source_language_index)[41],
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Switch(
+                value: wpe_close,
+                onChanged: (value) {
+                  setState(() {
+                    wpe_close = value;
+                    wpe_date_close = wpe_close ? Timestamp.now() : null;
+                  });
+                },
+                activeTrackColor: Colors.white,
+                activeColor: Colors.red,
+                inactiveThumbColor: Colors.green,
+                inactiveTrackColor: Colors.white,
+                trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+                    (Set<WidgetState> states) {
+                  return Colors.blue.withOpacity(.48);
+                }),
+              ),
+              Text(
+                wpe_close
+                    ? text_list.get(source_language_index)[42]
+                    : text_list.get(source_language_index)[43],
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: wpe_close ? Colors.red : Colors.green),
+              ),
+            ],
+          ),
+          SizedBox(height: sized_box_space),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SelectableText(
+                text_list.get(source_language_index)[44],
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SelectableText(
+                wpe_date_close != null
+                    ? " ${DateFormat('MM-dd-yyyy').format(wpe_date_close!.toDate()).toString()}"
+                    : "",
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: sized_box_space * 2),
           DropdownButtonFormField<String>(
             value: shift_input_controller,
             onChanged: (String? new_value) {

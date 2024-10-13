@@ -52,17 +52,21 @@ class WpeEditorTextLists {
 
               // Hazard Section
               "LOTOTO", //30
-              "HIT OR CAUGHT", //31
-              "BURN", //32
-              "HEALTH", //33
-              "WORK ENVIRONMENT CONDITION", //34
-              "FALL", //35
+              "Hit or Caught", //31
+              "Burn", //32
+              "Health", //33
+              "Work Environment Condition", //34
+              "Fall", //35
 
               "Add to List", //36
               "Competent Person", //37
               "Department", //38
               "Responsible", //39
-              "Describe related Present and/or Potential Hazards in your area:", //40
+              "Present and/or Potential Hazards", //40
+              "WPE Status:", //41
+              "Close ", //42
+              "Open  ", //43
+              "Date Close:", //44
 
               "Before adding a new section you must first complete the last one",
               "Wpe available online at:",

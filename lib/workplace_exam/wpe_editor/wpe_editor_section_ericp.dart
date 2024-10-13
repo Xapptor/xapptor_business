@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_logic/form_field_validators.dart';
 import 'package:xapptor_ui/values/ui.dart';
+import 'package:xapptor_ui/values/xapptor_colors.dart';
 
 extension StateExtension on WpeEditorState {
   wpe_editor_section_ericp() => Container(
@@ -27,13 +28,12 @@ extension StateExtension on WpeEditorState {
             ),
             SizedBox(height: sized_box_space),
             TextFormField(
-              style: TextStyle(
-                color: current_color,
-              ),
               decoration: InputDecoration(
                 labelText: text_list.get(source_language_index)[16],
                 labelStyle: TextStyle(
-                  color: current_color,
+                  color: XapptorColors.blue[700],
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -50,13 +50,12 @@ extension StateExtension on WpeEditorState {
             ),
             SizedBox(height: sized_box_space),
             TextFormField(
-              style: TextStyle(
-                color: current_color,
-              ),
               decoration: InputDecoration(
                 labelText: text_list.get(source_language_index)[17],
                 labelStyle: TextStyle(
-                  color: current_color,
+                  color: XapptorColors.blue[700],
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -73,13 +72,12 @@ extension StateExtension on WpeEditorState {
             ),
             SizedBox(height: sized_box_space),
             TextFormField(
-              style: TextStyle(
-                color: current_color,
-              ),
               decoration: InputDecoration(
                 labelText: text_list.get(source_language_index)[18],
                 labelStyle: TextStyle(
-                  color: current_color,
+                  color: XapptorColors.blue[700],
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -96,13 +94,12 @@ extension StateExtension on WpeEditorState {
             ),
             SizedBox(height: sized_box_space),
             TextFormField(
-              style: TextStyle(
-                color: current_color,
-              ),
               decoration: InputDecoration(
                 labelText: text_list.get(source_language_index)[19],
                 labelStyle: TextStyle(
-                  color: current_color,
+                  color: XapptorColors.blue[700],
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -119,13 +116,12 @@ extension StateExtension on WpeEditorState {
             ),
             SizedBox(height: sized_box_space),
             TextFormField(
-              style: TextStyle(
-                color: current_color,
-              ),
               decoration: InputDecoration(
                 labelText: text_list.get(source_language_index)[20],
                 labelStyle: TextStyle(
-                  color: current_color,
+                  color: XapptorColors.blue[700],
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
