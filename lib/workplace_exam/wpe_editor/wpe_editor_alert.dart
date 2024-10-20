@@ -8,7 +8,6 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpes_la
 import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/create/save_wpe.dart';
-import 'dart:async';
 
 enum WpeEditorAlertType {
   save,
@@ -61,61 +60,6 @@ extension StateExtension on WpeEditorState {
                     Navigator.pop(context);
                     delete_wpe(
                       slot_index: slot_index,
-                    );
-                  },
-                  child: Text(
-                    yes_label,
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  _asking_for_backup_alert({
-    required Wpe wpe,
-  }) {
-    String no_label = alert_text_list.get(source_language_index)[5];
-    String yes_label = alert_text_list.get(source_language_index)[6];
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              title: Text(
-                alert_text_list.get(source_language_index)[4],
-                style: const TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    asked_for_backup_alert = false;
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    no_label,
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    _main_alert(
-                      wpe: wpe,
-                      wpe_editor_alert_type: WpeEditorAlertType.save,
                     );
                   },
                   child: Text(
@@ -232,24 +176,11 @@ extension StateExtension on WpeEditorState {
 
                           save_wpe(
                             wpe: wpe,
-                            callback: () {
-                              if (!asked_for_backup_alert) {
-                                asked_for_backup_alert = true;
-
-                                Timer(const Duration(milliseconds: 2000), () {
-                                  _asking_for_backup_alert(
-                                    wpe: wpe,
-                                  );
-                                });
-                              } else {
-                                asked_for_backup_alert = false;
-                              }
-                            },
                           );
                           break;
                         case WpeEditorAlertType.load:
                           set_slot_index();
-
+                          print('TRES');
                           load_wpe(
                             new_slot_index: slot_index,
                           );

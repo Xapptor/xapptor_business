@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/choose_color.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/choose_profile_image.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
