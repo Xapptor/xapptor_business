@@ -24,7 +24,7 @@ extension StateExtension on WpeEditorState {
       current_wpe = wpes.firstWhere((element) => element.id == wpe_id);
     } else {
       DocumentSnapshot wpe_doc =
-          await XapptorDB.instance.collection("wpes").doc(wpe_id).get();
+          await XapptorDB.instance.collection("wpes").doc(widget.id).get();
 
       Map? wpe_map = wpe_doc.data() as Map?;
       if (wpe_map != null) {

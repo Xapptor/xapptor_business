@@ -42,6 +42,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 class WpeEditor extends StatefulWidget {
+  final String? id;
   final Color color_topbar;
   final String base_url;
   final double text_bottom_margin_for_section;
@@ -49,6 +50,7 @@ class WpeEditor extends StatefulWidget {
 
   const WpeEditor({
     super.key,
+    required this.id,
     required this.color_topbar,
     required this.base_url,
     this.text_bottom_margin_for_section = 3,
