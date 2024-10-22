@@ -14,7 +14,7 @@ Future<List<Wpe>> get_wpes({
       .map((doc) => Wpe.from_snapshot(doc.id, doc.data()))
       .toList();
 
-  wpes = wpes..sort((Wpe a, Wpe b) => a.slot_index.compareTo(b.slot_index));
+  //wpes = wpes..sort((Wpe a, Wpe b) => a.slot_index.compareTo(b.slot_index));
 
   if (wpes.isEmpty) wpes.add(Wpe.empty());
   return wpes;

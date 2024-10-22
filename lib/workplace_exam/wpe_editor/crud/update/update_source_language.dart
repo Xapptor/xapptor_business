@@ -18,9 +18,9 @@ extension StateExtension on WpeEditorState {
 
     Wpe? last_wpe;
 
-    if (slot_index < wpes.length) {
-      last_wpe = wpes[slot_index];
-    }
+    // if (slot_index < wpes.length) {
+    //   last_wpe = wpes[slot_index];
+    // }
 
     update_language_callback_and_load(
       last_wpe: last_wpe,

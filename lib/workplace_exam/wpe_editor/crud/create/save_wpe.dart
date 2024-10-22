@@ -19,13 +19,11 @@ extension StateExtension on WpeEditorState {
         wpe.before_picture1 = chosen_image_url;
 
         set_wpe(
-          new_slot_index: slot_index,
           wpe: wpe,
         );
       });
     } else {
       set_wpe(
-        new_slot_index: slot_index,
         wpe: wpe,
       );
     }

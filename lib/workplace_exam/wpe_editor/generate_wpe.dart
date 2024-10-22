@@ -5,11 +5,9 @@ import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 
 extension StateExtension on WpeEditorState {
-  Wpe generate_wpe({
-    required int slot_index,
-  }) {
+  Wpe generate_wpe() {
     Wpe wpe = Wpe(
-      before_picture1: chosen_image_url,
+      id: '',
       //Header Section
       site_id: wpe_site,
       number: 100,
@@ -55,10 +53,9 @@ extension StateExtension on WpeEditorState {
       supervisor_comment: supervisor_cmmt_input_controller.text,
       close: wpe_close,
       date_close: wpe_date_close,
-
       created_date: Timestamp.now(),
       user_id: current_user!.uid,
-      slot_index: slot_index,
+      before_picture1: chosen_image_url,
     );
     return wpe;
   }

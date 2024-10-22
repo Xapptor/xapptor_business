@@ -1,4 +1,3 @@
-import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_slot_label.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_ui/utils/show_alert.dart';
 
@@ -11,12 +10,9 @@ enum ResultSnackBarType {
 extension StateExtension on WpeEditorState {
   show_result_snack_bar({
     required ResultSnackBarType result_snack_bar_type,
-    required int slot_index,
   }) {
     String message = "";
-    String slot_label = get_slot_label(
-      slot_index: slot_index,
-    );
+    String? slot_label = (widget.id != null) ? widget.id : "New";
     int textIndex = 0;
 
     switch (result_snack_bar_type) {

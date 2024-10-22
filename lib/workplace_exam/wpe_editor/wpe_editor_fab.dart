@@ -15,7 +15,7 @@ extension StateExtension on WpeEditorState {
         text_list.list[source_language_index].source_language;
     List alert_text_array = alert_text_list.get(source_language_index);
 
-    String load_label = alert_text_array[17];
+    String new_label = alert_text_array[17];
     String save_label = alert_text_array[18];
     String delete_label = alert_text_array[19];
     String download_label = alert_text_array[20];
@@ -58,24 +58,22 @@ extension StateExtension on WpeEditorState {
         },
       ),
       children: [
-        // LOAD
-
+        // NEW
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Wpe wpe = generate_wpe(slot_index: slot_index);
-
+            Wpe wpe = generate_wpe();
             wpe_editor_alert(
               wpe: wpe,
               wpe_editor_alert_type: WpeEditorAlertType.load,
             );
           },
-          backgroundColor: Colors.pink,
-          tooltip: load_label,
+          backgroundColor: Colors.green,
+          tooltip: new_label,
           label: Row(
             children: [
               Text(
-                load_label,
+                new_label,
                 style: const TextStyle(
                   color: Colors.white,
                 ),
@@ -95,7 +93,7 @@ extension StateExtension on WpeEditorState {
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Wpe wpe = generate_wpe(slot_index: slot_index);
+            Wpe wpe = generate_wpe();
             wpe.id = "${wpe.user_id}_$language_code";
             current_wpe_id = wpe.id;
 
@@ -104,7 +102,7 @@ extension StateExtension on WpeEditorState {
               wpe_editor_alert_type: WpeEditorAlertType.save,
             );
           },
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.orange,
           tooltip: save_label,
           label: Row(
             children: [
@@ -129,7 +127,7 @@ extension StateExtension on WpeEditorState {
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Wpe wpe = generate_wpe(slot_index: slot_index);
+            Wpe wpe = generate_wpe();
 
             wpe_editor_alert(
               wpe: wpe,
@@ -161,7 +159,7 @@ extension StateExtension on WpeEditorState {
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Wpe wpe = generate_wpe(slot_index: slot_index);
+            Wpe wpe = generate_wpe();
             wpe.id = "${wpe.user_id}_$language_code";
 
             String wpe_link = "${widget.base_url}/wpes/${wpe.id}";

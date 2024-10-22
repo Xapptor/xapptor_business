@@ -6,28 +6,21 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/show_result_snack_bar.dart';
 
 extension StateExtension on WpeEditorState {
-  delete_wpe({
-    required int slot_index,
-  }) async {
-    DocumentReference wpe_doc_ref = get_wpe_ref(
-      slot_index: slot_index,
-    );
+  delete_wpe() async {
+    DocumentReference wpe_doc_ref = get_wpe_ref();
 
     await wpe_doc_ref.delete().then((value) async {
-      wpes.removeAt(slot_index);
+      //wpes.removeAt();
 
       show_result_snack_bar(
         result_snack_bar_type: ResultSnackBarType.deleted,
-        slot_index: slot_index,
       );
 
       wpes = await get_wpes(
         user_id: current_user!.uid,
       );
-
-      load_wpe(
-        new_slot_index: wpes.isNotEmpty ? wpes.first.slot_index : 0,
-      );
+      print('CUATRO');
+      load_wpe();
     });
   }
 }

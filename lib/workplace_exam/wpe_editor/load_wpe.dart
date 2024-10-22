@@ -6,17 +6,13 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/show_result_snack_bar
 import 'package:xapptor_db/xapptor_db.dart';
 
 extension StateExtension on WpeEditorState {
-  load_wpe({
-    required int new_slot_index,
-  }) async {
-    slot_index = new_slot_index;
-
+  load_wpe() async {
     String wpe_id =
         ("${current_user!.uid}_${text_list.list[source_language_index].source_language}");
 
-    if (new_slot_index != 0) {
-      wpe_id += "_bu_$new_slot_index";
-    }
+    // if (new_slot_index != 0) {
+    //   wpe_id += "_bu_$new_slot_index";
+    // }
 
     Wpe current_wpe = Wpe.empty();
 
@@ -94,9 +90,6 @@ extension StateExtension on WpeEditorState {
     setState(() {});
     //}
 
-    show_result_snack_bar(
-      result_snack_bar_type: ResultSnackBarType.loaded,
-      slot_index: new_slot_index,
-    );
+    show_result_snack_bar(result_snack_bar_type: ResultSnackBarType.loaded);
   }
 }

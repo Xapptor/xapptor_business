@@ -8,13 +8,10 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/show_result_snack_bar
 
 extension StateExtension on WpeEditorState {
   set_wpe({
-    required int new_slot_index,
     required Wpe wpe,
   }) async {
-    wpe.slot_index = new_slot_index;
-    DocumentReference wpe_doc_ref = get_wpe_ref(
-      slot_index: new_slot_index,
-    );
+    //wpe.slot_index = new_slot_index;
+    DocumentReference wpe_doc_ref = get_wpe_ref();
 
     Map wpe_json = wpe.to_json();
 
@@ -22,7 +19,6 @@ extension StateExtension on WpeEditorState {
     //   wpe_json.remove('before_picture1');
     // }
 
-    slot_index = new_slot_index;
     setState(() {});
 
     await wpe_doc_ref
@@ -33,7 +29,6 @@ extension StateExtension on WpeEditorState {
         .then((value) {
       show_result_snack_bar(
         result_snack_bar_type: ResultSnackBarType.saved,
-        slot_index: new_slot_index,
       );
     });
   }

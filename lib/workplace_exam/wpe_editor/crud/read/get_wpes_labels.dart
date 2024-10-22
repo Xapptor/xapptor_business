@@ -11,10 +11,10 @@ get_wpes_labels({
   DateFormat date_format = DateFormat('yyyy/MM/dd, hh:mm a');
   List<String> labels = [];
 
-  bool main_wpe_exists = wpes.any((wpe) => wpe.slot_index == 0);
+  bool main_wpe_exists = true;
 
   if (main_wpe_exists) {
-    Wpe main_wpe = wpes.firstWhere((wpe) => wpe.slot_index == 0);
+    Wpe main_wpe = wpes[0];
 
     String label = "";
 
@@ -29,35 +29,31 @@ get_wpes_labels({
     }
 
     labels.add(label);
-  } else {
-    if (wpe_editor_alert_type != WpeEditorAlertType.delete) {
-      labels.add(main_label);
-    }
   }
   int loop_limit = 3;
 
-  for (int i = 1; i <= loop_limit; i++) {
-    bool wpe_exists = wpes.any((wpe) => wpe.slot_index == i);
+  // for (int i = 1; i <= loop_limit; i++) {
+  //   bool wpe_exists = wpes.any((wpe) => wpe.slot_index == i);
 
-    String label = "";
+  //   String label = "";
 
-    if (wpe_exists) {
-      var current_wpe = wpes.firstWhere((wpe) => wpe.slot_index == i);
-      String backup_date_String =
-          date_format.format(current_wpe.created_date.toDate());
+  //   if (wpe_exists) {
+  //     var current_wpe = wpes.firstWhere((wpe) => wpe.slot_index == i);
+  //     String backup_date_String =
+  //         date_format.format(current_wpe.created_date.toDate());
 
-      label = "$backup_label ${current_wpe.slot_index} - $backup_date_String";
-    } else {
-      label = "$backup_label $i";
-    }
+  //     label = "$backup_label ${current_wpe.slot_index} - $backup_date_String";
+  //   } else {
+  //     label = "$backup_label $i";
+  //   }
 
-    if (wpe_editor_alert_type == WpeEditorAlertType.save) {
-      labels.add(label);
-    } else {
-      if (wpe_exists) {
-        labels.add(label);
-      }
-    }
-  }
+  //   if (wpe_editor_alert_type == WpeEditorAlertType.save) {
+  //     labels.add(label);
+  //   } else {
+  //     if (wpe_exists) {
+  //       labels.add(label);
+  //     }
+  //   }
+  // }
   return labels;
 }

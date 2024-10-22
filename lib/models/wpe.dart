@@ -5,61 +5,60 @@ import 'condition.dart';
 class Wpe {
   String id;
   String site_id;
-  final int number;
-  final Timestamp date_wpe;
-  final String shift;
-  final String area;
-  final String area_department;
-  final String specific;
-  final String supervisor_userid;
-  final String supervisor_name;
-  final String supervisor_department;
-  int slot_index;
-  final List<Person> persons;
-  final String order;
+  int number;
+  Timestamp date_wpe;
+  String shift;
+  String area;
+  String area_department;
+  String specific;
+  String supervisor_userid;
+  String supervisor_name;
+  String supervisor_department;
+  List<Person> persons;
+  String order;
   String? transversal;
   String? transversal_userid;
   String? transversal_responsible;
   String? maintenance_userid;
 
-  final String maintenance_supervisor;
-  final String lototo;
-  final String hit_or_caught;
-  final String burn;
-  final String health;
-  final String work_condition;
-  final String fall;
-  final String hazard_comment;
+  String maintenance_supervisor;
+  String lototo;
+  String hit_or_caught;
+  String burn;
+  String health;
+  String work_condition;
+  String fall;
+  String hazard_comment;
   String before_picture1;
   // final String before_picture2;
   // final String before_picture3;
   // final String before_picture4;
-  final String eliminated;
-  final String reduced;
-  final String isolated;
-  final String controled;
-  final String ppe;
+  String eliminated;
+  String reduced;
+  String isolated;
+  String controled;
+  String ppe;
   // final String after_picture1;
   // final String after_picture2;
-  final List<Condition> conditions;
-  final String maintenance_comment;
-  final Timestamp? maintenance_date;
+  List<Condition> conditions;
+  String maintenance_comment;
+  Timestamp? maintenance_date;
   // final String after_maint_picture2;
   // final String after_maint_picture1;
-  final String supervisor_comment;
-  final bool close;
+  String supervisor_comment;
+  bool close;
   // DateTime? date_wpe_corrected;
   Timestamp? date_close;
-  final String user_id;
+  String user_id;
   // final String created_userid;
   // final String created_name;
-  final Timestamp created_date;
+  Timestamp created_date;
   // final String modified_userid;
   // final String modified_name;
   // final Timestamp modified_date;
 
   Wpe({
-    this.id = "",
+    required this.id,
     required this.site_id,
     required this.number,
     required this.date_wpe,
@@ -70,7 +69,6 @@ class Wpe {
     required this.supervisor_userid,
     required this.supervisor_name,
     required this.supervisor_department,
-    required this.slot_index,
     required this.persons,
     required this.order,
     this.transversal,
@@ -127,7 +125,6 @@ class Wpe {
         supervisor_userid = snapshot['supervisor_userid'] ?? '',
         supervisor_name = snapshot['supervisor_name'] ?? '',
         supervisor_department = snapshot['supervisor_department'],
-        slot_index = snapshot['slot_index'] ?? 0,
         persons = ((snapshot['persons'] ?? []) as List)
             .map((person) => Person.from_snapshot(person))
             .toList(),
@@ -190,7 +187,6 @@ class Wpe {
       "supervisor_userid": supervisor_userid,
       "supervisor_name": supervisor_name,
       "supervisor_department": supervisor_department,
-      "slot_index": slot_index,
       "persons": List<dynamic>.from(persons.map((x) => x.to_json())),
       "order": order,
       "transversal": transversal,
@@ -237,6 +233,7 @@ class Wpe {
 
   factory Wpe.empty() {
     return Wpe(
+      id: '',
       site_id: '',
       number: 0,
       date_wpe: Timestamp.now(),
@@ -247,7 +244,6 @@ class Wpe {
       supervisor_userid: '',
       supervisor_name: '',
       supervisor_department: '',
-      slot_index: 0,
       persons: [],
       order: '',
       transversal: '',

@@ -42,9 +42,11 @@ extension StateExtension on WpeEditorState {
           new_wpe.id = '${new_wpe.id.split('_').first}_$new_language_code';
           wpes.add(new_wpe);
         }
-        load_wpe(new_slot_index: 0);
+        print('Uno');
+        load_wpe();
       } else {
-        load_wpe(new_slot_index: 0);
+        print('Dos');
+        load_wpe();
       }
     });
   }

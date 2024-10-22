@@ -7,20 +7,14 @@ import 'package:xapptor_business/hazard/get_hazard.dart';
 import 'package:xapptor_business/models/area.dart';
 import 'package:xapptor_business/models/hazard.dart';
 import 'package:xapptor_business/models/maint_supervisor.dart';
-import 'package:xapptor_business/models/maint_supervisor.dart';
 import 'package:xapptor_business/models/person.dart';
 import 'package:xapptor_business/models/site.dart';
 import 'package:xapptor_business/models/supervisor.dart';
 import 'package:xapptor_business/models/transversal.dart';
 import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/site/get_site.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_slot_label.dart';
-//todo: eliminar sino se va a usar cambio de tipo de letras
-//import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_additional_options.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_fab.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_init_state.dart';
-//todo: eliminar sino se va a usar preview
-//import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_preview.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_header.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_other.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_hazard.dart';
@@ -30,8 +24,6 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_pe
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_supervisor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_text_lists.dart';
 import 'package:xapptor_business/models/condition.dart';
-//todo: eliminar sino se va a usar botones arriba
-//import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_top_option_buttons.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_sections.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/update/update_source_language.dart';
 import 'package:xapptor_translation/language_picker.dart';
@@ -63,6 +55,7 @@ class WpeEditor extends StatefulWidget {
 
 class WpeEditorState extends State<WpeEditor> {
   //Header Section
+  String wpe_id = '';
   String wpe_number = '';
   DateTime wpe_date = DateTime.now();
   String shift_input_controller = '';
@@ -163,13 +156,12 @@ class WpeEditorState extends State<WpeEditor> {
 
   User? current_user;
 
-  int slot_index = 0;
-  String slot_value = "";
-
   GlobalKey<ExpandableFabState> expandable_fab_key =
       GlobalKey<ExpandableFabState>();
 
   List<Wpe> wpes = [];
+  //TODO  revisar el late
+  late Wpe current_wpe;
 
   bool asked_for_backup_alert = false;
 
@@ -306,15 +298,7 @@ class WpeEditorState extends State<WpeEditor> {
     );
 
     if (wpes.isNotEmpty) {
-      Wpe current_wpe = wpes
-          .firstWhere((element) => element.id == current_wpe_id, orElse: () {
-        return wpes.firstWhere((element) => !element.id.contains("_bu"));
-      });
-
-      String slot_label = get_slot_label(
-        slot_index: slot_index,
-      );
-
+      String? slot_label = (widget.id != null) ? wpe_number.toString() : "New";
       body = Stack(
         children: [
           Container(
@@ -344,12 +328,6 @@ class WpeEditorState extends State<WpeEditor> {
                     ],
                   ),
                 ),
-                // wpe_editor_preview(
-                //   context: context,
-                //   portrait: portrait,
-                //   wpe: current_wpe,
-                //   base_url: widget.base_url,
-                // ),
                 const SizedBox(height: 100),
               ],
             ),

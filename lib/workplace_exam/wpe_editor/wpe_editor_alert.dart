@@ -58,9 +58,7 @@ extension StateExtension on WpeEditorState {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    delete_wpe(
-                      slot_index: slot_index,
-                    );
+                    delete_wpe();
                   },
                   child: Text(
                     yes_label,
@@ -95,17 +93,17 @@ extension StateExtension on WpeEditorState {
       wpe_editor_alert_type: wpe_editor_alert_type,
     );
 
-    if (wpes_labels.isNotEmpty) {
-      slot_value = wpes_labels[slot_index];
-    }
+    // if (wpes_labels.isNotEmpty) {
+    //   slot_value = wpes_labels[slot_index];
+    // }
 
-    set_slot_index() {
-      if (slot_value.contains(backup_label)) {
-        slot_index = wpes_labels.indexOf(slot_value);
-      } else if (slot_value.contains(main_label)) {
-        slot_index = 0;
-      }
-    }
+    // set_slot_index() {
+    //   if (slot_value.contains(backup_label)) {
+    //     slot_index = wpes_labels.indexOf(slot_value);
+    //   } else if (slot_value.contains(main_label)) {
+    //     slot_index = 0;
+    //   }
+    // }
 
     showDialog(
       context: context,
@@ -133,22 +131,7 @@ extension StateExtension on WpeEditorState {
                         color: Colors.black,
                       ),
                     )
-                  : DropdownButton<String>(
-                      value: slot_value,
-                      isExpanded: true,
-                      onChanged: (String? value) {
-                        slot_value = value!;
-                        setState(() {});
-                      },
-                      items: wpes_labels
-                          .map<DropdownMenuItem<String>>(
-                            (String value) => DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            ),
-                          )
-                          .toList(),
-                    ),
+                  : null,
               actions: [
                 if (wpes_labels.isNotEmpty)
                   TextButton(
@@ -172,18 +155,13 @@ extension StateExtension on WpeEditorState {
                     if (wpes_labels.isNotEmpty) {
                       switch (wpe_editor_alert_type) {
                         case WpeEditorAlertType.save:
-                          set_slot_index();
-
                           save_wpe(
                             wpe: wpe,
                           );
                           break;
                         case WpeEditorAlertType.load:
-                          set_slot_index();
                           print('TRES');
-                          load_wpe(
-                            new_slot_index: slot_index,
-                          );
+                          load_wpe();
                           break;
                         case WpeEditorAlertType.delete:
                           _asking_for_deletion_alert();
