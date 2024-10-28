@@ -151,7 +151,7 @@ class _WpeListState extends State<WpeList> {
                               String wpe_id = document.id;
                               add_new_app_screen(
                                 AppScreen(
-                                  name: "home/wpe_editor/$wpe_id",
+                                  name: "home/wpes/$wpe_id",
                                   child: WpeEditor(
                                     id: wpe_id,
                                     color_topbar: widget.topbar_color,
@@ -161,7 +161,7 @@ class _WpeListState extends State<WpeList> {
                                   ),
                                 ),
                               );
-                              open_screen("home/wpe_editor/$wpe_id");
+                              open_screen("home/wpes/$wpe_id");
                             },
                           ),
                           DataCell(Text(DateFormat('MM/dd/yy')

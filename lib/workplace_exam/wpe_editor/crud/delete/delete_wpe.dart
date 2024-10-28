@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpe_ref.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpes.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/show_result_snack_bar.dart';
@@ -16,9 +15,7 @@ extension StateExtension on WpeEditorState {
         result_snack_bar_type: ResultSnackBarType.deleted,
       );
 
-      wpes = await get_wpes(
-        user_id: current_user!.uid,
-      );
+      wpes = await get_wpe_ref();
       print('CUATRO');
       load_wpe();
     });

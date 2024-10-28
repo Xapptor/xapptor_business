@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/delete/delete_wpe.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpes.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpe_ref.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpes_labels.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
@@ -82,9 +82,9 @@ extension StateExtension on WpeEditorState {
     String main_label = alert_text_list.get(source_language_index)[9];
     String backup_label = alert_text_list.get(source_language_index)[8];
 
-    wpes = await get_wpes(
-      user_id: current_user!.uid,
-    );
+    //Todo borrar
+    print('llamado en wpe_editor_alert.dart');
+    wpes = await get_wpe_ref();
 
     List<String> wpes_labels = get_wpes_labels(
       wpes: wpes,

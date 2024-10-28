@@ -7,18 +7,15 @@ import 'package:xapptor_db/xapptor_db.dart';
 
 extension StateExtension on WpeEditorState {
   load_wpe() async {
-    String wpe_id =
-        ("${current_user!.uid}_${text_list.list[source_language_index].source_language}");
+    //Wpe current_wpe = Wpe.empty();
 
-    // if (new_slot_index != 0) {
-    //   wpe_id += "_bu_$new_slot_index";
-    // }
-
-    Wpe current_wpe = Wpe.empty();
-
-    if (wpes.map((e) => e.id).contains(wpe_id)) {
-      current_wpe = wpes.firstWhere((element) => element.id == wpe_id);
+    if (widget.id == 'News') {
+      //Todo borrar
+      print('llamado en wpe_editor_alert.dart new');
+      current_wpe = Wpe.empty();
     } else {
+      //Todo borrar
+      print('llamado en load_wpe.dart existente');
       DocumentSnapshot wpe_doc =
           await XapptorDB.instance.collection("wpes").doc(widget.id).get();
 
@@ -87,9 +84,10 @@ extension StateExtension on WpeEditorState {
     //Condition Section
     condition_sections = current_wpe.conditions;
 
+    //TODO Preguntar que hace este setState aqui
     setState(() {});
     //}
-
     show_result_snack_bar(result_snack_bar_type: ResultSnackBarType.loaded);
+    print("Saliendo de Show Result Snack Bar ${current_wpe.area} J");
   }
 }
