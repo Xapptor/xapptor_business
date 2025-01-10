@@ -29,7 +29,7 @@ dependencies:
   pdf: ^3.11.1
   printing: ^5.13.2
   permission_handler: ^11.3.1
-  url_launcher: ^6.2.6
+  url_launcher: ^6.3.1
   http: ^1.2.0
   font_awesome_flutter: ^10.7.0
   flutter_expandable_fab: ^2.2.0
