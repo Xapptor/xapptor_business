@@ -3,7 +3,7 @@ import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_alert.dart';
 
 get_wpes_labels({
-  required List<Wpe> wpes,
+  required Wpe current_wpe,
   required String main_label,
   required String backup_label,
   required WpeEditorAlertType wpe_editor_alert_type,
@@ -14,7 +14,7 @@ get_wpes_labels({
   bool main_wpe_exists = true;
 
   if (main_wpe_exists) {
-    Wpe main_wpe = wpes[0];
+    Wpe main_wpe = current_wpe;
 
     String label = "";
 
@@ -30,7 +30,7 @@ get_wpes_labels({
 
     labels.add(label);
   }
-  int loop_limit = 3;
+  //int loop_limit = 3;
 
   // for (int i = 1; i <= loop_limit; i++) {
   //   bool wpe_exists = wpes.any((wpe) => wpe.slot_index == i);

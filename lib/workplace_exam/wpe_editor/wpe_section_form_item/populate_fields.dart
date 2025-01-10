@@ -9,6 +9,7 @@ extension StateExtension on WpeSectionFormItemState {
     switch (widget.wpe_section_form_type) {
       case WpeSectionFormType.education:
         Condition section = widget.section;
+        //print(section.to_json());
 
         if (section.not_promptly_corrected != null) {
           field_1_input_controller.text = section.promptly_corrected!;
@@ -19,7 +20,6 @@ extension StateExtension on WpeSectionFormItemState {
         }
 
         selected_date_1 = section.date_corrected;
-        selected_date_2 = section.date_corrected;
         break;
     }
   }

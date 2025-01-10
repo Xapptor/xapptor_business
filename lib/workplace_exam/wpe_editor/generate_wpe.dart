@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:xapptor_business/models/wpe.dart';
-//import 'package:xapptor_business/models/condition.dart';
-//import 'package:xapptor_business/models/condition.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 
 extension StateExtension on WpeEditorState {
@@ -10,7 +8,7 @@ extension StateExtension on WpeEditorState {
       id: '',
       //Header Section
       site_id: wpe_site,
-      number: 100,
+      number: wpe_number,
       date_wpe: Timestamp.now(),
       shift: shift_input_controller,
       area: selectedArea!.area,

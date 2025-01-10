@@ -6,27 +6,25 @@ import 'package:xapptor_business/workplace_exam/wpe_editor/show_result_snack_bar
 import 'package:xapptor_db/xapptor_db.dart';
 
 extension StateExtension on WpeEditorState {
-  load_wpe() async {
-    //Wpe current_wpe = Wpe.empty();
-
-    if (widget.id == 'News') {
-      //Todo borrar
-      print('llamado en wpe_editor_alert.dart new');
+  Future<void> load_wpe() async {
+    if (widget.id == 'New') {
       current_wpe = Wpe.empty();
+      current_wpe.id = 'New';
     } else {
-      //Todo borrar
-      print('llamado en load_wpe.dart existente');
       DocumentSnapshot wpe_doc =
           await XapptorDB.instance.collection("wpes").doc(widget.id).get();
-
       Map? wpe_map = wpe_doc.data() as Map?;
       if (wpe_map != null) {
-        current_wpe = Wpe.from_snapshot(wpe_id, wpe_map);
+        current_wpe = Wpe.from_snapshot(widget.id, wpe_map);
       }
     }
 
+    //print("_id_ ${current_wpe.id}");
+    //print(current_wpe.to_json());
+
     //Header Section
-    wpe_number = current_wpe.number.toString();
+    wpe_id = current_wpe.id;
+    wpe_number = current_wpe.number;
     wpe_date = current_wpe.date_wpe.toDate();
     shift_input_controller = current_wpe.shift;
     //area_input_controller = current_wpe.area;
@@ -83,11 +81,8 @@ extension StateExtension on WpeEditorState {
 
     //Condition Section
     condition_sections = current_wpe.conditions;
-
-    //TODO Preguntar que hace este setState aqui
     setState(() {});
-    //}
+
     show_result_snack_bar(result_snack_bar_type: ResultSnackBarType.loaded);
-    print("Saliendo de Show Result Snack Bar ${current_wpe.area} J");
   }
 }

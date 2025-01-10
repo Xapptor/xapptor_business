@@ -23,7 +23,6 @@ extension StateExtension on WpeSectionFormItemState {
             not_promptly_corrected: field_2_input_controller.text,
             mitigating_action: field_3_input_controller.text,
             date_corrected: selected_date_1,
-            //date_corrected: selected_date_2,
           ),
           update_widget: update_widget,
         );

@@ -31,10 +31,10 @@ class Condition {
 
   factory Condition.empty() {
     return Condition(
-      date_corrected: null,
-      promptly_corrected: null,
-      not_promptly_corrected: null,
-      mitigating_action: null,
+      date_corrected: DateTime.now(),
+      promptly_corrected: '',
+      not_promptly_corrected: '',
+      mitigating_action: '',
     );
   }
 }

@@ -27,7 +27,7 @@ extension StateExtension on WpeEditorState {
                 ),
               ),
               SelectableText(
-                "Date: ${DateFormat('MM-dd-yyyy').format(wpe_date).toString()}",
+                "${text_list.get(source_language_index)[49]} ${DateFormat('MM-dd-yyyy').format(wpe_date).toString()}",
                 textAlign: TextAlign.start,
                 style: const TextStyle(
                   fontSize: 18,

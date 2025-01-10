@@ -12,7 +12,7 @@ extension StateExtension on WpeEditorState {
     required ResultSnackBarType result_snack_bar_type,
   }) {
     String message = "";
-    String? slot_label = (widget.id != null) ? widget.id : "New";
+    String? slot_label = wpe_number.toString();
     int textIndex = 0;
 
     switch (result_snack_bar_type) {

@@ -12,10 +12,10 @@ class WpeEditorTextLists {
               //Header Section
               "Doc Id",
               "Date / Time",
-              "Shift",
-              "Area",
+              "Shift *",
+              "Area *",
               "Equiment/Specific",
-              "Supervisor",
+              "Supervisor *",
               //Other Sections
               "ERP or Order Number",
               "Transversal/Location",
@@ -37,13 +37,13 @@ class WpeEditorTextLists {
               "PPE",
 
               // Maintenance Section
-              "Maintenance Comment",
+              "Maintenance Comment *",
 
               // Supervisor Section
-              "Supervisor Comment", //22
+              "Supervisor Comment *", //22
 
               "Sections",
-              "Competent Person(s) Section", //24
+              "Competent Person(s) Section *", //24
               "Other Section", //25
               "Hazards Section", //26
               "ERICP Section", //27
@@ -63,15 +63,19 @@ class WpeEditorTextLists {
               "Department", //38
               "Responsible", //39
               "Present and/or Potential Hazards", //40
-              "WPE Status:", //41
+              "DOC Status:", //41
               "Close ", //42
               "Open  ", //43
               "Date Close:", //44
 
               "Before adding a new section you must first complete the last one",
-              "Wpe available online at:",
-              "Wpe Developed and Hosted by $organization_name:",
-              "Use Example Wpe",
+              "Doc available online at:",
+              "Doc Developed and Hosted by $organization_name:",
+              "Use Example Doc",
+              "Date", //49
+
+              "Validation Errors", //50
+              "Continue" //51
             ],
           ),
           TranslationTextList(
@@ -80,24 +84,69 @@ class WpeEditorTextLists {
               "Doc Id",
               "Fecha / Hora",
               "Turno",
-              "Area",
-              "Equipo Especifico",
+              "Área",
+              "Equipo/Específico",
               "Supervisor",
-              "Vista Previa del CV",
-              "Historial de Empleo",
+              // Otros apartados
+              "Número de ERP o de Orden",
+              "Ubicación Transversal",
+              "Supervisor de Mantenimiento",
+
               "Título",
               "Subtítulo",
               "Descripción",
-              "Presente",
-              "Seleccionar Fechas",
-              "Selecciona fecha de inicio",
-              "Selecciona fecha de finalización",
-              "Condicion",
-              "Secciones Personalizadas",
+              "Elegir Fechas",
+              "Elige la fecha inicial",
+              "Elige la fecha final",
+              "Condiciones",
+
+              // Sección ERICP
+              "Eliminado",
+              "Reducido",
+              "Aislado",
+              "Controlado",
+              "EPP",
+
+              // Sección de Mantenimiento
+              "Comentario de Mantenimiento",
+
+              // Sección de Supervisor
+              "Comentario del Supervisor", //22
+
+              "Secciones",
+              "Sección de Persona(s) Competente(s)", //24
+              "Otra Sección", //25
+              "Sección de Peligros", //26
+              "Sección ERICP", //27
+              "Sección de Mantenimiento", //28
+              "Sección de Supervisor", //29
+
+              // Sección de Peligros
+              "LOTOTO", //30
+              "Golpe o Atrapamiento", //31
+              "Quemadura", //32
+              "Salud", //33
+              "Condición del Entorno de Trabajo", //34
+              "Caída", //35
+
+              "Agregar a la Lista", //36
+              "Persona Competente", //37
+              "Departamento", //38
+              "Responsable", //39
+              "Peligros Presentes y/o Potenciales", //40
+              "Estado de DOC:", //41
+              "Cerrar", //42
+              "Abrir", //43
+              "Fecha de Cierre:", //44
+
               "Antes de agregar una nueva sección primero debes de completar la última",
-              "CV disponible en línea en:",
-              "CV Desarrollado y Alojado por $organization_name:",
-              "Usar CV de Ejemplo",
+              "Doc disponible en línea en:",
+              "Doc Desarrollado y Alojado por $organization_name:",
+              "Usar Doc de Ejemplo",
+              "Fecha",
+
+              "Errores de Validacion", //50
+              "Continue" //51
             ],
           ),
         ],
@@ -108,11 +157,11 @@ class WpeEditorTextLists {
       TranslationTextList(
         source_language: "en",
         text_list: [
-          "Do you want to create a new WPE?",
-          "Do you want to delete this WPE?",
-          "Are you sure you want to delete this WPE?",
-          "Do you want to save your WPE?",
-          "Your Wpe has been saved, do you want to save an extra backup?",
+          "Do you want to create a new DOC?",
+          "Do you want to delete this DOC?",
+          "Are you sure you want to delete this DOC?",
+          "Do you want to save your DOC?",
+          "Your Doc has been saved, do you want to save an extra backup?",
           "No",
           "Yes",
           "Cancel",
@@ -121,10 +170,10 @@ class WpeEditorTextLists {
           "You don't have backups at the moment",
           "First you must save one",
           "Ok",
-          "Current Wpe",
-          "Wpe Loaded",
-          "Wpe Saved",
-          "Wpe Deleted",
+          "Current Doc",
+          "Doc Loaded",
+          "Doc Saved",
+          "Doc Deleted",
           "New",
           "Save",
           "Delete",
@@ -138,9 +187,9 @@ class WpeEditorTextLists {
         text_list: [
           "¿Qué ranura deseas cargar?",
           "¿Qué ranura deseas eliminar?",
-          "¿Estás seguro de que deseas eliminar este CV?",
-          "¿En qué ranura deseas guardar tu CV?",
-          "Tu CV ha sido guardado, ¿deseas guardar un respaldo extra?",
+          "¿Estás seguro de que deseas eliminar este DOC?",
+          "¿En qué ranura deseas guardar tu DOC?",
+          "Tu DOC ha sido guardado, ¿deseas guardar un respaldo extra?",
           "No",
           "Sí",
           "Cancelar",
@@ -149,10 +198,10 @@ class WpeEditorTextLists {
           "Por el momento no posees respaldos",
           "Primero debes guardar uno",
           "Ok",
-          "Ranura Actual del CV",
-          "CV Cargado",
-          "CV Guardado",
-          "CV Eliminado",
+          "DOC Actual",
+          "DOC Cargado",
+          "DOC Guardado",
+          "DOC Eliminado",
           "Cargar",
           "Guardar",
           "Eliminar",

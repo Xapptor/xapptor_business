@@ -62,7 +62,6 @@ class _WpeSectionFormState extends State<WpeSectionForm> {
   TextEditingController mitigation_input_controller = TextEditingController();
 
   DateTime? selected_date_1;
-  DateTime? selected_date_2;
   int selected_date_index = 0;
 
   remove_item({
@@ -177,7 +176,6 @@ class _WpeSectionFormState extends State<WpeSectionForm> {
               show_up_arrow = false;
               show_down_arrow = false;
             }
-
             return WpeSectionFormItem(
               wpe_section_form_type: widget.wpe_section_form_type,
               text_list: widget.text_list.sublist(0, 10) +

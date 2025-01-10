@@ -1,7 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_business/models/wpe.dart';
-//import 'package:xapptor_router/app_screen.dart';
-//import 'package:xapptor_router/app_screens.dart';
-//import 'package:xapptor_logic/user/get_user_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
@@ -9,9 +7,7 @@ import 'package:xapptor_router/app_screen.dart';
 import 'package:xapptor_router/app_screens.dart';
 import 'package:xapptor_translation/model/text_list.dart';
 import 'package:xapptor_translation/translation_stream.dart';
-//import 'class_session.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_db/xapptor_db.dart';
 import 'package:intl/intl.dart'; // Importar la librería intl
 import 'package:xapptor_ui/utils/is_portrait.dart';
@@ -37,15 +33,13 @@ class WpeList extends StatefulWidget {
 }
 
 class _WpeListState extends State<WpeList> {
-  //List<String> products_acquired = <String>[];
-  //List<Map<String, dynamic>> courses_and_units = <Map<String, dynamic>>[];
   List<Wpe> wpes = <Wpe>[];
   Map<String, dynamic> user_info = {};
 
   TranslationTextListArray text_list = TranslationTextListArray([
     TranslationTextList(
       source_language: "en",
-      text_list: ["You don't have WPEs"],
+      text_list: ["You don't have DOCs"],
     ),
   ]);
 
@@ -74,10 +68,6 @@ class _WpeListState extends State<WpeList> {
     //user_info = await get_user_info(FirebaseAuth.instance.currentUser!.uid);
     wpes.clear();
 
-    Wpe current_wpe = Wpe.empty();
-
-    String wpe_id = "lcVKnWBmGqM0WHG6mFnwMbUtpo62_en";
-
     QuerySnapshot wpe_snaps = await XapptorDB.instance
         .collection("wpes")
         .where("site_id", isEqualTo: 'zKxyFr2xtIcCEcWZqCNq')
@@ -89,7 +79,7 @@ class _WpeListState extends State<WpeList> {
               wpe_snap.data() as Map<String, dynamic>,
             ))
         .toList();
-
+    wpes.sort((a, b) => b.number.compareTo(a.number));
     setState(() {});
   }
 
@@ -195,6 +185,29 @@ class _WpeListState extends State<WpeList> {
                   ),
                 ),
               ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            String wpe_id = "New";
+            add_new_app_screen(
+              AppScreen(
+                name: "home/wpes/$wpe_id",
+                child: WpeEditor(
+                  id: wpe_id,
+                  color_topbar: widget.topbar_color,
+                  base_url: widget.website,
+                  organization_name: 'American Business Excellence',
+                ),
+              ),
+            );
+            open_screen("home/wpes/$wpe_id");
+          },
+          backgroundColor: Colors.green,
+          tooltip: 'Add Workplace Exam',
+          child: const Icon(
+            FontAwesomeIcons.clipboardList,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

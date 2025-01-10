@@ -37,15 +37,15 @@ extension StateExtension on WpeSectionFormItemState {
 
     DateTime initial_date = now;
 
-    if (selected_date_index == 0) {
-      if (selected_date_1 != null) {
-        initial_date = selected_date_1!;
-      }
-    } else {
-      if (selected_date_2 != null) {
-        initial_date = selected_date_2!;
-      }
+    //if (selected_date_index == 0) {
+    if (selected_date_1 != null) {
+      initial_date = selected_date_1!;
     }
+    // } else {
+    //   if (selected_date_2 != null) {
+    //     initial_date = selected_date_2!;
+    //   }
+    // }
 
     DateTime? picked = await showDatePicker(
       context: context,
@@ -88,7 +88,7 @@ extension StateExtension on WpeSectionFormItemState {
               10,
             );
           }
-          selected_date_2 = picked;
+          //selected_date_2 = picked;
           break;
       }
 

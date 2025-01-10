@@ -5,6 +5,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/generate_wpe.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/validate_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_alert.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 //import 'package:xapptor_business/workplace_exam/wpe_visualizer/download_wpe_pdf.dart';
@@ -15,7 +16,6 @@ extension StateExtension on WpeEditorState {
         text_list.list[source_language_index].source_language;
     List alert_text_array = alert_text_list.get(source_language_index);
 
-    String new_label = alert_text_array[17];
     String save_label = alert_text_array[18];
     String delete_label = alert_text_array[19];
     String download_label = alert_text_array[20];
@@ -58,49 +58,19 @@ extension StateExtension on WpeEditorState {
         },
       ),
       children: [
-        // NEW
-        FloatingActionButton.extended(
-          heroTag: null,
-          onPressed: () {
-            Wpe wpe = generate_wpe();
-            wpe_editor_alert(
-              wpe: wpe,
-              wpe_editor_alert_type: WpeEditorAlertType.load,
-            );
-          },
-          backgroundColor: Colors.green,
-          tooltip: new_label,
-          label: Row(
-            children: [
-              Text(
-                new_label,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 4),
-              const Icon(
-                FontAwesomeIcons.server,
-                color: Colors.white,
-                size: 20,
-              ),
-            ],
-          ),
-        ),
-
         // SAVE
-
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Wpe wpe = generate_wpe();
-            wpe.id = "${wpe.user_id}_$language_code";
-            current_wpe_id = wpe.id;
-
-            wpe_editor_alert(
-              wpe: wpe,
-              wpe_editor_alert_type: WpeEditorAlertType.save,
-            );
+            current_wpe = generate_wpe();
+            wpe_id = current_wpe.id;
+            //Validar WPE
+            if (validate_wpe(current_wpe)) {
+              wpe_editor_alert(
+                wpe: current_wpe,
+                wpe_editor_alert_type: WpeEditorAlertType.save,
+              );
+            }
           },
           backgroundColor: Colors.orange,
           tooltip: save_label,
@@ -159,10 +129,10 @@ extension StateExtension on WpeEditorState {
         FloatingActionButton.extended(
           heroTag: null,
           onPressed: () {
-            Wpe wpe = generate_wpe();
-            wpe.id = "${wpe.user_id}_$language_code";
+            // Wpe wpe = generate_wpe();
+            // wpe.id = "${wpe.user_id}_$language_code";
 
-            String wpe_link = "${widget.base_url}/wpes/${wpe.id}";
+            //String wpe_link = "${widget.base_url}/wpes/${wpe.id}";
 
             // var encoder = const JsonEncoder.withIndent('  ');
             // String pretty_json = encoder.convert(wpe.to_json_2());

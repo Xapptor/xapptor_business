@@ -70,7 +70,6 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
   TextEditingController field_4_input_controller = TextEditingController();
 
   DateTime? selected_date_1;
-  DateTime? selected_date_2;
   int selected_date_index = 0;
   String timeframe_text = "";
 
@@ -89,18 +88,6 @@ class WpeSectionFormItemState extends State<WpeSectionFormItem> {
     populate_fields();
 
     double screen_width = MediaQuery.of(context).size.width;
-
-    // if (selected_date_1 != null && selected_date_2 != null) {
-    //   timeframe_text = get_timeframe_text(
-    //     begin: selected_date_1!,
-    //     end: selected_date_2!,
-    //     language_code: widget.language_code,
-    //     present_text: widget.text_list[4],
-    //     text_list: widget.time_text_list,
-    //   );
-    // } else {
-    //   timeframe_text = widget.text_list[5];
-    // }
 
     DateFormat date_formatter = DateFormat.yMMMMd('en_US');
     String date_now_formatted = date_formatter.format(selected_date_1!);

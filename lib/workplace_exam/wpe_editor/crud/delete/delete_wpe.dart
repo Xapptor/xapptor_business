@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/crud/read/get_wpe_ref.dart';
-import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/show_result_snack_bar.dart';
 
@@ -14,10 +14,6 @@ extension StateExtension on WpeEditorState {
       show_result_snack_bar(
         result_snack_bar_type: ResultSnackBarType.deleted,
       );
-
-      wpes = await get_wpe_ref();
-      print('CUATRO');
-      load_wpe();
     });
   }
 }

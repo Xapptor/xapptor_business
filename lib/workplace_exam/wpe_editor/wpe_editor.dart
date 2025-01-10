@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -13,6 +15,7 @@ import 'package:xapptor_business/models/supervisor.dart';
 import 'package:xapptor_business/models/transversal.dart';
 import 'package:xapptor_business/models/wpe.dart';
 import 'package:xapptor_business/site/get_site.dart';
+import 'package:xapptor_business/workplace_exam/wpe_editor/load_wpe.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_fab.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_init_state.dart';
 import 'package:xapptor_business/workplace_exam/wpe_editor/wpe_editor_section_header.dart';
@@ -34,13 +37,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 class WpeEditor extends StatefulWidget {
-  final String? id;
+  String id;
   final Color color_topbar;
   final String base_url;
   final double text_bottom_margin_for_section;
   final String organization_name;
 
-  const WpeEditor({
+  WpeEditor({
     super.key,
     required this.id,
     required this.color_topbar,
@@ -54,9 +57,12 @@ class WpeEditor extends StatefulWidget {
 }
 
 class WpeEditorState extends State<WpeEditor> {
+  bool is_loaded = false;
+
   //Header Section
+  String header_label = "";
   String wpe_id = '';
-  String wpe_number = '';
+  int wpe_number = 0;
   DateTime wpe_date = DateTime.now();
   String shift_input_controller = '';
 
@@ -154,18 +160,14 @@ class WpeEditorState extends State<WpeEditor> {
   Color picker_color = Colors.blue;
   Color current_color = Colors.blue;
 
-  User? current_user;
+  User? current_user = FirebaseAuth.instance.currentUser!;
 
   GlobalKey<ExpandableFabState> expandable_fab_key =
       GlobalKey<ExpandableFabState>();
 
-  List<Wpe> wpes = [];
-  //TODO  revisar el late
   late Wpe current_wpe;
 
   bool asked_for_backup_alert = false;
-
-  String current_wpe_id = "";
 
   //List envoirement
   Site? site;
@@ -190,6 +192,11 @@ class WpeEditorState extends State<WpeEditor> {
       user_id: "k160V7dqKZcKFTKbGy1x",
       department_name: "Maintenance",
     ),
+    Supervisor(
+      name: "None",
+      user_id: "None",
+      department_name: "None",
+    ),
   ];
 
   List<MaintSupervisor> maintenance_list = [
@@ -200,6 +207,10 @@ class WpeEditorState extends State<WpeEditor> {
     MaintSupervisor(
       name: "Juan Suarez",
       user_id: "jhrg4RNmfgs4yvKzFtoM",
+    ),
+    MaintSupervisor(
+      name: "None",
+      user_id: "None",
     ),
   ];
 
@@ -218,25 +229,32 @@ class WpeEditorState extends State<WpeEditor> {
     ),
   ];
 
-  retrieve_site() async {
+  Future<bool> retrieve_site() async {
     site = await get_site('zKxyFr2xtIcCEcWZqCNq');
 
     if (site != null) {
       area_list = site!.areas;
       transversal_list = site!.transversals;
       wpe_site = site!.id;
+      return true;
     } else {
-      area_list = [];
-      transversal_list = [];
-      wpe_site = '';
+      // area_list = [];
+      // transversal_list = [];
+      // wpe_site = '';
+      return false;
     }
-
-    //if (site != null) print(site!.to_json());
   }
 
-  retrieve_hazard(String id) async {
+  Future<bool> retrieve_hazard(String id) async {
     hazard = await get_hazard(id);
-    //if (hazard != null) print(hazard!.to_json());
+    //if (hazard != null) print("_hazard_ ${hazard!.lototos}");
+    //TODO preguntar a javier si se necesita, es decir, cuando usar el setState
+    if (hazard != null) {
+      setState(() {});
+      return true;
+    } else {
+      return false;
+    }
   }
 
   init_listeners() {
@@ -263,16 +281,24 @@ class WpeEditorState extends State<WpeEditor> {
   @override
   void initState() {
     init_text_lists();
-
     super.initState();
-
     wpe_editor_init_state();
     init_listeners();
-    retrieve_site();
-    //Todo revisar con Javier
-    //if (site != null) {
-    retrieve_hazard('abe_1');
-    //}
+    fetching_information();
+  }
+
+  fetching_information() async {
+    bool site_retrieving = await retrieve_site();
+    is_loaded = false;
+    if (site_retrieving) {
+      bool hazard_retrieving = await retrieve_hazard('abe_1');
+      await load_wpe();
+      is_loaded = true;
+    }
+
+    if (is_loaded == false) {
+      Navigator.pop(context);
+    }
   }
 
   init_text_lists() {
@@ -297,8 +323,10 @@ class WpeEditorState extends State<WpeEditor> {
       ),
     );
 
-    if (wpes.isNotEmpty) {
-      String? slot_label = (widget.id != null) ? wpe_number.toString() : "New";
+    if (is_loaded) {
+      String? slot_label = (wpe_id != "New") ? wpe_number.toString() : "New";
+      header_label =
+          "${alert_text_list.get(source_language_index)[13]}: $slot_label";
       body = Stack(
         children: [
           Container(
@@ -319,12 +347,6 @@ class WpeEditorState extends State<WpeEditor> {
                       wpe_sections(),
                       wpe_editor_section_maintenance(),
                       wpe_editor_section_supervisor(),
-                      // if (font_families_value.isNotEmpty)
-                      //   WpeEditorAdditionalOptions(
-                      //     callback: () {
-                      //       setState(() {});
-                      //     },
-                      //   ),
                     ],
                   ),
                 ),
@@ -338,7 +360,7 @@ class WpeEditorState extends State<WpeEditor> {
             height: 40,
             child: Center(
               child: Text(
-                "${alert_text_list.get(source_language_index)[13]}: $slot_label",
+                header_label,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -371,6 +393,7 @@ class WpeEditorState extends State<WpeEditor> {
       ),
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: current_user != null ? wpe_editor_fab() : null,
+      //floatingActionButton: wpe_editor_fab(),
       body: body,
     );
   }
