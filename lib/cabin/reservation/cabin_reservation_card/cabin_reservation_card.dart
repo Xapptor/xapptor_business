@@ -107,7 +107,7 @@ class CabinReservationCardState extends State<CabinReservationCard> {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: widget.main_color.withOpacity(0.15),
+            color: widget.main_color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(

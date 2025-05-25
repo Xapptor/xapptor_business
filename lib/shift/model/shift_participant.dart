@@ -13,7 +13,7 @@ class ShiftParticipant {
   ShiftParticipant.from_snapshot(
     this.id,
     Map snapshot,
-  ) : full_name = snapshot['firstname'] + ' ' + snapshot['lastname'];
+  ) : full_name = '${snapshot['firstname']} ${snapshot['lastname']}';
 }
 
 Future<List<ShiftParticipant>> get_shift_participants(List<String> participants_id) async {

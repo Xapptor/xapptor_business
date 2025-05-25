@@ -187,7 +187,7 @@ class ProductDetailsState extends State<ProductDetails> {
                                 Colors.white,
                               ],
                             ),
-                            splash_color: widget.text_color.withOpacity(is_editing ? 0.3 : 0),
+                            splash_color: widget.text_color.withValues(alpha: is_editing ? 0.3 : 0),
                             child: Container(
                               alignment: Alignment.center,
                               padding: const EdgeInsets.all(10),

@@ -271,7 +271,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                             text: enabled ? "HABILITADO" : "DESHABILITADO",
                             value: enabled,
                             enabled: is_editing,
-                            active_track_color: widget.text_color.withOpacity(0.5),
+                            active_track_color: widget.text_color.withValues(alpha: 0.5),
                             active_color: Colors.lightGreen,
                             inactive_color: !is_editing ? Colors.grey : Colors.red,
                             background_color: widget.topbar_color,
@@ -306,8 +306,8 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                             },
                             linear_gradient: LinearGradient(
                               colors: [
-                                widget.topbar_color.withOpacity(0.4),
-                                widget.textfield_color.withOpacity(0.4),
+                                widget.topbar_color.withValues(alpha: 0.4),
+                                widget.textfield_color.withValues(alpha: 0.4),
                               ],
                             ),
                             child: const Center(

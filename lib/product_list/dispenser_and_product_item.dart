@@ -34,7 +34,7 @@ extension StateExtension on ProductListState {
             SizedBox(
               height: MediaQuery.of(context).size.height / 3,
               child: CustomCard(
-                splash_color: widget.text_color.withOpacity(0.2),
+                splash_color: widget.text_color.withValues(alpha: 0.2),
                 elevation: 3,
                 border_radius: border_radius,
                 on_pressed: () {

@@ -12,7 +12,7 @@ extension StateExtension on CabinReservationCardState {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: widget.main_color.withOpacity(0.4),
+          color: widget.main_color.withValues(alpha: 0.4),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(

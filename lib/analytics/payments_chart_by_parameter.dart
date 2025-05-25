@@ -52,7 +52,7 @@ Widget payments_chart_by_parameter({
                   barGroups: sections,
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
-                      getTooltipColor: (BarChartGroupData group) => Colors.grey.withOpacity(0.15),
+                      getTooltipColor: (BarChartGroupData group) => Colors.grey.withValues(alpha: 0.15),
                     ),
                   ),
                   titlesData: FlTitlesData(
