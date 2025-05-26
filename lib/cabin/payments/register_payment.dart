@@ -73,7 +73,7 @@ register_payment({
                   margin: const EdgeInsets.only(top: 6),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey.withOpacity(0.15),
+                    color: Colors.blueGrey.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(

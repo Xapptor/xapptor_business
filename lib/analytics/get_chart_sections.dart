@@ -59,7 +59,7 @@ Future<List> get_chart_sections({
               gradient: LinearGradient(
                 colors: [
                   random_color,
-                  random_color.withOpacity(0.1),
+                  random_color.withValues(alpha: 0.1),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

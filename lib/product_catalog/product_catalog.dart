@@ -212,7 +212,7 @@ class ProductCatalogState extends State<ProductCatalog> {
                           child: CustomCard(
                             on_pressed: validate_coupon,
                             border_radius: 1000,
-                            splash_color: widget.text_color.withOpacity(0.3),
+                            splash_color: widget.text_color.withValues(alpha: 0.3),
                             child: Center(
                               child: Text(
                                 widget.translation_text_list_array.get(source_language_index)[5],
@@ -237,7 +237,7 @@ class ProductCatalogState extends State<ProductCatalog> {
                         await InAppPurchase.instance.restorePurchases();
                       },
                       border_radius: 1000,
-                      splash_color: widget.text_color.withOpacity(0.3),
+                      splash_color: widget.text_color.withValues(alpha: 0.3),
                       child: Center(
                         child: Text(
                           "Restore Purchase",
@@ -292,7 +292,7 @@ class ProductCatalogState extends State<ProductCatalog> {
 
     return LoadingContainer(
       loading: loading,
-      background_color: Colors.white.withOpacity(0.75),
+      background_color: Colors.white.withValues(alpha: 0.75),
       progress_indicator_color: widget.topbar_color ?? Colors.blueGrey,
       child: widget.topbar_color != null
           ? Scaffold(

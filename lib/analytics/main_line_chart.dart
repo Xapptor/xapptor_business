@@ -142,7 +142,7 @@ LineChart main_line_chart({
     LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
-          getTooltipColor: (LineBarSpot spot) => icon_color.withOpacity(0.5),
+          getTooltipColor: (LineBarSpot spot) => icon_color.withValues(alpha: 0.5),
         ),
         touchCallback: (touch_event, touch_response) {},
         handleBuiltInTouches: true,
@@ -246,15 +246,15 @@ LineChart main_line_chart({
             width: 3,
           ),
           left: BorderSide(
-            color: text_color.withOpacity(0.2),
+            color: text_color.withValues(alpha: 0.2),
             width: 3,
           ),
           right: BorderSide(
-            color: text_color.withOpacity(0.2),
+            color: text_color.withValues(alpha: 0.2),
             width: 3,
           ),
           top: BorderSide(
-            color: text_color.withOpacity(0.2),
+            color: text_color.withValues(alpha: 0.2),
             width: 3,
           ),
         ),
@@ -270,8 +270,8 @@ LineChart main_line_chart({
           curveSmoothness: 0.1,
           gradient: LinearGradient(
             colors: [
-              text_color.withOpacity(0.7),
-              icon_color.withOpacity(0.7),
+              text_color.withValues(alpha: 0.7),
+              icon_color.withValues(alpha: 0.7),
             ],
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
@@ -282,8 +282,8 @@ LineChart main_line_chart({
           belowBarData: BarAreaData(
             gradient: LinearGradient(
               colors: [
-                icon_color.withOpacity(0.3),
-                text_color.withOpacity(0.3),
+                icon_color.withValues(alpha: 0.3),
+                text_color.withValues(alpha: 0.3),
               ],
               stops: const [
                 0.2,
@@ -294,7 +294,7 @@ LineChart main_line_chart({
             ),
             spotsLine: BarAreaSpotsLine(
               flLineStyle: FlLine(
-                color: text_color.withOpacity(0.3),
+                color: text_color.withValues(alpha: 0.3),
                 strokeWidth: 4,
               ),
             ),

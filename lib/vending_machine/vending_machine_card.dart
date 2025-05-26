@@ -54,7 +54,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
             height: current_card_height,
             margin: margin,
             child: CustomCard(
-              splash_color: widget.text_color.withOpacity(0.2),
+              splash_color: widget.text_color.withValues(alpha: 0.2),
               elevation: 3,
               border_radius: 10,
               on_pressed: () {
