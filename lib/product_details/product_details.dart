@@ -100,9 +100,7 @@ class ProductDetailsState extends State<ProductDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: sized_box_space * 4,
-                  ),
+                  const SizedBox(height: sized_box_space * 4),
                   if (widget.product != null)
                     SizedBox(
                       height: screen_height / 3,
@@ -132,9 +130,7 @@ class ProductDetailsState extends State<ProductDetails> {
                     ),
                     enabled: is_editing,
                   ),
-                  SizedBox(
-                    height: sized_box_space * 2,
-                  ),
+                  const SizedBox(height: sized_box_space * 2),
                   SizedBox(
                     height: 40,
                     child: Row(
@@ -204,9 +200,7 @@ class ProductDetailsState extends State<ProductDetails> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: sized_box_space * 2,
-                  ),
+                  const SizedBox(height: sized_box_space * 2),
                   TextField(
                     onTap: () {
                       //
@@ -228,9 +222,7 @@ class ProductDetailsState extends State<ProductDetails> {
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                   ),
-                  SizedBox(
-                    height: sized_box_space * 4,
-                  ),
+                  const SizedBox(height: sized_box_space * 4),
                 ],
               ),
             ),

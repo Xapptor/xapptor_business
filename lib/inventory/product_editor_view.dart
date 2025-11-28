@@ -92,9 +92,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                 widthFactor: portrait ? 0.9 : 0.5,
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: sized_box_space * 4,
-                    ),
+                    const SizedBox(height: sized_box_space * 4),
                     Text(
                       widget.text_list[0],
                       style: TextStyle(
@@ -193,9 +191,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: sized_box_space * 2,
-                    ),
+                    const SizedBox(height: sized_box_space * 2),
                     if (image_input_controller.text != "" || image_data != null)
                       Container(
                         decoration: BoxDecoration(
@@ -225,9 +221,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                                 ),
                         ),
                       ),
-                    SizedBox(
-                      height: sized_box_space,
-                    ),
+                    const SizedBox(height: sized_box_space),
                     if (!widget.is_a_product_category)
                       TextFormField(
                         style: TextStyle(
@@ -293,9 +287,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                           type: FormFieldValidatorsType.name,
                         ).validate(),
                       ),
-                    SizedBox(
-                      height: sized_box_space * 2,
-                    ),
+                    const SizedBox(height: sized_box_space * 2),
                     SizedBox(
                       width: portrait ? double.infinity : screen_width * 0.1,
                       child: ElevatedButton(
@@ -328,9 +320,7 @@ class _ProductEditorViewState extends State<ProductEditorView> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: sized_box_space * 4,
-                    ),
+                    const SizedBox(height: sized_box_space * 4),
                   ],
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/cabin/reservation/cabin_reservation_card/cabin_reservation_card.dart';
+import 'package:xapptor_ui/values/ui.dart';
 
 extension StateExtension on CabinReservationCardState {
   reservation_period_button() {
@@ -13,7 +14,7 @@ extension StateExtension on CabinReservationCardState {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: widget.main_color.withValues(alpha: 0.4),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(outline_border_radius),
         ),
         child: Column(
           children: [

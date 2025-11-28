@@ -204,9 +204,7 @@ class ProductCatalogState extends State<ProductCatalog> {
                           ),
                           controller: coupon_controller,
                         ),
-                        SizedBox(
-                          height: sized_box_space,
-                        ),
+                        const SizedBox(height: sized_box_space),
                         SizedBox(
                           height: 50,
                           child: CustomCard(

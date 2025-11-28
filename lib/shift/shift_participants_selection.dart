@@ -58,7 +58,7 @@ class _ShiftParticipantsSelectionState extends State<ShiftParticipantsSelection>
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             top: sized_box_space * 4,
                             bottom: sized_box_space * 2,
                           ),
@@ -71,7 +71,7 @@ class _ShiftParticipantsSelectionState extends State<ShiftParticipantsSelection>
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             bottom: sized_box_space * 2,
                           ),
                           child: ListView.builder(
@@ -123,7 +123,7 @@ class _ShiftParticipantsSelectionState extends State<ShiftParticipantsSelection>
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             bottom: sized_box_space * 4,
                           ),
                           child: ElevatedButton(

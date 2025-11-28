@@ -7,6 +7,7 @@ import 'package:xapptor_business/models/reservation_cabin.dart';
 import 'package:xapptor_business/models/season.dart';
 import 'package:xapptor_logic/string/bool_to_string.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
+import 'package:xapptor_ui/values/ui.dart';
 
 class CabinReservationCard extends StatefulWidget {
   final ReservationCabin? reservation;
@@ -108,7 +109,7 @@ class CabinReservationCardState extends State<CabinReservationCard> {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: widget.main_color.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(outline_border_radius),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -227,7 +228,7 @@ class CabinReservationCardState extends State<CabinReservationCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: sized_box_space),
                       Text(
                         "${widget.text_list[8]}: ${widget.cabin.get_beds_string()}",
                         textAlign: TextAlign.start,
@@ -238,7 +239,7 @@ class CabinReservationCardState extends State<CabinReservationCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: sized_box_space),
                       Text(
                         "${widget.text_list[9]}: ${widget.cabin.bathrooms}",
                         textAlign: TextAlign.start,
@@ -267,7 +268,7 @@ class CabinReservationCardState extends State<CabinReservationCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: sized_box_space),
                       Text(
                         "${widget.text_list[11]}: ${bool_to_string(
                           value: widget.cabin.sauna,
@@ -300,7 +301,7 @@ class CabinReservationCardState extends State<CabinReservationCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: sized_box_space),
                       Text(
                         "${widget.text_list[13]}: ${bool_to_string(
                           value: widget.cabin.chimney,
@@ -315,7 +316,7 @@ class CabinReservationCardState extends State<CabinReservationCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: sized_box_space),
                       Text(
                         "${widget.text_list[14]}: ${bool_to_string(
                           value: widget.cabin.balcony,

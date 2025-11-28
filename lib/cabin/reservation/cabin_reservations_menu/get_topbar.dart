@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/cabin/reservation/cabin_reservations_menu/cabin_reservations_menu.dart';
 import 'package:xapptor_translation/language_picker.dart';
+import 'package:xapptor_ui/values/ui.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 
 extension StateExtension on CabinReservationsMenuState {
@@ -19,9 +20,7 @@ extension StateExtension on CabinReservationsMenuState {
             update_source_language: update_source_language,
           ),
         ),
-        const SizedBox(
-          width: 16,
-        ),
+        const SizedBox(width: sized_box_space),
       ],
       custom_leading: null,
       logo_path: "assets/images/logo_white.png",

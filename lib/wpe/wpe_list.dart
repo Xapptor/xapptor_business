@@ -47,7 +47,7 @@ class _WpeListState extends State<WpeList> {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             top: sized_box_space * 4,
                             bottom: sized_box_space * 2,
                           ),
@@ -60,7 +60,7 @@ class _WpeListState extends State<WpeList> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             bottom: sized_box_space * 2,
                           ),
                           child: ListView.builder(

@@ -14,6 +14,7 @@ import 'package:xapptor_ui/utils/is_portrait.dart';
 import 'package:xapptor_logic/send_email.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_db/xapptor_db.dart';
+import 'package:xapptor_ui/values/ui.dart';
 
 register_payment({
   required String reservation_id,
@@ -74,7 +75,7 @@ register_payment({
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.blueGrey.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(outline_border_radius),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

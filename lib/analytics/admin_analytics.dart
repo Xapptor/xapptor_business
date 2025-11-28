@@ -74,9 +74,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
           widthFactor: portrait ? 0.85 : 0.75,
           child: Column(
             children: [
-              SizedBox(
-                height: sized_box_space * 3,
-              ),
+              const SizedBox(height: sized_box_space * 3),
               Row(
                 children: [
                   Expanded(
@@ -105,9 +103,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: sized_box_space * 2,
-              ),
+              const SizedBox(height: sized_box_space * 2),
               Flex(
                 direction: portrait ? Axis.vertical : Axis.horizontal,
                 crossAxisAlignment: portrait ? CrossAxisAlignment.center : CrossAxisAlignment.start,
@@ -189,9 +185,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: sized_box_space * 2,
-              ),
+              const SizedBox(height: sized_box_space * 2),
               SizedBox(
                 height: widget.analytics_segments.length > 1
                     ? ((widget.analytics_segments.length * (screen_height * (portrait ? 1.3 : 0.9))))
@@ -203,9 +197,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                       widthFactor: portrait ? 1 : 0.4,
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: sized_box_space * 4,
-                          ),
+                          const SizedBox(height: sized_box_space * 4),
                           Text(
                             widget.analytics_segments[index].chart_title,
                             textAlign: TextAlign.center,
@@ -215,9 +207,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            height: sized_box_space,
-                          ),
+                          const SizedBox(height: sized_box_space),
                           SizedBox(
                             height: portrait ? (screen_width * 0.8) : (screen_height / 3),
                             child: payments_chart_by_parameter(
@@ -241,9 +231,7 @@ class _AdminAnalyticsState extends State<AdminAnalytics> {
                   },
                 ),
               ),
-              SizedBox(
-                height: sized_box_space * 2,
-              ),
+              const SizedBox(height: sized_box_space * 2),
             ],
           ),
         ),
