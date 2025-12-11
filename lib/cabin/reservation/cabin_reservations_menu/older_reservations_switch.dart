@@ -25,7 +25,7 @@ extension StateExtension on CabinReservationsMenuState {
                 show_older_reservations = new_value;
                 get_current_reservations();
               },
-              activeThumbColor: widget.topbar_color,
+              thumbColor: WidgetStateProperty.all(widget.topbar_color),
             ),
           ],
         );
