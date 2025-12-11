@@ -9,8 +9,8 @@ import 'package:xapptor_db/xapptor_db.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
-import 'package:xapptor_router/initial_values_routing.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/initial_values_routing_v2.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 import 'package:xapptor_ui/widgets/by_layer/background_image_with_gradient_color.dart';
 import 'package:xapptor_ui/widgets/by_layer/coming_soon_container.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +62,7 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
 
   buy_now() async {
     if (FirebaseAuth.instance.currentUser == null) {
-      open_screen("login");
+      open_screen_v2("login");
     } else {
       bool product_was_acquired = await check_if_product_was_acquired(
         user_id: widget.stripe_payment.user_id,
@@ -204,13 +204,13 @@ class _ProductCatalogItemState extends State<ProductCatalogItem> {
   call_stripe() async {
     if (!widget.coming_soon) {
       if (widget.stripe_payment.user_id.isEmpty) {
-        open_screen("login");
+        open_screen_v2("login");
       } else {
         var payments_doc = await XapptorDB.instance.collection("metadata").doc("payments").get();
 
         Map payments_doc_data = payments_doc.data()!;
 
-        String str_k = payments_doc_data["stripe"][current_build_mode == BuildMode.release ? "sct" : "sct_test"];
+        String str_k = payments_doc_data["stripe"][current_build_mode_v2 == BuildModeV2.release ? "sct" : "sct_test"];
 
         if (d_m_f_bu != null) {
           str_k = d_m_f_bu!(

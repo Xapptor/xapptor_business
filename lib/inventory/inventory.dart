@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/inventory/product_editor_view.dart';
 import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
-import 'package:xapptor_router/app_screen.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 import 'package:xapptor_ui/widgets/card/card_holder.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 import 'delete_product.dart';
@@ -151,8 +150,8 @@ class _InventoryState extends State<Inventory> {
                                   } else {
                                     path = "${widget.old_path!}/${product.name}";
                                   }
-                                  add_new_app_screen(
-                                    AppScreen(
+                                  add_new_app_screen_v2(
+                                    AppScreenV2(
                                       name: path,
                                       child: Inventory(
                                         old_path: path,
@@ -168,7 +167,7 @@ class _InventoryState extends State<Inventory> {
                                       ),
                                     ),
                                   );
-                                  open_screen(path);
+                                  open_screen_v2(path);
                                 }
                               },
                               elevation: elevation,
@@ -183,8 +182,8 @@ class _InventoryState extends State<Inventory> {
                               },
                               edit_function: () {
                                 String screen_name = "home/products/${product.id}";
-                                add_new_app_screen(
-                                  AppScreen(
+                                add_new_app_screen_v2(
+                                  AppScreenV2(
                                     name: screen_name,
                                     child: ProductEditorView(
                                       category_id: widget.product?.id,
@@ -197,7 +196,7 @@ class _InventoryState extends State<Inventory> {
                                   ),
                                 );
 
-                                open_screen(screen_name);
+                                open_screen_v2(screen_name);
                               },
                             ),
                           ),
@@ -307,8 +306,8 @@ class _InventoryState extends State<Inventory> {
               onPressed: () async {
                 Product product = Product.empty();
                 String screen_name = "home/products/new";
-                add_new_app_screen(
-                  AppScreen(
+                add_new_app_screen_v2(
+                  AppScreenV2(
                     name: screen_name,
                     child: ProductEditorView(
                       category_id: widget.product?.id,
@@ -320,7 +319,7 @@ class _InventoryState extends State<Inventory> {
                     ),
                   ),
                 );
-                open_screen(screen_name);
+                open_screen_v2(screen_name);
               },
             ),
           ],

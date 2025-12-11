@@ -3,8 +3,7 @@
 import 'package:xapptor_db/xapptor_db.dart';
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
-import 'package:xapptor_router/app_screen.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 import 'vending_machine_details.dart';
 import 'package:xapptor_ui/widgets/card/custom_card.dart';
 import 'package:xapptor_ui/utils/is_portrait.dart';
@@ -58,8 +57,8 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
               elevation: 3,
               border_radius: 10,
               on_pressed: () {
-                add_new_app_screen(
-                  AppScreen(
+                add_new_app_screen_v2(
+                  AppScreenV2(
                     name: "home/vending_machine_details",
                     child: VendingMachineDetails(
                       vending_machine: widget.vending_machine,
@@ -69,7 +68,7 @@ class _VendingMachineCardState extends State<VendingMachineCard> {
                     ),
                   ),
                 );
-                open_screen("home/vending_machine_details");
+                open_screen_v2("home/vending_machine_details");
               },
               child: Container(
                 margin: margin * 2,

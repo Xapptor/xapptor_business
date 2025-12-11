@@ -1,8 +1,7 @@
 import 'package:xapptor_db/xapptor_db.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
 import 'package:xapptor_business/models/product.dart';
-import 'package:xapptor_router/app_screen.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 
 extension StateExtension on HomeContainerState {
   get_products_for_product_catalog() async {
@@ -18,8 +17,8 @@ extension StateExtension on HomeContainerState {
       );
     }
     widget.product_catalog!.products = products;
-    add_new_app_screen(
-      AppScreen(
+    add_new_app_screen_v2(
+      AppScreenV2(
         name: "home/products",
         child: widget.product_catalog!,
       ),

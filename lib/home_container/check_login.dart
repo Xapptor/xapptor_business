@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:xapptor_business/home_container/add_screens.dart';
 import 'package:xapptor_business/home_container/check_user_fields.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 
 extension StateExtension on HomeContainerState {
   check_login() {
@@ -20,7 +20,7 @@ extension StateExtension on HomeContainerState {
           add_screens();
         } else {
           //debugPrint("User is not sign");
-          open_screen("login");
+          open_screen_v2("login");
         }
       });
     }

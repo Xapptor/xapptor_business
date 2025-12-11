@@ -8,8 +8,7 @@ import 'package:xapptor_business/product_details/product_details.dart';
 import 'package:xapptor_business/product_list/dispenser_and_product_item.dart';
 import 'package:xapptor_business/product_list/get_products.dart';
 import 'package:xapptor_logic/firebase_tasks/update.dart';
-import 'package:xapptor_router/app_screen.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
 
 class ProductList extends StatefulWidget {
@@ -91,8 +90,8 @@ class ProductListState extends State<ProductList> {
           ? null
           : FloatingActionButton.extended(
               onPressed: () {
-                add_new_app_screen(
-                  AppScreen(
+                add_new_app_screen_v2(
+                  AppScreenV2(
                     name: "home/products/details",
                     child: ProductDetails(
                       product: null,
@@ -102,7 +101,7 @@ class ProductListState extends State<ProductList> {
                     ),
                   ),
                 );
-                open_screen("home/products/details");
+                open_screen_v2("home/products/details");
               },
               label: const Text("Agregar Producto"),
               icon: const Icon(Icons.add),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 import 'package:xapptor_translation/language_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -23,7 +23,7 @@ extension StateExtension on HomeContainerState {
                   message: widget.text_list_menu[0],
                   child: TextButton(
                     onPressed: () {
-                      open_screen("home/account");
+                      open_screen_v2("home/account");
                     },
                     child: const Icon(
                       FontAwesomeIcons.user,

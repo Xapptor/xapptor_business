@@ -1,4 +1,4 @@
-import 'package:xapptor_router/initial_values_routing.dart';
+import 'package:xapptor_router/V2/initial_values_routing_v2.dart';
 
 class Product {
   final String id;
@@ -28,7 +28,7 @@ class Product {
   Product.from_snapshot(
     this.id,
     Map<String, dynamic> snapshot,
-  )   : price_id = snapshot[current_build_mode == BuildMode.release ? "stripe_id" : "stripe_id_test"] ?? "",
+  )   : price_id = snapshot[current_build_mode_v2 == BuildModeV2.release ? "stripe_id" : "stripe_id_test"] ?? "",
         name = snapshot['name'],
         image_src = snapshot['image_src'] ?? "",
         price = snapshot['price'],

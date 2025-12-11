@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:xapptor_business/models/vending_machine.dart';
 import 'package:xapptor_business/product_list/product_list.dart';
 import 'package:xapptor_logic/firebase_tasks/duplicate.dart';
-import 'package:xapptor_router/app_screen.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 import 'package:xapptor_ui/widgets/card/custom_card.dart';
 import 'package:xapptor_ui/widgets/switch_button.dart';
 import 'package:xapptor_ui/widgets/top_and_bottom/topbar.dart';
@@ -288,8 +287,8 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                           child: CustomCard(
                             border_radius: MediaQuery.of(context).size.width,
                             on_pressed: () {
-                              add_new_app_screen(
-                                AppScreen(
+                              add_new_app_screen_v2(
+                                AppScreenV2(
                                   name: "home/vending_machine_details/dispensers_list",
                                   child: ProductList(
                                     vending_machine_id: widget.vending_machine!.id,
@@ -302,7 +301,7 @@ class _VendingMachineDetailsState extends State<VendingMachineDetails> {
                                   ),
                                 ),
                               );
-                              open_screen("home/vending_machine_details/dispensers_list");
+                              open_screen_v2("home/vending_machine_details/dispensers_list");
                             },
                             linear_gradient: LinearGradient(
                               colors: [

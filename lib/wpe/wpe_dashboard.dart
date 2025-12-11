@@ -8,8 +8,7 @@ import 'package:xapptor_business/shift/shift_participants_selection.dart';
 import 'package:xapptor_business/wpe/workplace_exam_view.dart';
 import 'package:xapptor_business/wpe/wpe_list.dart';
 import 'package:xapptor_ui/utils/show_alert.dart';
-import 'package:xapptor_router/app_screen.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 import 'package:xapptor_ui/widgets/card/card_holder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xapptor_db/xapptor_db.dart';
@@ -71,47 +70,47 @@ class _WPEDashboardState extends State<WPEDashboard> {
   }
 
   open_shift_participants_selection(Supervisor supervisor) async {
-    await add_new_app_screen(
-      AppScreen(
+    await add_new_app_screen_v2(
+      AppScreenV2(
         name: "${widget.base_path}/shift_participants_selection",
         child: ShiftParticipantsSelection(
           main_color: widget.main_color,
         ),
       ),
     );
-    open_screen("${widget.base_path}/shift_participants_selection");
+    open_screen_v2("${widget.base_path}/shift_participants_selection");
   }
 
   open_workplace_exam() async {
-    await add_new_app_screen(
-      AppScreen(
+    await add_new_app_screen_v2(
+      AppScreenV2(
         name: "${widget.base_path}/workplace_exam",
         child: WorkplaceExamView(
           main_color: widget.main_color,
         ),
       ),
     );
-    open_screen("${widget.base_path}/workplace_exam");
+    open_screen_v2("${widget.base_path}/workplace_exam");
   }
 
   open_workplace_exam_list() async {
-    await add_new_app_screen(
-      AppScreen(
+    await add_new_app_screen_v2(
+      AppScreenV2(
         name: "${widget.base_path}/workplace_exam_list",
         child: const WpeList(),
       ),
     );
-    open_screen("${widget.base_path}/workplace_exam_list");
+    open_screen_v2("${widget.base_path}/workplace_exam_list");
   }
 
   open_analytics() async {
-    await add_new_app_screen(
-      AppScreen(
+    await add_new_app_screen_v2(
+      AppScreenV2(
         name: "${widget.base_path}/analytics",
         child: const WpeList(),
       ),
     );
-    open_screen("${widget.base_path}/analytics");
+    open_screen_v2("${widget.base_path}/analytics");
   }
 
   @override

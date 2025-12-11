@@ -4,8 +4,7 @@ import 'package:xapptor_business/models/product.dart';
 import 'package:xapptor_business/product_details/product_details.dart';
 import 'package:xapptor_business/product_list/product_list.dart';
 import 'package:xapptor_business/vending_machine/dispenser_details.dart';
-import 'package:xapptor_router/app_screen.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 
 extension StateExtension on ProductListState {
   open_details({
@@ -27,8 +26,8 @@ extension StateExtension on ProductListState {
         ),
       );
     } else {
-      add_new_app_screen(
-        AppScreen(
+      add_new_app_screen_v2(
+        AppScreenV2(
           name: "home/products/details",
           child: ProductDetails(
             product: product,
@@ -38,7 +37,7 @@ extension StateExtension on ProductListState {
           ),
         ),
       );
-      open_screen("home/products/details");
+      open_screen_v2("home/products/details");
     }
   }
 }

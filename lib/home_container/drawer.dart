@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xapptor_auth/sign_out.dart';
 import 'package:xapptor_business/home_container/home_container.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 import 'package:xapptor_ui/widgets/app_version_container.dart';
 
 extension StateExtension on HomeContainerState {
@@ -29,7 +29,7 @@ extension StateExtension on HomeContainerState {
                 ListTile(
                   title: Text(widget.text_list_menu[0]),
                   onTap: () {
-                    open_screen("home/account");
+                    open_screen_v2("home/account");
                   },
                 ),
               ] +
@@ -38,7 +38,7 @@ extension StateExtension on HomeContainerState {
                 ListTile(
                   title: Text(widget.text_list_menu[widget.text_list_menu.length - 2]),
                   onTap: () async {
-                    open_screen("home/privacy_policy");
+                    open_screen_v2("home/privacy_policy");
                   },
                 ),
                 ListTile(

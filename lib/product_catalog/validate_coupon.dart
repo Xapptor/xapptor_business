@@ -1,6 +1,6 @@
 import 'package:xapptor_business/product_catalog/product_catalog.dart';
 import 'package:xapptor_logic/firebase_tasks/check.dart';
-import 'package:xapptor_router/app_screens.dart';
+import 'package:xapptor_router/V2/app_screens_v2.dart';
 
 extension StateExtension on ProductCatalogState {
   validate_coupon() async {
@@ -16,7 +16,7 @@ extension StateExtension on ProductCatalogState {
     );
 
     if (check_coupon_response.isNotEmpty) {
-      open_screen(check_coupon_response);
+      open_screen_v2(check_coupon_response);
     }
   }
 }
